@@ -2,655 +2,948 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>JOKER PLUS | Admin</title>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<style>
-:root {
-  --bg:#09080d;
-  --panel:#131019;
-  --panel2:#1b1523;
-  --purple:#8b4acb;
-  --light:#c28cf0;
-  --red:#a6192e;
-  --text:#f8f4fa;
-  --muted:#9991a5;
-  --border:#30253b;
-}
-*{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--text);font-family:Arial,sans-serif}
-button,input,textarea,select{font:inherit}
-button{cursor:pointer}
-.hidden{display:none!important}
-.container{width:min(1150px,94%);margin:auto}
-header{background:#0e0b13;border-bottom:1px solid var(--border);padding:18px 0;position:sticky;top:0;z-index:10}
-.top{display:flex;align-items:center;justify-content:space-between;gap:10px}
-.logo{font-size:23px;font-weight:900;letter-spacing:1px}
-.logo span{color:var(--light)}
-.sub{font-size:10px;letter-spacing:3px;color:var(--muted);margin-top:5px}
-main{padding:28px 0 60px}
-.hero{padding:25px;border:1px solid var(--border);border-radius:19px;background:radial-gradient(circle at 90% 0%,#542b6c66,transparent 48%),var(--panel);margin-bottom:20px}
-.eyebrow{font-size:11px;color:var(--light);letter-spacing:3px}
-h1{font-size:30px;margin:12px 0}
-p{line-height:1.8}
-.muted{color:var(--muted);font-size:13px}
-.panel{background:var(--panel);border:1px solid var(--border);padding:20px;border-radius:17px;margin-bottom:17px}
-.panelhead{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:17px}
-h2{font-size:18px;margin:0}
-.btn{padding:11px 15px;border-radius:10px;background:var(--panel2);border:1px solid var(--border);color:white;font-weight:bold}
-.primary{background:linear-gradient(135deg,#69329d,#9955cf);border:0}
-.danger{background:#35131b;border-color:#63202e;color:#ffbac3}
-.small{font-size:12px;padding:8px 11px}
-.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:13px}
-.field{display:flex;flex-direction:column;gap:7px}
-.full{grid-column:1/-1}
-label{font-size:12px;color:#c9bfd2}
-input,textarea,select{width:100%;padding:12px;background:#0b0910;border:1px solid var(--border);border-radius:10px;color:white;outline:none}
-input:focus,textarea:focus,select:focus{border-color:var(--light)}
-textarea{min-height:85px;resize:vertical}
-input[type=file]{padding:10px}
-input[type=checkbox]{width:auto;accent-color:var(--purple)}
-.check{display:flex;align-items:center;gap:9px}
-.preview{width:140px;height:90px;object-fit:cover;border-radius:10px;border:1px solid var(--border)}
-.list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
-.item{background:#100e16;border:1px solid var(--border);border-radius:14px;padding:13px;min-width:0}
-.itemrow{display:flex;align-items:center;gap:12px}
-.thumb{width:75px;height:75px;object-fit:cover;border-radius:10px;background:#24182e;flex-shrink:0}
-.info{min-width:0;flex:1}
-.info strong{display:block;overflow-wrap:anywhere;margin-bottom:7px}
-.info small{color:var(--muted);line-height:1.7}
-.actions{display:flex;gap:7px;flex-wrap:wrap;margin-top:12px}
-.tabs{display:flex;gap:8px;overflow:auto;margin-bottom:16px}
-.tab.active{background:#542c78;border-color:#a66cda}
-.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:20px}
-.stat{background:var(--panel);border:1px solid var(--border);border-radius:13px;padding:14px;font-size:12px;color:var(--muted)}
-.stat strong{display:block;font-size:23px;color:var(--light);margin-top:7px}
-.empty{text-align:center;padding:30px;border:1px dashed var(--border);border-radius:13px;color:var(--muted);grid-column:1/-1}
-#loginView{min-height:100vh;display:grid;place-items:center;padding:20px}
-.loginbox{width:min(420px,100%);padding:28px;background:var(--panel);border:1px solid var(--border);border-radius:20px}
-.loginbox h2{margin:25px 0 18px}
-.loginbox .field{margin-bottom:15px}
-#message{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:#251b30;border:1px solid #76518f;padding:13px 18px;border-radius:12px;z-index:50;display:none;max-width:90%;font-size:13px}
-@media(max-width:650px){
-.grid,.list{grid-template-columns:1fr}
-.panel{padding:15px}
-.hero{padding:19px}
-h1{font-size:25px}
-}
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JOKER PLUS | لوحة الإدارة</title>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&family=Amiri:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg:#09070d;
+      --panel:#110d17;
+      --panel2:#17111f;
+      --purple:#6d35a0;
+      --purple2:#a46ad1;
+      --gold:#c6a66a;
+      --gold2:#ead5a5;
+      --red:#8e2939;
+      --text:#f5eff9;
+      --muted:#a99daf;
+      --line:rgba(198,166,106,.2);
+      --success:#65bd8b;
+      --danger:#e16c78;
+    }
+
+    * { box-sizing:border-box; }
+    body {
+      margin:0;
+      background:
+        radial-gradient(ellipse at 50% -15%,rgba(109,53,160,.25),transparent 48%),
+        radial-gradient(ellipse at 100% 100%,rgba(142,41,57,.09),transparent 35%),
+        var(--bg);
+      color:var(--text);
+      font-family:'Cairo',sans-serif;
+      min-height:100vh;
+    }
+    button,input,textarea,select { font:inherit; }
+    button { cursor:pointer; }
+    .hidden { display:none!important; }
+
+    .ornament {
+      height:5px;
+      background:linear-gradient(90deg,transparent,var(--gold),var(--purple2),var(--gold),transparent);
+      opacity:.8;
+    }
+
+    .login-wrap {
+      min-height:100vh;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:22px;
+    }
+    .login-card {
+      width:min(440px,100%);
+      padding:38px 30px;
+      border:1px solid var(--line);
+      background:linear-gradient(145deg,rgba(31,21,40,.98),rgba(12,9,16,.98));
+      border-radius:5px;
+      box-shadow:0 25px 90px #000,0 0 45px rgba(109,53,160,.13);
+      position:relative;
+      text-align:center;
+    }
+    .login-card:before,.login-card:after {
+      content:"";
+      position:absolute;
+      width:42px;height:42px;
+      border-color:var(--gold);
+      opacity:.7;
+    }
+    .login-card:before { top:12px;right:12px;border-top:1px solid;border-right:1px solid; }
+    .login-card:after { bottom:12px;left:12px;border-bottom:1px solid;border-left:1px solid; }
+    .emblem {
+      width:76px;height:76px;
+      margin:0 auto 18px;
+      border:1px solid var(--gold);
+      color:var(--gold2);
+      display:grid;place-items:center;
+      font-family:'Amiri',serif;
+      font-size:43px;
+      border-radius:50%;
+      box-shadow:0 0 28px rgba(198,166,106,.12),inset 0 0 20px rgba(198,166,106,.08);
+    }
+    .brand {
+      font-family:'Amiri',serif;
+      color:var(--gold2);
+      font-size:36px;
+      letter-spacing:2px;
+      margin:0;
+    }
+    .subtitle {
+      color:var(--muted);
+      font-size:12px;
+      letter-spacing:3px;
+      margin:2px 0 28px;
+    }
+    .field { text-align:right;margin-bottom:15px; }
+    .field label {
+      display:block;
+      color:var(--gold2);
+      font-size:12px;
+      margin-bottom:7px;
+    }
+    input,textarea,select {
+      width:100%;
+      color:var(--text);
+      background:#0b0810;
+      border:1px solid rgba(198,166,106,.23);
+      padding:12px 14px;
+      outline:none;
+      border-radius:3px;
+      transition:.2s;
+    }
+    input:focus,textarea:focus,select:focus {
+      border-color:var(--gold);
+      box-shadow:0 0 0 3px rgba(198,166,106,.08);
+    }
+    input::placeholder,textarea::placeholder { color:#75697d; }
+    select option { background:#17111f; }
+    .btn {
+      border:1px solid var(--gold);
+      color:#160f1c;
+      background:linear-gradient(120deg,#b89558,#e3cc98);
+      padding:11px 18px;
+      border-radius:3px;
+      font-weight:800;
+      transition:.2s;
+    }
+    .btn:hover { filter:brightness(1.1);transform:translateY(-1px); }
+    .btn.full { width:100%;margin-top:8px; }
+    .btn.secondary {
+      background:linear-gradient(120deg,#512778,#7742a4);
+      color:white;border-color:#9868bd;
+    }
+    .btn.ghost {
+      color:var(--gold2);background:transparent;border-color:var(--line);
+    }
+    .btn.danger {
+      color:#fff;background:#69202e;border-color:#a64b5b;
+    }
+    .btn.small { padding:7px 11px;font-size:12px; }
+    .login-note { color:#81758b;font-size:11px;margin-top:19px; }
+
+    .topbar {
+      position:sticky;top:0;z-index:10;
+      background:rgba(9,7,13,.94);
+      backdrop-filter:blur(15px);
+      border-bottom:1px solid var(--line);
+    }
+    .topbar-inner {
+      max-width:1250px;margin:auto;padding:15px 22px;
+      display:flex;align-items:center;justify-content:space-between;gap:15px;
+    }
+    .top-brand { display:flex;align-items:center;gap:12px; }
+    .mini-emblem {
+      width:42px;height:42px;border:1px solid var(--gold);
+      border-radius:50%;display:grid;place-items:center;
+      color:var(--gold2);font-family:'Amiri',serif;font-size:25px;
+    }
+    .top-brand strong { display:block;color:var(--gold2);font-family:'Amiri',serif;font-size:22px; }
+    .top-brand small { display:block;color:var(--muted);font-size:10px;letter-spacing:2px; }
+    .admin-layout { max-width:1250px;margin:35px auto;padding:0 22px 60px; }
+    .page-heading {
+      text-align:center;margin:30px 0 32px;
+    }
+    .page-heading .eyebrow {
+      color:var(--gold);font-size:11px;letter-spacing:4px;
+    }
+    .page-heading h1 {
+      font-family:'Amiri',serif;font-size:42px;font-weight:700;
+      color:var(--gold2);margin:5px 0;
+    }
+    .page-heading p { color:var(--muted);font-size:13px;margin:0; }
+    .tabs {
+      display:flex;justify-content:center;gap:10px;flex-wrap:wrap;
+      margin-bottom:27px;
+    }
+    .tab {
+      background:#120d19;color:var(--muted);
+      border:1px solid var(--line);padding:10px 25px;
+      border-radius:3px;
+    }
+    .tab.active {
+      color:var(--gold2);border-color:var(--gold);
+      background:linear-gradient(120deg,rgba(109,53,160,.35),rgba(198,166,106,.08));
+    }
+    .panel {
+      background:linear-gradient(145deg,rgba(25,17,32,.96),rgba(13,10,17,.98));
+      border:1px solid var(--line);
+      padding:24px;border-radius:4px;
+      box-shadow:0 15px 45px rgba(0,0,0,.22);
+    }
+    .panel-head {
+      display:flex;justify-content:space-between;align-items:center;
+      gap:12px;flex-wrap:wrap;margin-bottom:20px;
+    }
+    .panel-head h2 {
+      color:var(--gold2);font-family:'Amiri',serif;
+      font-size:27px;margin:0;
+    }
+    .panel-head p { color:var(--muted);font-size:12px;margin:0; }
+    .form-grid {
+      display:grid;grid-template-columns:repeat(2,minmax(0,1fr));
+      gap:14px;
+    }
+    .form-grid .wide { grid-column:1/-1; }
+    .form-actions { display:flex;gap:9px;flex-wrap:wrap;margin-top:16px; }
+    .section-grid,.product-grid {
+      display:grid;grid-template-columns:repeat(3,minmax(0,1fr));
+      gap:15px;margin-top:25px;
+    }
+    .item-card {
+      border:1px solid var(--line);
+      background:rgba(7,5,10,.55);
+      border-radius:4px;overflow:hidden;
+    }
+    .item-image {
+      height:155px;background:#1b1223;
+      display:grid;place-items:center;overflow:hidden;
+      color:var(--gold);font-size:13px;
+    }
+    .item-image img { width:100%;height:100%;object-fit:cover; }
+    .item-body { padding:15px; }
+    .item-body h3 { color:var(--gold2);font-size:16px;margin:0 0 5px; }
+    .item-body p { color:var(--muted);font-size:12px;margin:0 0 10px;line-height:1.8; }
+    .item-meta { display:flex;justify-content:space-between;gap:8px;align-items:center;margin:12px 0; }
+    .price { color:var(--gold2);font-weight:800; }
+    .status { color:var(--success);font-size:11px; }
+    .status.off { color:var(--danger); }
+    .card-actions { display:flex;gap:7px;flex-wrap:wrap;margin-top:12px; }
+    .empty {
+      color:var(--muted);text-align:center;padding:35px 15px;
+      border:1px dashed var(--line);margin-top:20px;
+    }
+    .notice {
+      padding:12px 15px;margin:15px 0;border:1px solid var(--line);
+      background:rgba(109,53,160,.12);color:var(--gold2);
+      font-size:12px;border-radius:3px;line-height:1.8;
+    }
+    .notice.error { border-color:rgba(225,108,120,.4);color:#ffb6bd;background:rgba(142,41,57,.12); }
+    .notice.success { border-color:rgba(101,189,139,.4);color:#a6e8c0;background:rgba(50,120,80,.12); }
+    .preview {
+      width:100%;max-height:190px;object-fit:contain;
+      background:#08060b;border:1px solid var(--line);margin-top:9px;
+    }
+    .check-row { display:flex;align-items:center;gap:9px;color:var(--muted);font-size:13px; }
+    .check-row input { width:auto;accent-color:var(--purple2); }
+    .footer {
+      text-align:center;color:#706477;font-size:10px;
+      padding:25px;border-top:1px solid rgba(198,166,106,.1);
+      letter-spacing:2px;
+    }
+    @media(max-width:850px) {
+      .section-grid,.product-grid { grid-template-columns:repeat(2,minmax(0,1fr)); }
+    }
+    @media(max-width:560px) {
+      .admin-layout { padding:0 13px 40px;margin-top:20px; }
+      .panel { padding:16px; }
+      .form-grid { grid-template-columns:1fr; }
+      .form-grid .wide { grid-column:auto; }
+      .section-grid,.product-grid { grid-template-columns:1fr; }
+      .page-heading h1 { font-size:34px; }
+      .topbar-inner { padding:11px 14px; }
+    }
+  </style>
 </head>
 <body>
+  <div class="ornament"></div>
 
-<section id="loginView">
-<div class="loginbox">
-  <div class="logo">JOKER <span>PLUS</span></div>
-  <div class="sub">ADMIN CONTROL PANEL</div>
-  <h2>تسجيل دخول الإدارة</h2>
-  <form id="loginForm">
-    <div class="field">
-      <label>البريد الإلكتروني</label>
-      <input id="email" type="email" value="alaooy.kabs@gmail.com" required>
-    </div>
-    <div class="field">
-      <label>كلمة المرور</label>
-      <input id="password" type="password" placeholder="كلمة المرور" required>
-    </div>
-    <button class="btn primary" id="loginBtn" type="submit" style="width:100%">تسجيل الدخول</button>
-  </form>
-  <p class="muted">الدخول متاح باستخدام البريد الإلكتروني وكلمة المرور فقط.</p>
-</div>
-</section>
+  <section id="loginScreen" class="login-wrap">
+    <div class="login-card">
+      <div class="emblem">♛</div>
+      <h1 class="brand">JOKER PLUS</h1>
+      <div class="subtitle">THE ROYAL ADMINISTRATION</div>
 
-<section id="dashboard" class="hidden">
-<header>
-<div class="container top">
-  <div>
-    <div class="logo">JOKER <span>PLUS</span></div>
-    <div class="sub">ADMINISTRATION</div>
-  </div>
-  <div style="display:flex;gap:8px">
-    <button class="btn small" onclick="window.open('/','_blank')">المتجر</button>
-    <button class="btn danger small" id="logoutBtn">خروج</button>
-  </div>
-</div>
-</header>
-
-<main class="container">
-<div class="hero">
-  <div class="eyebrow">WELCOME BACK</div>
-  <h1>لوحة تحكم <span style="color:var(--light)">JOKER PLUS</span></h1>
-  <p class="muted">تحكم بأقسام متجرك وخدماتك وصورك وأسعارك من مكان واحد.</p>
-</div>
-
-<div class="stats">
-  <div class="stat">الأقسام<strong id="sectionCount">0</strong></div>
-  <div class="stat">الخدمات<strong id="itemCount">0</strong></div>
-  <div class="stat">حالة النظام<strong style="font-size:16px">متصل</strong></div>
-</div>
-
-<div class="tabs">
-  <button class="btn tab active" data-tab="sections">الأقسام</button>
-  <button class="btn tab" data-tab="products">الخدمات والمنتجات</button>
-</div>
-
-<section id="sectionsTab">
-<div class="panel">
-  <div class="panelhead">
-    <h2 id="sectionHeading">إضافة قسم جديد</h2>
-    <button class="btn small hidden" id="cancelSection">إلغاء</button>
-  </div>
-  <form id="sectionForm">
-    <div class="grid">
-      <div class="field">
-        <label>اسم القسم</label>
-        <input id="sectionTitle" placeholder="مثال: تطبيقات بلس" required>
-      </div>
-      <div class="field">
-        <label>ترتيب القسم</label>
-        <input id="sectionOrder" type="number" value="0">
-      </div>
-      <div class="field full">
-        <label>وصف القسم</label>
-        <textarea id="sectionDescription" placeholder="وصف مختصر"></textarea>
-      </div>
-      <div class="field full">
-        <label>صورة القسم</label>
-        <input id="sectionImage" type="file" accept="image/jpeg,image/png,image/webp,image/gif">
-        <img id="sectionPreview" class="preview hidden" alt="معاينة">
-      </div>
-      <label class="check full"><input id="sectionActive" type="checkbox" checked> إظهار القسم في المتجر</label>
-    </div>
-    <button class="btn primary" id="saveSection" style="margin-top:16px">حفظ القسم</button>
-  </form>
-</div>
-
-<div class="panel">
-  <div class="panelhead">
-    <h2>الأقسام الحالية</h2>
-    <button class="btn small" onclick="loadAll()">تحديث</button>
-  </div>
-  <div id="sectionsList" class="list"><div class="empty">جاري التحميل...</div></div>
-</div>
-</section>
-
-<section id="productsTab" class="hidden">
-<div class="panel">
-  <div class="panelhead">
-    <h2 id="itemHeading">إضافة خدمة أو منتج</h2>
-    <button class="btn small hidden" id="cancelItem">إلغاء</button>
-  </div>
-  <form id="itemForm">
-    <div class="grid">
-      <div class="field">
-        <label>اسم الخدمة</label>
-        <input id="itemTitle" required placeholder="اسم الخدمة">
-      </div>
-      <div class="field">
-        <label>القسم</label>
-        <select id="itemSection" required><option value="">اختر القسم</option></select>
-      </div>
-      <div class="field">
-        <label>السعر</label>
-        <input id="itemPrice" required placeholder="مثال: 5 د.ك">
-      </div>
-      <div class="field">
-        <label>ترتيب العرض</label>
-        <input id="itemOrder" type="number" value="0">
-      </div>
-      <div class="field full">
-        <label>تفاصيل الخدمة</label>
-        <textarea id="itemDescription"></textarea>
-      </div>
-      <div class="field full">
-        <label>صورة الخدمة</label>
-        <input id="itemImage" type="file" accept="image/jpeg,image/png,image/webp,image/gif">
-        <img id="itemPreview" class="preview hidden" alt="معاينة">
-      </div>
-      <label class="check full"><input id="itemActive" type="checkbox" checked> إظهار الخدمة في المتجر</label>
-    </div>
-    <button class="btn primary" id="saveItem" style="margin-top:16px">حفظ الخدمة</button>
-  </form>
-</div>
-
-<div class="panel">
-  <div class="panelhead"><h2>الخدمات الحالية</h2><button class="btn small" onclick="loadAll()">تحديث</button></div>
-  <div class="field" style="margin-bottom:15px">
-    <label>تصفية حسب القسم</label>
-    <select id="filterSection"><option value="">كل الأقسام</option></select>
-  </div>
-  <div id="itemsList" class="list"><div class="empty">جاري التحميل...</div></div>
-</div>
-</section>
-</main>
-</section>
-
-<div id="message"></div>
-
-<script>
-const SUPABASE_URL = "https://pvyqzpqqrqzpbzcpftvx.supabase.co";
-const SUPABASE_PUBLISHABLE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InB2eXF6cHFxcnF6cGJ6Y3BmdHZ4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTQ3NTY0ODIsImV4cCI6MjExMDMzMjQ4Mn0.FRnb1AuTfOoW3CjJR_XdiGnS9ruHKJuwQt4WCfXUHGY";
-const BUCKET = "joker-images";
-const ADMIN_EMAIL = "alaooy.kabs@gmail.com";
-
-const db = window.supabase.createClient(
-  SUPABASE_URL,
-  SUPABASE_PUBLISHABLE_KEY
-);
-
-let sections = [];
-let items = [];
-let editingSection = null;
-let editingItem = null;
-
-function notify(message) {
-  const box = document.getElementById("message");
-  box.textContent = message;
-  box.style.display = "block";
-  clearTimeout(window.noticeTimer);
-  window.noticeTimer = setTimeout(() => box.style.display = "none", 3500);
-}
-
-function escapeHTML(value) {
-  return String(value ?? "").replace(/[&<>"']/g, char => ({
-    "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
-  })[char]);
-}
-
-function showDashboard(show) {
-  document.getElementById("loginView").classList.toggle("hidden",show);
-  document.getElementById("dashboard").classList.toggle("hidden",!show);
-}
-
-async function checkSession() {
-  const {data,error} = await db.auth.getSession();
-  if(error) {
-    notify(error.message);
-    return;
-  }
-  if(data.session) {
-    if(data.session.user.email?.toLowerCase() !== ADMIN_EMAIL) {
-      await db.auth.signOut();
-      showDashboard(false);
-      notify("هذا الحساب غير مصرح له.");
-      return;
-    }
-    showDashboard(true);
-    await loadAll();
-  } else {
-    showDashboard(false);
-  }
-}
-
-document.getElementById("loginForm").addEventListener("submit",async event => {
-  event.preventDefault();
-  const button = document.getElementById("loginBtn");
-  button.disabled = true;
-  button.textContent = "جاري الدخول...";
-  const email = document.getElementById("email").value.trim();
-  const password = document.getElementById("password").value;
-
-  const {data,error} = await db.auth.signInWithPassword({email,password});
-
-  button.disabled = false;
-  button.textContent = "تسجيل الدخول";
-
-  if(error) {
-    notify("فشل تسجيل الدخول: " + error.message);
-    return;
-  }
-  if(data.user.email?.toLowerCase() !== ADMIN_EMAIL) {
-    await db.auth.signOut();
-    notify("هذا البريد ليس بريد المدير المعتمد.");
-    return;
-  }
-  showDashboard(true);
-  notify("تم تسجيل الدخول بنجاح");
-  await loadAll();
-});
-
-document.getElementById("logoutBtn").addEventListener("click",async () => {
-  await db.auth.signOut();
-  showDashboard(false);
-  notify("تم تسجيل الخروج");
-});
-
-db.auth.onAuthStateChange((_event,session) => {
-  if(!session) showDashboard(false);
-});
-
-document.querySelectorAll(".tab").forEach(button => {
-  button.addEventListener("click",() => {
-    document.querySelectorAll(".tab").forEach(t => t.classList.remove("active"));
-    button.classList.add("active");
-    document.getElementById("sectionsTab").classList.toggle("hidden",button.dataset.tab !== "sections");
-    document.getElementById("productsTab").classList.toggle("hidden",button.dataset.tab !== "products");
-  });
-});
-
-async function uploadImage(file,folder) {
-  if(!file) return null;
-  if(file.size > 5 * 1024 * 1024) throw new Error("الصورة أكبر من 5 ميغابايت.");
-  const allowed = ["image/jpeg","image/png","image/webp","image/gif"];
-  if(!allowed.includes(file.type)) throw new Error("نوع الصورة غير مدعوم.");
-
-  const extension = file.name.split(".").pop().toLowerCase().replace(/[^a-z0-9]/g,"") || "jpg";
-  const path = folder + "/" + Date.now() + "-" + Math.random().toString(36).slice(2) + "." + extension;
-
-  const {error} = await db.storage.from(BUCKET).upload(path,file,{
-    cacheControl:"3600",
-    upsert:false,
-    contentType:file.type
-  });
-  if(error) throw error;
-
-  const {data} = db.storage.from(BUCKET).getPublicUrl(path);
-  return data.publicUrl;
-}
-
-function setupPreview(inputId,previewId) {
-  document.getElementById(inputId).addEventListener("change",event => {
-    const file = event.target.files[0];
-    const preview = document.getElementById(previewId);
-    if(!file) {
-      preview.classList.add("hidden");
-      return;
-    }
-    preview.src = URL.createObjectURL(file);
-    preview.classList.remove("hidden");
-  });
-}
-setupPreview("sectionImage","sectionPreview");
-setupPreview("itemImage","itemPreview");
-
-async function loadAll() {
-  const sectionResult = await db.from("store_sections").select("*").order("sort_order");
-  if(sectionResult.error) {
-    document.getElementById("sectionsList").innerHTML =
-      '<div class="empty">تعذر تحميل الأقسام: '+escapeHTML(sectionResult.error.message)+'</div>';
-    sections = [];
-  } else {
-    sections = sectionResult.data || [];
-  }
-
-  const itemResult = await db.from("store_items").select("*").order("sort_order");
-  if(itemResult.error) {
-    document.getElementById("itemsList").innerHTML =
-      '<div class="empty">تعذر تحميل الخدمات: '+escapeHTML(itemResult.error.message)+'</div>';
-    items = [];
-  } else {
-    items = itemResult.data || [];
-  }
-
-  document.getElementById("sectionCount").textContent = sections.length;
-  document.getElementById("itemCount").textContent = items.length;
-  renderSections();
-  renderItems();
-  updateOptions();
-}
-
-function renderSections() {
-  const list = document.getElementById("sectionsList");
-  if(!sections.length) {
-    list.innerHTML = '<div class="empty">لا توجد أقسام. أضف أول قسم من الأعلى.</div>';
-    return;
-  }
-  list.innerHTML = sections.map(section => `
-    <article class="item">
-      <div class="itemrow">
-        ${section.image_url
-          ? `<img class="thumb" src="${escapeHTML(section.image_url)}" alt="">`
-          : '<div class="thumb" style="display:grid;place-items:center;color:#c28cf0">J+</div>'}
-        <div class="info">
-          <strong>${escapeHTML(section.title)}</strong>
-          <small>${escapeHTML(section.description || "بدون وصف")}<br>${section.active ? "ظاهر في المتجر" : "مخفي"}</small>
+      <form id="loginForm">
+        <div class="field">
+          <label for="loginEmail">البريد الإلكتروني</label>
+          <input id="loginEmail" type="email" autocomplete="username" placeholder="أدخل البريد الإلكتروني" required>
         </div>
-      </div>
-      <div class="actions">
-        <button class="btn small" onclick="editSection(${section.id})">تعديل</button>
-        <button class="btn danger small" onclick="deleteSection(${section.id})">حذف</button>
-      </div>
-    </article>
-  `).join("");
-}
+        <div class="field">
+          <label for="loginPassword">كلمة المرور</label>
+          <input id="loginPassword" type="password" autocomplete="current-password" placeholder="أدخل كلمة المرور" required>
+        </div>
+        <button class="btn full" id="loginBtn" type="submit">دخول إلى لوحة الإدارة</button>
+      </form>
+      <div id="loginMessage"></div>
+      <div class="login-note">منطقة خاصة بإدارة متجر JOKER PLUS</div>
+    </div>
+  </section>
 
-function updateOptions() {
-  const options = sections.map(s =>
-    `<option value="${escapeHTML(s.section_key)}">${escapeHTML(s.title)}</option>`
-  ).join("");
-
-  const itemSelect = document.getElementById("itemSection");
-  const oldValue = itemSelect.value;
-  itemSelect.innerHTML = '<option value="">اختر القسم</option>' + options;
-  if(sections.some(s => s.section_key === oldValue)) itemSelect.value = oldValue;
-
-  const filter = document.getElementById("filterSection");
-  const oldFilter = filter.value;
-  filter.innerHTML = '<option value="">كل الأقسام</option>' + options;
-  if(sections.some(s => s.section_key === oldFilter)) filter.value = oldFilter;
-}
-
-document.getElementById("sectionForm").addEventListener("submit",async event => {
-  event.preventDefault();
-  const button = document.getElementById("saveSection");
-  button.disabled = true;
-  button.textContent = "جاري الحفظ...";
-
-  try {
-    const file = document.getElementById("sectionImage").files[0];
-    let imageUrl = editingSection
-      ? sections.find(s => s.id === editingSection)?.image_url || ""
-      : "";
-
-    if(file) imageUrl = await uploadImage(file,"sections");
-
-    const payload = {
-      title:document.getElementById("sectionTitle").value.trim(),
-      description:document.getElementById("sectionDescription").value.trim(),
-      image_url:imageUrl,
-      sort_order:Number(document.getElementById("sectionOrder").value) || 0,
-      active:document.getElementById("sectionActive").checked
-    };
-
-    if(editingSection) {
-      const {error} = await db.from("store_sections").update(payload).eq("id",editingSection);
-      if(error) throw error;
-      notify("تم تعديل القسم");
-    } else {
-      payload.section_key = "section-" + Date.now();
-      const {error} = await db.from("store_sections").insert(payload);
-      if(error) throw error;
-      notify("تمت إضافة القسم");
-    }
-
-    resetSectionForm();
-    await loadAll();
-  } catch(error) {
-    notify("خطأ: " + error.message);
-  } finally {
-    button.disabled = false;
-    button.textContent = "حفظ القسم";
-  }
-});
-
-function editSection(id) {
-  const section = sections.find(s => s.id === id);
-  if(!section) return;
-  editingSection = id;
-  document.getElementById("sectionTitle").value = section.title || "";
-  document.getElementById("sectionDescription").value = section.description || "";
-  document.getElementById("sectionOrder").value = section.sort_order ?? 0;
-  document.getElementById("sectionActive").checked = section.active !== false;
-  document.getElementById("sectionImage").value = "";
-
-  const preview = document.getElementById("sectionPreview");
-  if(section.image_url) {
-    preview.src = section.image_url;
-    preview.classList.remove("hidden");
-  } else preview.classList.add("hidden");
-
-  document.getElementById("sectionHeading").textContent = "تعديل القسم";
-  document.getElementById("saveSection").textContent = "حفظ التعديلات";
-  document.getElementById("cancelSection").classList.remove("hidden");
-  document.getElementById("sectionForm").scrollIntoView({behavior:"smooth"});
-}
-
-function resetSectionForm() {
-  editingSection = null;
-  document.getElementById("sectionForm").reset();
-  document.getElementById("sectionOrder").value = 0;
-  document.getElementById("sectionPreview").classList.add("hidden");
-  document.getElementById("sectionHeading").textContent = "إضافة قسم جديد";
-  document.getElementById("saveSection").textContent = "حفظ القسم";
-  document.getElementById("cancelSection").classList.add("hidden");
-}
-document.getElementById("cancelSection").addEventListener("click",resetSectionForm);
-
-async function deleteSection(id) {
-  const section = sections.find(s => s.id === id);
-  if(!section) return;
-
-  if(items.some(i => i.section_key === section.section_key)) {
-    notify("انقل الخدمات من هذا القسم أو احذفها قبل حذف القسم.");
-    return;
-  }
-  if(!confirm("هل تريد حذف القسم؟")) return;
-
-  const {error} = await db.from("store_sections").delete().eq("id",id);
-  if(error) {
-    notify("تعذر الحذف: " + error.message);
-    return;
-  }
-  notify("تم حذف القسم");
-  await loadAll();
-}
-
-function renderItems() {
-  const filter = document.getElementById("filterSection").value;
-  const shown = filter ? items.filter(i => i.section_key === filter) : items;
-  const list = document.getElementById("itemsList");
-
-  if(!shown.length) {
-    list.innerHTML = '<div class="empty">لا توجد خدمات في هذا القسم.</div>';
-    return;
-  }
-
-  list.innerHTML = shown.map(item => {
-    const section = sections.find(s => s.section_key === item.section_key);
-    return `
-      <article class="item">
-        <div class="itemrow">
-          ${item.image_url
-            ? `<img class="thumb" src="${escapeHTML(item.image_url)}" alt="">`
-            : '<div class="thumb" style="display:grid;place-items:center;color:#c28cf0">J+</div>'}
-          <div class="info">
-            <strong>${escapeHTML(item.title)}</strong>
-            <small>${escapeHTML(section?.title || "قسم غير معروف")}<br>${escapeHTML(item.price || "")}<br>${item.active ? "ظاهر" : "مخفي"}</small>
+  <section id="adminScreen" class="hidden">
+    <header class="topbar">
+      <div class="topbar-inner">
+        <div class="top-brand">
+          <div class="mini-emblem">♛</div>
+          <div>
+            <strong>JOKER PLUS</strong>
+            <small>ROYAL CONTROL ROOM</small>
           </div>
         </div>
-        <div class="actions">
-          <button class="btn small" onclick="editItem(${item.id})">تعديل</button>
-          <button class="btn danger small" onclick="deleteItem(${item.id})">حذف</button>
+        <button class="btn ghost small" id="logoutBtn">تسجيل الخروج</button>
+      </div>
+    </header>
+
+    <main class="admin-layout">
+      <div class="page-heading">
+        <div class="eyebrow">✦ THE HOUSE OF JOKER ✦</div>
+        <h1>مملكة الإدارة</h1>
+        <p>إدارة الأقسام والخدمات في مكان واحد، بكل أناقة وتحكم</p>
+      </div>
+
+      <nav class="tabs">
+        <button class="tab active" data-tab="sections">الأقسام</button>
+        <button class="tab" data-tab="products">الخدمات والمنتجات</button>
+      </nav>
+
+      <section id="sectionsPanel" class="panel">
+        <div class="panel-head">
+          <div>
+            <h2>إدارة الأقسام</h2>
+            <p>أنشئ أقسام متجرك وعدّلها متى شئت</p>
+          </div>
         </div>
-      </article>
-    `;
-  }).join("");
-}
 
-document.getElementById("filterSection").addEventListener("change",renderItems);
+        <div class="notice">أضف القسم باسمه ووصفه وصورته. بعد الحفظ سيظهر ضمن قائمة الأقسام.</div>
 
-document.getElementById("itemForm").addEventListener("submit",async event => {
-  event.preventDefault();
-  const button = document.getElementById("saveItem");
-  button.disabled = true;
-  button.textContent = "جاري الحفظ...";
+        <form id="sectionForm">
+          <input type="hidden" id="sectionId">
+          <div class="form-grid">
+            <div class="field">
+              <label for="sectionTitle">اسم القسم</label>
+              <input id="sectionTitle" maxlength="100" placeholder="مثال: تطبيقات بلس" required>
+            </div>
+            <div class="field">
+              <label for="sectionKey">رمز القسم</label>
+              <input id="sectionKey" placeholder="يُنشأ تلقائياً عند إضافة قسم جديد" readonly>
+            </div>
+            <div class="field wide">
+              <label for="sectionDescription">وصف القسم</label>
+              <textarea id="sectionDescription" rows="3" placeholder="اكتب وصفاً مختصراً للقسم"></textarea>
+            </div>
+            <div class="field wide">
+              <label for="sectionImage">صورة القسم</label>
+              <input id="sectionImage" type="file" accept="image/png,image/jpeg,image/webp,image/gif">
+              <img id="sectionPreview" class="preview hidden" alt="معاينة صورة القسم">
+            </div>
+            <div class="field wide">
+              <label class="check-row">
+                <input id="sectionActive" type="checkbox" checked>
+                إظهار القسم في المتجر
+              </label>
+            </div>
+          </div>
+          <div class="form-actions">
+            <button class="btn" type="submit" id="saveSectionBtn">إضافة القسم</button>
+            <button class="btn ghost hidden" type="button" id="cancelSectionBtn">إلغاء التعديل</button>
+          </div>
+        </form>
+        <div id="sectionMessage"></div>
+        <div id="sectionsList" class="section-grid"></div>
+      </section>
 
-  try {
-    const file = document.getElementById("itemImage").files[0];
-    let imageUrl = editingItem
-      ? items.find(i => i.id === editingItem)?.image_url || ""
-      : "";
-    if(file) imageUrl = await uploadImage(file,"products");
+      <section id="productsPanel" class="panel hidden">
+        <div class="panel-head">
+          <div>
+            <h2>الخدمات والمنتجات</h2>
+            <p>أضف خدماتك وحدد القسم والسعر والصورة</p>
+          </div>
+        </div>
 
-    const payload = {
-      title:document.getElementById("itemTitle").value.trim(),
-      section_key:document.getElementById("itemSection").value,
-      price:document.getElementById("itemPrice").value.trim(),
-      description:document.getElementById("itemDescription").value.trim(),
-      image_url:imageUrl,
-      sort_order:Number(document.getElementById("itemOrder").value) || 0,
-      active:document.getElementById("itemActive").checked
-    };
+        <form id="productForm">
+          <input type="hidden" id="productId">
+          <div class="form-grid">
+            <div class="field">
+              <label for="productTitle">اسم الخدمة أو المنتج</label>
+              <input id="productTitle" placeholder="اسم المنتج" required>
+            </div>
+            <div class="field">
+              <label for="productSection">القسم</label>
+              <select id="productSection" required>
+                <option value="">اختر القسم</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="productPrice">السعر</label>
+              <input id="productPrice" placeholder="مثال: 5 د.ك">
+            </div>
+            <div class="field">
+              <label for="productImage">صورة المنتج</label>
+              <input id="productImage" type="file" accept="image/png,image/jpeg,image/webp,image/gif">
+              <img id="productPreview" class="preview hidden" alt="معاينة صورة المنتج">
+            </div>
+            <div class="field wide">
+              <label for="productDescription">وصف المنتج</label>
+              <textarea id="productDescription" rows="3" placeholder="تفاصيل الخدمة أو المنتج"></textarea>
+            </div>
+            <div class="field wide">
+              <label class="check-row">
+                <input id="productActive" type="checkbox" checked>
+                إظهار المنتج في المتجر
+              </label>
+            </div>
+          </div>
+          <div class="form-actions">
+            <button class="btn" type="submit" id="saveProductBtn">إضافة المنتج</button>
+            <button class="btn ghost hidden" type="button" id="cancelProductBtn">إلغاء التعديل</button>
+          </div>
+        </form>
+        <div id="productMessage"></div>
+        <div id="productsList" class="product-grid"></div>
+      </section>
+    </main>
 
-    if(!payload.section_key) throw new Error("اختر القسم.");
+    <footer class="footer">JOKER PLUS · ESTABLISHED WITH DISTINCTION</footer>
+  </section>
 
-    if(editingItem) {
-      const {error} = await db.from("store_items").update(payload).eq("id",editingItem);
-      if(error) throw error;
-      notify("تم تعديل الخدمة");
-    } else {
-      const {error} = await db.from("store_items").insert(payload);
-      if(error) throw error;
-      notify("تمت إضافة الخدمة");
+  <script>
+    // ضع هنا بيانات مشروع Supabase العامة فقط
+    const SUPABASE_URL = "https://pvyqzpqqrqzpbzcpftvx.supabase.co";
+    const SUPABASE_PUBLISHABLE_KEY = "YOUR_SUPABASE_PUBLISHABLE_KEY";
+
+    const ADMIN_EMAIL = "alaooy.kabs@gmail.com";
+    const BUCKET = "joker-images";
+
+    const db = window.supabase.createClient(
+      SUPABASE_URL,
+      SUPABASE_PUBLISHABLE_KEY
+    );
+
+    const $ = (id) => document.getElementById(id);
+
+    let sections = [];
+    let products = [];
+    let editingSectionImageUrl = "";
+    let editingProductImageUrl = "";
+
+    function showMessage(id, message, type = "success") {
+      const box = $(id);
+      box.className = "notice " + type;
+      box.textContent = message;
     }
 
-    resetItemForm();
-    await loadAll();
-  } catch(error) {
-    notify("خطأ: " + error.message);
-  } finally {
-    button.disabled = false;
-    button.textContent = "حفظ الخدمة";
-  }
-});
+    function clearMessage(id) {
+      $(id).className = "";
+      $(id).textContent = "";
+    }
 
-function editItem(id) {
-  const item = items.find(i => i.id === id);
-  if(!item) return;
-  editingItem = id;
-  document.getElementById("itemTitle").value = item.title || "";
-  document.getElementById("itemSection").value = item.section_key || "";
-  document.getElementById("itemPrice").value = item.price || "";
-  document.getElementById("itemDescription").value = item.description || "";
-  document.getElementById("itemOrder").value = item.sort_order ?? 0;
-  document.getElementById("itemActive").checked = item.active !== false;
-  document.getElementById("itemImage").value = "";
+    function escapeHTML(value = "") {
+      return String(value).replace(/[&<>"']/g, char => ({
+        "&":"&amp;",
+        "<":"&lt;",
+        ">":"&gt;",
+        '"':"&quot;",
+        "'":"&#039;"
+      })[char]);
+    }
 
-  const preview = document.getElementById("itemPreview");
-  if(item.image_url) {
-    preview.src = item.image_url;
-    preview.classList.remove("hidden");
-  } else preview.classList.add("hidden");
+    function safeImage(url) {
+      return url ? escapeHTML(url) : "";
+    }
 
-  document.getElementById("itemHeading").textContent = "تعديل الخدمة";
-  document.getElementById("saveItem").textContent = "حفظ التعديلات";
-  document.getElementById("cancelItem").classList.remove("hidden");
-  document.getElementById("itemForm").scrollIntoView({behavior:"smooth"});
-}
+    async function uploadImage(file, folder) {
+      if (!file) return null;
 
-function resetItemForm() {
-  editingItem = null;
-  document.getElementById("itemForm").reset();
-  document.getElementById("itemOrder").value = 0;
-  document.getElementById("itemPreview").classList.add("hidden");
-  document.getElementById("itemHeading").textContent = "إضافة خدمة أو منتج";
-  document.getElementById("saveItem").textContent = "حفظ الخدمة";
-  document.getElementById("cancelItem").classList.add("hidden");
-}
-document.getElementById("cancelItem").addEventListener("click",resetItemForm);
+      const allowed = ["image/jpeg","image/png","image/webp","image/gif"];
+      if (!allowed.includes(file.type)) {
+        throw new Error("نوع الصورة غير مدعوم. استخدم JPG أو PNG أو WEBP أو GIF.");
+      }
+      if (file.size > 5 * 1024 * 1024) {
+        throw new Error("حجم الصورة أكبر من 5 ميغابايت.");
+      }
 
-async function deleteItem(id) {
-  if(!confirm("هل تريد حذف هذه الخدمة؟")) return;
-  const {error} = await db.from("store_items").delete().eq("id",id);
-  if(error) {
-    notify("تعذر الحذف: " + error.message);
-    return;
-  }
-  notify("تم حذف الخدمة");
-  await loadAll();
-}
+      const extension = file.name.split(".").pop().toLowerCase();
+      const filePath = folder + "/" + Date.now() + "-" +
+        Math.random().toString(36).slice(2) + "." + extension;
 
-checkSession();
-</script>
+      const { error } = await db.storage.from(BUCKET).upload(filePath, file, {
+        cacheControl: "3600",
+        upsert: false,
+        contentType: file.type
+      });
+
+      if (error) throw error;
+
+      const { data } = db.storage.from(BUCKET).getPublicUrl(filePath);
+      return data.publicUrl;
+    }
+
+    async function checkAdminSession() {
+      const { data, error } = await db.auth.getSession();
+      if (error || !data.session) return false;
+
+      const email = data.session.user.email;
+      if (!email || email.toLowerCase() !== ADMIN_EMAIL.toLowerCase()) {
+        await db.auth.signOut();
+        return false;
+      }
+
+      return true;
+    }
+
+    async function showAdmin() {
+      $("loginScreen").classList.add("hidden");
+      $("adminScreen").classList.remove("hidden");
+      await loadAll();
+    }
+
+    $("loginForm").addEventListener("submit", async (event) => {
+      event.preventDefault();
+      clearMessage("loginMessage");
+
+      const email = $("loginEmail").value.trim();
+      const password = $("loginPassword").value;
+      const button = $("loginBtn");
+
+      button.disabled = true;
+      button.textContent = "جارٍ تسجيل الدخول...";
+
+      try {
+        const { data, error } = await db.auth.signInWithPassword({ email, password });
+        if (error) throw error;
+
+        if (data.user.email.toLowerCase() !== ADMIN_EMAIL.toLowerCase()) {
+          await db.auth.signOut();
+          throw new Error("هذا الحساب غير مصرح له بدخول لوحة الإدارة.");
+        }
+
+        await showAdmin();
+      } catch (error) {
+        showMessage("loginMessage", error.message || "تعذر تسجيل الدخول.", "error");
+      } finally {
+        button.disabled = false;
+        button.textContent = "دخول إلى لوحة الإدارة";
+      }
+    });
+
+    $("logoutBtn").addEventListener("click", async () => {
+      await db.auth.signOut();
+      $("adminScreen").classList.add("hidden");
+      $("loginScreen").classList.remove("hidden");
+      $("loginPassword").value = "";
+      $("loginEmail").value = "";
+    });
+
+    document.querySelectorAll(".tab").forEach(button => {
+      button.addEventListener("click", () => {
+        document.querySelectorAll(".tab").forEach(tab => tab.classList.remove("active"));
+        button.classList.add("active");
+
+        const isSections = button.dataset.tab === "sections";
+        $("sectionsPanel").classList.toggle("hidden", !isSections);
+        $("productsPanel").classList.toggle("hidden", isSections);
+      });
+    });
+
+    async function loadAll() {
+      await loadSections();
+      await loadProducts();
+    }
+
+    async function loadSections() {
+      const { data, error } = await db
+        .from("store_sections")
+        .select("*")
+        .order("created_at", { ascending: true });
+
+      if (error) {
+        showMessage("sectionMessage", "تعذر تحميل الأقسام: " + error.message, "error");
+        $("sectionsList").innerHTML = "";
+        return;
+      }
+
+      sections = data || [];
+      renderSections();
+      fillSectionSelect();
+    }
+
+    function renderSections() {
+      const list = $("sectionsList");
+
+      if (!sections.length) {
+        list.innerHTML = '<div class="empty" style="grid-column:1/-1">لا توجد أقسام حتى الآن. أضف أول قسم من النموذج أعلاه.</div>';
+        return;
+      }
+
+      list.innerHTML = sections.map(section => `
+        <article class="item-card">
+          <div class="item-image">
+            ${section.image_url
+              ? `<img src="${safeImage(section.image_url)}" alt="${escapeHTML(section.title)}">`
+              : "JOKER PLUS"}
+          </div>
+          <div class="item-body">
+            <h3>${escapeHTML(section.title)}</h3>
+            <p>${escapeHTML(section.description || "لا يوجد وصف لهذا القسم")}</p>
+            <div class="item-meta">
+              <span class="status ${section.active ? "" : "off"}">${section.active ? "ظاهر في المتجر" : "مخفي"}</span>
+            </div>
+            <div class="card-actions">
+              <button class="btn secondary small" data-edit-section="${section.id}">تعديل</button>
+              <button class="btn danger small" data-delete-section="${section.id}">حذف</button>
+            </div>
+          </div>
+        </article>
+      `).join("");
+
+      list.querySelectorAll("[data-edit-section]").forEach(button => {
+        button.addEventListener("click", () => editSection(button.dataset.editSection));
+      });
+      list.querySelectorAll("[data-delete-section]").forEach(button => {
+        button.addEventListener("click", () => deleteSection(button.dataset.deleteSection));
+      });
+    }
+
+    function fillSectionSelect() {
+      const select = $("productSection");
+      const current = select.value;
+
+      select.innerHTML = '<option value="">اختر القسم</option>' +
+        sections.map(section =>
+          `<option value="${escapeHTML(section.section_key)}">${escapeHTML(section.title)}</option>`
+        ).join("");
+
+      if (sections.some(section => section.section_key === current)) {
+        select.value = current;
+      }
+    }
+
+    $("sectionImage").addEventListener("change", () => {
+      const file = $("sectionImage").files[0];
+      if (!file) return;
+      $("sectionPreview").src = URL.createObjectURL(file);
+      $("sectionPreview").classList.remove("hidden");
+    });
+
+    $("sectionForm").addEventListener("submit", async (event) => {
+      event.preventDefault();
+      clearMessage("sectionMessage");
+
+      const button = $("saveSectionBtn");
+      const id = $("sectionId").value;
+      const title = $("sectionTitle").value.trim();
+
+      if (!title) {
+        showMessage("sectionMessage", "اكتب اسم القسم أولاً.", "error");
+        return;
+      }
+
+      button.disabled = true;
+      button.textContent = "جارٍ الحفظ...";
+
+      try {
+        let imageUrl = editingSectionImageUrl;
+        const file = $("sectionImage").files[0];
+
+        if (file) {
+          imageUrl = await uploadImage(file, "sections");
+        }
+
+        const payload = {
+          title,
+          description: $("sectionDescription").value.trim(),
+          image_url: imageUrl || "",
+          active: $("sectionActive").checked
+        };
+
+        let result;
+
+        if (id) {
+          result = await db.from("store_sections").update(payload).eq("id", id).select().single();
+        } else {
+          payload.section_key = "section-" + Date.now();
+          result = await db.from("store_sections").insert(payload).select().single();
+        }
+
+        if (result.error) throw result.error;
+
+        resetSectionForm();
+        showMessage("sectionMessage", id ? "تم تعديل القسم بنجاح." : "تمت إضافة القسم بنجاح.");
+        await loadSections();
+      } catch (error) {
+        showMessage("sectionMessage", "لم يتم حفظ القسم: " + (error.message || "خطأ غير معروف"), "error");
+      } finally {
+        button.disabled = false;
+        button.textContent = $("sectionId").value ? "حفظ التعديلات" : "إضافة القسم";
+      }
+    });
+
+    function editSection(id) {
+      const section = sections.find(item => String(item.id) === String(id));
+      if (!section) return;
+
+      $("sectionId").value = section.id;
+      $("sectionTitle").value = section.title || "";
+      $("sectionKey").value = section.section_key || "";
+      $("sectionDescription").value = section.description || "";
+      $("sectionActive").checked = !!section.active;
+      editingSectionImageUrl = section.image_url || "";
+
+      if (section.image_url) {
+        $("sectionPreview").src = section.image_url;
+        $("sectionPreview").classList.remove("hidden");
+      } else {
+        $("sectionPreview").classList.add("hidden");
+      }
+
+      $("saveSectionBtn").textContent = "حفظ التعديلات";
+      $("cancelSectionBtn").classList.remove("hidden");
+      $("sectionForm").scrollIntoView({ behavior:"smooth", block:"start" });
+    }
+
+    function resetSectionForm() {
+      $("sectionForm").reset();
+      $("sectionId").value = "";
+      $("sectionKey").value = "";
+      $("sectionActive").checked = true;
+      $("sectionPreview").classList.add("hidden");
+      $("sectionPreview").src = "";
+      $("saveSectionBtn").textContent = "إضافة القسم";
+      $("cancelSectionBtn").classList.add("hidden");
+      editingSectionImageUrl = "";
+    }
+
+    $("cancelSectionBtn").addEventListener("click", resetSectionForm);
+
+    async function deleteSection(id) {
+      const section = sections.find(item => String(item.id) === String(id));
+      if (!section) return;
+
+      if (!confirm("هل تريد حذف القسم «" + section.title + "»؟")) return;
+
+      try {
+        const { data: linked, error: linkedError } = await db
+          .from("store_items")
+          .select("id")
+          .eq("section_key", section.section_key)
+          .limit(1);
+
+        if (linkedError) throw linkedError;
+
+        if (linked && linked.length) {
+          showMessage("sectionMessage", "لا يمكن حذف هذا القسم لأنه يحتوي على خدمات. احذف خدماته أو انقلها إلى قسم آخر أولاً.", "error");
+          return;
+        }
+
+        const { error } = await db.from("store_sections").delete().eq("id", id);
+        if (error) throw error;
+
+        showMessage("sectionMessage", "تم حذف القسم.");
+        await loadSections();
+      } catch (error) {
+        showMessage("sectionMessage", "تعذر حذف القسم: " + error.message, "error");
+      }
+    }
+
+    $("productImage").addEventListener("change", () => {
+      const file = $("productImage").files[0];
+      if (!file) return;
+      $("productPreview").src = URL.createObjectURL(file);
+      $("productPreview").classList.remove("hidden");
+    });
+
+    async function loadProducts() {
+      const { data, error } = await db
+        .from("store_items")
+        .select("*")
+        .order("created_at", { ascending: false });
+
+      if (error) {
+        showMessage("productMessage", "تعذر تحميل المنتجات: " + error.message, "error");
+        $("productsList").innerHTML = "";
+        return;
+      }
+
+      products = data || [];
+      renderProducts();
+    }
+
+    function renderProducts() {
+      const list = $("productsList");
+
+      if (!products.length) {
+        list.innerHTML = '<div class="empty" style="grid-column:1/-1">لا توجد خدمات أو منتجات حتى الآن.</div>';
+        return;
+      }
+
+      list.innerHTML = products.map(product => {
+        const section = sections.find(item => item.section_key === product.section_key);
+        return `
+          <article class="item-card">
+            <div class="item-image">
+              ${product.image_url
+                ? `<img src="${safeImage(product.image_url)}" alt="${escapeHTML(product.title)}">`
+                : "JOKER PLUS"}
+            </div>
+            <div class="item-body">
+              <h3>${escapeHTML(product.title)}</h3>
+              <p>${escapeHTML(product.description || "لا يوجد وصف")}</p>
+              <div class="item-meta">
+                <span class="price">${escapeHTML(product.price || "")}</span>
+                <span class="status ${product.active ? "" : "off"}">${product.active ? "ظاهر" : "مخفي"}</span>
+              </div>
+              <p>القسم: ${escapeHTML(section ? section.title : "قسم غير معروف")}</p>
+              <div class="card-actions">
+                <button class="btn secondary small" data-edit-product="${product.id}">تعديل</button>
+                <button class="btn danger small" data-delete-product="${product.id}">حذف</button>
+              </div>
+            </div>
+          </article>
+        `;
+      }).join("");
+
+      list.querySelectorAll("[data-edit-product]").forEach(button => {
+        button.addEventListener("click", () => editProduct(button.dataset.editProduct));
+      });
+      list.querySelectorAll("[data-delete-product]").forEach(button => {
+        button.addEventListener("click", () => deleteProduct(button.dataset.deleteProduct));
+      });
+    }
+
+    $("productForm").addEventListener("submit", async (event) => {
+      event.preventDefault();
+      clearMessage("productMessage");
+
+      const button = $("saveProductBtn");
+      const id = $("productId").value;
+
+      if (!sections.length) {
+        showMessage("productMessage", "أضف قسماً أولاً قبل إضافة المنتجات.", "error");
+        return;
+      }
+
+      const title = $("productTitle").value.trim();
+      const sectionKey = $("productSection").value;
+
+      if (!title || !sectionKey) {
+        showMessage("productMessage", "أدخل اسم المنتج واختر القسم.", "error");
+        return;
+      }
+
+      button.disabled = true;
+      button.textContent = "جارٍ الحفظ...";
+
+      try {
+        let imageUrl = editingProductImageUrl;
+        const file = $("productImage").files[0];
+
+        if (file) {
+          imageUrl = await uploadImage(file, "products");
+        }
+
+        const payload = {
+          title,
+          section_key: sectionKey,
+          description: $("productDescription").value.trim(),
+          price: $("productPrice").value.trim(),
+          image_url: imageUrl || "",
+          active: $("productActive").checked
+        };
+
+        let result;
+
+        if (id) {
+          result = await db.from("store_items").update(payload).eq("id", id).select().single();
+        } else {
+          result = await db.from("store_items").insert(payload).select().single();
+        }
+
+        if (result.error) throw result.error;
+
+        resetProductForm();
+        showMessage("productMessage", id ? "تم تعديل المنتج بنجاح." : "تمت إضافة المنتج بنجاح.");
+        await loadProducts();
+      } catch (error) {
+        showMessage("productMessage", "لم يتم حفظ المنتج: " + (error.message || "خطأ غير معروف"), "error");
+      } finally {
+        button.disabled = false;
+        button.textContent = $("productId").value ? "حفظ التعديلات" : "إضافة المنتج";
+      }
+    });
+
+    function editProduct(id) {
+      const product = products.find(item => String(item.id) === String(id));
+      if (!product) return;
+
+      $("productId").value = product.id;
+      $("productTitle").value = product.title || "";
+      $("productSection").value = product.section_key || "";
+      $("productDescription").value = product.description || "";
+      $("productPrice").value = product.price || "";
+      $("productActive").checked = !!product.active;
+      editingProductImageUrl = product.image_url || "";
+
+      if (product.image_url) {
+        $("productPreview").src = product.image_url;
+        $("productPreview").classList.remove("hidden");
+      } else {
+        $("productPreview").classList.add("hidden");
+      }
+
+      $("saveProductBtn").textContent = "حفظ التعديلات";
+      $("cancelProductBtn").classList.remove("hidden");
+      $("productForm").scrollIntoView({ behavior:"smooth", block:"start" });
+    }
+
+    function resetProductForm() {
+      $("productForm").reset();
+      $("productId").value = "";
+      $("productActive").checked = true;
+      $("productPreview").classList.add("hidden");
+      $("productPreview").src = "";
+      $("saveProductBtn").textContent = "إضافة المنتج";
+      $("cancelProductBtn").classList.add("hidden");
+      editingProductImageUrl = "";
+    }
+
+    $("cancelProductBtn").addEventListener("click", resetProductForm);
+
+    async function deleteProduct(id) {
+      const product = products.find(item => String(item.id) === String(id));
+      if (!product || !confirm("هل تريد حذف «" + product.title + "»؟")) return;
+
+      try {
+        const { error } = await db.from("store_items").delete().eq("id", id);
+        if (error) throw error;
+
+        showMessage("productMessage", "تم حذف المنتج.");
+        await loadProducts();
+      } catch (error) {
+        showMessage("productMessage", "تعذر حذف المنتج: " + error.message, "error");
+      }
+    }
+
+    async function init() {
+      if (SUPABASE_PUBLISHABLE_KEY === "YOUR_SUPABASE_PUBLISHABLE_KEY") {
+        showMessage("loginMessage", "أضف Publishable Key الخاص بمشروع Supabase داخل الكود قبل تسجيل الدخول.", "error");
+        return;
+      }
+
+      const isAdmin = await checkAdminSession();
+      if (isAdmin) await showAdmin();
+    }
+
+    init();
+  </script>
 </body>
 </html>
