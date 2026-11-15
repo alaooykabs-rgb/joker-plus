@@ -4,206 +4,434 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#10091A">
-<title>JOKER PLUS</title>
+<meta name="theme-color" content="#0B0A0D">
+<meta name="description" content="JOKER PLUS - Premium Digital Store">
+<title>JOKER PLUS | Digital Store</title>
 
 <style>
+@import url('https://fonts.googleapis.com/css2?family=Alexandria:wght@300;400;500;600;700;800&display=swap');
+
+:root {
+  --bg: #0B0A0D;
+  --surface: #121015;
+  --surface2: #19151E;
+  --purple: #A879D9;
+  --purple-light: #C6A4E8;
+  --text: #F5F1F8;
+  --muted: #938B9A;
+  --border: rgba(255,255,255,.09);
+}
+
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
+html { scroll-behavior: smooth; }
+
 body {
-  background: #10091A;
-  color: white;
-  font-family: Arial, sans-serif;
-  min-height: 100vh;
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Alexandria', sans-serif;
+  overflow-x: hidden;
 }
 
-header {
-  padding: 25px 7%;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  border-bottom: 1px solid #29163C;
-}
+button { font-family: inherit; }
 
-.logo {
-  font-size: 25px;
-  font-weight: 900;
-  color: #C084FC;
-  letter-spacing: 1px;
-}
+a { color: inherit; text-decoration: none; }
 
-.language {
-  background: #28143D;
-  color: white;
-  border: 1px solid #61328A;
-  padding: 9px 15px;
-  border-radius: 20px;
-  cursor: pointer;
-}
-
-.hero {
-  text-align: center;
-  padding: 55px 15px 35px;
-}
-
-.hero h1 {
-  font-size: 34px;
-  margin-bottom: 13px;
-}
-
-.hero h1 span {
-  color: #A855F7;
-}
-
-.hero p {
-  color: #B9A9C8;
-  font-size: 15px;
-  line-height: 1.8;
-}
-
-.section-title {
-  padding: 20px 7%;
-  font-size: 21px;
-}
-
-.categories {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 18px;
-  padding: 10px 7% 50px;
-  max-width: 1000px;
+.container {
+  width: min(1160px, 90%);
   margin: auto;
 }
 
-.category {
-  background: linear-gradient(145deg, #241333, #160D20);
-  border: 1px solid #3D2056;
-  border-radius: 20px;
-  padding: 20px 12px;
-  text-align: center;
+/* HEADER */
+
+header {
+  height: 82px;
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid var(--border);
+  position: relative;
+  z-index: 10;
+  background: rgba(11,10,13,.92);
+  backdrop-filter: blur(15px);
+}
+
+.nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+.logo {
+  font-family: Arial, sans-serif;
+  font-size: 25px;
+  font-weight: 900;
+  letter-spacing: 2px;
+}
+
+.logo span { color: var(--purple); }
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 30px;
+}
+
+.nav-links a {
+  color: var(--muted);
+  font-size: 12px;
+  transition: .3s;
+}
+
+.nav-links a:hover { color: white; }
+
+.lang {
+  background: transparent;
+  color: var(--text);
+  border: 1px solid var(--border);
+  padding: 10px 17px;
+  border-radius: 30px;
   cursor: pointer;
-  transition: .25s;
+  font-size: 11px;
+}
+
+/* HERO */
+
+.hero {
+  min-height: 490px;
+  display: flex;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero::before {
+  content: "";
+  position: absolute;
+  width: 480px;
+  height: 480px;
+  background: radial-gradient(circle,rgba(119,65,158,.17),transparent 70%);
+  top: -100px;
+  left: -100px;
+  pointer-events: none;
+}
+
+.hero-content {
+  max-width: 690px;
+  padding: 75px 0;
+  position: relative;
+  z-index: 1;
+}
+
+.eyebrow {
+  color: var(--purple-light);
+  font-size: 11px;
+  letter-spacing: 3px;
+  margin-bottom: 24px;
+}
+
+.hero h1 {
+  font-size: clamp(37px,6vw,65px);
+  line-height: 1.35;
+  font-weight: 600;
+  margin-bottom: 22px;
+}
+
+.hero h1 span { color: var(--purple-light); }
+
+.hero p {
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 2.1;
+  max-width: 520px;
+}
+
+.hero-button {
+  display: inline-flex;
+  margin-top: 32px;
+  padding: 14px 27px;
+  background: var(--purple);
+  color: #130D18;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 700;
+  transition: .3s;
+}
+
+.hero-button:hover {
+  background: var(--purple-light);
+  transform: translateY(-3px);
+}
+
+/* SECTION */
+
+.section-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: end;
+  margin-bottom: 27px;
+}
+
+.section-head h2 {
+  font-size: 23px;
+  font-weight: 600;
+}
+
+.section-head p {
+  color: var(--muted);
+  font-size: 11px;
+  margin-top: 9px;
+}
+
+.categories-section { padding: 35px 0 85px; }
+
+.categories {
+  display: grid;
+  grid-template-columns: repeat(3,1fr);
+  gap: 18px;
+}
+
+/* CATEGORY CARD */
+
+.card {
+  background: linear-gradient(145deg,#19151F,#100E13);
+  border: 1px solid var(--border);
+  border-radius: 15px;
+  padding: 19px;
   min-width: 0;
-}
-
-.category:active {
-  transform: scale(.97);
-}
-
-.category:hover {
-  border-color: #A855F7;
-  box-shadow: 0 0 20px #7E22CE30;
-}
-
-.phone {
-  width: 105px;
-  height: 155px;
-  margin: 0 auto 18px;
-  padding: 7px;
-  border-radius: 21px;
-  background: #050505;
-  border: 2px solid #777;
-  box-shadow: 0 8px 25px #0009;
+  transition: .35s;
+  cursor: pointer;
+  overflow: hidden;
   position: relative;
 }
 
-.phone::before {
-  content: "";
-  width: 35px;
-  height: 5px;
-  border-radius: 10px;
-  background: #444;
+.card:hover {
+  transform: translateY(-5px);
+  border-color: rgba(168,121,217,.55);
+  box-shadow: 0 15px 45px rgba(0,0,0,.25);
+}
+
+.card-art {
+  height: 205px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: radial-gradient(ellipse,rgba(115,69,151,.13),transparent 68%);
+  border-radius: 11px;
+  margin-bottom: 19px;
+  overflow: hidden;
+}
+
+/* PHONE */
+
+.phone {
+  width: 104px;
+  height: 181px;
+  border-radius: 23px;
+  padding: 6px;
+  background: linear-gradient(140deg,#777,#17151A 30%,#39343D 70%,#777);
+  box-shadow: 0 15px 40px #0009,0 0 25px #9A62C31A;
+  transform: rotate(-5deg);
+  transition: .4s;
+  position: relative;
+}
+
+.card:hover .phone {
+  transform: rotate(0deg) translateY(-5px);
+}
+
+.phone-inner {
+  width: 100%;
+  height: 100%;
+  border-radius: 18px;
+  background: linear-gradient(150deg,#21152C,#09080B);
+  overflow: hidden;
+  position: relative;
+  padding: 20px 7px 8px;
+}
+
+.dynamic-island {
   position: absolute;
-  top: 5px;
+  width: 36px;
+  height: 10px;
+  border-radius: 20px;
+  background: #050505;
+  top: 6px;
   left: 50%;
   transform: translateX(-50%);
   z-index: 2;
 }
 
-.screen {
+.phone-apps {
   height: 100%;
-  border-radius: 14px;
-  background: linear-gradient(160deg, #35105C, #11091A);
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(2,1fr);
   align-content: center;
-  justify-content: center;
-  gap: 9px;
-  padding: 15px 5px 5px;
+  justify-items: center;
+  gap: 10px;
 }
 
-.app {
+.app-icon {
   width: 34px;
   height: 34px;
   border-radius: 10px;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 19px;
-  background: #30223D;
+  font-family: Arial,sans-serif;
+  font-weight: 800;
+  font-size: 17px;
+  color: white;
+  box-shadow: 0 3px 8px #0006;
+  overflow: hidden;
 }
 
-.snap { background: #FFEB00; }
-.pubg { background: #39352D; }
-.pool { background: #176DAB; }
-
-.category h3 {
-  font-size: 16px;
-  margin-bottom: 8px;
+.snap {
+  background: #FFFC00;
+  color: #111;
 }
 
-.category p {
-  color: #BBAACB;
+.pubg {
+  background: linear-gradient(145deg,#9A7845,#30271C);
   font-size: 12px;
-  line-height: 1.6;
 }
+
+.pool {
+  background: linear-gradient(145deg,#2698D4,#075080);
+}
+
+.instagram {
+  background: linear-gradient(45deg,#FEDA75,#D62976,#962FBF,#4F5BD5);
+}
+
+.tiktok {
+  background: #111;
+  border: 1px solid #444;
+}
+
+.youtube { background: #E62117; }
+
+.netflix { background: #151515; color: #E50914; }
+
+.store { background: #222; }
+
+.music { background: #26202F; }
+
+.app-letter {
+  font-size: 14px;
+  font-weight: 900;
+}
+
+.card-info h3 {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 7px;
+}
+
+.card-info p {
+  color: var(--muted);
+  font-size: 10px;
+  line-height: 1.8;
+}
+
+.card-bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 20px;
+  padding-top: 14px;
+  border-top: 1px solid var(--border);
+}
+
+.card-bottom span {
+  font-size: 10px;
+  color: var(--purple-light);
+}
+
+.arrow {
+  color: var(--purple-light);
+  font-size: 19px;
+}
+
+/* DETAILS */
 
 .details {
   display: none;
-  margin: 0 7% 45px;
-  padding: 25px;
-  border: 1px solid #6B21A8;
-  border-radius: 18px;
-  background: #1C1028;
+  margin: 0 auto 80px;
+  padding: 35px;
+  max-width: 1160px;
+  width: 90%;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 15px;
   text-align: center;
 }
 
 .details h2 {
-  margin-bottom: 12px;
-  color: #C084FC;
+  font-size: 23px;
+  margin-bottom: 15px;
 }
 
 .details p {
-  color: #C9BBD5;
-  line-height: 1.8;
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 2;
 }
 
-.details button {
-  margin-top: 18px;
-  background: #6B21A8;
+.close-btn {
+  margin-top: 22px;
+  padding: 11px 24px;
+  background: transparent;
   color: white;
-  border: none;
-  border-radius: 10px;
-  padding: 12px 25px;
+  border: 1px solid var(--border);
+  border-radius: 7px;
   cursor: pointer;
 }
 
+/* FOOTER */
+
 footer {
-  text-align: center;
-  padding: 25px;
-  border-top: 1px solid #29163C;
-  color: #8F7A9F;
-  font-size: 12px;
+  border-top: 1px solid var(--border);
+  padding: 32px 0;
 }
 
-@media (min-width: 700px) {
-  .categories {
-    grid-template-columns: repeat(3, 1fr);
-  }
+.footer-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 15px;
+}
+
+.footer-content p {
+  font-size: 10px;
+  color: var(--muted);
+}
+
+/* RESPONSIVE */
+
+@media(max-width:800px) {
+  .categories { grid-template-columns: repeat(2,1fr); }
+  .nav-links { display: none; }
+}
+
+@media(max-width:480px) {
+  header { height: 70px; }
+  .logo { font-size: 21px; }
+  .hero { min-height: 400px; }
+  .hero-content { padding: 60px 0; }
+  .hero h1 { font-size: 37px; }
+  .hero p { font-size: 12px; }
+  .categories { gap: 11px; }
+  .card { padding: 12px; }
+  .card-art { height: 165px; }
+  .phone { transform: scale(.88) rotate(-5deg); }
+  .card-info h3 { font-size: 13px; }
+  .card-info p { font-size: 9px; }
+  .footer-content { flex-direction: column; text-align: center; }
 }
 </style>
 </head>
@@ -211,133 +439,260 @@ footer {
 <body>
 
 <header>
-  <div class="logo">JOKER PLUS</div>
-  <button class="language" onclick="toggleLanguage()">AR | EN</button>
+  <div class="container nav">
+    <a href="#" class="logo">JOKER <span>PLUS</span></a>
+
+    <nav class="nav-links">
+      <a href="#home" data-ar="الرئيسية" data-en="Home">الرئيسية</a>
+      <a href="#categories" data-ar="الأقسام" data-en="Categories">الأقسام</a>
+    </nav>
+
+    <button class="lang" onclick="toggleLanguage()">AR / EN</button>
+  </div>
 </header>
 
-<section class="hero">
-  <h1 id="welcome">مرحباً بك في <span>JOKER PLUS</span></h1>
-  <p id="subtitle">وجهتك للخدمات الرقمية والتطبيقات والألعاب</p>
+<main>
+<section class="hero container" id="home">
+  <div class="hero-content">
+    <div class="eyebrow" id="eyebrow">THE DIGITAL EXPERIENCE</div>
+
+    <h1 id="heroTitle">
+      عالمك الرقمي<br>
+      يبدأ من <span>هنا.</span>
+    </h1>
+
+    <p id="heroDescription">
+      اكتشف مجموعة مختارة من التطبيقات والخدمات الرقمية
+      والألعاب، بتجربة بسيطة تليق بك.
+    </p>
+
+    <a href="#categories" class="hero-button" id="heroButton">
+      استكشف المتجر
+    </a>
+  </div>
 </section>
 
-<h2 class="section-title" id="sectionTitle">استكشف الأقسام</h2>
+<section class="categories-section container" id="categories">
 
-<section class="categories">
-
-  <div class="category" onclick="showDetails('apps')">
-    <div class="phone">
-      <div class="screen">
-        <div class="app">▶️</div>
-        <div class="app">🎵</div>
-        <div class="app">📸</div>
-        <div class="app">🎬</div>
-      </div>
+  <div class="section-head">
+    <div>
+      <h2 id="categoriesTitle">الأقسام</h2>
+      <p id="categoriesDescription">اختر ما يناسبك من خدماتنا الرقمية</p>
     </div>
-    <h3 data-ar="تطبيقات بلس" data-en="Premium Apps">تطبيقات بلس</h3>
-    <p data-ar="تطبيقات وخدمات مميزة" data-en="Premium apps and services">تطبيقات وخدمات مميزة</p>
   </div>
 
-  <div class="category" onclick="showDetails('games')">
-    <div class="phone">
-      <div class="screen">
-        <div class="app snap">👻</div>
-        <div class="app pubg">🎮</div>
-        <div class="app pool">🎱</div>
-      </div>
-    </div>
-    <h3 data-ar="أكواد سناب وألعاب" data-en="Snap & Games Codes">أكواد سناب وألعاب</h3>
-    <p data-ar="سناب شات وببجي وبلياردو" data-en="Snapchat, PUBG & Pool">سناب شات وببجي وبلياردو</p>
-  </div>
+  <div class="categories">
 
-  <div class="category" onclick="showDetails('social')">
-    <div class="phone">
-      <div class="screen">
-        <div class="app">📷</div>
-        <div class="app">▶️</div>
-        <div class="app">💬</div>
-        <div class="app">❤️</div>
-      </div>
-    </div>
-    <h3 data-ar="تيك توك وإنستغرام" data-en="TikTok & Instagram">تيك توك وإنستغرام</h3>
-    <p data-ar="خدمات التواصل الاجتماعي" data-en="Social media services">خدمات التواصل الاجتماعي</p>
-  </div>
+    <!-- APPS -->
 
-  <div class="category" onclick="showDetails('iptv')">
-    <div class="phone">
-      <div class="screen">
-        <div class="app">📺</div>
-        <div class="app">🎞️</div>
-        <div class="app">🍿</div>
-        <div class="app">▶️</div>
+    <article class="card" onclick="showDetails('apps')">
+      <div class="card-art">
+        <div class="phone">
+          <div class="phone-inner">
+            <div class="dynamic-island"></div>
+            <div class="phone-apps">
+              <div class="app-icon music">♫</div>
+              <div class="app-icon instagram">◎</div>
+              <div class="app-icon netflix">N</div>
+              <div class="app-icon tiktok">♪</div>
+            </div>
+          </div>
+        </div>
       </div>
-    </div>
-    <h3 data-ar="خدمات IPTV" data-en="IPTV Services">خدمات IPTV</h3>
-    <p data-ar="خدمات المشاهدة والترفيه" data-en="Streaming and entertainment">خدمات المشاهدة والترفيه</p>
-  </div>
-
-  <div class="category" onclick="showDetails('stores')">
-    <div class="phone">
-      <div class="screen">
-        <div class="app">🍎</div>
-        <div class="app">🎮</div>
-        <div class="app">🛍️</div>
-        <div class="app">💳</div>
+      <div class="card-info">
+        <h3 data-ar="تطبيقات بلس" data-en="Premium Apps">تطبيقات بلس</h3>
+        <p data-ar="تطبيقات وخدمات رقمية مميزة" data-en="Premium digital apps and services">تطبيقات وخدمات رقمية مميزة</p>
       </div>
-    </div>
-    <h3 data-ar="أكواد ستور" data-en="Store Codes">أكواد ستور</h3>
-    <p data-ar="أكواد وشحن المتاجر" data-en="Store codes and top-ups">أكواد وشحن المتاجر</p>
-  </div>
-
-  <div class="category" onclick="showDetails('soon')">
-    <div class="phone">
-      <div class="screen">
-        <div style="font-size:38px;color:#C084FC">✦</div>
-        <div style="color:#C084FC;font-size:12px">SOON</div>
+      <div class="card-bottom">
+        <span data-ar="اكتشف القسم" data-en="Explore">اكتشف القسم</span>
+        <b class="arrow">←</b>
       </div>
-    </div>
-    <h3>SOON</h3>
-    <p data-ar="خدمات جديدة قريباً" data-en="New services coming soon">خدمات جديدة قريباً</p>
-  </div>
+    </article>
 
+    <!-- GAMES -->
+
+    <article class="card" onclick="showDetails('games')">
+      <div class="card-art">
+        <div class="phone">
+          <div class="phone-inner">
+            <div class="dynamic-island"></div>
+            <div class="phone-apps">
+              <div class="app-icon snap">👻</div>
+              <div class="app-icon pubg">PUBG</div>
+              <div class="app-icon pool">8</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="card-info">
+        <h3 data-ar="أكواد سناب وألعاب" data-en="Snap & Games">أكواد سناب وألعاب</h3>
+        <p data-ar="سناب شات وببجي وبلياردو" data-en="Snapchat, PUBG and Pool">سناب شات وببجي وبلياردو</p>
+      </div>
+      <div class="card-bottom">
+        <span data-ar="اكتشف القسم" data-en="Explore">اكتشف القسم</span>
+        <b class="arrow">←</b>
+      </div>
+    </article>
+
+    <!-- SOCIAL -->
+
+    <article class="card" onclick="showDetails('social')">
+      <div class="card-art">
+        <div class="phone">
+          <div class="phone-inner">
+            <div class="dynamic-island"></div>
+            <div class="phone-apps">
+              <div class="app-icon instagram">◎</div>
+              <div class="app-icon tiktok">♪</div>
+              <div class="app-icon snap">👻</div>
+              <div class="app-icon" style="background:#1877F2">f</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="card-info">
+        <h3 data-ar="تيك توك وإنستغرام" data-en="Social Media">تيك توك وإنستغرام</h3>
+        <p data-ar="خدمات التواصل الاجتماعي" data-en="Social media services">خدمات التواصل الاجتماعي</p>
+      </div>
+      <div class="card-bottom">
+        <span data-ar="اكتشف القسم" data-en="Explore">اكتشف القسم</span>
+        <b class="arrow">←</b>
+      </div>
+    </article>
+
+    <!-- IPTV -->
+
+    <article class="card" onclick="showDetails('iptv')">
+      <div class="card-art">
+        <div class="phone">
+          <div class="phone-inner">
+            <div class="dynamic-island"></div>
+            <div class="phone-apps">
+              <div class="app-icon netflix">N</div>
+              <div class="app-icon youtube">▶</div>
+              <div class="app-icon music">TV</div>
+              <div class="app-icon" style="background:#174E83">▶</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="card-info">
+        <h3 data-ar="خدمات IPTV" data-en="IPTV Services">خدمات IPTV</h3>
+        <p data-ar="خدمات المشاهدة والترفيه" data-en="Streaming and entertainment">خدمات المشاهدة والترفيه</p>
+      </div>
+      <div class="card-bottom">
+        <span data-ar="اكتشف القسم" data-en="Explore">اكتشف القسم</span>
+        <b class="arrow">←</b>
+      </div>
+    </article>
+
+    <!-- STORE -->
+
+    <article class="card" onclick="showDetails('stores')">
+      <div class="card-art">
+        <div class="phone">
+          <div class="phone-inner">
+            <div class="dynamic-island"></div>
+            <div class="phone-apps">
+              <div class="app-icon store">A</div>
+              <div class="app-icon" style="background:#1477B8">G</div>
+              <div class="app-icon pubg">🎮</div>
+              <div class="app-icon music">S</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="card-info">
+        <h3 data-ar="أكواد ستور" data-en="Store Codes">أكواد ستور</h3>
+        <p data-ar="أكواد وشحن المتاجر" data-en="Store codes and top-ups">أكواد وشحن المتاجر</p>
+      </div>
+      <div class="card-bottom">
+        <span data-ar="اكتشف القسم" data-en="Explore">اكتشف القسم</span>
+        <b class="arrow">←</b>
+      </div>
+    </article>
+
+    <!-- SOON -->
+
+    <article class="card" onclick="showDetails('soon')">
+      <div class="card-art">
+        <div class="phone">
+          <div class="phone-inner">
+            <div class="dynamic-island"></div>
+            <div style="height:100%;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:12px">
+              <div style="font-size:42px;color:#C6A4E8">✦</div>
+              <div style="font-size:10px;letter-spacing:3px;color:#C6A4E8">SOON</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="card-info">
+        <h3>SOON</h3>
+        <p data-ar="خدمات جديدة قريباً" data-en="New services coming soon">خدمات جديدة قريباً</p>
+      </div>
+      <div class="card-bottom">
+        <span data-ar="قريباً" data-en="Coming Soon">قريباً</span>
+        <b class="arrow">←</b>
+      </div>
+    </article>
+
+  </div>
 </section>
 
 <section class="details" id="details">
   <h2 id="detailTitle"></h2>
   <p id="detailText"></p>
-  <button onclick="closeDetails()" id="closeButton">إغلاق</button>
+  <button class="close-btn" onclick="closeDetails()" id="closeButton">إغلاق</button>
 </section>
 
+</main>
+
 <footer>
-  © 2026 JOKER PLUS — All Rights Reserved
+  <div class="container footer-content">
+    <a href="#" class="logo">JOKER <span>PLUS</span></a>
+    <p>© 2026 JOKER PLUS — All Rights Reserved</p>
+  </div>
 </footer>
 
 <script>
 let english = false;
 
-const content = {
-  apps: ["تطبيقات بلس", "قريباً ستجد هنا باقات التطبيقات والخدمات المميزة."],
-  games: ["أكواد سناب وألعاب", "سناب شات وببجي وبلياردو. ستضاف الباقات والأسعار قريباً."],
-  social: ["تيك توك وإنستغرام", "خدمات التواصل الاجتماعي ستتوفر هنا قريباً."],
-  iptv: ["خدمات IPTV", "باقات المشاهدة والترفيه ستتوفر هنا قريباً."],
-  stores: ["أكواد ستور", "أكواد المتاجر والشحن ستتوفر هنا قريباً."],
-  soon: ["قريباً", "نجهز لك خدمات جديدة ومميزة."]
+const detailsContent = {
+  apps: {
+    ar: ["تطبيقات بلس","اكتشف باقات التطبيقات والخدمات الرقمية المميزة. ستتم إضافة المنتجات قريباً."],
+    en: ["Premium Apps","Discover premium applications and digital services. Products will be added soon."]
+  },
+  games: {
+    ar: ["أكواد سناب وألعاب","سناب شات وببجي وبلياردو. ستتم إضافة الباقات والأسعار قريباً."],
+    en: ["Snap & Games","Snapchat, PUBG and Pool. Packages and prices will be added soon."]
+  },
+  social: {
+    ar: ["تيك توك وإنستغرام","خدمات التواصل الاجتماعي ستتوفر هنا قريباً."],
+    en: ["Social Media","Social media services will be available here soon."]
+  },
+  iptv: {
+    ar: ["خدمات IPTV","باقات المشاهدة والترفيه ستتوفر هنا قريباً."],
+    en: ["IPTV Services","Entertainment packages will be available here soon."]
+  },
+  stores: {
+    ar: ["أكواد ستور","أكواد المتاجر والشحن ستتوفر هنا قريباً."],
+    en: ["Store Codes","Store codes and top-ups will be available here soon."]
+  },
+  soon: {
+    ar: ["قريباً","نجهز لك خدمات رقمية جديدة ومميزة."],
+    en: ["Coming Soon","New digital services are on the way."]
+  }
 };
 
 function showDetails(category) {
-  const details = document.getElementById("details");
-  const item = content[category];
-  document.getElementById("detailTitle").textContent = english
-    ? ({
-      apps:"Premium Apps",games:"Snap & Games Codes",
-      social:"TikTok & Instagram",iptv:"IPTV Services",
-      stores:"Store Codes",soon:"Coming Soon"
-    })[category]
-    : item[0];
-  document.getElementById("detailText").textContent = english
-    ? "Packages and prices will be available here soon."
-    : item[1];
-  details.style.display = "block";
-  details.scrollIntoView({behavior:"smooth"});
+  const data = detailsContent[category][english ? "en" : "ar"];
+
+  document.getElementById("detailTitle").textContent = data[0];
+  document.getElementById("detailText").textContent = data[1];
+
+  const section = document.getElementById("details");
+  section.style.display = "block";
+  section.scrollIntoView({behavior:"smooth",block:"center"});
 }
 
 function closeDetails() {
@@ -346,29 +701,56 @@ function closeDetails() {
 
 function toggleLanguage() {
   english = !english;
+
   document.documentElement.lang = english ? "en" : "ar";
   document.documentElement.dir = english ? "ltr" : "rtl";
 
-  document.getElementById("welcome").innerHTML = english
-    ? 'Welcome to <span>JOKER PLUS</span>'
-    : 'مرحباً بك في <span>JOKER PLUS</span>';
+  document.getElementById("heroTitle").innerHTML = english
+    ? 'Your digital world<br>starts <span>here.</span>'
+    : 'عالمك الرقمي<br>يبدأ من <span>هنا.</span>';
 
-  document.getElementById("subtitle").textContent = english
-    ? "Your destination for digital services, apps and games"
-    : "وجهتك للخدمات الرقمية والتطبيقات والألعاب";
+  document.getElementById("eyebrow").textContent =
+    english ? "THE DIGITAL EXPERIENCE" : "THE DIGITAL EXPERIENCE";
 
-  document.getElementById("sectionTitle").textContent =
-    english ? "Explore Categories" : "استكشف الأقسام";
+  document.getElementById("heroDescription").textContent = english
+    ? "Discover selected apps, digital services and games in one simple experience."
+    : "اكتشف مجموعة مختارة من التطبيقات والخدمات الرقمية والألعاب، بتجربة بسيطة تليق بك.";
 
-  document.querySelectorAll("[data-ar]").forEach(el => {
-    el.textContent = english ? el.dataset.en : el.dataset.ar;
+  document.getElementById("heroButton").textContent =
+    english ? "Explore Store" : "استكشف المتجر";
+
+  document.getElementById("categoriesTitle").textContent =
+    english ? "Categories" : "الأقسام";
+
+  document.getElementById("categoriesDescription").textContent =
+    english ? "Choose from our digital services" : "اختر ما يناسبك من خدماتنا الرقمية";
+
+  document.querySelectorAll("[data-ar]").forEach(element => {
+    element.textContent = english ? element.dataset.en : element.dataset.ar;
+  });
+
+  document.querySelectorAll(".nav-links a").forEach(element => {
+    element.textContent = english ? element.dataset.en : element.dataset.ar;
   });
 
   document.getElementById("closeButton").textContent =
     english ? "Close" : "إغلاق";
 
-  document.querySelector(".language").textContent =
-    english ? "EN | AR" : "AR | EN";
+  document.querySelector(".lang").textContent =
+    english ? "EN / AR" : "AR / EN";
+
+  document.querySelectorAll(".arrow").forEach(element => {
+    element.textContent = english ? "→" : "←";
+  });
+
+  if (document.getElementById("details").style.display === "block") {
+    const current = document.getElementById("detailTitle").textContent;
+    const key = Object.keys(detailsContent).find(k =>
+      detailsContent[k].ar[0] === current ||
+      detailsContent[k].en[0] === current
+    );
+    if (key) showDetails(key);
+  }
 }
 </script>
 
