@@ -170,24 +170,24 @@ main {
   position:absolute;
   top:8px;
   right:12px;
-  font-size:7px;
+  font-size:6px;
   color:#eee;
   z-index:2;
 }
 
 .phone-brand {
   text-align:center;
-  font-size:9px;
+  font-size:7px;
   font-weight:900;
-  letter-spacing:1.5px;
+  letter-spacing:1.2px;
   color:#d8c4ed;
-  margin:5px 0 13px;
+  margin:4px 0 10px;
 }
 
 .app-grid {
   display:grid;
   grid-template-columns:repeat(3,1fr);
-  gap:12px 5px;
+  gap:10px 5px;
   justify-items:center;
 }
 
@@ -218,14 +218,14 @@ main {
 }
 
 .app-name {
-  font-size:6px;
+  font-size:5px;
   color:#ddd3e7;
-  margin-top:4px;
+  margin-top:3px;
   text-align:center;
   white-space:nowrap;
 }
 
-/* خلفية داكنة لأيقونات تطبيقات بلس فقط */
+/* خلفيات داكنة لتطبيقات بلس */
 
 .section-apps .app-icon {
   background:linear-gradient(145deg,#21182b,#100d16);
@@ -233,11 +233,19 @@ main {
   box-shadow:0 3px 10px #000b,inset 0 1px 0 #ffffff12;
 }
 
+/* تويتر وتيك توك فقط بخلفية فاتحة */
+
+.section-apps .app-icon.app-icon-light {
+  background:#fff;
+  border:1px solid #ddd;
+  box-shadow:0 3px 8px #0008;
+}
+
 /* تكبير تطبيقات التيك توك والإنستغرام داخل الجوال */
 
 .section-social .app-grid {
   grid-template-columns:repeat(2,minmax(0,1fr));
-  gap:19px 12px;
+  gap:17px 12px;
   margin-top:8px;
 }
 
@@ -251,8 +259,8 @@ main {
 }
 
 .section-social .app-name {
-  font-size:8px;
-  margin-top:6px;
+  font-size:7px;
+  margin-top:5px;
 }
 
 .snapchat-screen {
@@ -284,10 +292,10 @@ main {
 
 .snapchat-caption {
   color:#fffc00;
-  font-size:10px;
+  font-size:8px;
   font-weight:bold;
-  letter-spacing:2px;
-  margin-top:17px;
+  letter-spacing:1.5px;
+  margin-top:14px;
 }
 
 .phone-coming {
@@ -300,15 +308,15 @@ main {
 }
 
 .phone-coming strong {
-  font-size:12px;
-  letter-spacing:2px;
+  font-size:10px;
+  letter-spacing:1.5px;
   color:#e3c8ff;
 }
 
 .phone-coming span {
-  font-size:7px;
+  font-size:6px;
   color:#a99ab5;
-  margin-top:8px;
+  margin-top:7px;
 }
 
 .custom-phone-image {
@@ -329,7 +337,7 @@ main {
   background:#ffffff90;
 }
 
-/* بطاقات PlayStation */
+/* بطاقات PlayStation - متمركزة ومتقاربة */
 
 .store-stage {
   width:100%;
@@ -346,7 +354,9 @@ main {
   width:170px;
   height:205px;
   position:relative;
+  margin:0 auto;
   transform:scale(.88);
+  flex:none;
 }
 
 .store-card {
@@ -362,15 +372,15 @@ main {
 }
 
 .store-card.back-one {
-  left:3px;
+  left:17px;
   top:20px;
-  transform:rotate(-15deg);
+  transform:rotate(-10deg);
 }
 
 .store-card.back-two {
-  right:3px;
-  top:15px;
-  transform:rotate(15deg);
+  right:17px;
+  top:20px;
+  transform:rotate(10deg);
 }
 
 .store-card.front {
@@ -379,7 +389,7 @@ main {
   display:flex;
   align-items:center;
   justify-content:center;
-  transform:rotateY(-7deg);
+  transform:rotateY(-5deg);
   box-shadow:5px 8px 0 #100b16,0 20px 28px #000b,0 0 20px #a77ad044,inset 0 1px 0 #ffffff55;
   transition:transform .35s ease;
 }
@@ -477,8 +487,6 @@ main {
   box-shadow:0 0 3px #aaa;
 }
 
-/* فصل اسم المتجر عن العبارة ومنع تداخلهما */
-
 .tv-brand-group {
   position:relative;
   z-index:2;
@@ -486,7 +494,7 @@ main {
   flex-direction:column;
   align-items:center;
   justify-content:center;
-  gap:11px;
+  gap:8px;
   max-width:100%;
   padding:8px 5px;
 }
@@ -495,7 +503,7 @@ main {
   position:relative;
   z-index:2;
   color:#f7f4fa;
-  font-size:clamp(15px,4vw,22px);
+  font-size:clamp(13px,3.5vw,18px);
   font-weight:900;
   letter-spacing:1px;
   line-height:1.25;
@@ -511,9 +519,9 @@ main {
   z-index:2;
   bottom:auto;
   color:#e4d4f2;
-  font-size:7px;
+  font-size:6px;
   line-height:1.4;
-  letter-spacing:2px;
+  letter-spacing:1.5px;
   white-space:nowrap;
   direction:ltr;
 }
@@ -927,7 +935,7 @@ const SUPABASE_URL =
 "https://pvyqzpqqrqzpbzcpftvx.supabase.co";
 
 const SUPABASE_PUBLISHABLE_KEY =
-"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InB2eXF6cHFxcnF6cGJ6Y3BmdHZ4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTQ3NTY0ODIsImV4cCI6MjExMDMzMjQ4Mn0.FRnb1AuTfOoW3CjJR_XdiGnS9ruHKJuwQt4WCfXUHGY";
+"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InB2eXF6cHFxcnF6cGJ6Y3BmdHZ4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTQ3NTY0ODIsImV4cCI6MjExMDMz٢٤٨٢.FRnb1AuTfOoW3CjJR_XdiGnS9ruHKJuwQt4WCfXUHGY";
 
 const WHATSAPP_NUMBER = "96566985873";
 
@@ -953,7 +961,7 @@ const sectionsData = [
       ["Facebook","facebook"],
       ["Discord","discord"],
       ["Pinterest","pinterest"],
-      ["X","x"]
+      ["Twitter","x"]
     ]
   },
   {
@@ -1005,9 +1013,13 @@ function iconUrl(slug) {
 function createAppIcon(app) {
   const [name,slug] = app;
 
+  const lightIcon = ["tiktok","x"].includes(slug)
+    ? "app-icon-light"
+    : "";
+
   return `
     <div class="app-item">
-      <div class="app-icon">
+      <div class="app-icon ${lightIcon}">
         <img src="${iconUrl(slug)}" alt="${name}" loading="lazy"
           onerror="this.style.display='none';this.parentElement.textContent='${name.slice(0,1)}';">
       </div>
