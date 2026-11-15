@@ -6,316 +6,778 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#09080c">
 <title>JOKER PLUS | متجر الجوكر</title>
+
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <style>
 :root {
   --bg:#09080c;
   --purple:#35105c;
-  --light:#b88be0;
+  --purple-light:#a77ad0;
   --red:#a6192e;
   --white:#f7f4fa;
   --muted:#aaa3b3;
   --border:#33233f;
 }
-* {box-sizing:border-box}
+
+* { box-sizing:border-box; }
+
 body {
   margin:0;
-  background:radial-gradient(ellipse at 50% -15%,#28113d 0,transparent 48%),var(--bg);
+  background:
+    radial-gradient(ellipse at 50% -15%,#28113d 0,transparent 48%),
+    var(--bg);
   color:var(--white);
   font-family:Arial,sans-serif;
 }
-header {text-align:center;padding:35px 15px 22px}
-.logo {font-size:34px;font-weight:900;letter-spacing:2px}
-.logo span {color:var(--light)}
+
+header {
+  text-align:center;
+  padding:38px 18px 25px;
+}
+
+.logo {
+  font-size:34px;
+  font-weight:900;
+  letter-spacing:2px;
+}
+
+.logo span { color:var(--purple-light); }
+
 .logo-line {
-  width:55px;height:2px;margin:13px auto;
+  width:55px;
+  height:2px;
+  margin:13px auto;
   background:linear-gradient(90deg,var(--purple),var(--red));
   border-radius:10px;
 }
-header p {color:var(--muted);font-size:13px}
-main {max-width:1250px;margin:auto;padding:10px 18px 45px}
+
+header p {
+  color:var(--muted);
+  font-size:13px;
+  margin:8px 0;
+}
+
+main {
+  max-width:1150px;
+  margin:auto;
+  padding:10px 20px 50px;
+}
+
 .section-heading {
-  display:flex;align-items:center;justify-content:space-between;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
   margin:15px 0 20px;
 }
-.section-heading h2 {font-size:19px;margin:0}
-.section-heading span {color:var(--muted);font-size:11px}
 
-/* شبكة الأقسام: 3 أعمدة وصفّين */
+.section-heading h2 {
+  font-size:19px;
+  margin:0;
+}
+
+.section-heading span {
+  color:var(--muted);
+  font-size:11px;
+}
+
 .sections {
   display:grid;
   grid-template-columns:repeat(3,minmax(0,1fr));
-  grid-template-rows:repeat(2,auto);
-  gap:16px;
+  gap:18px;
 }
+
 .section-card {
   min-width:0;
   background:linear-gradient(155deg,#17121e,#0e0c12);
   border:1px solid var(--border);
-  border-radius:19px;
-  padding:12px;
+  border-radius:20px;
+  padding:14px;
   overflow:hidden;
   box-shadow:0 12px 30px #0005;
   transition:.25s;
 }
+
 .section-card:hover {
   border-color:#68438b;
   transform:translateY(-3px);
 }
-.section-card h3 {font-size:15px;margin:13px 3px 7px}
-.section-description {
-  font-size:11px;color:var(--muted);
-  line-height:1.7;margin:0 3px 12px;
-}
 
-/* الهاتف */
+/* الهاتف ثلاثي الأبعاد */
+
 .phone-stage {
-  width:100%;height:260px;
-  display:flex;justify-content:center;align-items:center;
-  overflow:hidden;position:relative;
+  width:100%;
+  height:285px;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  overflow:hidden;
+  position:relative;
   background:radial-gradient(ellipse at center,#54247a44,transparent 68%);
   perspective:900px;
 }
+
 .phone {
-  width:140px;height:235px;flex:none;padding:6px;
-  border-radius:28px;position:relative;
-  background:linear-gradient(110deg,#17131e,#a69aaf 8%,#49404f 13%,#17131e 23%,#777080 50%,#211b29 75%,#a69aaf 92%,#21131e);
-  box-shadow:8px 12px 0 #100b16,12px 18px 0 #08060b,
-  0 25px 35px #000b,0 0 22px #8d56b333,
-  inset 0 0 0 1px #e8d9f5aa;
-  transform:rotateY(-8deg) rotateX(3deg);
-  transition:.35s;
+  width:150px;
+  height:260px;
+  flex:none;
+  padding:7px;
+  position:relative;
+  border-radius:30px;
+  background:linear-gradient(
+    110deg,
+    #17131e 0%,
+    #a69aaf 8%,
+    #49404f 13%,
+    #17131e 23%,
+    #777080 50%,
+    #211b29 75%,
+    #a69aaf 92%,
+    #211b29 100%
+  );
+  box-shadow:
+    8px 12px 0 #100b16,
+    12px 18px 0 #08060b,
+    0 25px 35px #000b,
+    0 0 22px #8d56b333,
+    inset 0 0 0 1px #e8d9f5aa;
+  transform:rotateY(-9deg) rotateX(3deg);
+  transition:transform .35s ease,box-shadow .35s ease;
 }
-.section-card:hover .phone {transform:rotateY(-2deg) translateY(-3px)}
+
+.section-card:hover .phone {
+  transform:rotateY(-3deg) rotateX(1deg) translateY(-3px);
+  box-shadow:
+    5px 9px 0 #100b16,
+    9px 14px 0 #08060b,
+    0 30px 40px #000c,
+    0 0 28px #a77ad055,
+    inset 0 0 0 1px #e8d9f5aa;
+}
+
 .phone::before {
-  content:"";position:absolute;right:-4px;top:55px;
-  width:4px;height:42px;border-radius:0 4px 4px 0;
+  content:"";
+  position:absolute;
+  right:-4px;
+  top:58px;
+  width:4px;
+  height:45px;
+  border-radius:0 4px 4px 0;
   background:linear-gradient(90deg,#49404f,#b9adbf,#302737);
 }
+
+.phone::after {
+  content:"";
+  position:absolute;
+  left:-4px;
+  top:67px;
+  width:4px;
+  height:36px;
+  border-radius:4px 0 0 4px;
+  background:linear-gradient(90deg,#b9adbf,#49404f);
+}
+
 .phone-screen {
-  width:100%;height:100%;border-radius:22px;
-  overflow:hidden;position:relative;
+  width:100%;
+  height:100%;
+  border-radius:23px;
+  overflow:hidden;
+  position:relative;
   background:radial-gradient(ellipse at 50% 20%,#35105c,#100b18 65%,#08070b);
-  padding:18px 8px 10px;
+  padding:20px 9px 10px;
   box-shadow:inset 0 0 0 1px #ffffff20;
 }
+
 .phone-time {
-  position:absolute;top:7px;right:11px;
-  font-size:7px;color:#eee;z-index:2;
-}
-.phone-brand {
-  text-align:center;font-size:8px;font-weight:900;
-  letter-spacing:1.5px;color:#d8c4ed;margin:3px 0 12px;
-}
-.phone-footer {
-  position:absolute;bottom:7px;left:50%;
-  transform:translateX(-50%);
-  width:43px;height:3px;border-radius:5px;background:#ffffff90;
+  position:absolute;
+  top:8px;
+  right:12px;
+  font-size:7px;
+  color:#eee;
+  z-index:2;
 }
 
-/* شبكة التطبيقات داخل الهاتف */
+.phone-brand {
+  text-align:center;
+  font-size:9px;
+  font-weight:900;
+  letter-spacing:1.5px;
+  color:#d8c4ed;
+  margin:5px 0 13px;
+}
+
 .app-grid {
   display:grid;
-  grid-template-columns:repeat(4,1fr);
-  gap:13px 3px;
+  grid-template-columns:repeat(3,1fr);
+  gap:12px 5px;
   justify-items:center;
-  align-items:center;
 }
+
 .app-item {
-  display:flex;flex-direction:column;
-  align-items:center;min-width:0;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  min-width:0;
 }
+
 .app-icon {
-  width:27px;height:27px;border-radius:8px;
-  display:flex;justify-content:center;align-items:center;
-  overflow:hidden;background:#fff;
+  width:29px;
+  height:29px;
+  border-radius:9px;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  overflow:hidden;
+  background:#fff;
   box-shadow:0 3px 8px #0008;
 }
+
 .app-icon img {
-  width:100%;height:100%;object-fit:contain;display:block;
+  width:100%;
+  height:100%;
+  object-fit:contain;
+  display:block;
 }
+
 .app-name {
-  font-size:5.5px;color:#ddd3e7;
-  margin-top:4px;text-align:center;white-space:nowrap;
+  font-size:6px;
+  color:#ddd3e7;
+  margin-top:4px;
+  text-align:center;
+  white-space:nowrap;
 }
 
-/* شعارا تيك توك وإنستغرام */
-.social-screen {
-  height:100%;display:flex;align-items:center;
-  justify-content:center;flex-direction:column;
-  gap:24px;
-  background:radial-gradient(circle at center,#301346,#100b18 70%);
-}
-.social-logos {
-  display:flex;align-items:center;justify-content:center;gap:15px;
-}
-.social-logo {
-  width:58px;height:58px;border-radius:17px;
-  background:#fff;display:flex;align-items:center;
-  justify-content:center;overflow:hidden;
-  box-shadow:0 7px 20px #0008,0 0 18px #a77ad044;
-}
-.social-logo img {width:39px;height:39px;object-fit:contain}
-.social-label {
-  color:#d9c4ed;font-size:8px;
-  letter-spacing:1.4px;font-weight:bold;
+/* قسم سناب */
+
+.snapchat-screen {
+  height:100%;
+  width:100%;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  background:radial-gradient(circle at 50% 40%,#29200a,#100e0a 65%,#080807);
 }
 
-/* أكواد ستور */
+.snapchat-logo {
+  width:105px;
+  height:105px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border-radius:27px;
+  background:#fffc00;
+  box-shadow:
+    0 0 30px #fffc0044,
+    0 10px 25px #0008,
+    inset 0 2px 5px #ffffffaa;
+}
+
+.snapchat-logo img {
+  width:75px;
+  height:75px;
+  object-fit:contain;
+}
+
+.snapchat-caption {
+  color:#fffc00;
+  font-size:10px;
+  font-weight:bold;
+  letter-spacing:2px;
+  margin-top:17px;
+}
+
+.phone-coming {
+  height:100%;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+}
+
+.phone-coming strong {
+  font-size:12px;
+  letter-spacing:2px;
+  color:#e3c8ff;
+}
+
+.phone-coming span {
+  font-size:7px;
+  color:#a99ab5;
+  margin-top:8px;
+}
+
+.custom-phone-image {
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  border-radius:20px;
+}
+
+.phone-footer {
+  position:absolute;
+  bottom:9px;
+  left:50%;
+  transform:translateX(-50%);
+  width:48px;
+  height:3px;
+  border-radius:5px;
+  background:#ffffff90;
+}
+
+/* بطاقات شحن PlayStation لقسم أكواد ستور */
+
 .store-stage {
-  width:100%;height:260px;display:flex;align-items:center;
-  justify-content:center;position:relative;overflow:hidden;
+  width:100%;
+  height:285px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  position:relative;
+  overflow:hidden;
   perspective:900px;
   background:radial-gradient(ellipse at center,#54247a55,transparent 68%);
 }
-.store-cards {width:180px;height:210px;position:relative}
+
+.store-cards {
+  width:190px;
+  height:225px;
+  position:relative;
+  transform-style:preserve-3d;
+}
+
 .store-card {
-  position:absolute;width:120px;height:175px;
-  border-radius:15px;border:1px solid #b99ad7;
-  background:radial-gradient(circle at 80% 15%,#7545a0 0,transparent 42%),linear-gradient(145deg,#30203e,#100d17 68%);
+  position:absolute;
+  width:132px;
+  height:190px;
+  border-radius:15px;
+  border:1px solid #b99ad7;
+  background:
+    radial-gradient(circle at 80% 15%,#7545a0 0,transparent 42%),
+    linear-gradient(145deg,#30203e,#100d17 68%);
   box-shadow:0 16px 28px #000a,inset 0 1px 0 #ffffff35;
 }
+
 .store-card.back-one {
-  left:4px;top:18px;transform:rotate(-17deg);
+  left:4px;
+  top:18px;
+  transform:rotate(-17deg) translateZ(-22px);
   background:linear-gradient(145deg,#4c2670,#17101f 75%);
 }
+
 .store-card.back-two {
-  right:4px;top:12px;transform:rotate(15deg);
+  right:4px;
+  top:12px;
+  transform:rotate(15deg) translateZ(-12px);
   background:linear-gradient(145deg,#60338a,#17101f 75%);
 }
-.store-card.front {
-  left:29px;top:16px;display:flex;
-  align-items:center;justify-content:center;
-  transform:rotateY(-9deg) rotateX(3deg);
-  box-shadow:8px 12px 0 #100b16,0 25px 35px #000b,
-  0 0 25px #a77ad044,inset 0 1px 0 #ffffff55;
-}
-.store-card.front img {width:70px;height:70px;object-fit:contain}
 
-/* تلفزيون Smart TV حديث */
+.store-card.front {
+  left:29px;
+  top:16px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  transform:rotateY(-9deg) rotateX(3deg);
+  box-shadow:8px 12px 0 #100b16,0 25px 35px #000b,0 0 25px #a77ad044,inset 0 1px 0 #ffffff55;
+  transition:transform .35s ease;
+}
+
+.section-card:hover .store-card.front {
+  transform:rotateY(-3deg) rotateX(1deg) translateY(-4px);
+}
+
+.store-card.front img {
+  width:75px;
+  height:75px;
+  object-fit:contain;
+  filter:drop-shadow(0 5px 12px #0009);
+}
+
+/* تلفزيون قسم IPTV */
+
 .tv-stage {
-  width:100%;height:260px;
-  display:flex;align-items:center;justify-content:center;
-  position:relative;overflow:hidden;perspective:1000px;
+  width:100%;
+  height:285px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  position:relative;
+  overflow:hidden;
+  perspective:900px;
   background:radial-gradient(ellipse at center,#54247a55,transparent 68%);
 }
+
 .tv-set {
-  width:min(245px,95%);
-  position:relative;padding-bottom:20px;
+  width:min(245px,92%);
+  position:relative;
+  padding-bottom:25px;
+  filter:drop-shadow(0 22px 18px #0009);
   transform:rotateY(-5deg);
-  filter:drop-shadow(0 18px 18px #0009);
-  transition:.35s;
+  transition:transform .35s ease;
 }
-.section-card:hover .tv-set {transform:rotateY(0) translateY(-3px)}
-.tv-frame {
-  width:100%;aspect-ratio:16/10;
-  padding:4px;border-radius:9px;
-  background:linear-gradient(135deg,#6d6576,#17131e 18%,#39313f 55%,#0c0a10);
-  box-shadow:inset 0 0 0 1px #ffffff40,0 0 0 1px #8c8195;
+
+.section-card:hover .tv-set {
+  transform:rotateY(0deg) translateY(-3px);
 }
+
 .tv-screen {
-  width:100%;height:100%;border-radius:6px;
-  display:flex;align-items:center;justify-content:center;
-  position:relative;overflow:hidden;
+  width:100%;
+  aspect-ratio:16/10;
+  border:7px solid #24202b;
+  border-bottom-width:10px;
+  border-radius:13px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  position:relative;
+  overflow:hidden;
   background:
-    radial-gradient(ellipse at 50% 45%,#55217b 0,#241035 48%,#08070b 100%);
+    radial-gradient(ellipse at 50% 35%,#54247a 0,#21112f 48%,#08070b 100%);
+  box-shadow:inset 0 0 0 1px #ffffff45,0 0 0 1px #8e78a0;
 }
+
 .tv-screen::before {
-  content:"";position:absolute;inset:0;
-  background:linear-gradient(125deg,#ffffff20,transparent 35%,#ffffff08 65%,transparent);
+  content:"";
+  position:absolute;
+  inset:0;
+  background:linear-gradient(120deg,#ffffff12,transparent 35%,#ffffff08 65%,transparent);
+  pointer-events:none;
 }
+
 .tv-logo {
-  color:#f7f4fa;font-size:clamp(18px,4vw,25px);
-  font-weight:900;letter-spacing:1.2px;
-  text-shadow:0 0 18px #b77be8aa;direction:ltr;
+  color:#f7f4fa;
+  font-size:clamp(19px,5vw,27px);
+  font-weight:900;
+  letter-spacing:1.4px;
+  text-shadow:0 0 18px #b77be8aa;
+  direction:ltr;
 }
-.tv-logo span {color:#c79be9}
+
+.tv-logo span { color:#c79be9; }
+
 .tv-indicator {
-  position:absolute;bottom:5px;left:50%;
+  position:absolute;
+  bottom:3px;
+  left:50%;
   transform:translateX(-50%);
-  width:4px;height:4px;border-radius:50%;
-  background:#bd8de7;box-shadow:0 0 7px #bd8de7;
+  width:4px;
+  height:4px;
+  border-radius:50%;
+  background:#bd8de7;
+  box-shadow:0 0 7px #bd8de7;
 }
-.tv-neck {
-  width:36px;height:16px;margin:auto;
+
+.tv-stand {
+  width:65px;
+  height:17px;
+  margin:-1px auto 0;
   background:linear-gradient(90deg,#17131e,#5c5364 50%,#17131e);
+  clip-path:polygon(39% 0,61% 0,76% 72%,100% 100%,0 100%,24% 72%);
 }
+
 .tv-base {
-  width:95px;height:6px;margin:-1px auto 0;
+  width:105px;
+  height:7px;
+  margin:-1px auto 0;
   border-radius:50%;
   background:linear-gradient(180deg,#71687a,#211b29 75%);
+  box-shadow:0 5px 9px #0009;
 }
 
-/* قريباً */
-.phone-coming {
-  height:100%;display:flex;flex-direction:column;
-  align-items:center;justify-content:center;text-align:center;
-}
-.phone-coming strong {
-  font-size:12px;letter-spacing:2px;color:#e3c8ff;
-}
-.phone-coming span {font-size:7px;color:#a99ab5;margin-top:8px}
+/* معلومات الأقسام */
 
-/* المنتجات */
-.services {display:grid;gap:10px}
-.service {border-top:1px solid #2a2230;padding:11px 2px 0}
-.service-title {font-size:12px;font-weight:bold}
+.section-card h3 {
+  font-size:15px;
+  margin:15px 3px 7px;
+}
+
+.section-description {
+  font-size:12px;
+  color:var(--muted);
+  line-height:1.7;
+  margin:0 3px 13px;
+}
+
+.services {
+  display:grid;
+  gap:10px;
+}
+
+.service {
+  border-top:1px solid #2a2230;
+  padding:12px 2px 0;
+}
+
+.service-title {
+  font-size:13px;
+  font-weight:bold;
+}
+
 .service-description {
-  font-size:10px;color:var(--muted);line-height:1.7;margin:6px 0;
+  font-size:11px;
+  color:var(--muted);
+  line-height:1.7;
+  margin:6px 0;
 }
-.price {color:#d2b2f0;font-size:12px;font-weight:bold;margin:8px 0}
-.buy-button {
-  display:block;text-decoration:none;text-align:center;
-  padding:10px;border-radius:10px;
-  background:linear-gradient(100deg,#35105c,#51227b);
-  color:white;font-size:11px;font-weight:bold;
-}
-.buy-button:hover {background:linear-gradient(100deg,#51227b,#35105c)}
-.empty {font-size:11px;color:#81778a;padding:9px 2px}
-.loading-message,.error-message {
-  grid-column:1/-1;text-align:center;
-  color:var(--muted);padding:30px 10px;
-  font-size:13px;line-height:1.8;
-}
-.error-message {color:#e8a1a8}
-footer {
-  text-align:center;color:#756c7c;font-size:11px;
-  padding:25px 15px;border-top:1px solid #211a29;
-}
-.footer-logo {font-size:16px;font-weight:bold;color:#c5a4df;margin-bottom:8px}
 
-/* يحافظ على 3 أعمدة حتى في الجوال */
-@media(max-width:700px) {
-  main {padding-right:9px;padding-left:9px}
-  .sections {gap:8px}
-  .section-card {padding:7px;border-radius:14px}
-  .phone-stage,.store-stage,.tv-stage {height:190px}
-  .phone {transform:scale(.78) rotateY(-8deg)}
-  .store-cards {transform:scale(.75)}
-  .tv-set {width:95%;transform:scale(.85)}
-  .section-card h3 {font-size:11px;margin-top:9px}
-  .section-description {font-size:9px}
-  .app-grid {gap:9px 2px}
-  .app-icon {width:22px;height:22px;border-radius:6px}
-  .app-name {font-size:5px}
-  .social-logo {width:40px;height:40px;border-radius:12px}
-  .social-logo img {width:28px;height:28px}
-  .social-logos {gap:9px}
-  .social-screen {gap:15px}
-  .tv-logo {font-size:15px}
-  .service-title {font-size:10px}
-  .service-description {font-size:9px}
-  .price {font-size:10px}
-  .buy-button {font-size:9px;padding:9px 3px}
+.price {
+  color:#d2b2f0;
+  font-size:13px;
+  font-weight:bold;
+  margin:8px 0;
 }
+
+.buy-button {
+  display:block;
+  text-decoration:none;
+  text-align:center;
+  padding:11px;
+  border-radius:11px;
+  background:linear-gradient(100deg,#35105c,#51227b);
+  color:white;
+  font-size:12px;
+  font-weight:bold;
+  transition:.2s;
+}
+
+.buy-button:hover {
+  background:linear-gradient(100deg,#51227b,#35105c);
+}
+
+.empty {
+  font-size:12px;
+  color:#81778a;
+  padding:9px 2px;
+}
+
+.loading-message,
+.error-message {
+  grid-column:1/-1;
+  text-align:center;
+  color:var(--muted);
+  padding:30px 10px;
+  font-size:13px;
+  line-height:1.8;
+}
+
+.error-message { color:#e8a1a8; }
+
+footer {
+  text-align:center;
+  color:#756c7c;
+  font-size:11px;
+  padding:25px 15px;
+  border-top:1px solid #211a29;
+}
+
+.footer-logo {
+  font-size:16px;
+  font-weight:bold;
+  color:#c5a4df;
+  margin-bottom:8px;
+}
+
+@media(max-width:700px) {
+  .sections {
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    gap:11px;
+  }
+
+  .section-card { padding:9px; }
+
+  .phone-stage { height:285px; }
+
+  .logo { font-size:29px; }
+
+  main {
+    padding-right:13px;
+    padding-left:13px;
+  }
+}
+
+@media(max-width:390px) {
+  .sections { grid-template-columns:1fr; }
+  .phone-stage { height:285px; }
+}
+
 @media(prefers-reduced-motion:reduce) {
-  .phone,.section-card,.tv-set {transition:none}
+  .phone,.section-card { transition:none; }
+}
+
+/* شاشة البداية المتحركة */
+
+.splash-screen {
+  position:fixed;
+  inset:0;
+  z-index:99999;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap:20px;
+  overflow:hidden;
+  background:
+    radial-gradient(ellipse at 50% 45%,#35105c 0%,#170d20 32%,#09080c 72%);
+  opacity:1;
+  visibility:visible;
+  transition:opacity .65s ease,visibility .65s ease;
+}
+
+.splash-screen::before {
+  content:"";
+  position:absolute;
+  width:260px;
+  height:260px;
+  border:1px solid #a77ad033;
+  border-radius:50%;
+  box-shadow:0 0 70px #8b4acb22,inset 0 0 60px #8b4acb18;
+  animation:splashAura 2.4s ease-in-out infinite;
+}
+
+.splash-screen.is-hidden {
+  opacity:0;
+  visibility:hidden;
+  pointer-events:none;
+}
+
+.splash-emblem {
+  width:112px;
+  height:112px;
+  position:relative;
+  z-index:1;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  opacity:0;
+  transform:translateY(22px) scale(.65) rotate(-18deg);
+  animation:emblemEnter .9s cubic-bezier(.2,.8,.2,1) .15s forwards,
+            emblemFloat 2s ease-in-out 1.1s infinite;
+  filter:drop-shadow(0 0 22px #a77ad077);
+}
+
+.splash-emblem svg {
+  width:100%;
+  height:100%;
+  overflow:visible;
+}
+
+.splash-emblem .emblem-main {
+  stroke-dasharray:260;
+  stroke-dashoffset:260;
+  animation:drawEmblem 1.05s ease .35s forwards;
+}
+
+.splash-emblem .emblem-dot {
+  opacity:0;
+  transform-box:fill-box;
+  transform-origin:center;
+  animation:dotPop .4s ease .95s forwards;
+}
+
+.splash-name {
+  position:relative;
+  z-index:1;
+  direction:ltr;
+  font-size:clamp(27px,7vw,38px);
+  font-weight:900;
+  letter-spacing:3px;
+  color:#f7f4fa;
+  opacity:0;
+  transform:translateY(13px);
+  animation:nameReveal .75s ease 1.15s forwards;
+}
+
+.splash-name span { color:#c49be5; }
+
+.splash-caption {
+  position:relative;
+  z-index:1;
+  color:#aaa3b3;
+  font-size:10px;
+  letter-spacing:3px;
+  opacity:0;
+  animation:nameReveal .6s ease 1.55s forwards;
+}
+
+.splash-loader {
+  position:relative;
+  z-index:1;
+  width:76px;
+  height:2px;
+  margin-top:7px;
+  overflow:hidden;
+  background:#ffffff18;
+  border-radius:4px;
+  opacity:0;
+  animation:nameReveal .4s ease 1.65s forwards;
+}
+
+.splash-loader::after {
+  content:"";
+  display:block;
+  width:38%;
+  height:100%;
+  border-radius:4px;
+  background:linear-gradient(90deg,#35105c,#c49be5,#a6192e);
+  animation:loaderMove 1.15s ease-in-out 1.8s both;
+}
+
+@keyframes emblemEnter {
+  to { opacity:1;transform:translateY(0) scale(1) rotate(0); }
+}
+
+@keyframes emblemFloat {
+  0%,100% { transform:translateY(0); }
+  50% { transform:translateY(-7px); }
+}
+
+@keyframes drawEmblem { to { stroke-dashoffset:0; } }
+@keyframes dotPop { to { opacity:1;transform:scale(1); } }
+@keyframes nameReveal { to { opacity:1;transform:translateY(0); } }
+
+@keyframes splashAura {
+  0%,100% { transform:scale(.92);opacity:.55; }
+  50% { transform:scale(1.08);opacity:1; }
+}
+
+@keyframes loaderMove {
+  0% { transform:translateX(0); }
+  100% { transform:translateX(210%); }
+}
+
+@media(prefers-reduced-motion:reduce) {
+  .splash-screen *, .splash-screen::before { animation:none !important; }
+  .splash-emblem,.splash-name,.splash-caption,.splash-loader {
+    opacity:1;
+    transform:none;
+  }
 }
 </style>
 </head>
 
 <body>
+
+<!-- شاشة البداية -->
+
+<div class="splash-screen" id="splashScreen" aria-label="JOKER PLUS">
+  <div class="splash-emblem" aria-hidden="true">
+    <svg viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path class="emblem-main" d="M22 42L39 20L57 42L78 17L98 42L88 82C86 91 78 97 69 97H49C40 97 32 91 30 82L22 42Z" stroke="#C49BE5" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M31 67C43 73 77 73 90 67" stroke="#A77AD0" stroke-width="3" stroke-linecap="round"/>
+      <path d="M45 83H75" stroke="#F7F4FA" stroke-width="3" stroke-linecap="round"/>
+      <circle class="emblem-dot" cx="22" cy="42" r="4" fill="#A6192E"/>
+      <circle class="emblem-dot" cx="78" cy="17" r="4" fill="#A6192E"/>
+      <circle class="emblem-dot" cx="98" cy="42" r="4" fill="#A6192E"/>
+    </svg>
+  </div>
+
+  <div class="splash-name">JOKER <span>PLUS</span></div>
+  <div class="splash-caption">YOUR DIGITAL DESTINATION</div>
+  <div class="splash-loader"></div>
+</div>
+
 <header>
   <div class="logo">JOKER <span>PLUS</span></div>
   <div class="logo-line"></div>
@@ -327,6 +789,7 @@ footer {
     <h2>أقسام المتجر</h2>
     <span>JOKER PLUS COLLECTION</span>
   </div>
+
   <div class="sections" id="sections">
     <p class="loading-message">جاري تحميل المتجر...</p>
   </div>
@@ -338,7 +801,10 @@ footer {
 </footer>
 
 <script>
-const SUPABASE_URL = "https://pvyqzpqqrqzpbzcpftvx.supabase.co";
+/* إعداد Supabase */
+
+const SUPABASE_URL =
+"https://pvyqzpqqrqzpbzcpftvx.supabase.co";
 
 const SUPABASE_PUBLISHABLE_KEY =
 "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InB2eXF6cHFxcnF6cGJ6Y3BmdHZ4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTQ3NTY0ODIsImV4cCI6MjExMDMzMjQ4Mn0.FRnb1AuTfOoW3CjJR_XdiGnS9ruHKJuwQt4WCfXUHGY";
@@ -349,6 +815,8 @@ const supabaseClient = window.supabase.createClient(
   SUPABASE_URL,
   SUPABASE_PUBLISHABLE_KEY
 );
+
+/* الأقسام */
 
 const sectionsData = [
   {
@@ -361,13 +829,7 @@ const sectionsData = [
       ["TikTok","tiktok"],
       ["Spotify","spotify"],
       ["YouTube","youtube"],
-      ["WhatsApp","whatsapp"],
-      ["Telegram","telegram"],
-      ["Netflix","netflix"],
-      ["Facebook","facebook"],
-      ["Discord","discord"],
-      ["Pinterest","pinterest"],
-      ["X","x"]
+      ["WhatsApp","whatsapp"]
     ]
   },
   {
@@ -379,20 +841,41 @@ const sectionsData = [
   {
     id:"social",
     name:"خدمات التيك توك والإنستغرام",
-    description:"خدمات منصات التواصل الاجتماعي",
-    apps:[]
+    description:"خدمات وحلول منصات التواصل الاجتماعي",
+    apps:[
+      ["TikTok","tiktok"],
+      ["Instagram","instagram"],
+      ["Snapchat","snapchat"],
+      ["Facebook","facebook"],
+      ["Telegram","telegram"],
+      ["YouTube","youtube"]
+    ]
   },
   {
     id:"iptv",
     name:"اشتراكات IPTV",
-    description:"اشتراكات المشاهدة والترفيه",
-    apps:[]
+    description:"اشتراكات منصات المشاهدة والترفيه",
+    apps:[
+      ["Netflix","netflix"],
+      ["Shahid","shahid"],
+      ["OSN","osn"],
+      ["Prime Video","primevideo"],
+      ["Disney+","disneyplus"],
+      ["YouTube","youtube"]
+    ]
   },
   {
     id:"store",
     name:"أكواد ستور",
     description:"أكواد وشحن المتاجر الرقمية",
-    apps:[]
+    apps:[
+      ["Apple","apple"],
+      ["Google Play","googleplay"],
+      ["PlayStation","playstation"],
+      ["Xbox","xbox"],
+      ["Steam","steam"],
+      ["App Store","appstore"]
+    ]
   },
   {
     id:"soon",
@@ -402,15 +885,7 @@ const sectionsData = [
   }
 ];
 
-function escapeHTML(value) {
-  return String(value ?? "").replace(/[&<>"']/g, char => ({
-    "&":"&amp;",
-    "<":"&lt;",
-    ">":"&gt;",
-    '"':"&quot;",
-    "'":"&#39;"
-  }[char]));
-}
+/* شعارات التطبيقات */
 
 function iconUrl(slug) {
   return "https://cdn.simpleicons.org/" + slug;
@@ -418,18 +893,26 @@ function iconUrl(slug) {
 
 function createAppIcon(app) {
   const [name,slug] = app;
+
   return `
     <div class="app-item">
       <div class="app-icon">
-        <img src="${iconUrl(slug)}" alt="${name}" loading="lazy"
-          onerror="this.style.display='none';this.parentElement.textContent='${name.slice(0,1)}';">
+        <img
+          src="${iconUrl(slug)}"
+          alt="${name}"
+          loading="lazy"
+          onerror="this.style.display='none';this.parentElement.textContent='${name.slice(0,1)}';"
+        >
       </div>
       <span class="app-name">${name}</span>
     </div>
   `;
 }
 
+/* شاشة الهاتف */
+
 function createPhone(section, customImage) {
+  /* قسم أكواد ستور: بطاقات شحن وشعار PlayStation فقط */
   if (section.id === "store") {
     return `
       <div class="store-stage">
@@ -437,26 +920,27 @@ function createPhone(section, customImage) {
           <div class="store-card back-one"></div>
           <div class="store-card back-two"></div>
           <div class="store-card front">
-            <img src="https://cdn.simpleicons.org/playstation/ffffff"
+            <img
+              src="https://cdn.simpleicons.org/playstation/ffffff"
               alt="PlayStation"
-              onerror="this.style.display='none';this.parentElement.textContent='PS';this.parentElement.style.color='#fff';this.parentElement.style.fontSize='48px';this.parentElement.style.fontWeight='bold';">
+              onerror="this.style.display='none';this.parentElement.textContent='PS';this.parentElement.style.color='#fff';this.parentElement.style.fontSize='48px';this.parentElement.style.fontWeight='bold';"
+            >
           </div>
         </div>
       </div>
     `;
   }
 
+  /* قسم IPTV: تلفزيون وشعار JOKER PLUS داخل الشاشة */
   if (section.id === "iptv") {
     return `
       <div class="tv-stage">
         <div class="tv-set">
-          <div class="tv-frame">
-            <div class="tv-screen">
-              <div class="tv-logo">JOKER <span>PLUS</span></div>
-              <div class="tv-indicator"></div>
-            </div>
+          <div class="tv-screen">
+            <div class="tv-logo">JOKER <span>PLUS</span></div>
+            <div class="tv-indicator"></div>
           </div>
-          <div class="tv-neck"></div>
+          <div class="tv-stand"></div>
           <div class="tv-base"></div>
         </div>
       </div>
@@ -468,34 +952,11 @@ function createPhone(section, customImage) {
       <div class="phone-stage">
         <div class="phone">
           <div class="phone-screen" style="padding:0">
-            <img style="width:100%;height:100%;object-fit:cover"
-              src="${escapeHTML(customImage)}" alt="${escapeHTML(section.name)}">
-          </div>
-        </div>
-      </div>
-    `;
-  }
-
-  if (section.id === "social") {
-    return `
-      <div class="phone-stage">
-        <div class="phone">
-          <div class="phone-screen">
-            <div class="phone-time">9:41</div>
-            <div class="social-screen">
-              <div class="social-logos">
-                <div class="social-logo">
-                  <img src="https://cdn.simpleicons.org/tiktok/000000"
-                    alt="TikTok">
-                </div>
-                <div class="social-logo">
-                  <img src="https://cdn.simpleicons.org/instagram/E4405F"
-                    alt="Instagram">
-                </div>
-              </div>
-              <div class="social-label">JOKER PLUS SOCIAL</div>
-            </div>
-            <div class="phone-footer"></div>
+            <img
+              class="custom-phone-image"
+              src="${escapeHTML(customImage)}"
+              alt="صورة ${escapeHTML(section.name)}"
+            >
           </div>
         </div>
       </div>
@@ -508,11 +969,15 @@ function createPhone(section, customImage) {
         <div class="phone">
           <div class="phone-screen" style="padding:0">
             <div class="phone-time">9:41</div>
-            <div style="height:100%;display:flex;align-items:center;justify-content:center;flex-direction:column;background:radial-gradient(circle at 50% 40%,#29200a,#100e0a 65%,#080807)">
-              <div style="width:90px;height:90px;border-radius:25px;background:#fffc00;display:flex;align-items:center;justify-content:center;box-shadow:0 0 25px #fffc0044">
-                <img src="https://cdn.simpleicons.org/snapchat/000000" alt="Snapchat" style="width:65px;height:65px">
+            <div class="snapchat-screen">
+              <div class="snapchat-logo">
+                <img
+                  src="https://cdn.simpleicons.org/snapchat/000000"
+                  alt="Snapchat"
+                  onerror="this.style.display='none';this.parentElement.textContent='👻';this.parentElement.style.fontSize='55px';"
+                >
               </div>
-              <div style="color:#fffc00;font-size:9px;font-weight:bold;letter-spacing:2px;margin-top:15px">SNAPCHAT</div>
+              <div class="snapchat-caption">SNAPCHAT</div>
             </div>
             <div class="phone-footer"></div>
           </div>
@@ -554,46 +1019,98 @@ function createPhone(section, customImage) {
   `;
 }
 
+/* حماية النصوص */
+
+function escapeHTML(value) {
+  return String(value ?? "").replace(/[&<>"']/g, function(char) {
+    return {
+      "&":"&amp;",
+      "<":"&lt;",
+      ">":"&gt;",
+      '"':"&quot;",
+      "'":"&#39;"
+    }[char];
+  });
+}
+
+/* رابط واتساب */
+
 function whatsappLink(item) {
   const title = item.title || "طلب من متجر JOKER PLUS";
   const price = item.price ? " - السعر: " + item.price : "";
+
   const message = "السلام عليكم، أريد طلب: " + title + price;
+
   return "https://wa.me/" + WHATSAPP_NUMBER +
     "?text=" + encodeURIComponent(message);
 }
+
+/* عرض المنتجات */
 
 function createService(item) {
   return `
     <div class="service">
       <div class="service-title">${escapeHTML(item.title)}</div>
-      ${item.description ? `<div class="service-description">${escapeHTML(item.description)}</div>` : ""}
-      ${item.price ? `<div class="price">${escapeHTML(item.price)}</div>` : ""}
-      <a class="buy-button" href="${whatsappLink(item)}"
-        target="_blank" rel="noopener noreferrer">
+
+      ${
+        item.description
+          ? `<div class="service-description">${escapeHTML(item.description)}</div>`
+          : ""
+      }
+
+      ${
+        item.price
+          ? `<div class="price">${escapeHTML(item.price)}</div>`
+          : ""
+      }
+
+      <a
+        class="buy-button"
+        href="${whatsappLink(item)}"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
         اطلب الآن عبر واتساب
       </a>
     </div>
   `;
 }
 
+/* بناء القسم */
+
 function createSection(section, items, images) {
-  const sectionImage = images.find(image => image.section === section.id);
-  const sectionItems = items.filter(item => item.section_key === section.id);
+  const sectionImage = images.find(
+    image => image.section === section.id
+  );
+
+  const sectionItems = items.filter(
+    item => item.section_key === section.id
+  );
 
   return `
     <article class="section-card">
+
       ${createPhone(section, sectionImage?.image_url)}
+
       <h3>${escapeHTML(section.name)}</h3>
-      <p class="section-description">${escapeHTML(section.description)}</p>
+
+      <p class="section-description">
+        ${escapeHTML(section.description)}
+      </p>
+
       <div class="services">
-        ${sectionItems.length
-          ? sectionItems.map(createService).join("")
-          : `<div class="empty">لا توجد منتجات متاحة حالياً</div>`
+        ${
+          sectionItems.length
+            ? sectionItems.map(createService).join("")
+            : `<div class="empty">لا توجد منتجات متاحة حالياً</div>`
         }
       </div>
+
     </article>
   `;
 }
+
+/* تحميل بيانات المتجر */
 
 async function loadStore() {
   const container = document.getElementById("sections");
@@ -604,7 +1121,7 @@ async function loadStore() {
         .from("store_items")
         .select("*")
         .eq("active", true)
-        .order("sort_order", {ascending:true}),
+        .order("sort_order", { ascending:true }),
 
       supabaseClient
         .from("section_images")
@@ -628,6 +1145,7 @@ async function loadStore() {
 
   } catch (error) {
     console.error("JOKER PLUS:", error);
+
     container.innerHTML = `
       <div class="error-message">
         تعذر تحميل المتجر.<br>
@@ -637,7 +1155,17 @@ async function loadStore() {
   }
 }
 
+/* إخفاء شاشة البداية بعد اكتمال الحركة */
+
+window.addEventListener("load", function() {
+  window.setTimeout(function() {
+    const splash = document.getElementById("splashScreen");
+    if (splash) splash.classList.add("is-hidden");
+  }, 3200);
+});
+
 loadStore();
 </script>
+
 </body>
 </html>
