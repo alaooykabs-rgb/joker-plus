@@ -225,6 +225,36 @@ main {
   white-space:nowrap;
 }
 
+/* خلفية داكنة لأيقونات تطبيقات بلس فقط */
+
+.section-apps .app-icon {
+  background:linear-gradient(145deg,#21182b,#100d16);
+  border:1px solid #59416c;
+  box-shadow:0 3px 10px #000b,inset 0 1px 0 #ffffff12;
+}
+
+/* تكبير تطبيقات التيك توك والإنستغرام داخل الجوال */
+
+.section-social .app-grid {
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:19px 12px;
+  margin-top:8px;
+}
+
+.section-social .app-icon {
+  width:58px;
+  height:58px;
+  border-radius:16px;
+  background:#17121e;
+  border:1px solid #59416c;
+  box-shadow:0 4px 12px #000b;
+}
+
+.section-social .app-name {
+  font-size:8px;
+  margin-top:6px;
+}
+
 .snapchat-screen {
   height:100%;
   width:100%;
@@ -299,7 +329,7 @@ main {
   background:#ffffff90;
 }
 
-/* بطاقات PlayStation: أصغر ومتمركزة */
+/* بطاقات PlayStation */
 
 .store-stage {
   width:100%;
@@ -447,13 +477,29 @@ main {
   box-shadow:0 0 3px #aaa;
 }
 
+/* فصل اسم المتجر عن العبارة ومنع تداخلهما */
+
+.tv-brand-group {
+  position:relative;
+  z-index:2;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap:11px;
+  max-width:100%;
+  padding:8px 5px;
+}
+
 .tv-logo {
   position:relative;
   z-index:2;
   color:#f7f4fa;
-  font-size:clamp(18px,5vw,25px);
+  font-size:clamp(15px,4vw,22px);
   font-weight:900;
-  letter-spacing:1.2px;
+  letter-spacing:1px;
+  line-height:1.25;
+  white-space:nowrap;
   text-shadow:0 0 18px #c49be5aa;
   direction:ltr;
 }
@@ -461,12 +507,14 @@ main {
 .tv-logo span {color:#d3a8f3}
 
 .tv-subtitle {
-  position:absolute;
+  position:relative;
   z-index:2;
-  bottom:22%;
+  bottom:auto;
   color:#e4d4f2;
   font-size:7px;
-  letter-spacing:3px;
+  line-height:1.4;
+  letter-spacing:2px;
+  white-space:nowrap;
   direction:ltr;
 }
 
@@ -1004,8 +1052,10 @@ function createPhone(section,customImage) {
           <div class="tv-frame">
             <div class="tv-screen">
               <div class="tv-camera"></div>
-              <div class="tv-logo">JOKER <span>PLUS</span></div>
-              <div class="tv-subtitle">YOUR DIGITAL WORLD</div>
+              <div class="tv-brand-group">
+                <div class="tv-logo">JOKER <span>PLUS</span></div>
+                <div class="tv-subtitle">YOUR DIGITAL WORLD</div>
+              </div>
               <div class="tv-indicator"></div>
             </div>
           </div>
@@ -1105,7 +1155,7 @@ function createSection(section,items,images) {
   const sectionItems = items.filter(item => item.section_key === section.id);
 
   return `
-    <article class="section-card">
+    <article class="section-card section-${section.id}">
       ${createPhone(section,sectionImage?.image_url)}
       <h3>${escapeHTML(section.name)}</h3>
       <p class="section-description">${escapeHTML(section.description)}</p>
