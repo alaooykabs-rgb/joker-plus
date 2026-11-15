@@ -4,194 +4,373 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#35105C">
+<meta name="theme-color" content="#10091A">
 <title>JOKER PLUS</title>
+
 <style>
-:root {
-  --purple: #35105C;
-  --red: #A6192E;
-  --green: #3DDC97;
-  --bg: #0D0912;
-  --card: #191321;
-  --text: #FFFFFF;
-  --muted: #A99DB4;
-}
-* { box-sizing: border-box; }
-body {
+* {
   margin: 0;
-  background: var(--bg);
-  color: var(--text);
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background: #10091A;
+  color: white;
   font-family: Arial, sans-serif;
+  min-height: 100vh;
 }
+
 header {
-  background: linear-gradient(135deg,#35105C,#170B25);
-  padding: 22px 18px;
-  border-bottom: 1px solid #49305D;
-}
-.top {
+  padding: 25px 7%;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  border-bottom: 1px solid #29163C;
 }
-.logo { font-size: 25px; font-weight: 900; letter-spacing: 1px; }
-.logo span { color: var(--green); }
-.lang {
-  background: #251632;
+
+.logo {
+  font-size: 25px;
+  font-weight: 900;
+  color: #C084FC;
+  letter-spacing: 1px;
+}
+
+.language {
+  background: #28143D;
   color: white;
-  border: 1px solid #74558B;
-  border-radius: 9px;
-  padding: 9px 13px;
-  font-weight: bold;
+  border: 1px solid #61328A;
+  padding: 9px 15px;
+  border-radius: 20px;
+  cursor: pointer;
 }
+
 .hero {
   text-align: center;
-  padding: 45px 15px 35px;
+  padding: 55px 15px 35px;
 }
-.hero .joker { font-size: 46px; }
-.hero h1 { font-size: 32px; margin: 10px 0; }
-.hero h1 span { color: #B48AD8; }
-.hero p { color: var(--muted); line-height: 1.8; }
-main { max-width: 850px; margin: auto; padding: 15px; }
-.section-title { font-size: 21px; margin: 18px 0; }
+
+.hero h1 {
+  font-size: 34px;
+  margin-bottom: 13px;
+}
+
+.hero h1 span {
+  color: #A855F7;
+}
+
+.hero p {
+  color: #B9A9C8;
+  font-size: 15px;
+  line-height: 1.8;
+}
+
+.section-title {
+  padding: 20px 7%;
+  font-size: 21px;
+}
+
 .categories {
   display: grid;
-  grid-template-columns: repeat(2,minmax(0,1fr));
-  gap: 13px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+  padding: 10px 7% 50px;
+  max-width: 1000px;
+  margin: auto;
 }
+
 .category {
-  background: var(--card);
-  border: 1px solid #382747;
-  border-radius: 15px;
+  background: linear-gradient(145deg, #241333, #160D20);
+  border: 1px solid #3D2056;
+  border-radius: 20px;
   padding: 20px 12px;
   text-align: center;
-  min-height: 130px;
-  color: white;
   cursor: pointer;
-  transition: .2s;
+  transition: .25s;
+  min-width: 0;
 }
-.category:active { transform: scale(.97); }
-.category .icon { font-size: 29px; margin-bottom: 12px; }
-.category strong { display: block; font-size: 14px; }
-.category small { display:block; color:var(--muted); margin-top:8px; }
-.category.soon { border-color: var(--green); }
-.products {
-  margin-top: 35px;
-  background: var(--card);
-  border: 1px solid #382747;
-  border-radius: 15px;
-  padding: 20px;
+
+.category:active {
+  transform: scale(.97);
+}
+
+.category:hover {
+  border-color: #A855F7;
+  box-shadow: 0 0 20px #7E22CE30;
+}
+
+.phone {
+  width: 105px;
+  height: 155px;
+  margin: 0 auto 18px;
+  padding: 7px;
+  border-radius: 21px;
+  background: #050505;
+  border: 2px solid #777;
+  box-shadow: 0 8px 25px #0009;
+  position: relative;
+}
+
+.phone::before {
+  content: "";
+  width: 35px;
+  height: 5px;
+  border-radius: 10px;
+  background: #444;
+  position: absolute;
+  top: 5px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 2;
+}
+
+.screen {
+  height: 100%;
+  border-radius: 14px;
+  background: linear-gradient(160deg, #35105C, #11091A);
+  display: flex;
+  flex-wrap: wrap;
+  align-content: center;
+  justify-content: center;
+  gap: 9px;
+  padding: 15px 5px 5px;
+}
+
+.app {
+  width: 34px;
+  height: 34px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 19px;
+  background: #30223D;
+}
+
+.snap { background: #FFEB00; }
+.pubg { background: #39352D; }
+.pool { background: #176DAB; }
+
+.category h3 {
+  font-size: 16px;
+  margin-bottom: 8px;
+}
+
+.category p {
+  color: #BBAACB;
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+.details {
+  display: none;
+  margin: 0 7% 45px;
+  padding: 25px;
+  border: 1px solid #6B21A8;
+  border-radius: 18px;
+  background: #1C1028;
   text-align: center;
 }
-.products p { color: var(--muted); line-height: 1.8; }
+
+.details h2 {
+  margin-bottom: 12px;
+  color: #C084FC;
+}
+
+.details p {
+  color: #C9BBD5;
+  line-height: 1.8;
+}
+
+.details button {
+  margin-top: 18px;
+  background: #6B21A8;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  padding: 12px 25px;
+  cursor: pointer;
+}
+
 footer {
   text-align: center;
-  padding: 30px 12px;
-  color: var(--muted);
+  padding: 25px;
+  border-top: 1px solid #29163C;
+  color: #8F7A9F;
   font-size: 12px;
 }
-@media(min-width:600px) {
-  .categories { grid-template-columns: repeat(3,1fr); }
+
+@media (min-width: 700px) {
+  .categories {
+    grid-template-columns: repeat(3, 1fr);
+  }
 }
 </style>
 </head>
+
 <body>
 
 <header>
-  <div class="top">
-    <div class="logo">JOKER <span>PLUS</span></div>
-    <button class="lang" onclick="toggleLang()">EN | AR</button>
-  </div>
+  <div class="logo">JOKER PLUS</div>
+  <button class="language" onclick="toggleLanguage()">AR | EN</button>
 </header>
 
-<div class="hero">
-  <div class="joker">🃏</div>
-  <h1>JOKER <span>PLUS</span></h1>
-  <p id="subtitle">وجهتك للخدمات الرقمية والتطبيقات المميزة</p>
-</div>
+<section class="hero">
+  <h1 id="welcome">مرحباً بك في <span>JOKER PLUS</span></h1>
+  <p id="subtitle">وجهتك للخدمات الرقمية والتطبيقات والألعاب</p>
+</section>
 
-<main>
-  <h2 class="section-title" id="sectionTitle">استكشف الأقسام</h2>
-  <div class="categories" id="categories"></div>
+<h2 class="section-title" id="sectionTitle">استكشف الأقسام</h2>
 
-  <div class="products" id="products">
-    <div style="font-size:30px">♠️</div>
-    <h3 id="productTitle">مرحباً بك في JOKER PLUS</h3>
-    <p id="productText">اختر أحد الأقسام بالأعلى لاستكشاف الباقات والخدمات المتاحة.</p>
+<section class="categories">
+
+  <div class="category" onclick="showDetails('apps')">
+    <div class="phone">
+      <div class="screen">
+        <div class="app">▶️</div>
+        <div class="app">🎵</div>
+        <div class="app">📸</div>
+        <div class="app">🎬</div>
+      </div>
+    </div>
+    <h3 data-ar="تطبيقات بلس" data-en="Premium Apps">تطبيقات بلس</h3>
+    <p data-ar="تطبيقات وخدمات مميزة" data-en="Premium apps and services">تطبيقات وخدمات مميزة</p>
   </div>
-</main>
+
+  <div class="category" onclick="showDetails('games')">
+    <div class="phone">
+      <div class="screen">
+        <div class="app snap">👻</div>
+        <div class="app pubg">🎮</div>
+        <div class="app pool">🎱</div>
+      </div>
+    </div>
+    <h3 data-ar="أكواد سناب وألعاب" data-en="Snap & Games Codes">أكواد سناب وألعاب</h3>
+    <p data-ar="سناب شات وببجي وبلياردو" data-en="Snapchat, PUBG & Pool">سناب شات وببجي وبلياردو</p>
+  </div>
+
+  <div class="category" onclick="showDetails('social')">
+    <div class="phone">
+      <div class="screen">
+        <div class="app">📷</div>
+        <div class="app">▶️</div>
+        <div class="app">💬</div>
+        <div class="app">❤️</div>
+      </div>
+    </div>
+    <h3 data-ar="تيك توك وإنستغرام" data-en="TikTok & Instagram">تيك توك وإنستغرام</h3>
+    <p data-ar="خدمات التواصل الاجتماعي" data-en="Social media services">خدمات التواصل الاجتماعي</p>
+  </div>
+
+  <div class="category" onclick="showDetails('iptv')">
+    <div class="phone">
+      <div class="screen">
+        <div class="app">📺</div>
+        <div class="app">🎞️</div>
+        <div class="app">🍿</div>
+        <div class="app">▶️</div>
+      </div>
+    </div>
+    <h3 data-ar="خدمات IPTV" data-en="IPTV Services">خدمات IPTV</h3>
+    <p data-ar="خدمات المشاهدة والترفيه" data-en="Streaming and entertainment">خدمات المشاهدة والترفيه</p>
+  </div>
+
+  <div class="category" onclick="showDetails('stores')">
+    <div class="phone">
+      <div class="screen">
+        <div class="app">🍎</div>
+        <div class="app">🎮</div>
+        <div class="app">🛍️</div>
+        <div class="app">💳</div>
+      </div>
+    </div>
+    <h3 data-ar="أكواد ستور" data-en="Store Codes">أكواد ستور</h3>
+    <p data-ar="أكواد وشحن المتاجر" data-en="Store codes and top-ups">أكواد وشحن المتاجر</p>
+  </div>
+
+  <div class="category" onclick="showDetails('soon')">
+    <div class="phone">
+      <div class="screen">
+        <div style="font-size:38px;color:#C084FC">✦</div>
+        <div style="color:#C084FC;font-size:12px">SOON</div>
+      </div>
+    </div>
+    <h3>SOON</h3>
+    <p data-ar="خدمات جديدة قريباً" data-en="New services coming soon">خدمات جديدة قريباً</p>
+  </div>
+
+</section>
+
+<section class="details" id="details">
+  <h2 id="detailTitle"></h2>
+  <p id="detailText"></p>
+  <button onclick="closeDetails()" id="closeButton">إغلاق</button>
+</section>
 
 <footer>
-  JOKER PLUS © 2026
-  <p id="footerText">جميع الحقوق محفوظة</p>
+  © 2026 JOKER PLUS — All Rights Reserved
 </footer>
 
 <script>
-let lang = localStorage.getItem("jokerLang") || "ar";
+let english = false;
 
-const data = {
- ar: {
-  subtitle:"وجهتك للخدمات الرقمية والتطبيقات المميزة",
-  section:"استكشف الأقسام",
-  welcome:"مرحباً بك في JOKER PLUS",
-  instruction:"اختر أحد الأقسام بالأعلى لاستكشاف الباقات والخدمات المتاحة.",
-  footer:"جميع الحقوق محفوظة",
-  cats:[
-   ["📱","تطبيقات بلس","تطبيقات وخدمات مميزة"],
-   ["🎮","أكواد سناب وألعاب","أكواد وخدمات الألعاب"],
-   ["📸","خدمات تيك توك وإنستغرام","خدمات التواصل الاجتماعي"],
-   ["📺","خدمات IPTV","خدمات البث المرخصة"],
-   ["🎟️","خدمات أكواد ستور","بطاقات وأكواد رقمية"],
-   ["⏳","SOON","قريباً"]
-  ]
- },
- en: {
-  subtitle:"Your destination for premium digital services",
-  section:"Explore Categories",
-  welcome:"Welcome to JOKER PLUS",
-  instruction:"Choose a category above to explore available services.",
-  footer:"All rights reserved",
-  cats:[
-   ["📱","Plus Apps","Premium apps and services"],
-   ["🎮","Snap & Gaming Codes","Gaming codes and services"],
-   ["📸","TikTok & Instagram","Social media services"],
-   ["📺","IPTV Services","Licensed streaming services"],
-   ["🎟️","Store Codes","Digital cards and codes"],
-   ["⏳","SOON","Coming soon"]
-  ]
- }
+const content = {
+  apps: ["تطبيقات بلس", "قريباً ستجد هنا باقات التطبيقات والخدمات المميزة."],
+  games: ["أكواد سناب وألعاب", "سناب شات وببجي وبلياردو. ستضاف الباقات والأسعار قريباً."],
+  social: ["تيك توك وإنستغرام", "خدمات التواصل الاجتماعي ستتوفر هنا قريباً."],
+  iptv: ["خدمات IPTV", "باقات المشاهدة والترفيه ستتوفر هنا قريباً."],
+  stores: ["أكواد ستور", "أكواد المتاجر والشحن ستتوفر هنا قريباً."],
+  soon: ["قريباً", "نجهز لك خدمات جديدة ومميزة."]
 };
 
-function render() {
- const d = data[lang];
- document.documentElement.lang = lang;
- document.documentElement.dir = lang === "ar" ? "rtl" : "ltr";
- document.getElementById("subtitle").textContent=d.subtitle;
- document.getElementById("sectionTitle").textContent=d.section;
- document.getElementById("productTitle").textContent=d.welcome;
- document.getElementById("productText").textContent=d.instruction;
- document.getElementById("footerText").textContent=d.footer;
- document.querySelector(".lang").textContent=lang==="ar"?"EN | AR":"AR | EN";
- document.getElementById("categories").innerHTML=d.cats.map((c,i)=>`
- <button class="category ${i===5?'soon':''}" onclick="selectCategory(${i})">
- <div class="icon">${c[0]}</div>
- <strong>${c[1]}</strong>
- <small>${c[2]}</small>
- </button>`).join("");
+function showDetails(category) {
+  const details = document.getElementById("details");
+  const item = content[category];
+  document.getElementById("detailTitle").textContent = english
+    ? ({
+      apps:"Premium Apps",games:"Snap & Games Codes",
+      social:"TikTok & Instagram",iptv:"IPTV Services",
+      stores:"Store Codes",soon:"Coming Soon"
+    })[category]
+    : item[0];
+  document.getElementById("detailText").textContent = english
+    ? "Packages and prices will be available here soon."
+    : item[1];
+  details.style.display = "block";
+  details.scrollIntoView({behavior:"smooth"});
 }
-function toggleLang() {
- lang=lang==="ar"?"en":"ar";
- localStorage.setItem("jokerLang",lang);
- render();
+
+function closeDetails() {
+  document.getElementById("details").style.display = "none";
 }
-function selectCategory(i) {
- const c=data[lang].cats[i];
- document.getElementById("productTitle").textContent=c[1];
- document.getElementById("productText").textContent=
- i===5 ? (lang==="ar"?"هذا القسم قادم قريباً.":"This section is coming soon.")
- : (lang==="ar"?"سيتم إضافة الباقات والخدمات لهذا القسم قريباً.":"Packages and services will be added here soon.");
- document.getElementById("products").scrollIntoView({behavior:"smooth"});
+
+function toggleLanguage() {
+  english = !english;
+  document.documentElement.lang = english ? "en" : "ar";
+  document.documentElement.dir = english ? "ltr" : "rtl";
+
+  document.getElementById("welcome").innerHTML = english
+    ? 'Welcome to <span>JOKER PLUS</span>'
+    : 'مرحباً بك في <span>JOKER PLUS</span>';
+
+  document.getElementById("subtitle").textContent = english
+    ? "Your destination for digital services, apps and games"
+    : "وجهتك للخدمات الرقمية والتطبيقات والألعاب";
+
+  document.getElementById("sectionTitle").textContent =
+    english ? "Explore Categories" : "استكشف الأقسام";
+
+  document.querySelectorAll("[data-ar]").forEach(el => {
+    el.textContent = english ? el.dataset.en : el.dataset.ar;
+  });
+
+  document.getElementById("closeButton").textContent =
+    english ? "Close" : "إغلاق";
+
+  document.querySelector(".language").textContent =
+    english ? "EN | AR" : "AR | EN";
 }
-render();
 </script>
+
 </body>
 </html>
