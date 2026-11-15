@@ -6,6 +6,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#09080c">
 <title>JOKER PLUS | متجر الجوكر</title>
+
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <style>
@@ -29,40 +30,37 @@ header { text-align:center; padding:38px 18px 25px; }
 .logo { font-size:34px; font-weight:900; letter-spacing:2px; }
 .logo span { color:var(--purple-light); }
 .logo-line {
-  width:55px; height:2px; margin:13px auto;
+  width:55px;height:2px;margin:13px auto;
   background:linear-gradient(90deg,var(--purple),var(--red));
   border-radius:10px;
 }
-header p { color:var(--muted); font-size:13px; margin:8px 0; }
-main { max-width:1150px; margin:auto; padding:10px 20px 50px; }
+header p { color:var(--muted);font-size:13px;margin:8px 0; }
+main { max-width:1150px;margin:auto;padding:10px 20px 50px; }
 .section-heading {
-  display:flex; align-items:center; justify-content:space-between;
+  display:flex;align-items:center;justify-content:space-between;
   margin:15px 0 20px;
 }
-.section-heading h2 { font-size:19px; margin:0; }
-.section-heading span { color:var(--muted); font-size:11px; }
+.section-heading h2 { font-size:19px;margin:0; }
+.section-heading span { color:var(--muted);font-size:11px; }
 .sections {
-  display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:18px;
+  display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px;
 }
 .section-card {
-  min-width:0;
-  background:linear-gradient(155deg,#17121e,#0e0c12);
-  border:1px solid var(--border); border-radius:20px;
-  padding:14px; overflow:hidden; box-shadow:0 12px 30px #0005;
-  transition:.25s;
+  min-width:0;background:linear-gradient(155deg,#17121e,#0e0c12);
+  border:1px solid var(--border);border-radius:20px;padding:14px;
+  overflow:hidden;box-shadow:0 12px 30px #0005;transition:.25s;
 }
-.section-card:hover { border-color:#68438b; transform:translateY(-3px); }
+.section-card:hover { border-color:#68438b;transform:translateY(-3px); }
 
-/* الهواتف */
 .phone-stage {
-  width:100%; height:285px; display:flex; justify-content:center;
-  align-items:center; overflow:hidden; position:relative;
+  width:100%;height:285px;display:flex;justify-content:center;
+  align-items:center;overflow:hidden;position:relative;
   background:radial-gradient(ellipse at center,#54247a44,transparent 68%);
   perspective:900px;
 }
 .phone {
-  width:150px; height:260px; flex:none; padding:7px;
-  position:relative; border-radius:30px;
+  width:150px;height:260px;flex:none;padding:7px;position:relative;
+  border-radius:30px;
   background:linear-gradient(110deg,#17131e 0%,#a69aaf 8%,#49404f 13%,#17131e 23%,#777080 50%,#211b29 75%,#a69aaf 92%,#211b29 100%);
   box-shadow:8px 12px 0 #100b16,12px 18px 0 #08060b,0 25px 35px #000b,0 0 22px #8d56b333,inset 0 0 0 1px #e8d9f5aa;
   transform:rotateY(-9deg) rotateX(3deg);
@@ -70,190 +68,178 @@ main { max-width:1150px; margin:auto; padding:10px 20px 50px; }
 }
 .section-card:hover .phone {
   transform:rotateY(-3deg) rotateX(1deg) translateY(-3px);
-  box-shadow:5px 9px 0 #100b16,9px 14px 0 #08060b,0 30px 40px #000c,0 0 28px #a77ad055,inset 0 0 0 1px #e8d9f5aa;
 }
 .phone::before {
-  content:""; position:absolute; right:-4px; top:58px;
-  width:4px; height:45px; border-radius:0 4px 4px 0;
-  background:linear-gradient(90deg,#49404f,#b9adbf,#302737);
+  content:"";position:absolute;right:-4px;top:58px;width:4px;height:45px;
+  border-radius:0 4px 4px 0;background:linear-gradient(90deg,#49404f,#b9adbf,#302737);
 }
 .phone::after {
-  content:""; position:absolute; left:-4px; top:67px;
-  width:4px; height:36px; border-radius:4px 0 0 4px;
-  background:linear-gradient(90deg,#b9adbf,#49404f);
+  content:"";position:absolute;left:-4px;top:67px;width:4px;height:36px;
+  border-radius:4px 0 0 4px;background:linear-gradient(90deg,#b9adbf,#49404f);
 }
 .phone-screen {
-  width:100%; height:100%; border-radius:23px; overflow:hidden;
-  position:relative;
+  width:100%;height:100%;border-radius:23px;overflow:hidden;position:relative;
   background:radial-gradient(ellipse at 50% 20%,#35105c,#100b18 65%,#08070b);
-  padding:20px 9px 10px; box-shadow:inset 0 0 0 1px #ffffff20;
+  padding:20px 9px 10px;box-shadow:inset 0 0 0 1px #ffffff20;
 }
-.phone-time { position:absolute; top:8px; right:12px; font-size:7px; color:#eee; z-index:2; }
+.phone-time {
+  position:absolute;top:8px;right:12px;font-size:7px;color:#eee;z-index:2;
+}
 .phone-brand {
-  text-align:center; font-size:9px; font-weight:900;
-  letter-spacing:1.5px; color:#d8c4ed; margin:5px 0 13px;
+  text-align:center;font-size:9px;font-weight:900;letter-spacing:1.5px;
+  color:#d8c4ed;margin:5px 0 13px;
 }
 .app-grid {
-  display:grid; grid-template-columns:repeat(3,1fr);
-  gap:12px 5px; justify-items:center;
+  display:grid;grid-template-columns:repeat(3,1fr);gap:12px 5px;
+  justify-items:center;
 }
-.app-item { display:flex; flex-direction:column; align-items:center; min-width:0; }
+.app-item { display:flex;flex-direction:column;align-items:center;min-width:0; }
 .app-icon {
-  width:29px; height:29px; border-radius:9px;
-  display:flex; justify-content:center; align-items:center;
-  overflow:hidden; background:#fff; box-shadow:0 3px 8px #0008;
+  width:29px;height:29px;border-radius:9px;display:flex;
+  justify-content:center;align-items:center;overflow:hidden;
+  background:#fff;box-shadow:0 3px 8px #0008;
 }
-.app-icon img { width:100%; height:100%; object-fit:contain; display:block; }
-.app-name { font-size:6px; color:#ddd3e7; margin-top:4px; text-align:center; white-space:nowrap; }
-
-/* سناب */
+.app-icon img { width:100%;height:100%;object-fit:contain;display:block; }
+.app-name {
+  font-size:6px;color:#ddd3e7;margin-top:4px;text-align:center;white-space:nowrap;
+}
 .snapchat-screen {
-  height:100%; width:100%; display:flex; flex-direction:column;
-  align-items:center; justify-content:center;
+  height:100%;width:100%;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
   background:radial-gradient(circle at 50% 40%,#29200a,#100e0a 65%,#080807);
 }
 .snapchat-logo {
-  width:105px; height:105px; display:flex; align-items:center;
-  justify-content:center; border-radius:27px; background:#fffc00;
+  width:105px;height:105px;display:flex;align-items:center;
+  justify-content:center;border-radius:27px;background:#fffc00;
   box-shadow:0 0 30px #fffc0044,0 10px 25px #0008,inset 0 2px 5px #ffffffaa;
 }
-.snapchat-logo img { width:75px; height:75px; object-fit:contain; }
-.snapchat-caption {
-  color:#fffc00; font-size:10px; font-weight:bold;
-  letter-spacing:2px; margin-top:17px;
-}
+.snapchat-logo img { width:75px;height:75px;object-fit:contain; }
+.snapchat-caption { color:#fffc00;font-size:10px;font-weight:bold;letter-spacing:2px;margin-top:17px; }
 .phone-coming {
-  height:100%; display:flex; flex-direction:column;
-  align-items:center; justify-content:center; text-align:center;
+  height:100%;display:flex;flex-direction:column;align-items:center;
+  justify-content:center;text-align:center;
 }
-.phone-coming strong { font-size:12px; letter-spacing:2px; color:#e3c8ff; }
-.phone-coming span { font-size:7px; color:#a99ab5; margin-top:8px; }
-.custom-phone-image { width:100%; height:100%; object-fit:cover; border-radius:20px; }
+.phone-coming strong { font-size:12px;letter-spacing:2px;color:#e3c8ff; }
+.phone-coming span { font-size:7px;color:#a99ab5;margin-top:8px; }
+.custom-phone-image { width:100%;height:100%;object-fit:cover;border-radius:20px; }
 .phone-footer {
-  position:absolute; bottom:9px; left:50%; transform:translateX(-50%);
-  width:48px; height:3px; border-radius:5px; background:#ffffff90;
+  position:absolute;bottom:9px;left:50%;transform:translateX(-50%);
+  width:48px;height:3px;border-radius:5px;background:#ffffff90;
 }
 
-/* بطاقات شحن PlayStation */
+/* بطاقات الشحن */
 .store-stage {
-  width:100%; height:285px; display:flex; align-items:center;
-  justify-content:center; position:relative; overflow:hidden;
-  perspective:900px;
+  width:100%;height:285px;display:flex;align-items:center;
+  justify-content:center;position:relative;overflow:hidden;perspective:900px;
   background:radial-gradient(ellipse at center,#54247a55,transparent 68%);
 }
-.store-cards { width:190px; height:225px; position:relative; transform-style:preserve-3d; }
+.store-cards { width:190px;height:225px;position:relative;transform-style:preserve-3d; }
 .store-card {
-  position:absolute; width:132px; height:190px; border-radius:15px;
+  position:absolute;width:132px;height:190px;border-radius:15px;
   border:1px solid #b99ad7;
   background:radial-gradient(circle at 80% 15%,#7545a0 0,transparent 42%),linear-gradient(145deg,#30203e,#100d17 68%);
   box-shadow:0 16px 28px #000a,inset 0 1px 0 #ffffff35;
 }
 .store-card.back-one {
-  left:4px; top:18px; transform:rotate(-17deg) translateZ(-22px);
+  left:4px;top:18px;transform:rotate(-17deg) translateZ(-22px);
   background:linear-gradient(145deg,#4c2670,#17101f 75%);
 }
 .store-card.back-two {
-  right:4px; top:12px; transform:rotate(15deg) translateZ(-12px);
+  right:4px;top:12px;transform:rotate(15deg) translateZ(-12px);
   background:linear-gradient(145deg,#60338a,#17101f 75%);
 }
 .store-card.front {
-  left:29px; top:16px; display:flex; align-items:center; justify-content:center;
+  left:29px;top:16px;display:flex;align-items:center;justify-content:center;
   transform:rotateY(-9deg) rotateX(3deg);
   box-shadow:8px 12px 0 #100b16,0 25px 35px #000b,0 0 25px #a77ad044,inset 0 1px 0 #ffffff55;
   transition:transform .35s ease;
 }
 .section-card:hover .store-card.front { transform:rotateY(-3deg) rotateX(1deg) translateY(-4px); }
-.store-card.front img {
-  width:75px; height:75px; object-fit:contain;
-  filter:drop-shadow(0 5px 12px #0009);
-}
+.store-card.front img { width:75px;height:75px;object-fit:contain;filter:drop-shadow(0 5px 12px #0009); }
 
-/* تلفزيون IPTV */
+/* التلفزيون */
 .tv-stage {
-  width:100%; height:285px; display:flex; align-items:center;
-  justify-content:center; position:relative; overflow:hidden;
-  perspective:900px;
+  width:100%;height:285px;display:flex;align-items:center;
+  justify-content:center;position:relative;overflow:hidden;perspective:900px;
   background:radial-gradient(ellipse at center,#54247a55,transparent 68%);
 }
 .tv-set {
-  width:min(245px,92%); position:relative; padding-bottom:25px;
-  filter:drop-shadow(0 22px 18px #0009);
-  transform:rotateY(-5deg); transition:transform .35s ease;
+  width:min(245px,92%);position:relative;padding-bottom:25px;
+  filter:drop-shadow(0 22px 18px #0009);transform:rotateY(-5deg);
+  transition:transform .35s ease;
 }
 .section-card:hover .tv-set { transform:rotateY(0deg) translateY(-3px); }
 .tv-screen {
-  width:100%; aspect-ratio:16/10; border:7px solid #24202b;
-  border-bottom-width:10px; border-radius:13px;
-  display:flex; align-items:center; justify-content:center;
-  position:relative; overflow:hidden;
+  width:100%;aspect-ratio:16/10;border:7px solid #24202b;
+  border-bottom-width:10px;border-radius:13px;display:flex;
+  align-items:center;justify-content:center;position:relative;overflow:hidden;
   background:radial-gradient(ellipse at 50% 35%,#54247a 0,#21112f 48%,#08070b 100%);
   box-shadow:inset 0 0 0 1px #ffffff45,0 0 0 1px #8e78a0;
 }
 .tv-screen::before {
-  content:""; position:absolute; inset:0;
+  content:"";position:absolute;inset:0;
   background:linear-gradient(120deg,#ffffff12,transparent 35%,#ffffff08 65%,transparent);
   pointer-events:none;
 }
 .tv-logo {
-  color:#f7f4fa; font-size:clamp(19px,5vw,27px);
-  font-weight:900; letter-spacing:1.4px;
-  text-shadow:0 0 18px #b77be8aa; direction:ltr;
+  color:#f7f4fa;font-size:clamp(19px,5vw,27px);font-weight:900;
+  letter-spacing:1.4px;text-shadow:0 0 18px #b77be8aa;direction:ltr;
 }
 .tv-logo span { color:#c79be9; }
 .tv-indicator {
-  position:absolute; bottom:3px; left:50%; transform:translateX(-50%);
-  width:4px; height:4px; border-radius:50%;
-  background:#bd8de7; box-shadow:0 0 7px #bd8de7;
+  position:absolute;bottom:3px;left:50%;transform:translateX(-50%);
+  width:4px;height:4px;border-radius:50%;background:#bd8de7;
+  box-shadow:0 0 7px #bd8de7;
 }
 .tv-stand {
-  width:65px; height:17px; margin:-1px auto 0;
+  width:65px;height:17px;margin:-1px auto 0;
   background:linear-gradient(90deg,#17131e,#5c5364 50%,#17131e);
   clip-path:polygon(39% 0,61% 0,76% 72%,100% 100%,0 100%,24% 72%);
 }
 .tv-base {
-  width:105px; height:7px; margin:-1px auto 0; border-radius:50%;
+  width:105px;height:7px;margin:-1px auto 0;border-radius:50%;
   background:linear-gradient(180deg,#71687a,#211b29 75%);
   box-shadow:0 5px 9px #0009;
 }
 
-/* معلومات الأقسام */
-.section-card h3 { font-size:15px; margin:15px 3px 7px; }
-.section-description { font-size:12px; color:var(--muted); line-height:1.7; margin:0 3px 13px; }
-.services { display:grid; gap:10px; }
-.service { border-top:1px solid #2a2230; padding:12px 2px 0; }
-.service-title { font-size:13px; font-weight:bold; }
-.service-description { font-size:11px; color:var(--muted); line-height:1.7; margin:6px 0; }
-.price { color:#d2b2f0; font-size:13px; font-weight:bold; margin:8px 0; }
+.section-card h3 { font-size:15px;margin:15px 3px 7px; }
+.section-description { font-size:12px;color:var(--muted);line-height:1.7;margin:0 3px 13px; }
+.services { display:grid;gap:10px; }
+.service { border-top:1px solid #2a2230;padding:12px 2px 0; }
+.service-title { font-size:13px;font-weight:bold; }
+.service-description { font-size:11px;color:var(--muted);line-height:1.7;margin:6px 0; }
+.price { color:#d2b2f0;font-size:13px;font-weight:bold;margin:8px 0; }
 .buy-button {
-  display:block; text-decoration:none; text-align:center; padding:11px;
-  border-radius:11px; background:linear-gradient(100deg,#35105c,#51227b);
-  color:white; font-size:12px; font-weight:bold; transition:.2s;
+  display:block;text-decoration:none;text-align:center;padding:11px;
+  border-radius:11px;background:linear-gradient(100deg,#35105c,#51227b);
+  color:white;font-size:12px;font-weight:bold;transition:.2s;
 }
 .buy-button:hover { background:linear-gradient(100deg,#51227b,#35105c); }
-.empty { font-size:12px; color:#81778a; padding:9px 2px; }
+.empty { font-size:12px;color:#81778a;padding:9px 2px; }
 .loading-message,.error-message {
-  grid-column:1/-1; text-align:center; color:var(--muted);
-  padding:30px 10px; font-size:13px; line-height:1.8;
+  grid-column:1/-1;text-align:center;color:var(--muted);
+  padding:30px 10px;font-size:13px;line-height:1.8;
 }
 .error-message { color:#e8a1a8; }
 footer {
-  text-align:center; color:#756c7c; font-size:11px;
-  padding:25px 15px; border-top:1px solid #211a29;
+  text-align:center;color:#756c7c;font-size:11px;padding:25px 15px;
+  border-top:1px solid #211a29;
 }
-.footer-logo { font-size:16px; font-weight:bold; color:#c5a4df; margin-bottom:8px; }
+.footer-logo { font-size:16px;font-weight:bold;color:#c5a4df;margin-bottom:8px; }
 
 @media(max-width:700px) {
-  .sections { grid-template-columns:repeat(2,minmax(0,1fr)); gap:11px; }
+  .sections { grid-template-columns:repeat(2,minmax(0,1fr));gap:11px; }
   .section-card { padding:9px; }
-  .phone-stage,.store-stage,.tv-stage { height:285px; }
+  .phone-stage { height:285px; }
   .logo { font-size:29px; }
-  main { padding-right:13px; padding-left:13px; }
+  main { padding-right:13px;padding-left:13px; }
 }
 @media(max-width:390px) {
   .sections { grid-template-columns:1fr; }
+  .phone-stage { height:285px; }
 }
 @media(prefers-reduced-motion:reduce) {
-  .phone,.section-card,.store-card.front,.tv-set { transition:none; }
+  .phone,.section-card { transition:none; }
 }
 </style>
 </head>
@@ -285,7 +271,7 @@ footer {
 const SUPABASE_URL = "https://pvyqzpqqrqzpbzcpftvx.supabase.co";
 
 const SUPABASE_PUBLISHABLE_KEY =
-"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InB2eXF6cHFxcnF6cGJ6cGZ0dnh4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTQ3NTY0ODIsImV4cCI6MjExMDMzMjQ4Mn0.FRnb1AuTfOoW3CjJR_XdiGnS9ruHKJuwQt4WCfXUHGY";
+"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InB2eXF6cHFxcnF6cGJ6Y3BmdHZ4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTQ3NTY0ODIsImV4cCI6MjExMDMzMjQ4Mn0.FRnb1AuTfOoW3CjJR_XdiGnS9ruHKJuwQt4WCfXUHGY";
 
 const WHATSAPP_NUMBER = "96566985873";
 
@@ -372,22 +358,16 @@ function createAppIcon(app) {
   return `
     <div class="app-item">
       <div class="app-icon">
-        <img
-          src="${iconUrl(slug)}"
-          alt="${name}"
-          loading="lazy"
-          onerror="this.style.display='none';this.parentElement.textContent='${name.slice(0,1)}';"
-        >
+        <img src="${iconUrl(slug)}" alt="${name}" loading="lazy"
+          onerror="this.style.display='none';this.parentElement.textContent='${name.slice(0,1)}';">
       </div>
       <span class="app-name">${name}</span>
     </div>
   `;
 }
 
-/* تصميم القسم حسب نوعه */
+/* تصميم الأجهزة */
 function createPhone(section, customImage) {
-
-  /* أكواد ستور: بطاقات شحن وشعار PlayStation فقط */
   if (section.id === "store") {
     return `
       <div class="store-stage">
@@ -395,18 +375,15 @@ function createPhone(section, customImage) {
           <div class="store-card back-one"></div>
           <div class="store-card back-two"></div>
           <div class="store-card front">
-            <img
-              src="https://cdn.simpleicons.org/playstation/ffffff"
+            <img src="https://cdn.simpleicons.org/playstation/ffffff"
               alt="PlayStation"
-              onerror="this.style.display='none';this.parentElement.textContent='PS';this.parentElement.style.color='#fff';this.parentElement.style.fontSize='48px';this.parentElement.style.fontWeight='bold';"
-            >
+              onerror="this.style.display='none';this.parentElement.textContent='PS';this.parentElement.style.color='#fff';this.parentElement.style.fontSize='48px';this.parentElement.style.fontWeight='bold';">
           </div>
         </div>
       </div>
     `;
   }
 
-  /* IPTV: تلفزيون وشعار JOKER PLUS */
   if (section.id === "iptv") {
     return `
       <div class="tv-stage">
@@ -427,11 +404,9 @@ function createPhone(section, customImage) {
       <div class="phone-stage">
         <div class="phone">
           <div class="phone-screen" style="padding:0">
-            <img
-              class="custom-phone-image"
+            <img class="custom-phone-image"
               src="${escapeHTML(customImage)}"
-              alt="صورة ${escapeHTML(section.name)}"
-            >
+              alt="صورة ${escapeHTML(section.name)}">
           </div>
         </div>
       </div>
@@ -446,11 +421,9 @@ function createPhone(section, customImage) {
             <div class="phone-time">9:41</div>
             <div class="snapchat-screen">
               <div class="snapchat-logo">
-                <img
-                  src="https://cdn.simpleicons.org/snapchat/000000"
+                <img src="https://cdn.simpleicons.org/snapchat/000000"
                   alt="Snapchat"
-                  onerror="this.style.display='none';this.parentElement.textContent='👻';this.parentElement.style.fontSize='55px';"
-                >
+                  onerror="this.style.display='none';this.parentElement.textContent='👻';this.parentElement.style.fontSize='55px';">
               </div>
               <div class="snapchat-caption">SNAPCHAT</div>
             </div>
@@ -512,9 +485,7 @@ function whatsappLink(item) {
   const title = item.title || "طلب من متجر JOKER PLUS";
   const price = item.price ? " - السعر: " + item.price : "";
   const message = "السلام عليكم، أريد طلب: " + title + price;
-
-  return "https://wa.me/" + WHATSAPP_NUMBER +
-    "?text=" + encodeURIComponent(message);
+  return "https://wa.me/" + WHATSAPP_NUMBER + "?text=" + encodeURIComponent(message);
 }
 
 /* عرض المنتجات */
@@ -522,22 +493,10 @@ function createService(item) {
   return `
     <div class="service">
       <div class="service-title">${escapeHTML(item.title)}</div>
-      ${
-        item.description
-          ? `<div class="service-description">${escapeHTML(item.description)}</div>`
-          : ""
-      }
-      ${
-        item.price
-          ? `<div class="price">${escapeHTML(item.price)}</div>`
-          : ""
-      }
-      <a
-        class="buy-button"
-        href="${whatsappLink(item)}"
-        target="_blank"
-        rel="noopener noreferrer"
-      >
+      ${item.description ? `<div class="service-description">${escapeHTML(item.description)}</div>` : ""}
+      ${item.price ? `<div class="price">${escapeHTML(item.price)}</div>` : ""}
+      <a class="buy-button" href="${whatsappLink(item)}"
+        target="_blank" rel="noopener noreferrer">
         اطلب الآن عبر واتساب
       </a>
     </div>
@@ -546,26 +505,18 @@ function createService(item) {
 
 /* بناء القسم */
 function createSection(section, items, images) {
-  const sectionImage = images.find(
-    image => image.section === section.id
-  );
-
-  const sectionItems = items.filter(
-    item => item.section_key === section.id
-  );
+  const sectionImage = images.find(image => image.section === section.id);
+  const sectionItems = items.filter(item => item.section_key === section.id);
 
   return `
     <article class="section-card">
       ${createPhone(section, sectionImage?.image_url)}
       <h3>${escapeHTML(section.name)}</h3>
-      <p class="section-description">
-        ${escapeHTML(section.description)}
-      </p>
+      <p class="section-description">${escapeHTML(section.description)}</p>
       <div class="services">
-        ${
-          sectionItems.length
-            ? sectionItems.map(createService).join("")
-            : `<div class="empty">لا توجد منتجات متاحة حالياً</div>`
+        ${sectionItems.length
+          ? sectionItems.map(createService).join("")
+          : `<div class="empty">لا توجد منتجات متاحة حالياً</div>`
         }
       </div>
     </article>
