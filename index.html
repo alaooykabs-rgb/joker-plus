@@ -10,241 +10,365 @@
 
 <style>
 :root {
-  --bg: #09080c;
-  --card: #121018;
-  --purple: #35105c;
-  --purple-light: #a77ad0;
-  --red: #a6192e;
-  --white: #f7f4fa;
-  --muted: #aaa3b3;
-  --border: #33233f;
+  --bg:#09080c;
+  --card:#121018;
+  --purple:#35105c;
+  --purple-light:#a77ad0;
+  --red:#a6192e;
+  --white:#f7f4fa;
+  --muted:#aaa3b3;
+  --border:#33233f;
 }
 
-* { box-sizing: border-box; }
+*{box-sizing:border-box}
 
-body {
-  margin: 0;
+body{
+  margin:0;
   background:
-    radial-gradient(ellipse at 50% -15%, #28113d 0, transparent 48%),
+    radial-gradient(ellipse at 50% -15%,#28113d 0,transparent 48%),
     var(--bg);
-  color: var(--white);
-  font-family: Arial, sans-serif;
+  color:var(--white);
+  font-family:Arial,sans-serif;
 }
 
-header {
-  text-align: center;
-  padding: 38px 18px 25px;
+header{
+  text-align:center;
+  padding:38px 18px 25px;
 }
 
-.logo {
-  font-size: 34px;
-  font-weight: 900;
-  letter-spacing: 2px;
+.logo{
+  font-size:34px;
+  font-weight:900;
+  letter-spacing:2px;
 }
 
-.logo span { color: var(--purple-light); }
+.logo span{color:var(--purple-light)}
 
-.logo-line {
-  width: 55px;
-  height: 2px;
-  margin: 13px auto;
-  background: linear-gradient(90deg, var(--purple), var(--red));
-  border-radius: 10px;
+.logo-line{
+  width:55px;
+  height:2px;
+  margin:13px auto;
+  background:linear-gradient(90deg,var(--purple),var(--red));
+  border-radius:10px;
 }
 
-header p {
-  color: var(--muted);
-  font-size: 13px;
-  margin: 8px 0;
+header p{
+  color:var(--muted);
+  font-size:13px;
+  margin:8px 0;
 }
 
-main {
-  max-width: 1150px;
-  margin: auto;
-  padding: 10px 20px 50px;
+main{
+  max-width:1150px;
+  margin:auto;
+  padding:10px 20px 50px;
 }
 
-.section-heading {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin: 15px 0 20px;
+.section-heading{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  margin:15px 0 20px;
 }
 
-.section-heading h2 {
-  font-size: 19px;
-  margin: 0;
+.section-heading h2{
+  font-size:19px;
+  margin:0;
 }
 
-.section-heading span {
-  color: var(--muted);
-  font-size: 11px;
+.section-heading span{
+  color:var(--muted);
+  font-size:11px;
 }
 
-.sections {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 18px;
+.sections{
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:18px;
 }
 
-.section-card {
-  min-width: 0;
-  background: linear-gradient(155deg, #17121e, #0e0c12);
-  border: 1px solid var(--border);
-  border-radius: 20px;
-  padding: 12px;
-  overflow: hidden;
-  box-shadow: 0 12px 30px #0005;
-  transition: .25s;
+.section-card{
+  min-width:0;
+  background:linear-gradient(155deg,#17121e,#0e0c12);
+  border:1px solid var(--border);
+  border-radius:20px;
+  padding:14px;
+  overflow:hidden;
+  box-shadow:0 12px 30px #0005;
+  transition:.25s;
 }
 
-.section-card:hover {
-  border-color: #68438b;
-  transform: translateY(-3px);
+.section-card:hover{
+  border-color:#68438b;
+  transform:translateY(-3px);
 }
 
-.phone {
-  height: 210px;
-  border: 1px solid #554068;
-  border-radius: 17px;
-  background: linear-gradient(145deg, #1d1229, #0a090e);
-  overflow: hidden;
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+/* الهاتف */
+
+.phone-stage{
+  height:265px;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  background:
+    radial-gradient(ellipse,#35105c55,transparent 70%);
+  overflow:hidden;
 }
 
-.phone::before {
-  content: "";
-  position: absolute;
-  top: 7px;
-  width: 43px;
-  height: 5px;
-  border-radius: 9px;
-  background: #5a4b65;
-  z-index: 2;
+.phone{
+  position:relative;
+  width:143px;
+  height:250px;
+  padding:7px;
+  border-radius:27px;
+  background:linear-gradient(145deg,#77717f,#17151c 35%,#4a4350);
+  box-shadow:
+    0 12px 30px #000b,
+    0 0 0 1px #a99bb6,
+    inset 0 0 0 2px #08070a;
 }
 
-.phone img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
+.phone-screen{
+  width:100%;
+  height:100%;
+  border-radius:21px;
+  overflow:hidden;
+  position:relative;
+  background:
+    radial-gradient(ellipse at 50% 20%,#35105c,#100b18 65%,#08070b);
+  padding:20px 9px 10px;
 }
 
-.placeholder {
-  text-align: center;
-  color: #c9b2df;
-  font-size: 38px;
+.phone-screen::before{
+  content:"";
+  position:absolute;
+  width:48px;
+  height:12px;
+  background:#050407;
+  border-radius:20px;
+  top:6px;
+  left:50%;
+  transform:translateX(-50%);
+  z-index:3;
 }
 
-.placeholder small {
-  display: block;
-  font-size: 11px;
-  color: #a99ab5;
-  margin-top: 10px;
-  letter-spacing: 2px;
+.phone-screen::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  border-radius:21px;
+  box-shadow:inset 0 0 0 1px #ffffff20;
+  pointer-events:none;
 }
 
-.section-card h3 {
-  font-size: 15px;
-  margin: 15px 3px 7px;
+.phone-time{
+  position:absolute;
+  top:8px;
+  right:12px;
+  font-size:7px;
+  color:#eee;
+  z-index:2;
 }
 
-.section-description {
-  font-size: 12px;
-  color: var(--muted);
-  line-height: 1.7;
-  margin: 0 3px 13px;
+.phone-brand{
+  text-align:center;
+  font-size:9px;
+  font-weight:900;
+  letter-spacing:1.5px;
+  color:#d8c4ed;
+  margin:5px 0 13px;
 }
 
-.services {
-  display: grid;
-  gap: 10px;
+.app-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:12px 5px;
+  justify-items:center;
 }
 
-.service {
-  border-top: 1px solid #2a2230;
-  padding: 12px 2px 0;
+.app-icon{
+  width:29px;
+  height:29px;
+  border-radius:9px;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  overflow:hidden;
+  background:#fff;
+  box-shadow:0 3px 8px #0008;
 }
 
-.service-title {
-  font-size: 13px;
-  font-weight: bold;
+.app-icon img{
+  width:100%;
+  height:100%;
+  object-fit:contain;
+  display:block;
 }
 
-.service-description {
-  font-size: 11px;
-  color: var(--muted);
-  line-height: 1.7;
-  margin: 6px 0;
+.app-icon.netflix{
+  background:#080808;
+  color:#e50914;
+  font-size:24px;
+  font-weight:900;
 }
 
-.price {
-  color: #d2b2f0;
-  font-size: 13px;
-  font-weight: bold;
-  margin: 8px 0;
+.app-icon.apple{
+  background:#fff;
+  color:#111;
+  font-size:22px;
 }
 
-.buy-button {
-  display: block;
-  text-decoration: none;
-  text-align: center;
-  padding: 11px;
-  border-radius: 11px;
-  background: linear-gradient(100deg, #35105c, #51227b);
-  color: white;
-  font-size: 12px;
-  font-weight: bold;
-  transition: .2s;
+.app-icon.play{
+  background:#fff;
 }
 
-.buy-button:hover {
-  background: linear-gradient(100deg, #51227b, #35105c);
+.app-name{
+  font-size:6px;
+  color:#ddd3e7;
+  margin-top:4px;
+  text-align:center;
+  white-space:nowrap;
 }
 
-.empty {
-  font-size: 12px;
-  color: #81778a;
-  padding: 9px 2px;
+.app-item{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  min-width:0;
 }
 
-footer {
-  text-align: center;
-  color: #756c7c;
-  font-size: 11px;
-  padding: 25px 15px;
-  border-top: 1px solid #211a29;
+.phone-footer{
+  position:absolute;
+  bottom:9px;
+  left:50%;
+  transform:translateX(-50%);
+  width:48px;
+  height:3px;
+  border-radius:5px;
+  background:#ffffff90;
 }
 
-.footer-logo {
-  font-size: 16px;
-  font-weight: bold;
-  color: #c5a4df;
-  margin-bottom: 8px;
+.phone-coming{
+  height:100%;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
 }
 
-@media (max-width: 700px) {
-  .sections {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 11px;
+.phone-coming strong{
+  font-size:12px;
+  letter-spacing:2px;
+  color:#e3c8ff;
+}
+
+.phone-coming span{
+  font-size:7px;
+  color:#a99ab5;
+  margin-top:8px;
+}
+
+.section-card h3{
+  font-size:15px;
+  margin:15px 3px 7px;
+}
+
+.section-description{
+  font-size:12px;
+  color:var(--muted);
+  line-height:1.7;
+  margin:0 3px 13px;
+}
+
+.services{
+  display:grid;
+  gap:10px;
+}
+
+.service{
+  border-top:1px solid #2a2230;
+  padding:12px 2px 0;
+}
+
+.service-title{
+  font-size:13px;
+  font-weight:bold;
+}
+
+.service-description{
+  font-size:11px;
+  color:var(--muted);
+  line-height:1.7;
+  margin:6px 0;
+}
+
+.price{
+  color:#d2b2f0;
+  font-size:13px;
+  font-weight:bold;
+  margin:8px 0;
+}
+
+.buy-button{
+  display:block;
+  text-decoration:none;
+  text-align:center;
+  padding:11px;
+  border-radius:11px;
+  background:linear-gradient(100deg,#35105c,#51227b);
+  color:white;
+  font-size:12px;
+  font-weight:bold;
+  transition:.2s;
+}
+
+.buy-button:hover{
+  background:linear-gradient(100deg,#51227b,#35105c);
+}
+
+.empty{
+  font-size:12px;
+  color:#81778a;
+  padding:9px 2px;
+}
+
+footer{
+  text-align:center;
+  color:#756c7c;
+  font-size:11px;
+  padding:25px 15px;
+  border-top:1px solid #211a29;
+}
+
+.footer-logo{
+  font-size:16px;
+  font-weight:bold;
+  color:#c5a4df;
+  margin-bottom:8px;
+}
+
+@media(max-width:700px){
+  .sections{
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    gap:11px;
   }
 
-  .section-card { padding: 9px; }
-  .phone { height: 175px; }
-  .logo { font-size: 29px; }
+  .section-card{padding:9px}
+  .phone-stage{height:235px}
+  .phone{transform:scale(.88)}
+  .logo{font-size:29px}
 
-  main {
-    padding-right: 13px;
-    padding-left: 13px;
+  main{
+    padding-right:13px;
+    padding-left:13px;
   }
 }
 
-@media (max-width: 390px) {
-  .sections { grid-template-columns: 1fr; }
-  .phone { height: 230px; }
+@media(max-width:390px){
+  .sections{grid-template-columns:1fr}
+  .phone-stage{height:265px}
+  .phone{transform:scale(1)}
 }
 </style>
 </head>
@@ -280,7 +404,7 @@ const SUPABASE_URL =
 const SUPABASE_PUBLISHABLE_KEY =
 "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InB2eXF6cHFxcnF6cGJ6Y3BmdHZ4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTQ3NTY0ODIsImV4cCI6MjExMDMzMjQ4Mn0.FRnb1AuTfOoW3CjJR_XdiGnS9ruHKJuwQt4WCfXUHGY";
 
-const WHATSAPP_NUMBER = "965 66985873";
+const WHATSAPP_NUMBER = "96566985873";
 
 const db = window.supabase.createClient(
   SUPABASE_URL,
@@ -289,176 +413,310 @@ const db = window.supabase.createClient(
 
 const categories = [
   {
-    id: "apps",
-    name: "تطبيقات بلس",
-    description: "اشتراكات وتطبيقات مميزة",
-    icon: "✦"
+    id:"apps",
+    name:"تطبيقات بلس",
+    description:"اشتراكات وتطبيقات مميزة",
+    apps:[
+      ["Instagram","instagram","https://cdn.simpleicons.org/instagram/E4405F"],
+      ["Snapchat","snapchat","https://cdn.simpleicons.org/snapchat/FFFC00"],
+      ["TikTok","tiktok","https://cdn.simpleicons.org/tiktok/ffffff"],
+      ["Spotify","spotify","https://cdn.simpleicons.org/spotify/1DB954"],
+      ["YouTube","youtube","https://cdn.simpleicons.org/youtube/FF0000"],
+      ["WhatsApp","whatsapp","https://cdn.simpleicons.org/whatsapp/25D366"]
+    ]
   },
   {
-    id: "games",
-    name: "أكواد سناب وألعاب",
-    description: "أكواد وخدمات الألعاب",
-    icon: "♛"
+    id:"games",
+    name:"أكواد سناب وألعاب",
+    description:"أكواد وخدمات الألعاب",
+    apps:[
+      ["Snapchat","snapchat","https://cdn.simpleicons.org/snapchat/FFFC00"],
+      ["PlayStation","playstation","https://cdn.simpleicons.org/playstation/ffffff"],
+      ["Xbox","xbox","https://cdn.simpleicons.org/xbox/107C10"],
+      ["Steam","steam","https://cdn.simpleicons.org/steam/ffffff"],
+      ["Roblox","roblox","https://cdn.simpleicons.org/roblox/ffffff"],
+      ["Minecraft","minecraft","https://cdn.simpleicons.org/minecraft/62B47A"]
+    ]
   },
   {
-    id: "social",
-    name: "خدمات تيك توك وإنستغرام",
-    description: "خدمات منصات التواصل الاجتماعي",
-    icon: "◎"
+    id:"social",
+    name:"خدمات تيك توك وإنستغرام",
+    description:"خدمات منصات التواصل الاجتماعي",
+    apps:[
+      ["TikTok","tiktok","https://cdn.simpleicons.org/tiktok/ffffff"],
+      ["Instagram","instagram","https://cdn.simpleicons.org/instagram/E4405F"],
+      ["Snapchat","snapchat","https://cdn.simpleicons.org/snapchat/FFFC00"],
+      ["Facebook","facebook","https://cdn.simpleicons.org/facebook/0866FF"],
+      ["Telegram","telegram","https://cdn.simpleicons.org/telegram/26A5E4"],
+      ["YouTube","youtube","https://cdn.simpleicons.org/youtube/FF0000"]
+    ]
   },
   {
-    id: "iptv",
-    name: "خدمات IPTV",
-    description: "خدمات المشاهدة والترفيه",
-    icon: "▣"
+    id:"iptv",
+    name:"خدمات IPTV",
+    description:"خدمات المشاهدة والترفيه",
+    apps:[
+      ["Netflix","netflix","https://cdn.simpleicons.org/netflix/E50914"],
+      ["Shahid","shahid",null],
+      ["OSN","osn",null],
+      ["Prime Video","prime","https://cdn.simpleicons.org/primevideo/00A8E1"],
+      ["Disney+","disney","https://cdn.simpleicons.org/disneyplus/ffffff"],
+      ["YouTube","youtube","https://cdn.simpleicons.org/youtube/FF0000"]
+    ]
   },
   {
-    id: "store",
-    name: "خدمات أكواد ستور",
-    description: "أكواد ومتاجر رقمية",
-    icon: "◇"
+    id:"store",
+    name:"خدمات أكواد ستور",
+    description:"أكواد ومتاجر رقمية",
+    apps:[
+      ["Apple","apple",null],
+      ["Google Play","play","https://cdn.simpleicons.org/googleplay/34A853"],
+      ["PlayStation","playstation","https://cdn.simpleicons.org/playstation/ffffff"],
+      ["Xbox","xbox","https://cdn.simpleicons.org/xbox/107C10"],
+      ["Steam","steam","https://cdn.simpleicons.org/steam/ffffff"],
+      ["App Store","appstore","https://cdn.simpleicons.org/appstore/ffffff"]
+    ]
   },
   {
-    id: "soon",
-    name: "قريباً",
-    description: "خدمات جديدة بالطريق",
-    icon: "＋"
+    id:"soon",
+    name:"قريباً",
+    description:"خدمات جديدة بالطريق",
+    apps:[]
   }
 ];
 
-function createWhatsAppLink(item) {
+function createAppIcon(app){
+  const item = document.createElement("div");
+  item.className = "app-item";
+
+  const icon = document.createElement("div");
+  icon.className = "app-icon";
+
+  if(app[1] === "apple"){
+    icon.classList.add("apple");
+    icon.textContent = "●";
+  } else if(app[1] === "netflix"){
+    icon.classList.add("netflix");
+    icon.textContent = "N";
+  } else if(app[1] === "shahid" || app[1] === "osn"){
+    icon.classList.add("netflix");
+    icon.style.color = "#c7a0ee";
+    icon.style.fontSize = "11px";
+    icon.textContent = app[1] === "shahid" ? "شاهد" : "OSN";
+  } else if(app[1] === "play"){
+    icon.classList.add("play");
+  }
+
+  if(app[2]){
+    const img = document.createElement("img");
+    img.src = app[2];
+    img.alt = app[0];
+    img.loading = "lazy";
+
+    img.onerror = () => {
+      icon.innerHTML = "";
+      icon.textContent = app[0].slice(0,1);
+      icon.style.color = "#fff";
+      icon.style.background = "#35105c";
+    };
+
+    icon.appendChild(img);
+  } else if(app[1] === "play"){
+    icon.textContent = "▶";
+    icon.style.color = "#34A853";
+    icon.style.fontSize = "19px";
+  }
+
+  const name = document.createElement("div");
+  name.className = "app-name";
+  name.textContent = app[0];
+
+  item.appendChild(icon);
+  item.appendChild(name);
+
+  return item;
+}
+
+function createPhone(category,image){
+  const stage = document.createElement("div");
+  stage.className = "phone-stage";
+
+  const phone = document.createElement("div");
+  phone.className = "phone";
+
+  const screen = document.createElement("div");
+  screen.className = "phone-screen";
+
+  const time = document.createElement("div");
+  time.className = "phone-time";
+  time.textContent = "9:41";
+
+  screen.appendChild(time);
+
+  if(image && image.image_url){
+    const img = document.createElement("img");
+    img.src = image.image_url;
+    img.alt = category.name;
+    img.style.width = "100%";
+    img.style.height = "100%";
+    img.style.objectFit = "cover";
+    img.style.position = "absolute";
+    img.style.inset = "0";
+    screen.appendChild(img);
+  } else if(category.id === "soon"){
+    const coming = document.createElement("div");
+    coming.className = "phone-coming";
+
+    const title = document.createElement("strong");
+    title.textContent = "COMING SOON";
+
+    const subtitle = document.createElement("span");
+    subtitle.textContent = "JOKER PLUS";
+
+    coming.appendChild(title);
+    coming.appendChild(subtitle);
+    screen.appendChild(coming);
+  } else {
+    const brand = document.createElement("div");
+    brand.className = "phone-brand";
+    brand.textContent = "JOKER PLUS";
+
+    const grid = document.createElement("div");
+    grid.className = "app-grid";
+
+    category.apps.forEach(app => {
+      grid.appendChild(createAppIcon(app));
+    });
+
+    screen.appendChild(brand);
+    screen.appendChild(grid);
+  }
+
+  const footer = document.createElement("div");
+  footer.className = "phone-footer";
+
+  screen.appendChild(footer);
+  phone.appendChild(screen);
+  stage.appendChild(phone);
+
+  return stage;
+}
+
+function createWhatsAppLink(item){
   const message =
     `السلام عليكم، أرغب بطلب: ${item.title} - السعر: ${item.price}`;
 
   return `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
 }
 
-async function loadStore() {
+async function loadStore(){
   const root = document.getElementById("sections");
 
   root.innerHTML =
     "<p class='empty'>جاري تحميل المتجر...</p>";
 
-  const [itemsResult, imagesResult] = await Promise.all([
-    db
-      .from("store_items")
-      .select("*")
-      .eq("active", true)
-      .order("id"),
+  try{
+    const [itemsResult,imagesResult] = await Promise.all([
+      db.from("store_items")
+        .select("*")
+        .eq("active",true)
+        .order("id"),
 
-    db
-      .from("section_images")
-      .select("*")
-  ]);
+      db.from("section_images")
+        .select("*")
+    ]);
 
-  if (itemsResult.error || imagesResult.error) {
-    root.innerHTML =
-      "<p class='empty'>تعذر تحميل المتجر. تأكد من إعداد Supabase.</p>";
-    return;
-  }
-
-  const items = itemsResult.data || [];
-  const images = imagesResult.data || [];
-
-  root.innerHTML = "";
-
-  categories.forEach(category => {
-    const image = images.find(
-      item => item.section === category.id
-    );
-
-    const services = items.filter(
-      item => item.section === category.id
-    );
-
-    const card = document.createElement("article");
-    card.className = "section-card";
-
-    const phone = document.createElement("div");
-    phone.className = "phone";
-
-    if (image && image.image_url) {
-      const img = document.createElement("img");
-
-      img.src = image.image_url;
-      img.alt = category.name;
-      img.loading = "lazy";
-
-      img.onerror = () => {
-        phone.innerHTML =
-          `<div class="placeholder">${category.icon}<small>JOKER PLUS</small></div>`;
-      };
-
-      phone.appendChild(img);
-    } else {
-      phone.innerHTML =
-        `<div class="placeholder">${category.icon}<small>JOKER PLUS</small></div>`;
+    if(itemsResult.error || imagesResult.error){
+      throw new Error("Supabase loading error");
     }
 
-    const heading = document.createElement("h3");
-    heading.textContent = category.name;
+    const items = itemsResult.data || [];
+    const images = imagesResult.data || [];
 
-    const description = document.createElement("p");
-    description.className = "section-description";
-    description.textContent = category.description;
+    root.innerHTML = "";
 
-    const servicesContainer = document.createElement("div");
-    servicesContainer.className = "services";
+    categories.forEach(category => {
+      const image = images.find(
+        item => item.section === category.id
+      );
 
-    if (services.length === 0) {
-      const empty = document.createElement("div");
-      empty.className = "empty";
+      const services = items.filter(
+        item => item.section === category.id
+      );
 
-      empty.textContent =
-        category.id === "soon"
-          ? "قريباً..."
-          : "لا توجد خدمات حالياً";
+      const card = document.createElement("article");
+      card.className = "section-card";
 
-      servicesContainer.appendChild(empty);
-    }
+      card.appendChild(createPhone(category,image));
 
-    services.forEach(item => {
-      const service = document.createElement("div");
-      service.className = "service";
+      const heading = document.createElement("h3");
+      heading.textContent = category.name;
 
-      const title = document.createElement("div");
-      title.className = "service-title";
-      title.textContent = item.title;
+      const description = document.createElement("p");
+      description.className = "section-description";
+      description.textContent = category.description;
 
-      const detail = document.createElement("div");
-      detail.className = "service-description";
-      detail.textContent = item.description || "";
+      const servicesContainer = document.createElement("div");
+      servicesContainer.className = "services";
 
-      const price = document.createElement("div");
-      price.className = "price";
-      price.textContent = item.price || "السعر عند الطلب";
+      if(services.length === 0){
+        const empty = document.createElement("div");
+        empty.className = "empty";
+        empty.textContent =
+          category.id === "soon"
+            ? "قريباً..."
+            : "لا توجد خدمات حالياً";
 
-      service.appendChild(title);
-      service.appendChild(detail);
-      service.appendChild(price);
-
-      if (category.id !== "soon") {
-        const buy = document.createElement("a");
-
-        buy.className = "buy-button";
-        buy.href = createWhatsAppLink(item);
-        buy.target = "_blank";
-        buy.rel = "noopener";
-        buy.textContent = "شراء الآن";
-
-        service.appendChild(buy);
+        servicesContainer.appendChild(empty);
       }
 
-      servicesContainer.appendChild(service);
+      services.forEach(item => {
+        const service = document.createElement("div");
+        service.className = "service";
+
+        const title = document.createElement("div");
+        title.className = "service-title";
+        title.textContent = item.title;
+
+        const detail = document.createElement("div");
+        detail.className = "service-description";
+        detail.textContent = item.description || "";
+
+        const price = document.createElement("div");
+        price.className = "price";
+        price.textContent = item.price || "السعر عند الطلب";
+
+        service.appendChild(title);
+        service.appendChild(detail);
+        service.appendChild(price);
+
+        if(category.id !== "soon"){
+          const buy = document.createElement("a");
+
+          buy.className = "buy-button";
+          buy.href = createWhatsAppLink(item);
+          buy.target = "_blank";
+          buy.rel = "noopener";
+          buy.textContent = "شراء الآن";
+
+          service.appendChild(buy);
+        }
+
+        servicesContainer.appendChild(service);
+      });
+
+      card.appendChild(heading);
+      card.appendChild(description);
+      card.appendChild(servicesContainer);
+
+      root.appendChild(card);
     });
 
-    card.appendChild(phone);
-    card.appendChild(heading);
-    card.appendChild(description);
-    card.appendChild(servicesContainer);
-
-    root.appendChild(card);
-  });
+  }catch(error){
+    console.error(error);
+    root.innerHTML =
+      "<p class='empty'>تعذر تحميل المتجر. تأكد من إعداد Supabase.</p>";
+  }
 }
 
 loadStore();
