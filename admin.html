@@ -5,107 +5,353 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#09080c">
-<title>JOKER PLUS | لوحة التحكم</title>
+<title>JOKER PLUS | Admin</title>
+
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
 <style>
-:root{--bg:#09080c;--card:#15111b;--purple:#35105c;--red:#a6192e;--white:#f7f4fa;--muted:#aaa3b3}
+:root{
+  --bg:#09080c;
+  --card:#15111b;
+  --purple:#35105c;
+  --red:#a6192e;
+  --white:#f7f4fa;
+  --muted:#aaa3b3;
+  --border:#392746;
+}
+
 *{box-sizing:border-box}
-body{margin:0;background:radial-gradient(ellipse at 50% -15%,#28113d 0,transparent 48%),var(--bg);color:var(--white);font-family:Arial,sans-serif}
-header{text-align:center;padding:25px 15px}
-.logo{font-size:27px;font-weight:900;letter-spacing:2px}
+
+body{
+  margin:0;
+  background:
+    radial-gradient(ellipse at 50% -15%,#28113d 0,transparent 48%),
+    var(--bg);
+  color:var(--white);
+  font-family:Arial,sans-serif;
+}
+
+header{
+  text-align:center;
+  padding:28px 15px;
+}
+
+.logo{
+  font-size:28px;
+  font-weight:900;
+  letter-spacing:2px;
+}
+
 .logo span{color:#b98be7}
-header p{font-size:12px;color:var(--muted)}
-main{max-width:750px;margin:auto;padding:10px 16px 50px}
-.panel{background:var(--card);border:1px solid #392746;border-radius:17px;padding:18px;margin:14px 0}
-h2{font-size:17px;margin:0 0 15px}
-label{display:block;font-size:12px;color:#c6b8d1;margin:12px 0 6px}
-input,textarea,select{width:100%;padding:12px;background:#0b0910;color:white;border:1px solid #44344f;border-radius:10px;outline:none;font:inherit;font-size:13px}
-textarea{min-height:75px;resize:vertical}
-button{border:0;border-radius:10px;padding:12px 15px;background:linear-gradient(100deg,#35105c,#51227b);color:white;font-weight:bold;cursor:pointer;font-size:13px}
+
+header p{
+  font-size:12px;
+  color:var(--muted);
+}
+
+main{
+  max-width:750px;
+  margin:auto;
+  padding:10px 16px 50px;
+}
+
+.panel{
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:17px;
+  padding:18px;
+  margin:14px 0;
+}
+
+h2{
+  font-size:17px;
+  margin:0 0 15px;
+}
+
+label{
+  display:block;
+  font-size:12px;
+  color:#c6b8d1;
+  margin:12px 0 6px;
+}
+
+input,textarea,select{
+  width:100%;
+  padding:12px;
+  background:#0b0910;
+  color:white;
+  border:1px solid #44344f;
+  border-radius:10px;
+  outline:none;
+  font:inherit;
+  font-size:13px;
+}
+
+textarea{
+  min-height:75px;
+  resize:vertical;
+}
+
+button{
+  border:0;
+  border-radius:10px;
+  padding:12px 15px;
+  background:linear-gradient(100deg,#35105c,#51227b);
+  color:white;
+  font-weight:bold;
+  cursor:pointer;
+  font-size:13px;
+}
+
 button.danger{background:#681b2a}
 button.secondary{background:#302638}
-.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+
+.actions{
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
+  margin-top:12px;
+}
+
 .hidden{display:none!important}
-.status{font-size:12px;color:#d4b6f2;margin-top:12px;line-height:1.7}
-.item{border:1px solid #34283e;border-radius:12px;padding:12px;margin:10px 0;background:#100d15}
+
+.status{
+  font-size:12px;
+  color:#d4b6f2;
+  margin-top:12px;
+  line-height:1.7;
+}
+
+.item{
+  border:1px solid #34283e;
+  border-radius:12px;
+  padding:12px;
+  margin:10px 0;
+  background:#100d15;
+}
+
 .item strong{font-size:14px}
-.item p{font-size:12px;color:var(--muted);line-height:1.6}
+
+.item p{
+  font-size:12px;
+  color:var(--muted);
+  line-height:1.6;
+}
+
 .item small{color:#d5b5f2}
-.preview{width:100%;max-height:180px;object-fit:cover;border-radius:10px;margin-top:10px}
-hr{border:0;border-top:1px solid #33273c;margin:18px 0}
+
+.preview{
+  width:100%;
+  max-height:180px;
+  object-fit:cover;
+  border-radius:10px;
+  margin-top:10px;
+}
+
+hr{
+  border:0;
+  border-top:1px solid #33273c;
+  margin:18px 0;
+}
+
+.top-link{
+  color:#c9a8e8;
+  text-decoration:none;
+  font-size:12px;
+}
+
 </style>
 </head>
+
 <body>
+
 <header>
   <div class="logo">JOKER <span>PLUS</span></div>
   <p>لوحة الإدارة الخاصة</p>
 </header>
+
 <main>
-  <section class="panel" id="loginPanel">
-    <h2>تسجيل دخول المدير</h2>
-    <label>البريد الإلكتروني</label>
-    <input id="email" type="email" autocomplete="username" placeholder="البريد الإلكتروني">
-    <label>كلمة المرور</label>
-    <input id="password" type="password" autocomplete="current-password" placeholder="كلمة المرور">
-    <div class="actions"><button id="loginBtn">تسجيل الدخول</button></div>
-    <div class="status" id="loginStatus"></div>
-  </section>
 
-  <section id="dashboard" class="hidden">
-    <div class="panel">
-      <h2>مرحباً بك في لوحة التحكم</h2>
-      <div class="status">من هنا تقدر تعدّل صور الأقسام والخدمات والأسعار، والتغييرات تظهر في المتجر.</div>
-      <div class="actions"><button class="secondary" id="logoutBtn">تسجيل الخروج</button></div>
+<!-- تسجيل الدخول -->
+
+<section class="panel" id="loginPanel">
+
+  <h2>تسجيل دخول المدير</h2>
+
+  <label>البريد الإلكتروني</label>
+  <input
+    id="email"
+    type="email"
+    autocomplete="username"
+    placeholder="البريد الإلكتروني"
+  >
+
+  <label>كلمة المرور</label>
+  <input
+    id="password"
+    type="password"
+    autocomplete="current-password"
+    placeholder="كلمة المرور"
+  >
+
+  <div class="actions">
+    <button id="loginBtn">تسجيل الدخول</button>
+  </div>
+
+  <div class="status" id="loginStatus"></div>
+
+</section>
+
+
+<!-- لوحة التحكم -->
+
+<section id="dashboard" class="hidden">
+
+  <div class="panel">
+
+    <h2>مرحباً بك في لوحة التحكم</h2>
+
+    <div class="status">
+      تحكم بصور الأقسام والخدمات والأسعار من مكان واحد.
     </div>
 
-    <div class="panel">
-      <h2>تغيير صورة القسم</h2>
-      <label>اختر القسم</label>
-      <select id="imageSection"></select>
-      <label>اختر صورة من جهازك</label>
-      <input id="sectionFile" type="file" accept="image/jpeg,image/png,image/webp,image/gif">
-      <div class="actions"><button id="uploadImageBtn">رفع وحفظ الصورة</button></div>
-      <div class="status" id="imageStatus"></div>
+    <div class="actions">
+      <button class="secondary" id="logoutBtn">
+        تسجيل الخروج
+      </button>
+
+      <button class="secondary" id="refreshBtn">
+        تحديث البيانات
+      </button>
     </div>
 
-    <div class="panel">
-      <h2 id="formTitle">إضافة خدمة جديدة</h2>
-      <input type="hidden" id="itemId">
-      <label>القسم</label>
-      <select id="itemSection"></select>
-      <label>اسم الخدمة أو الباقة</label>
-      <input id="itemName" placeholder="مثال: اشتراك بلس">
-      <label>تفاصيل الخدمة</label>
-      <textarea id="itemDescription" placeholder="اكتب تفاصيل الخدمة"></textarea>
-      <label>السعر</label>
-      <input id="itemPrice" placeholder="مثال: 5 د.ك">
-      <label>حالة الخدمة</label>
-      <select id="itemActive">
-        <option value="true">ظاهرة في المتجر</option>
-        <option value="false">مخفية عن الزوار</option>
-      </select>
-      <div class="actions">
-        <button id="saveItemBtn">حفظ الخدمة</button>
-        <button class="secondary" id="cancelEditBtn">إلغاء التعديل</button>
-      </div>
-      <div class="status" id="itemStatus"></div>
+    <hr>
+
+    <a class="top-link" href="./index.html" target="_blank">
+      فتح المتجر
+    </a>
+
+  </div>
+
+
+  <!-- إدارة الصور -->
+
+  <div class="panel">
+
+    <h2>إدارة صور الأقسام</h2>
+
+    <label>اختر القسم</label>
+
+    <select id="imageSection"></select>
+
+    <label>اختر صورة من جهازك</label>
+
+    <input
+      id="sectionFile"
+      type="file"
+      accept="image/jpeg,image/png,image/webp,image/gif"
+    >
+
+    <div class="actions">
+      <button id="uploadImageBtn">
+        رفع وحفظ الصورة
+      </button>
     </div>
 
-    <div class="panel">
-      <h2>الخدمات الموجودة</h2>
-      <div id="itemsList" class="status">جاري التحميل...</div>
+    <div class="status" id="imageStatus"></div>
+
+  </div>
+
+
+  <!-- إضافة وتعديل الخدمات -->
+
+  <div class="panel">
+
+    <h2 id="formTitle">إضافة خدمة جديدة</h2>
+
+    <input type="hidden" id="itemId">
+
+    <label>القسم</label>
+
+    <select id="itemSection"></select>
+
+    <label>اسم الخدمة أو الباقة</label>
+
+    <input
+      id="itemName"
+      placeholder="مثال: اشتراك بلس"
+    >
+
+    <label>تفاصيل الخدمة</label>
+
+    <textarea
+      id="itemDescription"
+      placeholder="اكتب تفاصيل الخدمة"
+    ></textarea>
+
+    <label>السعر</label>
+
+    <input
+      id="itemPrice"
+      placeholder="مثال: 5 د.ك"
+    >
+
+    <label>حالة الخدمة</label>
+
+    <select id="itemActive">
+      <option value="true">ظاهرة في المتجر</option>
+      <option value="false">مخفية عن الزوار</option>
+    </select>
+
+    <div class="actions">
+      <button id="saveItemBtn">حفظ الخدمة</button>
+      <button class="secondary" id="cancelEditBtn">
+        إلغاء التعديل
+      </button>
     </div>
-  </section>
+
+    <div class="status" id="itemStatus"></div>
+
+  </div>
+
+
+  <!-- الخدمات الموجودة -->
+
+  <div class="panel">
+
+    <h2>الخدمات الموجودة</h2>
+
+    <div id="itemsList" class="status">
+      جاري تحميل الخدمات...
+    </div>
+
+  </div>
+
+</section>
+
 </main>
 
 <script>
-const SUPABASE_URL = "https://pvyqzpqqrqzpbzcpftvx.supabase.co";
-const SUPABASE_PUBLISHABLE_KEY = "YOUR_SUPABASE_PUBLISHABLE_KEY";
+
+/* إعداد Supabase */
+
+const SUPABASE_URL =
+"https://pvyqzpqqrqzpbzcpftvx.supabase.co";
+
+const SUPABASE_PUBLISHABLE_KEY =
+"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InB2eXF6cHFxcnF6cGJ6Y3BmdHZ4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTQ3NTY0ODIsImV4cCI6MjExMDMzMjQ4Mn0.FRnb1AuTfOoW3CjJR_XdiGnS9ruHKJuwQt4WCfXUHGY";
+
 const BUCKET = "joker-images";
 
-const db=window.supabase.createClient(SUPABASE_URL,SUPABASE_PUBLISHABLE_KEY);
+const db = window.supabase.createClient(
+  SUPABASE_URL,
+  SUPABASE_PUBLISHABLE_KEY
+);
 
-const categories=[
+
+/* الأقسام */
+
+const categories = [
   {id:"apps",name:"تطبيقات بلس"},
   {id:"games",name:"أكواد سناب وألعاب"},
   {id:"social",name:"خدمات تيك توك وإنستغرام"},
@@ -114,176 +360,488 @@ const categories=[
   {id:"soon",name:"قريباً"}
 ];
 
-const $=id=>document.getElementById(id);
-let currentUser=null;
+const $ = id => document.getElementById(id);
+
+let currentUser = null;
+
+
+/* تعبئة الأقسام */
 
 function fillCategories(){
-  const options=categories.map(c=>`<option value="${c.id}">${c.name}</option>`).join("");
-  $("imageSection").innerHTML=options;
-  $("itemSection").innerHTML=options;
+
+  const options = categories.map(category =>
+    `<option value="${category.id}">${category.name}</option>`
+  ).join("");
+
+  $("imageSection").innerHTML = options;
+  $("itemSection").innerHTML = options;
+
 }
 
-function showStatus(id,message){$(id).textContent=message;}
+
+/* الرسائل */
+
+function showStatus(id,message){
+  $(id).textContent = message;
+}
+
+
+/* التحقق من الجلسة */
 
 async function checkSession(){
-  const {data:{session}}=await db.auth.getSession();
-  if(session){
-    currentUser=session.user;
-    showDashboard();
+
+  const {data:{session},error} =
+    await db.auth.getSession();
+
+  if(error){
+    showStatus("loginStatus","تعذر التحقق من الدخول.");
+    return;
   }
+
+  if(session){
+
+    currentUser = session.user;
+
+    showDashboard();
+
+  }
+
 }
+
+
+/* عرض لوحة التحكم */
 
 function showDashboard(){
+
   $("loginPanel").classList.add("hidden");
+
   $("dashboard").classList.remove("hidden");
+
   loadItems();
+
 }
 
+
+/* تسجيل الدخول */
+
 $("loginBtn").addEventListener("click",async()=>{
-  const email=$("email").value.trim();
-  const password=$("password").value;
-  if(!email||!password){showStatus("loginStatus","اكتب البريد وكلمة المرور أولاً.");return;}
+
+  const email = $("email").value.trim();
+
+  const password = $("password").value;
+
+  if(!email || !password){
+
+    showStatus(
+      "loginStatus",
+      "اكتب البريد الإلكتروني وكلمة المرور."
+    );
+
+    return;
+
+  }
+
   showStatus("loginStatus","جاري تسجيل الدخول...");
-  const {data,error}=await db.auth.signInWithPassword({email,password});
-  if(error){showStatus("loginStatus","تعذر الدخول: "+error.message);return;}
-  currentUser=data.user;
+
+  const {data,error} =
+    await db.auth.signInWithPassword({
+      email,
+      password
+    });
+
+  if(error){
+
+    showStatus(
+      "loginStatus",
+      "تعذر الدخول: " + error.message
+    );
+
+    return;
+
+  }
+
+  currentUser = data.user;
+
   showStatus("loginStatus","تم تسجيل الدخول.");
+
   showDashboard();
+
 });
+
+
+/* تسجيل الخروج */
 
 $("logoutBtn").addEventListener("click",async()=>{
+
   await db.auth.signOut();
-  currentUser=null;
+
+  currentUser = null;
+
   $("dashboard").classList.add("hidden");
+
   $("loginPanel").classList.remove("hidden");
-  $("password").value="";
+
+  $("password").value = "";
+
   showStatus("loginStatus","تم تسجيل الخروج.");
+
 });
+
+
+/* رفع الصور */
 
 $("uploadImageBtn").addEventListener("click",async()=>{
-  if(!currentUser){showStatus("imageStatus","سجل دخولك أولاً.");return;}
-  const file=$("sectionFile").files[0];
-  const section=$("imageSection").value;
-  if(!file){showStatus("imageStatus","اختر صورة أولاً.");return;}
-  if(file.size>5*1024*1024){showStatus("imageStatus","حجم الصورة أكبر من 5 MB.");return;}
+
+  if(!currentUser){
+
+    showStatus("imageStatus","سجل دخولك أولاً.");
+
+    return;
+
+  }
+
+  const file = $("sectionFile").files[0];
+
+  const section = $("imageSection").value;
+
+  if(!file){
+
+    showStatus("imageStatus","اختر صورة أولاً.");
+
+    return;
+
+  }
+
+  if(file.size > 5 * 1024 * 1024){
+
+    showStatus("imageStatus","حجم الصورة أكبر من 5 MB.");
+
+    return;
+
+  }
 
   showStatus("imageStatus","جاري رفع الصورة...");
-  const ext=(file.name.split(".").pop()||"jpg").toLowerCase();
-  const path=`sections/${section}-${Date.now()}.${ext}`;
 
-  const {error:uploadError}=await db.storage.from(BUCKET).upload(path,file,{
-    cacheControl:"3600",
-    upsert:false,
-    contentType:file.type
-  });
+  const ext =
+    (file.name.split(".").pop() || "jpg").toLowerCase();
 
-  if(uploadError){showStatus("imageStatus","فشل رفع الصورة: "+uploadError.message);return;}
+  const path =
+    `sections/${section}-${Date.now()}.${ext}`;
 
-  const {data:publicData}=db.storage.from(BUCKET).getPublicUrl(path);
-  const {error:saveError}=await db.from("section_images").upsert({
-    section,
-    image_url:publicData.publicUrl,
-    updated_at:new Date().toISOString()
-  });
+  const {error:uploadError} =
+    await db.storage
+      .from(BUCKET)
+      .upload(path,file,{
+        cacheControl:"3600",
+        upsert:false,
+        contentType:file.type
+      });
 
-  if(saveError){showStatus("imageStatus","تم رفع الصورة لكن تعذر ربطها بالقسم: "+saveError.message);return;}
-  showStatus("imageStatus","تم حفظ الصورة بنجاح. ستظهر في المتجر.");
-  $("sectionFile").value="";
+  if(uploadError){
+
+    showStatus(
+      "imageStatus",
+      "فشل رفع الصورة: " + uploadError.message
+    );
+
+    return;
+
+  }
+
+  const {data:publicData} =
+    db.storage
+      .from(BUCKET)
+      .getPublicUrl(path);
+
+  const {error:saveError} =
+    await db
+      .from("section_images")
+      .upsert({
+        section:section,
+        image_url:publicData.publicUrl,
+        updated_at:new Date().toISOString()
+      });
+
+  if(saveError){
+
+    showStatus(
+      "imageStatus",
+      "تعذر حفظ رابط الصورة: " + saveError.message
+    );
+
+    return;
+
+  }
+
+  showStatus(
+    "imageStatus",
+    "تم رفع الصورة وحفظها بنجاح."
+  );
+
+  $("sectionFile").value = "";
+
 });
 
+
+/* إعادة ضبط النموذج */
+
 function resetForm(){
-  $("itemId").value="";
-  $("itemName").value="";
-  $("itemDescription").value="";
-  $("itemPrice").value="";
-  $("itemActive").value="true";
-  $("formTitle").textContent="إضافة خدمة جديدة";
-  $("saveItemBtn").textContent="حفظ الخدمة";
+
+  $("itemId").value = "";
+
+  $("itemName").value = "";
+
+  $("itemDescription").value = "";
+
+  $("itemPrice").value = "";
+
+  $("itemActive").value = "true";
+
+  $("formTitle").textContent = "إضافة خدمة جديدة";
+
+  $("saveItemBtn").textContent = "حفظ الخدمة";
+
 }
 
 $("cancelEditBtn").addEventListener("click",resetForm);
 
+
+/* حفظ خدمة جديدة أو تعديل خدمة */
+
 $("saveItemBtn").addEventListener("click",async()=>{
-  if(!currentUser){showStatus("itemStatus","سجل دخولك أولاً.");return;}
-  const id=$("itemId").value;
-  const record={
+
+  if(!currentUser){
+
+    showStatus("itemStatus","سجل دخولك أولاً.");
+
+    return;
+
+  }
+
+  const id = $("itemId").value;
+
+  const record = {
+
     section:$("itemSection").value,
+
     title:$("itemName").value.trim(),
+
     description:$("itemDescription").value.trim(),
+
     price:$("itemPrice").value.trim(),
-    active:$("itemActive").value==="true"
+
+    active:$("itemActive").value === "true"
+
   };
-  if(!record.title){showStatus("itemStatus","اكتب اسم الخدمة.");return;}
+
+  if(!record.title){
+
+    showStatus("itemStatus","اكتب اسم الخدمة أولاً.");
+
+    return;
+
+  }
+
   showStatus("itemStatus","جاري الحفظ...");
 
   let result;
+
   if(id){
-    result=await db.from("store_items").update(record).eq("id",id);
+
+    result = await db
+      .from("store_items")
+      .update(record)
+      .eq("id",id);
+
   }else{
-    result=await db.from("store_items").insert(record);
+
+    result = await db
+      .from("store_items")
+      .insert(record);
+
   }
-  if(result.error){showStatus("itemStatus","تعذر الحفظ: "+result.error.message);return;}
+
+  if(result.error){
+
+    showStatus(
+      "itemStatus",
+      "تعذر الحفظ: " + result.error.message
+    );
+
+    return;
+
+  }
+
   showStatus("itemStatus","تم حفظ الخدمة بنجاح.");
+
   resetForm();
+
   loadItems();
+
 });
 
+
+/* تحميل الخدمات */
+
 async function loadItems(){
-  const {data,error}=await db.from("store_items").select("*").order("id",{ascending:false});
-  if(error){$("itemsList").textContent="تعذر تحميل الخدمات: "+error.message;return;}
-  $("itemsList").innerHTML="";
-  if(!data.length){$("itemsList").textContent="لا توجد خدمات حتى الآن.";return;}
+
+  const {data,error} = await db
+    .from("store_items")
+    .select("*")
+    .order("id",{ascending:false});
+
+  if(error){
+
+    $("itemsList").textContent =
+      "تعذر تحميل الخدمات: " + error.message;
+
+    return;
+
+  }
+
+  $("itemsList").innerHTML = "";
+
+  if(!data || data.length === 0){
+
+    $("itemsList").textContent =
+      "لا توجد خدمات حتى الآن.";
+
+    return;
+
+  }
 
   data.forEach(item=>{
-    const category=categories.find(c=>c.id===item.section);
-    const box=document.createElement("div");
-    box.className="item";
 
-    const name=document.createElement("strong");
-    name.textContent=item.title;
-    const info=document.createElement("p");
-    info.textContent=`${category?category.name:item.section} — ${item.description||"بدون تفاصيل"}`;
-    const price=document.createElement("small");
-    price.textContent=`السعر: ${item.price||"غير محدد"} | ${item.active?"ظاهرة":"مخفية"}`;
+    const category = categories.find(
+      category => category.id === item.section
+    );
 
-    const actions=document.createElement("div");
-    actions.className="actions";
-    const edit=document.createElement("button");
-    edit.textContent="تعديل";
+    const box = document.createElement("div");
+
+    box.className = "item";
+
+    const name = document.createElement("strong");
+
+    name.textContent = item.title;
+
+    const info = document.createElement("p");
+
+    info.textContent =
+      `${category ? category.name : item.section} — ${item.description || "بدون تفاصيل"}`;
+
+    const price = document.createElement("small");
+
+    price.textContent =
+      `السعر: ${item.price || "غير محدد"} | ${item.active ? "ظاهرة" : "مخفية"}`;
+
+    const actions = document.createElement("div");
+
+    actions.className = "actions";
+
+    const edit = document.createElement("button");
+
+    edit.textContent = "تعديل";
+
     edit.addEventListener("click",()=>editItem(item));
-    const del=document.createElement("button");
-    del.textContent="حذف";
-    del.className="danger";
+
+    const del = document.createElement("button");
+
+    del.textContent = "حذف";
+
+    del.className = "danger";
+
     del.addEventListener("click",()=>deleteItem(item.id));
+
     actions.append(edit,del);
+
     box.append(name,info,price,actions);
+
     $("itemsList").appendChild(box);
+
   });
+
 }
+
+
+/* تعديل خدمة */
 
 function editItem(item){
-  $("itemId").value=item.id;
-  $("itemSection").value=item.section;
-  $("itemName").value=item.title;
-  $("itemDescription").value=item.description||"";
-  $("itemPrice").value=item.price||"";
-  $("itemActive").value=String(item.active);
-  $("formTitle").textContent="تعديل الخدمة";
-  $("saveItemBtn").textContent="حفظ التعديلات";
-  window.scrollTo({top:0,behavior:"smooth"});
+
+  $("itemId").value = item.id;
+
+  $("itemSection").value = item.section;
+
+  $("itemName").value = item.title;
+
+  $("itemDescription").value = item.description || "";
+
+  $("itemPrice").value = item.price || "";
+
+  $("itemActive").value = String(item.active);
+
+  $("formTitle").textContent = "تعديل الخدمة";
+
+  $("saveItemBtn").textContent = "حفظ التعديلات";
+
+  window.scrollTo({
+    top:0,
+    behavior:"smooth"
+  });
+
 }
+
+
+/* حذف خدمة */
 
 async function deleteItem(id){
-  if(!confirm("هل أنت متأكد من حذف هذه الخدمة؟"))return;
-  const {error}=await db.from("store_items").delete().eq("id",id);
-  if(error){showStatus("itemStatus","تعذر الحذف: "+error.message);return;}
+
+  if(!confirm("هل أنت متأكد من حذف هذه الخدمة؟")){
+
+    return;
+
+  }
+
+  const {error} = await db
+    .from("store_items")
+    .delete()
+    .eq("id",id);
+
+  if(error){
+
+    showStatus(
+      "itemStatus",
+      "تعذر الحذف: " + error.message
+    );
+
+    return;
+
+  }
+
   showStatus("itemStatus","تم حذف الخدمة.");
+
   loadItems();
+
 }
 
+
+/* تحديث البيانات */
+
+$("refreshBtn").addEventListener("click",()=>{
+
+  loadItems();
+
+  showStatus("itemStatus","تم تحديث قائمة الخدمات.");
+
+});
+
+
+/* التشغيل */
+
 fillCategories();
+
 checkSession();
+
 </script>
+
 </body>
 </html>
-
