@@ -6,12 +6,12 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#09080c">
 <title>JOKER PLUS | متجر الجوكر</title>
+
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <style>
 :root {
   --bg:#09080c;
-  --card:#121018;
   --purple:#35105c;
   --purple-light:#a77ad0;
   --red:#a6192e;
@@ -20,7 +20,9 @@
   --border:#33233f;
 }
 
-* { box-sizing:border-box; }
+* {
+  box-sizing:border-box;
+}
 
 body {
   margin:0;
@@ -42,7 +44,9 @@ header {
   letter-spacing:2px;
 }
 
-.logo span { color:var(--purple-light); }
+.logo span {
+  color:var(--purple-light);
+}
 
 .logo-line {
   width:55px;
@@ -103,7 +107,7 @@ main {
   transform:translateY(-3px);
 }
 
-/* مساحة موحدة لكل الهواتف */
+/* الهاتف ثلاثي الأبعاد */
 
 .phone-stage {
   width:100%;
@@ -113,12 +117,9 @@ main {
   align-items:center;
   overflow:hidden;
   position:relative;
-  background:
-    radial-gradient(ellipse at center,#54247a44,transparent 68%);
+  background:radial-gradient(ellipse at center,#54247a44,transparent 68%);
   perspective:900px;
 }
-
-/* تصميم الهاتف ثلاثي الأبعاد */
 
 .phone {
   width:150px;
@@ -186,23 +187,9 @@ main {
   border-radius:23px;
   overflow:hidden;
   position:relative;
-  background:
-    radial-gradient(ellipse at 50% 20%,#35105c,#100b18 65%,#08070b);
+  background:radial-gradient(ellipse at 50% 20%,#35105c,#100b18 65%,#08070b);
   padding:20px 9px 10px;
   box-shadow:inset 0 0 0 1px #ffffff20;
-}
-
-.phone-screen::before {
-  content:"";
-  position:absolute;
-  width:48px;
-  height:12px;
-  background:#050407;
-  border-radius:20px;
-  top:6px;
-  left:50%;
-  transform:translateX(-50%);
-  z-index:3;
 }
 
 .phone-time {
@@ -230,6 +217,13 @@ main {
   justify-items:center;
 }
 
+.app-item {
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  min-width:0;
+}
+
 .app-icon {
   width:29px;
   height:29px;
@@ -249,23 +243,6 @@ main {
   display:block;
 }
 
-.app-icon.netflix {
-  background:#080808;
-  color:#e50914;
-  font-size:24px;
-  font-weight:900;
-}
-
-.app-icon.apple {
-  background:#fff;
-  color:#111;
-  font-size:22px;
-}
-
-.app-icon.play {
-  background:#fff;
-}
-
 .app-name {
   font-size:6px;
   color:#ddd3e7;
@@ -274,14 +251,7 @@ main {
   white-space:nowrap;
 }
 
-.app-item {
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  min-width:0;
-}
-
-/* شعار سناب داخل شاشة كاملة */
+/* قسم سناب */
 
 .snapchat-screen {
   height:100%;
@@ -290,8 +260,7 @@ main {
   flex-direction:column;
   align-items:center;
   justify-content:center;
-  background:
-    radial-gradient(circle at 50% 40%,#29200a,#100e0a 65%,#080807);
+  background:radial-gradient(circle at 50% 40%,#29200a,#100e0a 65%,#080807);
 }
 
 .snapchat-logo {
@@ -343,6 +312,13 @@ main {
   margin-top:8px;
 }
 
+.custom-phone-image {
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  border-radius:20px;
+}
+
 .phone-footer {
   position:absolute;
   bottom:9px;
@@ -353,6 +329,8 @@ main {
   border-radius:5px;
   background:#ffffff90;
 }
+
+/* معلومات الأقسام */
 
 .section-card h3 {
   font-size:15px;
@@ -418,6 +396,20 @@ main {
   padding:9px 2px;
 }
 
+.loading-message,
+.error-message {
+  grid-column:1/-1;
+  text-align:center;
+  color:var(--muted);
+  padding:30px 10px;
+  font-size:13px;
+  line-height:1.8;
+}
+
+.error-message {
+  color:#e8a1a8;
+}
+
 footer {
   text-align:center;
   color:#756c7c;
@@ -439,9 +431,17 @@ footer {
     gap:11px;
   }
 
-  .section-card { padding:9px; }
-  .phone-stage { height:285px; }
-  .logo { font-size:29px; }
+  .section-card {
+    padding:9px;
+  }
+
+  .phone-stage {
+    height:285px;
+  }
+
+  .logo {
+    font-size:29px;
+  }
 
   main {
     padding-right:13px;
@@ -450,12 +450,19 @@ footer {
 }
 
 @media(max-width:390px) {
-  .sections { grid-template-columns:1fr; }
-  .phone-stage { height:285px; }
+  .sections {
+    grid-template-columns:1fr;
+  }
+
+  .phone-stage {
+    height:285px;
+  }
 }
 
 @media(prefers-reduced-motion:reduce) {
-  .phone,.section-card { transition:none; }
+  .phone,.section-card {
+    transition:none;
+  }
 }
 </style>
 </head>
@@ -475,7 +482,7 @@ footer {
   </div>
 
   <div class="sections" id="sections">
-    <p class="empty">جاري تحميل المتجر...</p>
+    <p class="loading-message">جاري تحميل المتجر...</p>
   </div>
 </main>
 
@@ -485,31 +492,35 @@ footer {
 </footer>
 
 <script>
+/* إعداد Supabase */
+
 const SUPABASE_URL =
 "https://pvyqzpqqrqzpbzcpftvx.supabase.co";
 
 const SUPABASE_PUBLISHABLE_KEY =
-"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InB2eXF6cHFxcnF6cGJ6Y3BmdHZ4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTQ3NTY0ODIsImV4cCI6MjExMDMz٢٤٨٢.FRnb1AuTfOoW3CjJR_XdiGnS9ruHKJuwQt4WCfXUHGY";
+"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InB2eXF6cHFxcnF6cGJ6Y3BmdHZ4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTQ3NTY0ODIsImV4cCI6MjExMDMzMjQ4Mn0.FRnb1AuTfOoW3CjJR_XdiGnS9ruHKJuwQt4WCfXUHGY";
 
 const WHATSAPP_NUMBER = "96566985873";
 
-const db = window.supabase.createClient(
+const supabaseClient = window.supabase.createClient(
   SUPABASE_URL,
   SUPABASE_PUBLISHABLE_KEY
 );
 
-const categories = [
+/* الأقسام */
+
+const sectionsData = [
   {
     id:"apps",
     name:"تطبيقات بلس",
-    description:"اشتراكات وتطبيقات مميزة",
+    description:"أفضل التطبيقات والخدمات المميزة",
     apps:[
-      ["Instagram","instagram","https://cdn.simpleicons.org/instagram/E4405F"],
-      ["Snapchat","snapchat","https://cdn.simpleicons.org/snapchat/FFFC00"],
-      ["TikTok","tiktok","https://cdn.simpleicons.org/tiktok/ffffff"],
-      ["Spotify","spotify","https://cdn.simpleicons.org/spotify/1DB954"],
-      ["YouTube","youtube","https://cdn.simpleicons.org/youtube/FF0000"],
-      ["WhatsApp","whatsapp","https://cdn.simpleicons.org/whatsapp/25D366"]
+      ["Instagram","instagram"],
+      ["Snapchat","snapchat"],
+      ["TikTok","tiktok"],
+      ["Spotify","spotify"],
+      ["YouTube","youtube"],
+      ["WhatsApp","whatsapp"]
     ]
   },
   {
@@ -520,307 +531,283 @@ const categories = [
   },
   {
     id:"social",
-    name:"خدمات تيك توك وإنستغرام",
-    description:"خدمات منصات التواصل الاجتماعي",
+    name:"خدمات التيك توك والإنستغرام",
+    description:"خدمات وحلول منصات التواصل الاجتماعي",
     apps:[
-      ["TikTok","tiktok","https://cdn.simpleicons.org/tiktok/ffffff"],
-      ["Instagram","instagram","https://cdn.simpleicons.org/instagram/E4405F"],
-      ["Snapchat","snapchat","https://cdn.simpleicons.org/snapchat/FFFC00"],
-      ["Facebook","facebook","https://cdn.simpleicons.org/facebook/0866FF"],
-      ["Telegram","telegram","https://cdn.simpleicons.org/telegram/26A5E4"],
-      ["YouTube","youtube","https://cdn.simpleicons.org/youtube/FF0000"]
+      ["TikTok","tiktok"],
+      ["Instagram","instagram"],
+      ["Snapchat","snapchat"],
+      ["Facebook","facebook"],
+      ["Telegram","telegram"],
+      ["YouTube","youtube"]
     ]
   },
   {
     id:"iptv",
-    name:"خدمات IPTV",
-    description:"خدمات المشاهدة والترفيه",
+    name:"اشتراكات IPTV",
+    description:"اشتراكات منصات المشاهدة والترفيه",
     apps:[
-      ["Netflix","netflix","https://cdn.simpleicons.org/netflix/E50914"],
-      ["Shahid","shahid",null],
-      ["OSN","osn",null],
-      ["Prime Video","prime","https://cdn.simpleicons.org/primevideo/00A8E1"],
-      ["Disney+","disney","https://cdn.simpleicons.org/disneyplus/ffffff"],
-      ["YouTube","youtube","https://cdn.simpleicons.org/youtube/FF0000"]
+      ["Netflix","netflix"],
+      ["Shahid","shahid"],
+      ["OSN","osn"],
+      ["Prime Video","primevideo"],
+      ["Disney+","disneyplus"],
+      ["YouTube","youtube"]
     ]
   },
   {
     id:"store",
-    name:"خدمات أكواد ستور",
-    description:"أكواد ومتاجر رقمية",
+    name:"أكواد ستور",
+    description:"أكواد وشحن المتاجر الرقمية",
     apps:[
-      ["Apple","apple",null],
-      ["Google Play","play","https://cdn.simpleicons.org/googleplay/34A853"],
-      ["PlayStation","playstation","https://cdn.simpleicons.org/playstation/ffffff"],
-      ["Xbox","xbox","https://cdn.simpleicons.org/xbox/107C10"],
-      ["Steam","steam","https://cdn.simpleicons.org/steam/ffffff"],
-      ["App Store","appstore","https://cdn.simpleicons.org/appstore/ffffff"]
+      ["Apple","apple"],
+      ["Google Play","googleplay"],
+      ["PlayStation","playstation"],
+      ["Xbox","xbox"],
+      ["Steam","steam"],
+      ["App Store","appstore"]
     ]
   },
   {
     id:"soon",
     name:"قريباً",
-    description:"خدمات جديدة بالطريق",
+    description:"خدمات ومنتجات جديدة قريباً",
     apps:[]
   }
 ];
 
+/* شعارات التطبيقات */
+
+function iconUrl(slug) {
+  return "https://cdn.simpleicons.org/" + slug;
+}
+
 function createAppIcon(app) {
-  const item = document.createElement("div");
-  item.className = "app-item";
+  const [name,slug] = app;
 
-  const icon = document.createElement("div");
-  icon.className = "app-icon";
-
-  if(app[1] === "apple") {
-    icon.classList.add("apple");
-    icon.textContent = "●";
-  } else if(app[1] === "netflix") {
-    icon.classList.add("netflix");
-    icon.textContent = "N";
-  } else if(app[1] === "shahid" || app[1] === "osn") {
-    icon.classList.add("netflix");
-    icon.style.color = "#c7a0ee";
-    icon.style.fontSize = "11px";
-    icon.textContent = app[1] === "shahid" ? "شاهد" : "OSN";
-  } else if(app[1] === "play") {
-    icon.classList.add("play");
-  }
-
-  if(app[2]) {
-    const img = document.createElement("img");
-    img.src = app[2];
-    img.alt = app[0];
-    img.loading = "lazy";
-
-    img.onerror = () => {
-      icon.innerHTML = "";
-      icon.textContent = app[0].slice(0,1);
-      icon.style.color = "#fff";
-      icon.style.background = "#35105c";
-    };
-
-    icon.appendChild(img);
-  } else if(app[1] === "play") {
-    icon.textContent = "▶";
-    icon.style.color = "#34A853";
-    icon.style.fontSize = "19px";
-  }
-
-  const name = document.createElement("div");
-  name.className = "app-name";
-  name.textContent = app[0];
-
-  item.appendChild(icon);
-  item.appendChild(name);
-
-  return item;
+  return `
+    <div class="app-item">
+      <div class="app-icon">
+        <img
+          src="${iconUrl(slug)}"
+          alt="${name}"
+          loading="lazy"
+          onerror="this.style.display='none';this.parentElement.textContent='${name.slice(0,1)}';"
+        >
+      </div>
+      <span class="app-name">${name}</span>
+    </div>
+  `;
 }
 
-function createPhone(category,image) {
-  const stage = document.createElement("div");
-  stage.className = "phone-stage";
+/* شاشة الهاتف */
 
-  const phone = document.createElement("div");
-  phone.className = "phone";
-
-  const screen = document.createElement("div");
-  screen.className = "phone-screen";
-
-  const time = document.createElement("div");
-  time.className = "phone-time";
-  time.textContent = "9:41";
-
-  screen.appendChild(time);
-
-  if(image && image.image_url) {
-    const img = document.createElement("img");
-    img.src = image.image_url;
-    img.alt = category.name;
-    img.style.width = "100%";
-    img.style.height = "100%";
-    img.style.objectFit = "cover";
-    img.style.position = "absolute";
-    img.style.inset = "0";
-    screen.appendChild(img);
-  } else if(category.id === "games") {
-    const snapScreen = document.createElement("div");
-    snapScreen.className = "snapchat-screen";
-
-    const snapLogo = document.createElement("div");
-    snapLogo.className = "snapchat-logo";
-
-    const snapImg = document.createElement("img");
-    snapImg.src = "https://cdn.simpleicons.org/snapchat/000000";
-    snapImg.alt = "Snapchat";
-
-    snapImg.onerror = () => {
-      snapLogo.textContent = "👻";
-      snapLogo.style.fontSize = "65px";
-    };
-
-    snapLogo.appendChild(snapImg);
-
-    const caption = document.createElement("div");
-    caption.className = "snapchat-caption";
-    caption.textContent = "SNAPCHAT";
-
-    snapScreen.appendChild(snapLogo);
-    snapScreen.appendChild(caption);
-    screen.appendChild(snapScreen);
-  } else if(category.id === "soon") {
-    const coming = document.createElement("div");
-    coming.className = "phone-coming";
-
-    const title = document.createElement("strong");
-    title.textContent = "COMING SOON";
-
-    const subtitle = document.createElement("span");
-    subtitle.textContent = "JOKER PLUS";
-
-    coming.appendChild(title);
-    coming.appendChild(subtitle);
-    screen.appendChild(coming);
-  } else {
-    const brand = document.createElement("div");
-    brand.className = "phone-brand";
-    brand.textContent = "JOKER PLUS";
-
-    const grid = document.createElement("div");
-    grid.className = "app-grid";
-
-    category.apps.forEach(app => {
-      grid.appendChild(createAppIcon(app));
-    });
-
-    screen.appendChild(brand);
-    screen.appendChild(grid);
+function createPhone(section, customImage) {
+  if (customImage) {
+    return `
+      <div class="phone-stage">
+        <div class="phone">
+          <div class="phone-screen" style="padding:0">
+            <img
+              class="custom-phone-image"
+              src="${escapeHTML(customImage)}"
+              alt="صورة ${escapeHTML(section.name)}"
+            >
+          </div>
+        </div>
+      </div>
+    `;
   }
 
-  const footer = document.createElement("div");
-  footer.className = "phone-footer";
+  if (section.id === "games") {
+    return `
+      <div class="phone-stage">
+        <div class="phone">
+          <div class="phone-screen" style="padding:0">
+            <div class="phone-time">9:41</div>
+            <div class="snapchat-screen">
+              <div class="snapchat-logo">
+                <img
+                  src="https://cdn.simpleicons.org/snapchat/000000"
+                  alt="Snapchat"
+                  onerror="this.style.display='none';this.parentElement.textContent='👻';this.parentElement.style.fontSize='55px';"
+                >
+              </div>
+              <div class="snapchat-caption">SNAPCHAT</div>
+            </div>
+            <div class="phone-footer"></div>
+          </div>
+        </div>
+      </div>
+    `;
+  }
 
-  screen.appendChild(footer);
-  phone.appendChild(screen);
-  stage.appendChild(phone);
+  if (section.id === "soon") {
+    return `
+      <div class="phone-stage">
+        <div class="phone">
+          <div class="phone-screen">
+            <div class="phone-time">9:41</div>
+            <div class="phone-coming">
+              <strong>COMING SOON</strong>
+              <span>JOKER PLUS</span>
+            </div>
+            <div class="phone-footer"></div>
+          </div>
+        </div>
+      </div>
+    `;
+  }
 
-  return stage;
+  return `
+    <div class="phone-stage">
+      <div class="phone">
+        <div class="phone-screen">
+          <div class="phone-time">9:41</div>
+          <div class="phone-brand">JOKER PLUS</div>
+          <div class="app-grid">
+            ${section.apps.map(createAppIcon).join("")}
+          </div>
+          <div class="phone-footer"></div>
+        </div>
+      </div>
+    </div>
+  `;
 }
 
-function createWhatsAppLink(item) {
-  const message =
-    `السلام عليكم، أرغب بطلب: ${item.title} - السعر: ${item.price}`;
+/* حماية النصوص */
 
-  return `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
+function escapeHTML(value) {
+  return String(value ?? "").replace(/[&<>"']/g, function(char) {
+    return {
+      "&":"&amp;",
+      "<":"&lt;",
+      ">":"&gt;",
+      '"':"&quot;",
+      "'":"&#39;"
+    }[char];
+  });
 }
+
+/* رابط واتساب */
+
+function whatsappLink(item) {
+  const title = item.title || "طلب من متجر JOKER PLUS";
+  const price = item.price ? " - السعر: " + item.price : "";
+
+  const message = "السلام عليكم، أريد طلب: " + title + price;
+
+  return "https://wa.me/" + WHATSAPP_NUMBER +
+    "?text=" + encodeURIComponent(message);
+}
+
+/* عرض المنتجات */
+
+function createService(item) {
+  return `
+    <div class="service">
+      <div class="service-title">${escapeHTML(item.title)}</div>
+
+      ${
+        item.description
+          ? `<div class="service-description">${escapeHTML(item.description)}</div>`
+          : ""
+      }
+
+      ${
+        item.price
+          ? `<div class="price">${escapeHTML(item.price)}</div>`
+          : ""
+      }
+
+      <a
+        class="buy-button"
+        href="${whatsappLink(item)}"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        اطلب الآن عبر واتساب
+      </a>
+    </div>
+  `;
+}
+
+/* بناء القسم */
+
+function createSection(section, items, images) {
+  const sectionImage = images.find(
+    image => image.section === section.id
+  );
+
+  const sectionItems = items.filter(
+    item => item.section_key === section.id
+  );
+
+  return `
+    <article class="section-card">
+
+      ${createPhone(section, sectionImage?.image_url)}
+
+      <h3>${escapeHTML(section.name)}</h3>
+
+      <p class="section-description">
+        ${escapeHTML(section.description)}
+      </p>
+
+      <div class="services">
+        ${
+          sectionItems.length
+            ? sectionItems.map(createService).join("")
+            : `<div class="empty">لا توجد منتجات متاحة حالياً</div>`
+        }
+      </div>
+
+    </article>
+  `;
+}
+
+/* تحميل بيانات المتجر */
 
 async function loadStore() {
-  const root = document.getElementById("sections");
-
-  root.innerHTML =
-    "<p class='empty'>جاري تحميل المتجر...</p>";
+  const container = document.getElementById("sections");
 
   try {
-    const [itemsResult,imagesResult] = await Promise.all([
-      db.from("store_items")
+    const [itemsResult, imagesResult] = await Promise.all([
+      supabaseClient
+        .from("store_items")
         .select("*")
-        .eq("active",true)
-        .order("id"),
+        .eq("active", true)
+        .order("sort_order", { ascending:true }),
 
-      db.from("section_images")
+      supabaseClient
+        .from("section_images")
         .select("*")
     ]);
 
-    if(itemsResult.error || imagesResult.error) {
-      throw new Error("Supabase loading error");
+    if (itemsResult.error) {
+      throw new Error("خطأ المنتجات: " + itemsResult.error.message);
+    }
+
+    if (imagesResult.error) {
+      throw new Error("خطأ صور الأقسام: " + imagesResult.error.message);
     }
 
     const items = itemsResult.data || [];
     const images = imagesResult.data || [];
 
-    root.innerHTML = "";
+    container.innerHTML = sectionsData.map(section =>
+      createSection(section, items, images)
+    ).join("");
 
-    categories.forEach(category => {
-      const image = images.find(
-        item => item.section === category.id
-      );
+  } catch (error) {
+    console.error("JOKER PLUS:", error);
 
-      const services = items.filter(
-        item => item.section === category.id
-      );
-
-      const card = document.createElement("article");
-      card.className = "section-card";
-
-      card.appendChild(createPhone(category,image));
-
-      const heading = document.createElement("h3");
-      heading.textContent = category.name;
-
-      const description = document.createElement("p");
-      description.className = "section-description";
-      description.textContent = category.description;
-
-      const servicesContainer = document.createElement("div");
-      servicesContainer.className = "services";
-
-      if(services.length === 0) {
-        const empty = document.createElement("div");
-        empty.className = "empty";
-        empty.textContent =
-          category.id === "soon"
-            ? "قريباً..."
-            : "لا توجد خدمات حالياً";
-
-        servicesContainer.appendChild(empty);
-      }
-
-      services.forEach(item => {
-        const service = document.createElement("div");
-        service.className = "service";
-
-        const title = document.createElement("div");
-        title.className = "service-title";
-        title.textContent = item.title;
-
-        const detail = document.createElement("div");
-        detail.className = "service-description";
-        detail.textContent = item.description || "";
-
-        const price = document.createElement("div");
-        price.className = "price";
-        price.textContent = item.price || "السعر عند الطلب";
-
-        service.appendChild(title);
-        service.appendChild(detail);
-        service.appendChild(price);
-
-        if(category.id !== "soon") {
-          const buy = document.createElement("a");
-
-          buy.className = "buy-button";
-          buy.href = createWhatsAppLink(item);
-          buy.target = "_blank";
-          buy.rel = "noopener";
-          buy.textContent = "شراء الآن";
-
-          service.appendChild(buy);
-        }
-
-        servicesContainer.appendChild(service);
-      });
-
-      card.appendChild(heading);
-      card.appendChild(description);
-      card.appendChild(servicesContainer);
-
-      root.appendChild(card);
-    });
-
-  } catch(error) {
-    console.error(error);
-    root.innerHTML =
-      "<p class='empty'>تعذر تحميل المتجر. تأكد من إعداد Supabase.</p>";
+    container.innerHTML = `
+      <div class="error-message">
+        تعذر تحميل المتجر.<br>
+        ${escapeHTML(error.message)}
+      </div>
+    `;
   }
 }
 
