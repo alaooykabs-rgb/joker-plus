@@ -6,7 +6,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#09080c">
 <title>JOKER PLUS | متجر الجوكر</title>
-
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <style>
@@ -21,9 +20,7 @@
   --border: #33233f;
 }
 
-* {
-  box-sizing: border-box;
-}
+* { box-sizing: border-box; }
 
 body {
   margin: 0;
@@ -45,9 +42,7 @@ header {
   letter-spacing: 2px;
 }
 
-.logo span {
-  color: var(--purple-light);
-}
+.logo span { color: var(--purple-light); }
 
 .logo-line {
   width: 55px;
@@ -237,17 +232,9 @@ footer {
     gap: 11px;
   }
 
-  .section-card {
-    padding: 9px;
-  }
-
-  .phone {
-    height: 175px;
-  }
-
-  .logo {
-    font-size: 29px;
-  }
+  .section-card { padding: 9px; }
+  .phone { height: 175px; }
+  .logo { font-size: 29px; }
 
   main {
     padding-right: 13px;
@@ -256,13 +243,8 @@ footer {
 }
 
 @media (max-width: 390px) {
-  .sections {
-    grid-template-columns: 1fr;
-  }
-
-  .phone {
-    height: 230px;
-  }
+  .sections { grid-template-columns: 1fr; }
+  .phone { height: 230px; }
 }
 </style>
 </head>
@@ -276,7 +258,6 @@ footer {
 </header>
 
 <main>
-
   <div class="section-heading">
     <h2>أقسام المتجر</h2>
     <span>JOKER PLUS COLLECTION</span>
@@ -285,7 +266,6 @@ footer {
   <div class="sections" id="sections">
     <p class="empty">جاري تحميل المتجر...</p>
   </div>
-
 </main>
 
 <footer>
@@ -294,24 +274,18 @@ footer {
 </footer>
 
 <script>
-/* إعدادات Supabase */
-
 const SUPABASE_URL =
 "https://pvyqzpqqrqzpbzcpftvx.supabase.co";
 
 const SUPABASE_PUBLISHABLE_KEY =
 "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InB2eXF6cHFxcnF6cGJ6Y3BmdHZ4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTQ3NTY0ODIsImV4cCI6MjExMDMzMjQ4Mn0.FRnb1AuTfOoW3CjJR_XdiGnS9ruHKJuwQt4WCfXUHGY";
 
-/* رقم واتساب المتجر */
-
-const WHATSAPP_NUMBER = "+965 66985873";
+const WHATSAPP_NUMBER = "965 66985873";
 
 const db = window.supabase.createClient(
   SUPABASE_URL,
   SUPABASE_PUBLISHABLE_KEY
 );
-
-/* الأقسام */
 
 const categories = [
   {
@@ -352,8 +326,6 @@ const categories = [
   }
 ];
 
-/* إنشاء رابط الشراء */
-
 function createWhatsAppLink(item) {
   const message =
     `السلام عليكم، أرغب بطلب: ${item.title} - السعر: ${item.price}`;
@@ -361,17 +333,13 @@ function createWhatsAppLink(item) {
   return `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
 }
 
-/* تحميل المتجر */
-
 async function loadStore() {
-
   const root = document.getElementById("sections");
 
   root.innerHTML =
     "<p class='empty'>جاري تحميل المتجر...</p>";
 
   const [itemsResult, imagesResult] = await Promise.all([
-
     db
       .from("store_items")
       .select("*")
@@ -381,14 +349,11 @@ async function loadStore() {
     db
       .from("section_images")
       .select("*")
-
   ]);
 
   if (itemsResult.error || imagesResult.error) {
-
     root.innerHTML =
       "<p class='empty'>تعذر تحميل المتجر. تأكد من إعداد Supabase.</p>";
-
     return;
   }
 
@@ -398,7 +363,6 @@ async function loadStore() {
   root.innerHTML = "";
 
   categories.forEach(category => {
-
     const image = images.find(
       item => item.section === category.id
     );
@@ -410,13 +374,10 @@ async function loadStore() {
     const card = document.createElement("article");
     card.className = "section-card";
 
-    /* صورة القسم */
-
     const phone = document.createElement("div");
     phone.className = "phone";
 
     if (image && image.image_url) {
-
       const img = document.createElement("img");
 
       img.src = image.image_url;
@@ -429,32 +390,22 @@ async function loadStore() {
       };
 
       phone.appendChild(img);
-
     } else {
-
       phone.innerHTML =
         `<div class="placeholder">${category.icon}<small>JOKER PLUS</small></div>`;
-
     }
-
-    /* اسم القسم */
 
     const heading = document.createElement("h3");
     heading.textContent = category.name;
-
-    /* وصف القسم */
 
     const description = document.createElement("p");
     description.className = "section-description";
     description.textContent = category.description;
 
-    /* قائمة الخدمات */
-
     const servicesContainer = document.createElement("div");
     servicesContainer.className = "services";
 
     if (services.length === 0) {
-
       const empty = document.createElement("div");
       empty.className = "empty";
 
@@ -464,11 +415,9 @@ async function loadStore() {
           : "لا توجد خدمات حالياً";
 
       servicesContainer.appendChild(empty);
-
     }
 
     services.forEach(item => {
-
       const service = document.createElement("div");
       service.className = "service";
 
@@ -489,7 +438,6 @@ async function loadStore() {
       service.appendChild(price);
 
       if (category.id !== "soon") {
-
         const buy = document.createElement("a");
 
         buy.className = "buy-button";
@@ -499,11 +447,9 @@ async function loadStore() {
         buy.textContent = "شراء الآن";
 
         service.appendChild(buy);
-
       }
 
       servicesContainer.appendChild(service);
-
     });
 
     card.appendChild(phone);
@@ -512,15 +458,10 @@ async function loadStore() {
     card.appendChild(servicesContainer);
 
     root.appendChild(card);
-
   });
-
 }
 
-/* تشغيل المتجر */
-
 loadStore();
-
 </script>
 
 </body>
