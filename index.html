@@ -78,6 +78,8 @@ main {
   font-size:11px;
 }
 
+/* شبكة الأقسام: 3 أعمدة */
+
 .sections {
   display:grid;
   grid-template-columns:repeat(3,minmax(0,1fr));
@@ -231,7 +233,7 @@ main {
   box-shadow:0 3px 10px #000b,inset 0 1px 0 #ffffff12;
 }
 
-/* تويتر وتيك توك فقط بخلفية فاتحة في تطبيقات بلس */
+/* تويتر وتيك توك فقط بخلفية فاتحة */
 
 .section-apps .app-icon.app-icon-light {
   background:#fff;
@@ -254,14 +256,6 @@ main {
   background:#17121e;
   border:1px solid #59416c;
   box-shadow:0 4px 12px #000b;
-}
-
-/* TikTok فقط بخلفية فاتحة في قسم الخدمات */
-
-.section-social .app-item:has(.app-name) .app-icon:has(img[alt="TikTok"]) {
-  background:#fff;
-  border:1px solid #ddd;
-  box-shadow:0 3px 8px #0008;
 }
 
 .section-social .app-name {
@@ -343,7 +337,7 @@ main {
   background:#ffffff90;
 }
 
-/* بطاقات PlayStation */
+/* بطاقات PlayStation - متمركزة ومتقاربة */
 
 .store-stage {
   width:100%;
@@ -411,7 +405,7 @@ main {
   filter:drop-shadow(0 5px 12px #0009);
 }
 
-/* تلفزيون IPTV */
+/* تلفزيون IPTV حديث */
 
 .tv-stage {
   width:100%;
@@ -893,6 +887,173 @@ footer {
     transform:none;
   }
 }
+
+/* قسم تطبيقات بلس المتحرك أسفل الأقسام */
+
+.plus-apps-showcase {
+  margin:34px auto 8px;
+  padding:25px 18px 30px;
+  max-width:760px;
+  text-align:center;
+  border:1px solid #33233f;
+  border-radius:22px;
+  background:linear-gradient(145deg,#17121eaa,#0e0c12dd);
+  box-shadow:0 15px 38px #0006,inset 0 1px 0 #ffffff0b;
+  overflow:hidden;
+}
+
+.plus-apps-title {
+  margin:0;
+  color:#f7f4fa;
+  font-size:clamp(20px,4vw,27px);
+  font-weight:900;
+  letter-spacing:.3px;
+}
+
+.plus-apps-title span {
+  display:block;
+  margin-top:7px;
+  color:#b98bdd;
+  font-size:11px;
+  letter-spacing:3px;
+  direction:ltr;
+}
+
+.device-stage {
+  height:285px;
+  margin:12px auto 0;
+  position:relative;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  perspective:900px;
+  background:radial-gradient(ellipse at center,#54247a38,transparent 68%);
+}
+
+.device-scene {
+  position:absolute;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:12px;
+  opacity:0;
+  transform:translateY(18px) scale(.88);
+  animation:deviceSwitch 8s ease-in-out infinite;
+}
+
+.device-scene.iphone-scene {animation-delay:0s}
+.device-scene.ipad-scene {animation-delay:4s}
+
+.device-frame {
+  position:relative;
+  padding:7px;
+  background:linear-gradient(115deg,#17131e,#b3a8bb 12%,#302737 24%,#8d8297 52%,#17131e 88%,#b3a8bb);
+  box-shadow:8px 12px 0 #08060b,0 22px 35px #000b,0 0 28px #8d56b344,inset 0 0 0 1px #ffffff88;
+}
+
+.device-screen {
+  width:100%;
+  height:100%;
+  position:relative;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  overflow:hidden;
+  color:#f7f4fa;
+  background:radial-gradient(ellipse at 50% 20%,#35105c,#100b18 68%,#08070b);
+  border:1px solid #ffffff24;
+}
+
+.iphone-frame {
+  width:132px;
+  height:225px;
+  border-radius:28px;
+}
+
+.iphone-frame .device-screen {border-radius:21px}
+
+.ipad-frame {
+  width:300px;
+  height:205px;
+  border-radius:19px;
+  padding:8px;
+}
+
+.ipad-frame .device-screen {border-radius:11px}
+
+.device-camera {
+  position:absolute;
+  z-index:2;
+  top:5px;
+  left:50%;
+  width:4px;
+  height:4px;
+  border-radius:50%;
+  transform:translateX(-50%);
+  background:#08070b;
+  box-shadow:0 0 3px #aaa;
+}
+
+.device-brand {
+  direction:ltr;
+  font-size:13px;
+  font-weight:900;
+  letter-spacing:1.5px;
+  text-shadow:0 0 15px #c49be5aa;
+}
+
+.device-brand span {color:#c49be5}
+
+.device-caption {
+  margin-top:7px;
+  color:#cbb5df;
+  font-size:7px;
+  letter-spacing:2px;
+  direction:ltr;
+}
+
+.device-app-icons {
+  display:flex;
+  justify-content:center;
+  gap:8px;
+  margin-top:18px;
+}
+
+.device-app-icons i {
+  width:19px;
+  height:19px;
+  border-radius:6px;
+  display:block;
+  background:linear-gradient(145deg,#a77ad0,#35105c);
+  border:1px solid #ffffff35;
+  box-shadow:0 3px 8px #0008;
+}
+
+.device-app-icons i:nth-child(2) {background:linear-gradient(145deg,#fffc00,#a68b00)}
+.device-app-icons i:nth-child(3) {background:linear-gradient(145deg,#f77737,#833ab4)}
+.device-app-icons i:nth-child(4) {background:linear-gradient(145deg,#25d366,#087c42)}
+
+.device-type {
+  color:#d9c4ec;
+  font-size:11px;
+  font-weight:bold;
+  letter-spacing:2px;
+  direction:ltr;
+}
+
+@keyframes deviceSwitch {
+  0%,5% {opacity:0;transform:translateY(18px) scale(.88)}
+  12%,39% {opacity:1;transform:translateY(0) scale(1)}
+  46%,100% {opacity:0;transform:translateY(-15px) scale(.92)}
+}
+
+@media(max-width:390px) {
+  .plus-apps-showcase {padding:22px 10px 25px}
+  .device-stage {height:255px}
+  .ipad-frame {transform:scale(.88)}
+}
+
 </style>
 </head>
 
@@ -929,6 +1090,37 @@ footer {
   <div class="sections" id="sections">
     <p class="loading-message">جاري تحميل المتجر...</p>
   </div>
+
+  <section class="plus-apps-showcase" aria-label="تطبيقات بلس">
+    <h2 class="plus-apps-title">تطبيقات بلس <span>PLUS APPS</span></h2>
+    <div class="device-stage">
+
+      <div class="device-scene iphone-scene">
+        <div class="device-frame iphone-frame">
+          <div class="device-screen">
+            <div class="device-camera"></div>
+            <div class="device-brand">JOKER <span>PLUS</span></div>
+            <div class="device-caption">YOUR DIGITAL WORLD</div>
+            <div class="device-app-icons"><i></i><i></i><i></i><i></i></div>
+          </div>
+        </div>
+        <div class="device-type">iPHONE</div>
+      </div>
+
+      <div class="device-scene ipad-scene">
+        <div class="device-frame ipad-frame">
+          <div class="device-screen">
+            <div class="device-camera"></div>
+            <div class="device-brand">JOKER <span>PLUS</span></div>
+            <div class="device-caption">YOUR DIGITAL WORLD</div>
+            <div class="device-app-icons"><i></i><i></i><i></i><i></i></div>
+          </div>
+        </div>
+        <div class="device-type">iPAD</div>
+      </div>
+
+    </div>
+  </section>
 </main>
 
 <footer>
