@@ -28,6 +28,102 @@ body {
   font-family:Arial,sans-serif;
 }
 
+/* البنر الترحيبي الجديد */
+
+.hero-banner {
+  position:relative;
+  max-width:1110px;
+  min-height:230px;
+  margin:12px auto 30px;
+  padding:35px 22px;
+  border:1px solid #654184;
+  border-radius:24px;
+  overflow:hidden;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  background:
+    radial-gradient(ellipse at 50% 50%,#63358c88,transparent 55%),
+    radial-gradient(circle at 10% 20%,#a6192e33,transparent 35%),
+    linear-gradient(130deg,#1b1026,#09080c 55%,#28113d);
+  box-shadow:0 18px 45px #0009,inset 0 1px 0 #ffffff18;
+}
+
+.hero-banner::before,
+.hero-banner::after {
+  content:"";
+  position:absolute;
+  border:1px solid #c49be533;
+  border-radius:50%;
+  pointer-events:none;
+}
+
+.hero-banner::before {
+  width:260px;
+  height:260px;
+  right:-90px;
+  top:-135px;
+  box-shadow:0 0 45px #a77ad022;
+}
+
+.hero-banner::after {
+  width:220px;
+  height:220px;
+  left:-85px;
+  bottom:-135px;
+  box-shadow:0 0 45px #a77ad022;
+}
+
+.hero-content {
+  position:relative;
+  z-index:2;
+}
+
+.hero-mark {
+  width:58px;
+  height:58px;
+  margin:0 auto 14px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border:1px solid #c49be577;
+  border-radius:18px;
+  color:#e2c8fa;
+  font-size:30px;
+  font-weight:900;
+  background:linear-gradient(145deg,#54247a,#160d20);
+  box-shadow:0 0 30px #a77ad044;
+  transform:rotate(-8deg);
+}
+
+.hero-title {
+  margin:0;
+  direction:ltr;
+  font-size:clamp(25px,6vw,38px);
+  font-weight:900;
+  letter-spacing:3px;
+  text-shadow:0 0 22px #a77ad055;
+}
+
+.hero-title span {color:#c49be5}
+
+.hero-slogan {
+  margin:13px 0 0;
+  color:#e5d5f2;
+  font-size:clamp(14px,3.5vw,18px);
+  font-weight:bold;
+  letter-spacing:.3px;
+}
+
+.hero-line {
+  width:65px;
+  height:2px;
+  margin:16px auto 0;
+  border-radius:5px;
+  background:linear-gradient(90deg,#35105c,#c49be5,#a6192e);
+}
+
 header {
   text-align:center;
   padding:38px 18px 25px;
@@ -78,7 +174,7 @@ main {
   font-size:11px;
 }
 
-/* شبكة الأقسام: 3 أعمدة */
+/* شبكة الأقسام */
 
 .sections {
   display:grid;
@@ -225,23 +321,17 @@ main {
   white-space:nowrap;
 }
 
-/* خلفيات داكنة لتطبيقات بلس */
-
 .section-apps .app-icon {
   background:linear-gradient(145deg,#21182b,#100d16);
   border:1px solid #59416c;
   box-shadow:0 3px 10px #000b,inset 0 1px 0 #ffffff12;
 }
 
-/* تويتر وتيك توك فقط بخلفية فاتحة */
-
 .section-apps .app-icon.app-icon-light {
   background:#fff;
   border:1px solid #ddd;
   box-shadow:0 3px 8px #0008;
 }
-
-/* تكبير تطبيقات التيك توك والإنستغرام داخل الجوال */
 
 .section-social .app-grid {
   grid-template-columns:repeat(2,minmax(0,1fr));
@@ -337,7 +427,7 @@ main {
   background:#ffffff90;
 }
 
-/* بطاقات PlayStation - متمركزة ومتقاربة */
+/* بطاقات PlayStation */
 
 .store-stage {
   width:100%;
@@ -405,7 +495,7 @@ main {
   filter:drop-shadow(0 5px 12px #0009);
 }
 
-/* تلفزيون IPTV حديث */
+/* تلفزيون IPTV */
 
 .tv-stage {
   width:100%;
@@ -847,6 +937,12 @@ footer {
 
   .section-heading h2 {font-size:16px}
   .section-heading span {font-size:9px}
+
+  .hero-banner {
+    margin:10px 10px 25px;
+    min-height:205px;
+    padding:28px 14px;
+  }
 }
 
 @media(max-width:390px) {
@@ -944,8 +1040,6 @@ footer {
 .device-scene.iphone-scene {animation-delay:0s}
 .device-scene.ipad-scene {animation-delay:4s}
 
-/* الهيكل المعدني للأجهزة */
-
 .device-frame {
   position:relative;
   padding:7px;
@@ -967,33 +1061,20 @@ footer {
   border:1px solid #ffffff24;
 }
 
-/* آيفون أطول بتصميم واقعي */
-
 .iphone-frame {
   width:148px;
   height:282px;
   padding:6px;
   border-radius:35px;
   background:linear-gradient(115deg,#29232e 0%,#c5bbc9 7%,#514858 13%,#17131e 24%,#aaa0b0 49%,#403747 77%,#d2c9d6 94%,#28212f 100%);
-  box-shadow:
-    3px 5px 0 #100b16,
-    7px 12px 0 #08060b,
-    0 25px 38px #000c,
-    0 0 30px #8d56b344,
-    inset 0 0 0 1px #ffffffaa,
-    inset 0 0 0 3px #17131e;
+  box-shadow:3px 5px 0 #100b16,7px 12px 0 #08060b,0 25px 38px #000c,0 0 30px #8d56b344,inset 0 0 0 1px #ffffffaa,inset 0 0 0 3px #17131e;
 }
 
 .iphone-frame .device-screen {
   border-radius:29px;
-  background:
-    radial-gradient(ellipse at 50% 15%,#482064 0%,#1a1026 48%,#08070b 100%);
-  box-shadow:
-    inset 0 0 0 1px #ffffff1c,
-    inset 0 -25px 40px #0008;
+  background:radial-gradient(ellipse at 50% 15%,#482064 0%,#1a1026 48%,#08070b 100%);
+  box-shadow:inset 0 0 0 1px #ffffff1c,inset 0 -25px 40px #0008;
 }
-
-/* الأزرار المعدنية الجانبية للآيفون */
 
 .iphone-frame::before {
   content:"";
@@ -1019,8 +1100,6 @@ footer {
   box-shadow:0 43px 0 #aaa0b0,0 78px 0 #aaa0b0;
 }
 
-/* Dynamic Island */
-
 .dynamic-island {
   position:absolute;
   top:9px;
@@ -1031,9 +1110,7 @@ footer {
   border-radius:20px;
   background:#020203;
   z-index:8;
-  box-shadow:
-    0 1px 2px #ffffff22,
-    inset 0 1px 2px #000;
+  box-shadow:0 1px 2px #ffffff22,inset 0 1px 2px #000;
   display:flex;
   align-items:center;
   justify-content:flex-end;
@@ -1066,10 +1143,7 @@ footer {
 .iphone-wallpaper {
   position:absolute;
   inset:0;
-  background:
-    radial-gradient(ellipse at 30% 35%,#a77ad044,transparent 38%),
-    radial-gradient(ellipse at 75% 65%,#54247a88,transparent 45%),
-    linear-gradient(145deg,#171020,#09070e 70%);
+  background:radial-gradient(ellipse at 30% 35%,#a77ad044,transparent 38%),radial-gradient(ellipse at 75% 65%,#54247a88,transparent 45%),linear-gradient(145deg,#171020,#09070e 70%);
 }
 
 .iphone-content {
@@ -1133,33 +1207,20 @@ footer {
   z-index:4;
 }
 
-/* آيباد واقعي بإطار معدني وكاميرا أمامية */
-
 .ipad-frame {
   width:330px;
   height:230px;
   padding:9px;
   border-radius:22px;
   background:linear-gradient(135deg,#27212d 0%,#bcb2c3 8%,#4b4352 17%,#17131e 30%,#93899a 55%,#39313f 80%,#c4bacb 96%,#28212f 100%);
-  box-shadow:
-    4px 6px 0 #100b16,
-    9px 14px 0 #08060b,
-    0 25px 38px #000c,
-    0 0 28px #8d56b344,
-    inset 0 0 0 1px #ffffffaa,
-    inset 0 0 0 3px #17131e;
+  box-shadow:4px 6px 0 #100b16,9px 14px 0 #08060b,0 25px 38px #000c,0 0 28px #8d56b344,inset 0 0 0 1px #ffffffaa,inset 0 0 0 3px #17131e;
 }
 
 .ipad-frame .device-screen {
   border-radius:13px;
-  background:
-    radial-gradient(ellipse at 50% 20%,#482064,#100b18 72%,#08070b);
-  box-shadow:
-    inset 0 0 0 1px #ffffff20,
-    inset 0 0 35px #0009;
+  background:radial-gradient(ellipse at 50% 20%,#482064,#100b18 72%,#08070b);
+  box-shadow:inset 0 0 0 1px #ffffff20,inset 0 0 35px #0009;
 }
-
-/* كاميرا الآيباد على الحافة */
 
 .ipad-camera {
   position:absolute;
@@ -1248,7 +1309,6 @@ footer {
   .iphone-frame {transform:scale(.92)}
   .ipad-frame {transform:scale(.82)}
 }
-
 </style>
 </head>
 
@@ -1273,8 +1333,19 @@ footer {
 <header>
   <div class="logo">JOKER <span>PLUS</span></div>
   <div class="logo-line"></div>
-  <p>وجهتك للخدمات الرقمية المميزة</p>
+  <p>لسنا الوحيدين لكنَ الأفضل</p>
 </header>
+
+<!-- البنر الجديد أعلى المتجر -->
+
+<section class="hero-banner" aria-label="JOKER PLUS banner">
+  <div class="hero-content">
+    <div class="hero-mark">♠</div>
+    <h1 class="hero-title">JOKER <span>PLUS</span></h1>
+    <p class="hero-slogan">لسنا الوحيدين لكنَ الأفضل</p>
+    <div class="hero-line"></div>
+  </div>
+</section>
 
 <main>
   <div class="section-heading">
@@ -1290,8 +1361,6 @@ footer {
     <h2 class="plus-apps-title">تطبيقات بلس <span>PLUS APPS</span></h2>
     <div class="device-stage">
 
-      <!-- الآيفون -->
-
       <div class="device-scene iphone-scene">
         <div class="device-frame iphone-frame">
           <div class="device-screen">
@@ -1301,20 +1370,16 @@ footer {
               <span>●●●  WiFi  ▰</span>
             </div>
             <div class="dynamic-island"></div>
-
             <div class="iphone-content">
               <div class="device-brand">JOKER <span>PLUS</span></div>
               <div class="device-caption">YOUR DIGITAL WORLD</div>
               <div class="device-app-icons"><i></i><i></i><i></i><i></i></div>
             </div>
-
             <div class="iphone-home-indicator"></div>
           </div>
         </div>
         <div class="device-type">iPHONE</div>
       </div>
-
-      <!-- الآيباد -->
 
       <div class="device-scene ipad-scene">
         <div class="device-frame ipad-frame">
