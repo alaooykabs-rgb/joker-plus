@@ -920,13 +920,13 @@ footer {
 }
 
 .device-stage {
-  height:285px;
+  height:330px;
   margin:12px auto 0;
   position:relative;
   display:flex;
   align-items:center;
   justify-content:center;
-  perspective:900px;
+  perspective:1100px;
   background:radial-gradient(ellipse at center,#54247a38,transparent 68%);
 }
 
@@ -943,6 +943,8 @@ footer {
 
 .device-scene.iphone-scene {animation-delay:0s}
 .device-scene.ipad-scene {animation-delay:4s}
+
+/* الهيكل المعدني للأجهزة */
 
 .device-frame {
   position:relative;
@@ -965,34 +967,119 @@ footer {
   border:1px solid #ffffff24;
 }
 
+/* آيفون أطول بتصميم واقعي */
+
 .iphone-frame {
-  width:132px;
-  height:225px;
-  border-radius:28px;
+  width:148px;
+  height:282px;
+  padding:6px;
+  border-radius:35px;
+  background:linear-gradient(115deg,#29232e 0%,#c5bbc9 7%,#514858 13%,#17131e 24%,#aaa0b0 49%,#403747 77%,#d2c9d6 94%,#28212f 100%);
+  box-shadow:
+    3px 5px 0 #100b16,
+    7px 12px 0 #08060b,
+    0 25px 38px #000c,
+    0 0 30px #8d56b344,
+    inset 0 0 0 1px #ffffffaa,
+    inset 0 0 0 3px #17131e;
 }
 
-.iphone-frame .device-screen {border-radius:21px}
-
-.ipad-frame {
-  width:300px;
-  height:205px;
-  border-radius:19px;
-  padding:8px;
+.iphone-frame .device-screen {
+  border-radius:29px;
+  background:
+    radial-gradient(ellipse at 50% 15%,#482064 0%,#1a1026 48%,#08070b 100%);
+  box-shadow:
+    inset 0 0 0 1px #ffffff1c,
+    inset 0 -25px 40px #0008;
 }
 
-.ipad-frame .device-screen {border-radius:11px}
+/* الأزرار المعدنية الجانبية للآيفون */
 
-.device-camera {
+.iphone-frame::before {
+  content:"";
   position:absolute;
-  z-index:2;
-  top:5px;
-  left:50%;
+  right:-4px;
+  top:62px;
   width:4px;
-  height:4px;
-  border-radius:50%;
+  height:48px;
+  border-radius:0 4px 4px 0;
+  background:linear-gradient(90deg,#514858,#d1c8d5,#514858);
+  box-shadow:0 65px 0 -0.2px #aaa0b0;
+}
+
+.iphone-frame::after {
+  content:"";
+  position:absolute;
+  left:-4px;
+  top:55px;
+  width:4px;
+  height:28px;
+  border-radius:4px 0 0 4px;
+  background:linear-gradient(90deg,#cfc6d3,#514858);
+  box-shadow:0 43px 0 #aaa0b0,0 78px 0 #aaa0b0;
+}
+
+/* Dynamic Island */
+
+.dynamic-island {
+  position:absolute;
+  top:9px;
+  left:50%;
   transform:translateX(-50%);
-  background:#08070b;
-  box-shadow:0 0 3px #aaa;
+  width:76px;
+  height:22px;
+  border-radius:20px;
+  background:#020203;
+  z-index:8;
+  box-shadow:
+    0 1px 2px #ffffff22,
+    inset 0 1px 2px #000;
+  display:flex;
+  align-items:center;
+  justify-content:flex-end;
+  padding-right:9px;
+}
+
+.dynamic-island::after {
+  content:"";
+  width:6px;
+  height:6px;
+  border-radius:50%;
+  background:radial-gradient(circle at 35% 35%,#27314c,#090b12 65%);
+  box-shadow:0 0 3px #64709a55;
+}
+
+.iphone-status {
+  position:absolute;
+  top:12px;
+  left:15px;
+  right:15px;
+  display:flex;
+  justify-content:space-between;
+  direction:ltr;
+  color:#fff;
+  font-size:6px;
+  font-weight:bold;
+  z-index:5;
+}
+
+.iphone-wallpaper {
+  position:absolute;
+  inset:0;
+  background:
+    radial-gradient(ellipse at 30% 35%,#a77ad044,transparent 38%),
+    radial-gradient(ellipse at 75% 65%,#54247a88,transparent 45%),
+    linear-gradient(145deg,#171020,#09070e 70%);
+}
+
+.iphone-content {
+  position:relative;
+  z-index:2;
+  width:100%;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  padding-top:17px;
 }
 
 .device-brand {
@@ -1016,14 +1103,14 @@ footer {
 .device-app-icons {
   display:flex;
   justify-content:center;
-  gap:8px;
-  margin-top:18px;
+  gap:9px;
+  margin-top:22px;
 }
 
 .device-app-icons i {
-  width:19px;
-  height:19px;
-  border-radius:6px;
+  width:22px;
+  height:22px;
+  border-radius:7px;
   display:block;
   background:linear-gradient(145deg,#a77ad0,#35105c);
   border:1px solid #ffffff35;
@@ -1033,6 +1120,113 @@ footer {
 .device-app-icons i:nth-child(2) {background:linear-gradient(145deg,#fffc00,#a68b00)}
 .device-app-icons i:nth-child(3) {background:linear-gradient(145deg,#f77737,#833ab4)}
 .device-app-icons i:nth-child(4) {background:linear-gradient(145deg,#25d366,#087c42)}
+
+.iphone-home-indicator {
+  position:absolute;
+  bottom:7px;
+  left:50%;
+  transform:translateX(-50%);
+  width:48px;
+  height:3px;
+  border-radius:5px;
+  background:#ffffffcc;
+  z-index:4;
+}
+
+/* آيباد واقعي بإطار معدني وكاميرا أمامية */
+
+.ipad-frame {
+  width:330px;
+  height:230px;
+  padding:9px;
+  border-radius:22px;
+  background:linear-gradient(135deg,#27212d 0%,#bcb2c3 8%,#4b4352 17%,#17131e 30%,#93899a 55%,#39313f 80%,#c4bacb 96%,#28212f 100%);
+  box-shadow:
+    4px 6px 0 #100b16,
+    9px 14px 0 #08060b,
+    0 25px 38px #000c,
+    0 0 28px #8d56b344,
+    inset 0 0 0 1px #ffffffaa,
+    inset 0 0 0 3px #17131e;
+}
+
+.ipad-frame .device-screen {
+  border-radius:13px;
+  background:
+    radial-gradient(ellipse at 50% 20%,#482064,#100b18 72%,#08070b);
+  box-shadow:
+    inset 0 0 0 1px #ffffff20,
+    inset 0 0 35px #0009;
+}
+
+/* كاميرا الآيباد على الحافة */
+
+.ipad-camera {
+  position:absolute;
+  left:3px;
+  top:50%;
+  transform:translateY(-50%);
+  width:5px;
+  height:5px;
+  border-radius:50%;
+  background:#070609;
+  z-index:5;
+  box-shadow:0 0 3px #aaa,inset 0 0 2px #536078;
+}
+
+.ipad-side-button {
+  position:absolute;
+  top:-4px;
+  right:48px;
+  width:35px;
+  height:4px;
+  border-radius:4px 4px 0 0;
+  background:linear-gradient(90deg,#514858,#d1c8d5,#514858);
+}
+
+.ipad-home-indicator {
+  position:absolute;
+  bottom:5px;
+  left:50%;
+  transform:translateX(-50%);
+  width:38px;
+  height:3px;
+  border-radius:5px;
+  background:#ffffffaa;
+  z-index:4;
+}
+
+.ipad-content {
+  position:relative;
+  z-index:2;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  width:100%;
+  height:100%;
+}
+
+.ipad-content .device-brand {
+  font-size:19px;
+  letter-spacing:2px;
+}
+
+.ipad-content .device-caption {
+  font-size:9px;
+  margin-top:9px;
+}
+
+.ipad-content .device-app-icons {
+  gap:14px;
+  margin-top:25px;
+}
+
+.ipad-content .device-app-icons i {
+  width:29px;
+  height:29px;
+  border-radius:9px;
+}
 
 .device-type {
   color:#d9c4ec;
@@ -1050,8 +1244,9 @@ footer {
 
 @media(max-width:390px) {
   .plus-apps-showcase {padding:22px 10px 25px}
-  .device-stage {height:255px}
-  .ipad-frame {transform:scale(.88)}
+  .device-stage {height:315px}
+  .iphone-frame {transform:scale(.92)}
+  .ipad-frame {transform:scale(.82)}
 }
 
 </style>
@@ -1095,25 +1290,43 @@ footer {
     <h2 class="plus-apps-title">تطبيقات بلس <span>PLUS APPS</span></h2>
     <div class="device-stage">
 
+      <!-- الآيفون -->
+
       <div class="device-scene iphone-scene">
         <div class="device-frame iphone-frame">
           <div class="device-screen">
-            <div class="device-camera"></div>
-            <div class="device-brand">JOKER <span>PLUS</span></div>
-            <div class="device-caption">YOUR DIGITAL WORLD</div>
-            <div class="device-app-icons"><i></i><i></i><i></i><i></i></div>
+            <div class="iphone-wallpaper"></div>
+            <div class="iphone-status">
+              <span>9:41</span>
+              <span>●●●  WiFi  ▰</span>
+            </div>
+            <div class="dynamic-island"></div>
+
+            <div class="iphone-content">
+              <div class="device-brand">JOKER <span>PLUS</span></div>
+              <div class="device-caption">YOUR DIGITAL WORLD</div>
+              <div class="device-app-icons"><i></i><i></i><i></i><i></i></div>
+            </div>
+
+            <div class="iphone-home-indicator"></div>
           </div>
         </div>
         <div class="device-type">iPHONE</div>
       </div>
 
+      <!-- الآيباد -->
+
       <div class="device-scene ipad-scene">
         <div class="device-frame ipad-frame">
+          <div class="ipad-side-button"></div>
           <div class="device-screen">
-            <div class="device-camera"></div>
-            <div class="device-brand">JOKER <span>PLUS</span></div>
-            <div class="device-caption">YOUR DIGITAL WORLD</div>
-            <div class="device-app-icons"><i></i><i></i><i></i><i></i></div>
+            <div class="ipad-camera"></div>
+            <div class="ipad-content">
+              <div class="device-brand">JOKER <span>PLUS</span></div>
+              <div class="device-caption">YOUR DIGITAL WORLD</div>
+              <div class="device-app-icons"><i></i><i></i><i></i><i></i></div>
+            </div>
+            <div class="ipad-home-indicator"></div>
           </div>
         </div>
         <div class="device-type">iPAD</div>
