@@ -111,17 +111,17 @@ body {
   box-shadow:0 0 15px #a77ad055;
 }
 
-/* مشهد الهاتف والأيقونات الطائرة */
+/* مشهد الهاتف والأيقونات الدائرية ثلاثية الأبعاد */
 
 .hero-phone-scene {
-  width:440px;
-  height:380px;
+  width:500px;
+  height:430px;
   flex:none;
   display:flex;
   align-items:center;
   justify-content:center;
   position:relative;
-  perspective:1200px;
+  perspective:1400px;
   isolation:isolate;
 }
 
@@ -135,6 +135,19 @@ body {
   filter:blur(65px);
   z-index:-2;
   animation:heroAura 4s ease-in-out infinite;
+}
+
+.hero-phone-scene::after {
+  content:"";
+  position:absolute;
+  width:390px;
+  height:390px;
+  border:1px solid #c49be522;
+  border-radius:50%;
+  box-shadow:0 0 35px #a77ad018,inset 0 0 35px #a77ad018;
+  transform:rotateX(62deg) rotateZ(-12deg);
+  pointer-events:none;
+  z-index:-1;
 }
 
 .hero-phone {
@@ -298,11 +311,13 @@ body {
   background:#ffffffcc;
 }
 
-/* 12 تطبيقاً ولعبة حول الهاتف بتوزيع متساوٍ */
+/* التطبيقات والألعاب حول الهاتف */
 
 .hero-floating-app {
   position:absolute;
   z-index:4;
+  left:50%;
+  top:50%;
   width:52px;
   height:52px;
   padding:5px;
@@ -317,13 +332,20 @@ body {
     0 0 20px #a77ad044,
     inset 0 1px 0 #ffffff45,
     inset 0 -3px 7px #0008;
+  transform:
+    translate(-50%,-50%)
+    translate(var(--x),var(--y))
+    rotate(var(--tilt,0deg))
+    rotateY(var(--ry,0deg))
+    rotateX(var(--rx,0deg));
   transform-style:preserve-3d;
   animation:floatIcon 4s ease-in-out infinite;
   transition:filter .3s,box-shadow .3s;
+  will-change:translate,filter;
 }
 
 .hero-floating-app:hover {
-  filter:brightness(1.3);
+  filter:brightness(1.4);
   box-shadow:
     0 16px 28px #000c,
     0 0 28px #c49be577,
@@ -344,100 +366,126 @@ body {
   object-fit:cover;
 }
 
+/* توزيع دائري حول الهاتف - 12 موقعاً */
+
 .hero-floating-app.snap {
-  top:5px;
-  left:16px;
+  --x:0px;
+  --y:-190px;
+  --tilt:-12deg;
+  --ry:18deg;
+  --rx:8deg;
   background:#fffc00;
   animation-delay:-.5s;
-  --tilt:-13deg;
 }
 
 .hero-floating-app.tiktok {
-  top:69px;
-  left:16px;
+  --x:95px;
+  --y:-165px;
+  --tilt:12deg;
+  --ry:-15deg;
+  --rx:8deg;
   background:#fff;
   animation-delay:-1.7s;
-  --tilt:12deg;
 }
 
 .hero-floating-app.gta {
-  top:133px;
-  left:16px;
+  --x:165px;
+  --y:-95px;
+  --tilt:9deg;
+  --ry:16deg;
+  --rx:-8deg;
   background:#d5d0c2;
   animation-delay:-1.3s;
-  --tilt:9deg;
 }
 
 .hero-floating-app.youtube {
-  top:197px;
-  left:16px;
+  --x:190px;
+  --y:0px;
+  --tilt:10deg;
+  --ry:-17deg;
+  --rx:10deg;
   background:#ed1c24;
   animation-delay:-2.2s;
-  --tilt:10deg;
 }
 
 .hero-floating-app.whatsapp {
-  top:261px;
-  left:16px;
+  --x:165px;
+  --y:95px;
+  --tilt:-10deg;
+  --ry:15deg;
+  --rx:-8deg;
   background:#25d366;
   animation-delay:-.9s;
-  --tilt:-10deg;
 }
 
 .hero-floating-app.telegram {
-  top:325px;
-  left:16px;
+  --x:95px;
+  --y:165px;
+  --tilt:12deg;
+  --ry:-15deg;
+  --rx:8deg;
   background:#229ed9;
   animation-delay:-2.6s;
-  --tilt:12deg;
 }
 
 .hero-floating-app.instagram {
-  top:5px;
-  right:16px;
+  --x:0px;
+  --y:190px;
+  --tilt:12deg;
+  --ry:18deg;
+  --rx:-8deg;
   background:linear-gradient(135deg,#833ab4,#fd1d1d,#fcb045);
   animation-delay:-1s;
-  --tilt:12deg;
 }
 
 .hero-floating-app.threads {
-  top:69px;
-  right:16px;
+  --x:-95px;
+  --y:165px;
+  --tilt:-10deg;
+  --ry:-15deg;
+  --rx:8deg;
   background:#fff;
   animation-delay:-2.5s;
-  --tilt:-10deg;
 }
 
 .hero-floating-app.pubg {
-  top:133px;
-  right:16px;
+  --x:-165px;
+  --y:95px;
+  --tilt:-12deg;
+  --ry:16deg;
+  --rx:-8deg;
   background:#6b5128;
   animation-delay:-.8s;
-  --tilt:-12deg;
 }
 
 .hero-floating-app.x-app {
-  top:197px;
-  right:16px;
+  --x:-190px;
+  --y:0px;
+  --tilt:10deg;
+  --ry:-17deg;
+  --rx:10deg;
   background:#fff;
   animation-delay:-1.5s;
-  --tilt:10deg;
 }
 
 .hero-floating-app.twitch {
-  top:261px;
-  right:16px;
+  --x:-165px;
+  --y:-95px;
+  --tilt:-10deg;
+  --ry:15deg;
+  --rx:-8deg;
   background:#9146ff;
   animation-delay:-2.1s;
-  --tilt:-10deg;
 }
 
 .hero-floating-app.facebook {
-  top:325px;
-  right:16px;
+  --x:-95px;
+  --y:-165px;
+  --tilt:12deg;
+  --ry:-15deg;
+  --rx:8deg;
   background:#1877f2;
   animation-delay:-1.2s;
-  --tilt:12deg;
 }
 
 .hero-floating-app::after {
@@ -453,13 +501,11 @@ body {
 @keyframes floatIcon {
   0%,100% {
     translate:0 0;
-    rotate:var(--tilt,0deg);
     filter:brightness(1);
   }
   50% {
-    translate:0 -11px;
-    rotate:0deg;
-    filter:brightness(1.18);
+    translate:0 -10px;
+    filter:brightness(1.2);
   }
 }
 
@@ -1654,7 +1700,7 @@ footer {
 
   .hero-line {margin-top:10px}
 
-  /* تصغير الأيقونات مع الحفاظ على 6 بكل جهة */
+  /* مدار دائري أصغر ليناسب شاشة الجوال */
 
   .hero-floating-app {
     width:40px;
@@ -1668,52 +1714,64 @@ footer {
     border-radius:15px;
   }
 
-  .hero-floating-app.snap,
-  .hero-floating-app.instagram {
-    top:0;
+  .hero-floating-app.snap {
+    --x:0px;
+    --y:-145px;
   }
 
-  .hero-floating-app.tiktok,
-  .hero-floating-app.threads {
-    top:58px;
+  .hero-floating-app.tiktok {
+    --x:72px;
+    --y:-125px;
   }
 
-  .hero-floating-app.gta,
-  .hero-floating-app.pubg {
-    top:116px;
+  .hero-floating-app.gta {
+    --x:125px;
+    --y:-72px;
   }
 
-  .hero-floating-app.youtube,
-  .hero-floating-app.x-app {
-    top:174px;
+  .hero-floating-app.youtube {
+    --x:145px;
+    --y:0px;
   }
 
-  .hero-floating-app.whatsapp,
-  .hero-floating-app.twitch {
-    top:232px;
+  .hero-floating-app.whatsapp {
+    --x:125px;
+    --y:72px;
   }
 
-  .hero-floating-app.telegram,
-  .hero-floating-app.facebook {
-    top:290px;
-  }
-
-  .hero-floating-app.snap,
-  .hero-floating-app.tiktok,
-  .hero-floating-app.gta,
-  .hero-floating-app.youtube,
-  .hero-floating-app.whatsapp,
   .hero-floating-app.telegram {
-    left:1px;
+    --x:72px;
+    --y:125px;
   }
 
-  .hero-floating-app.instagram,
-  .hero-floating-app.threads,
-  .hero-floating-app.pubg,
-  .hero-floating-app.x-app,
-  .hero-floating-app.twitch,
+  .hero-floating-app.instagram {
+    --x:0px;
+    --y:145px;
+  }
+
+  .hero-floating-app.threads {
+    --x:-72px;
+    --y:125px;
+  }
+
+  .hero-floating-app.pubg {
+    --x:-125px;
+    --y:72px;
+  }
+
+  .hero-floating-app.x-app {
+    --x:-145px;
+    --y:0px;
+  }
+
+  .hero-floating-app.twitch {
+    --x:-125px;
+    --y:-72px;
+  }
+
   .hero-floating-app.facebook {
-    right:1px;
+    --x:-72px;
+    --y:-125px;
   }
 }
 
@@ -1766,23 +1824,65 @@ footer {
     padding:3px;
   }
 
-  .hero-floating-app.snap,
-  .hero-floating-app.instagram {top:0}
+  .hero-floating-app.snap {
+    --x:0px;
+    --y:-132px;
+  }
 
-  .hero-floating-app.tiktok,
-  .hero-floating-app.threads {top:52px}
+  .hero-floating-app.tiktok {
+    --x:65px;
+    --y:-112px;
+  }
 
-  .hero-floating-app.gta,
-  .hero-floating-app.pubg {top:104px}
+  .hero-floating-app.gta {
+    --x:112px;
+    --y:-65px;
+  }
 
-  .hero-floating-app.youtube,
-  .hero-floating-app.x-app {top:156px}
+  .hero-floating-app.youtube {
+    --x:132px;
+    --y:0px;
+  }
 
-  .hero-floating-app.whatsapp,
-  .hero-floating-app.twitch {top:208px}
+  .hero-floating-app.whatsapp {
+    --x:112px;
+    --y:65px;
+  }
 
-  .hero-floating-app.telegram,
-  .hero-floating-app.facebook {top:260px}
+  .hero-floating-app.telegram {
+    --x:65px;
+    --y:112px;
+  }
+
+  .hero-floating-app.instagram {
+    --x:0px;
+    --y:132px;
+  }
+
+  .hero-floating-app.threads {
+    --x:-65px;
+    --y:112px;
+  }
+
+  .hero-floating-app.pubg {
+    --x:-112px;
+    --y:65px;
+  }
+
+  .hero-floating-app.x-app {
+    --x:-132px;
+    --y:0px;
+  }
+
+  .hero-floating-app.twitch {
+    --x:-112px;
+    --y:-65px;
+  }
+
+  .hero-floating-app.facebook {
+    --x:-65px;
+    --y:-112px;
+  }
 }
 
 @media(prefers-reduced-motion:reduce) {
@@ -1891,7 +1991,7 @@ footer {
 
     <div class="hero-phone-scene">
 
-      <!-- 6 تطبيقات وألعاب على يسار الهاتف -->
+      <!-- التطبيقات والألعاب حول الهاتف بشكل دائري -->
 
       <div class="hero-floating-app snap">
         <img src="https://cdn.simpleicons.org/snapchat/000000" alt="Snapchat">
@@ -1919,8 +2019,6 @@ footer {
       <div class="hero-floating-app telegram">
         <img src="https://cdn.simpleicons.org/telegram/ffffff" alt="Telegram">
       </div>
-
-      <!-- 6 تطبيقات وألعاب على يمين الهاتف -->
 
       <div class="hero-floating-app instagram">
         <img src="https://cdn.simpleicons.org/instagram/ffffff" alt="Instagram">
