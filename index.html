@@ -28,7 +28,7 @@ body {
   font-family:Arial,sans-serif;
 }
 
-/* البنر */
+/* البنر الطويل والهاتف المتحرك */
 
 .hero-banner {
   position:relative;
@@ -148,6 +148,7 @@ body {
   animation:heroPhoneTilt 5s ease-in-out infinite;
 }
 
+/* أزرار جانبية قليلة ومرتبة */
 .hero-phone::before {
   content:"";
   position:absolute;
@@ -313,7 +314,7 @@ body {
   50% {transform:rotateY(5deg) rotateX(1deg)}
 }
 
-/* الشعار */
+/* الشعار أعلى البنر فقط */
 
 header {
   text-align:center;
@@ -335,7 +336,7 @@ header {
   height:100%;
 }
 
-/* المتجر */
+/* بقية المتجر */
 
 main {
   max-width:1150px;
@@ -360,7 +361,7 @@ main {
   font-size:11px;
 }
 
-/* الأقسام */
+/* شبكة الأقسام */
 
 .sections {
   display:grid;
@@ -384,7 +385,7 @@ main {
   transform:translateY(-3px);
 }
 
-/* هواتف الأقسام */
+/* الهاتف */
 
 .phone-stage {
   width:100%;
@@ -765,6 +766,7 @@ main {
   background:#08070b;
   border-radius:50%;
   z-index:3;
+  box-shadow:0 0 3px #aaa;
 }
 
 .tv-brand-group {
@@ -916,8 +918,6 @@ main {
 }
 
 .error-message {color:#e8a1a8}
-
-/* الفوتر */
 
 footer {
   text-align:center;
@@ -1073,7 +1073,7 @@ footer {
   100% {transform:translateX(210%)}
 }
 
-/* عرض تطبيقات بلس */
+/* قسم تطبيقات بلس المتحرك أسفل الأقسام */
 
 .plus-apps-showcase {
   margin:34px auto 8px;
@@ -1392,7 +1392,7 @@ footer {
   46%,100% {opacity:0;transform:translateY(-15px) scale(.92)}
 }
 
-/* توافق الشاشات */
+/* توافق الجوال والآيباد */
 
 @media(max-width:700px) {
   .sections {
@@ -1419,6 +1419,7 @@ footer {
   }
 
   .store-cards {transform:scale(.72)}
+
   .tv-set {width:95%}
 
   .section-card h3 {
@@ -1448,45 +1449,34 @@ footer {
   .section-heading h2 {font-size:16px}
   .section-heading span {font-size:9px}
 
-  /* الهاتف والوصف جنب بعض في البنر */
   .hero-banner {
-    min-height:300px;
     margin:10px 10px 25px;
-    padding:18px 10px;
+    min-height:410px;
+    padding:25px 12px;
   }
 
   .hero-content {
-    flex-direction:row;
-    justify-content:space-evenly;
-    align-items:center;
-    gap:5px;
-  }
-
-  .hero-message {
-    order:1;
-    flex:1;
-    min-width:0;
+    flex-direction:column;
+    gap:12px;
   }
 
   .hero-phone-scene {
-    order:2;
-    width:145px;
-    height:280px;
-    flex:none;
+    height:300px;
+    width:190px;
   }
 
   .hero-phone {
-    transform:scale(.78);
+    transform:scale(.88);
   }
+
+  .hero-message {order:1}
+  .hero-phone-scene {order:2}
 
   .hero-slogan {
-    font-size:clamp(15px,4vw,21px);
-    line-height:1.8;
+    font-size:21px;
   }
 
-  .hero-line {
-    margin-top:12px;
-  }
+  .hero-line {margin-top:12px}
 }
 
 @media(max-width:390px) {
@@ -1521,33 +1511,9 @@ footer {
   .iphone-frame {transform:scale(.92)}
   .ipad-frame {transform:scale(.82)}
 
-  /* إبقاء الهاتف والوصف جنب بعض حتى في الجوال الصغير */
-  .hero-banner {
-    min-height:275px;
-    padding:12px 6px;
-  }
-
-  .hero-content {
-    flex-direction:row;
-    gap:2px;
-  }
-
-  .hero-phone-scene {
-    width:125px;
-    height:250px;
-  }
-
-  .hero-phone {
-    transform:scale(.68);
-  }
-
-  .hero-slogan {
-    font-size:15px;
-  }
-
-  .hero-line {
-    width:55px;
-  }
+  .hero-banner {min-height:390px}
+  .hero-phone-scene {height:275px}
+  .hero-phone {transform:scale(.82)}
 }
 
 @media(prefers-reduced-motion:reduce) {
@@ -1598,7 +1564,7 @@ footer {
   </div>
 </header>
 
-<!-- البنر -->
+<!-- البنر الطويل: الهاتف والعبارة -->
 
 <section class="hero-banner" aria-label="JOKER PLUS banner">
   <div class="hero-content">
@@ -1702,7 +1668,7 @@ const SUPABASE_URL =
 "https://pvyqzpqqrqzpbzcpftvx.supabase.co";
 
 const SUPABASE_PUBLISHABLE_KEY =
-"sb_publishable_tLKumGQthlChne9JWj2uDA_lIs1TPZI";
+"sb_publishable_tLKumGQthlChneJ9Wj2uDA_lIs1TPZI";
 
 const WHATSAPP_NUMBER = "96566985873";
 
@@ -1780,6 +1746,7 @@ function iconUrl(slug) {
 function createAppIcon(app,sectionId) {
   const [name,slug] = app;
 
+  /* TikTok و X باللون الفاتح في القسمين */
   const lightIcon =
     ["tiktok","x"].includes(slug)
       ? "app-icon-light"
