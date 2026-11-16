@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
@@ -28,7 +27,7 @@ body {
   font-family:Arial,sans-serif;
 }
 
-/* البنر الطويل والهاتف المتحرك */
+/* البنر الطويل والهاتف ثلاثي الأبعاد */
 
 .hero-banner {
   position:relative;
@@ -83,13 +82,14 @@ body {
   direction:ltr;
   align-items:center;
   justify-content:center;
-  gap:55px;
+  gap:35px;
 }
 
 .hero-message {
   text-align:center;
-  max-width:390px;
+  max-width:340px;
   direction:rtl;
+  flex:1;
 }
 
 .hero-slogan {
@@ -110,18 +110,30 @@ body {
   box-shadow:0 0 15px #a77ad055;
 }
 
-/* هاتف البنر */
+/* مشهد الهاتف والأيقونات الطائرة */
 
 .hero-phone-scene {
-  width:210px;
-  height:355px;
+  width:440px;
+  height:380px;
   flex:none;
   display:flex;
   align-items:center;
   justify-content:center;
   position:relative;
-  perspective:1000px;
-  animation:heroPhoneFloat 4s ease-in-out infinite;
+  perspective:1200px;
+  isolation:isolate;
+}
+
+.hero-phone-scene::before {
+  content:"";
+  position:absolute;
+  width:210px;
+  height:300px;
+  border-radius:50%;
+  background:#8d45c955;
+  filter:blur(65px);
+  z-index:-2;
+  animation:heroAura 4s ease-in-out infinite;
 }
 
 .hero-phone {
@@ -129,6 +141,7 @@ body {
   height:313px;
   padding:6px;
   position:relative;
+  z-index:3;
   border-radius:34px;
   background:linear-gradient(
     115deg,
@@ -146,9 +159,10 @@ body {
     0 0 0 2px #17131e,
     0 12px 25px #000b,
     0 25px 45px #0009,
+    0 0 35px #a77ad044,
     inset 0 0 0 1px #ffffff55;
-  transform:rotateY(-9deg) rotateX(2deg);
-  animation:heroPhoneTilt 5s ease-in-out infinite;
+  transform:rotateY(-12deg) rotateX(4deg);
+  animation:heroPhoneTilt 6s ease-in-out infinite;
 }
 
 .hero-phone::before {
@@ -185,7 +199,7 @@ body {
   align-items:center;
   justify-content:center;
   background:
-    radial-gradient(ellipse at 30% 30%,#a77ad044,transparent 40%),
+    radial-gradient(ellipse at 30% 30%,#a77ad055,transparent 40%),
     radial-gradient(ellipse at 75% 70%,#54247a99,transparent 48%),
     linear-gradient(145deg,#171020,#09070e 75%);
   box-shadow:
@@ -231,123 +245,45 @@ body {
   z-index:4;
 }
 
-.hero-phone-content {
+/* شعار الجوكر داخل الهاتف */
+
+.hero-phone-logo {
   position:relative;
   z-index:2;
   display:flex;
   flex-direction:column;
   align-items:center;
-  text-align:center;
+  justify-content:center;
   width:100%;
-  padding-top:22px;
+  height:100%;
+  padding-top:12px;
 }
 
-.hero-phone-brand {
+.hero-phone-logo svg {
+  width:100px;
+  height:100px;
+  filter:drop-shadow(0 0 18px #a77ad088);
+  animation:logoGlow 3s ease-in-out infinite;
+}
+
+.hero-phone-logo-name {
   direction:ltr;
-  font-size:15px;
+  font-size:17px;
   font-weight:900;
-  letter-spacing:1.2px;
+  letter-spacing:1.5px;
   color:#fff;
+  margin-top:15px;
   text-shadow:0 0 18px #c49be5;
 }
 
-.hero-phone-brand span {color:#c49be5}
+.hero-phone-logo-name span {color:#c49be5}
 
-.hero-phone-caption {
+.hero-phone-logo-caption {
   color:#d9c4ec;
-  font-size:6px;
-  letter-spacing:1.5px;
-  margin-top:5px;
-  direction:ltr;
-}
-
-/* التطبيقات والألعاب داخل هاتف البنر */
-
-.hero-phone-apps {
-  display:grid;
-  grid-template-columns:repeat(4,1fr);
-  gap:12px 7px;
-  margin-top:22px;
-  width:100%;
-  padding:0 8px;
-  justify-items:center;
-}
-
-.hero-phone-app-item {
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  justify-content:center;
-  gap:4px;
-  min-width:0;
-}
-
-.hero-phone-app {
-  width:25px;
-  height:25px;
-  border-radius:8px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  overflow:hidden;
-  border:1px solid #ffffff38;
-  box-shadow:0 3px 9px #0009;
-  background:#17121e;
-}
-
-.hero-phone-app img {
-  width:100%;
-  height:100%;
-  object-fit:contain;
-  padding:4px;
-  display:block;
-}
-
-/* صور الألعاب الحقيقية */
-
-.hero-app-pubg img,
-.hero-app-gta img,
-.hero-app-pool img {
-  width:100%;
-  height:100%;
-  object-fit:cover;
-  padding:0;
-  border-radius:7px;
-}
-
-.hero-phone-app-name {
-  color:#eee5f5;
-  font-size:5px;
-  line-height:1.2;
-  white-space:nowrap;
-  direction:ltr;
-  text-align:center;
-}
-
-.hero-app-snapchat {background:#fffc00}
-.hero-app-tiktok {background:#fff}
-.hero-app-youtube {background:#ed1c24}
-.hero-app-instagram {background:linear-gradient(135deg,#833ab4,#fd1d1d,#fcb045)}
-.hero-app-threads {background:#fff}
-.hero-app-pubg {
-  background:linear-gradient(145deg,#c6a15b,#57401f);
-  color:#fff;
   font-size:7px;
-  font-weight:900;
-  letter-spacing:-.5px;
-}
-.hero-app-gta {
-  background:linear-gradient(145deg,#e9e5d5,#aaa18c);
-  color:#222;
-  font-size:7px;
-  font-weight:1000;
-  letter-spacing:-1px;
-}
-.hero-app-pool {
-  background:radial-gradient(circle at 35% 30%,#fff,#ddd 35%,#151515 37%,#080808);
-  color:#fff;
-  font-size:8px;
-  font-weight:900;
+  letter-spacing:2px;
+  margin-top:8px;
+  direction:ltr;
 }
 
 .hero-phone-home {
@@ -361,14 +297,144 @@ body {
   background:#ffffffcc;
 }
 
-@keyframes heroPhoneFloat {
-  0%,100% {transform:translateY(0)}
-  50% {transform:translateY(-10px)}
+/* أيقونات التطبيقات والألعاب حول الهاتف */
+
+.hero-floating-app {
+  position:absolute;
+  z-index:4;
+  width:57px;
+  height:57px;
+  padding:5px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border-radius:17px;
+  background:linear-gradient(145deg,#33213f,#120d19);
+  border:1px solid #c49be577;
+  box-shadow:
+    0 12px 22px #000b,
+    0 0 18px #a77ad033,
+    inset 0 1px 0 #ffffff35;
+  transform-style:preserve-3d;
+  animation:floatIcon 4s ease-in-out infinite;
+}
+
+.hero-floating-app img {
+  display:block;
+  width:100%;
+  height:100%;
+  object-fit:contain;
+  border-radius:11px;
+}
+
+.hero-floating-app.pubg img,
+.hero-floating-app.gta img {
+  object-fit:cover;
+}
+
+.hero-floating-app.snap {
+  top:35px;
+  left:75px;
+  width:61px;
+  height:61px;
+  background:#fffc00;
+  animation-delay:-.5s;
+  transform:rotate(-13deg);
+}
+
+.hero-floating-app.tiktok {
+  top:105px;
+  left:15px;
+  width:54px;
+  height:54px;
+  background:#fff;
+  animation-delay:-1.7s;
+  transform:rotate(12deg);
+}
+
+.hero-floating-app.youtube {
+  bottom:40px;
+  left:65px;
+  width:63px;
+  height:63px;
+  background:#ed1c24;
+  animation-delay:-2.2s;
+  transform:rotate(10deg);
+}
+
+.hero-floating-app.instagram {
+  top:35px;
+  right:75px;
+  width:61px;
+  height:61px;
+  background:linear-gradient(135deg,#833ab4,#fd1d1d,#fcb045);
+  animation-delay:-1s;
+  transform:rotate(12deg);
+}
+
+.hero-floating-app.threads {
+  top:150px;
+  right:10px;
+  width:53px;
+  height:53px;
+  background:#fff;
+  animation-delay:-2.5s;
+  transform:rotate(-10deg);
+}
+
+.hero-floating-app.pubg {
+  bottom:35px;
+  right:72px;
+  width:67px;
+  height:67px;
+  background:#6b5128;
+  animation-delay:-.8s;
+  transform:rotate(-12deg);
+}
+
+.hero-floating-app.gta {
+  bottom:115px;
+  left:10px;
+  width:62px;
+  height:62px;
+  background:#d5d0c2;
+  animation-delay:-1.3s;
+  transform:rotate(9deg);
+}
+
+.hero-floating-app.tiktok::after,
+.hero-floating-app.snap::after,
+.hero-floating-app.youtube::after,
+.hero-floating-app.instagram::after,
+.hero-floating-app.threads::after,
+.hero-floating-app.pubg::after,
+.hero-floating-app.gta::after {
+  content:"";
+  position:absolute;
+  inset:-5px;
+  border:1px solid #c49be533;
+  border-radius:20px;
+  pointer-events:none;
+}
+
+@keyframes floatIcon {
+  0%,100% {translate:0 0;filter:brightness(1)}
+  50% {translate:0 -13px;filter:brightness(1.15)}
 }
 
 @keyframes heroPhoneTilt {
-  0%,100% {transform:rotateY(-9deg) rotateX(2deg)}
-  50% {transform:rotateY(5deg) rotateX(1deg)}
+  0%,100% {transform:rotateY(-12deg) rotateX(4deg) translateY(0)}
+  50% {transform:rotateY(9deg) rotateX(-2deg) translateY(-7px)}
+}
+
+@keyframes heroAura {
+  0%,100% {transform:scale(.85);opacity:.6}
+  50% {transform:scale(1.2);opacity:1}
+}
+
+@keyframes logoGlow {
+  0%,100% {filter:drop-shadow(0 0 12px #a77ad055)}
+  50% {filter:drop-shadow(0 0 25px #c49be5aa)}
 }
 
 /* الشعار الجديد */
@@ -1511,35 +1577,96 @@ footer {
   .hero-banner {
     margin:10px 10px 25px;
     min-height:410px;
-    padding:25px 12px;
+    padding:20px 8px;
   }
 
   .hero-content {
-    flex-direction:row;
-    direction:ltr;
-    gap:12px;
+    flex-direction:column-reverse;
+    gap:0;
     justify-content:center;
   }
 
   .hero-message {
-    order:1;
-    flex:1;
-    min-width:0;
-    text-align:center;
+    order:2;
+    flex:none;
+    width:100%;
+    margin-top:-5px;
   }
 
   .hero-phone-scene {
-    order:2;
-    width:190px;
-    height:300px;
+    order:1;
+    width:340px;
+    max-width:100%;
+    height:330px;
     flex:none;
+    transform:scale(.88);
+    margin:-5px auto;
+  }
+
+  .hero-phone {
+    transform:scale(.88) rotateY(-12deg) rotateX(4deg);
   }
 
   .hero-slogan {
-    font-size:21px;
+    font-size:20px;
   }
 
-  .hero-line {margin-top:12px}
+  .hero-line {margin-top:10px}
+
+  .hero-floating-app {
+    width:48px;
+    height:48px;
+    border-radius:14px;
+  }
+
+  .hero-floating-app.snap {
+    left:42px;
+    top:25px;
+    width:50px;
+    height:50px;
+  }
+
+  .hero-floating-app.tiktok {
+    left:8px;
+    top:110px;
+    width:45px;
+    height:45px;
+  }
+
+  .hero-floating-app.youtube {
+    left:35px;
+    bottom:25px;
+    width:52px;
+    height:52px;
+  }
+
+  .hero-floating-app.instagram {
+    right:42px;
+    top:25px;
+    width:50px;
+    height:50px;
+  }
+
+  .hero-floating-app.threads {
+    right:8px;
+    top:110px;
+    width:45px;
+    height:45px;
+  }
+
+  .hero-floating-app.pubg {
+    right:35px;
+    bottom:25px;
+    width:55px;
+    height:55px;
+  }
+
+  .hero-floating-app.gta {
+    left:5px;
+    bottom:110px;
+    width:49px;
+    height:49px;
+  }
 }
 
 @media(max-width:390px) {
@@ -1576,35 +1703,29 @@ footer {
 
   .hero-banner {min-height:390px}
 
-  .hero-content {
-    flex-direction:row;
-    direction:ltr;
-    gap:8px;
-  }
-
-  .hero-message {
-    order:1;
-    flex:1;
-    min-width:0;
-  }
-
   .hero-phone-scene {
-    order:2;
-    width:175px;
-    height:275px;
-    flex:none;
+    width:310px;
+    height:300px;
+    transform:scale(.86);
   }
 
   .hero-phone {transform:scale(.82)}
   .hero-slogan {font-size:18px}
+
+  .hero-floating-app.snap {left:30px}
+  .hero-floating-app.instagram {right:30px}
+  .hero-floating-app.youtube {left:25px}
+  .hero-floating-app.pubg {right:25px}
 }
 
 @media(prefers-reduced-motion:reduce) {
   .splash-screen *,
   .splash-screen::before,
   .tv-screen::after,
+  .hero-phone,
   .hero-phone-scene,
-  .hero-phone {
+  .hero-floating-app,
+  .hero-phone-logo svg {
     animation:none !important;
   }
 
@@ -1702,97 +1823,98 @@ footer {
     </div>
 
     <div class="hero-phone-scene">
+
+      <!-- التطبيقات والألعاب حول الهاتف -->
+
+      <div class="hero-floating-app snap">
+        <img src="https://cdn.simpleicons.org/snapchat/000000" alt="Snapchat">
+      </div>
+
+      <div class="hero-floating-app tiktok">
+        <img src="https://cdn.simpleicons.org/tiktok/000000" alt="TikTok">
+      </div>
+
+      <div class="hero-floating-app youtube">
+        <img src="https://cdn.simpleicons.org/youtube/ffffff" alt="YouTube">
+      </div>
+
+      <div class="hero-floating-app instagram">
+        <img src="https://cdn.simpleicons.org/instagram/ffffff" alt="Instagram">
+      </div>
+
+      <div class="hero-floating-app threads">
+        <img src="https://cdn.simpleicons.org/threads/000000" alt="Threads">
+      </div>
+
+      <div class="hero-floating-app pubg">
+        <img
+          src="https://commons.wikimedia.org/wiki/Special:FilePath/Icon%20PUBGM.jpg"
+          alt="PUBG Mobile"
+          loading="lazy">
+      </div>
+
+      <div class="hero-floating-app gta">
+        <img
+          src="https://cdn.akamai.steamstatic.com/steam/apps/271590/header.jpg"
+          alt="Grand Theft Auto V"
+          loading="lazy">
+      </div>
+
+      <!-- الهاتف في المنتصف -->
+
       <div class="hero-phone">
         <div class="hero-phone-screen">
+
           <div class="hero-phone-status">
             <span>9:41</span>
             <span>●●● WiFi ▰</span>
           </div>
+
           <div class="hero-phone-island"></div>
 
-          <div class="hero-phone-content">
-            <div class="hero-phone-brand">JOKER <span>PLUS</span></div>
-            <div class="hero-phone-caption">YOUR DIGITAL WORLD</div>
+          <div class="hero-phone-logo">
 
-            <div class="hero-phone-apps">
+            <svg viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <defs>
+                <linearGradient id="phoneJokerGradient" x1="20" y1="15" x2="100" y2="105" gradientUnits="userSpaceOnUse">
+                  <stop stop-color="#E2C5FF"/>
+                  <stop offset=".55" stop-color="#A77AD0"/>
+                  <stop offset="1" stop-color="#63358C"/>
+                </linearGradient>
+              </defs>
 
-              <div class="hero-phone-app-item">
-                <div class="hero-phone-app hero-app-snapchat">
-                  <img src="https://cdn.simpleicons.org/snapchat/000000" alt="Snapchat">
-                </div>
-                <span class="hero-phone-app-name">Snapchat</span>
-              </div>
+              <path
+                d="M23 39L16 18L39 29L59 12L80 29L104 18L97 39L91 73C88 91 75 103 60 105C45 103 32 91 29 73L23 39Z"
+                stroke="url(#phoneJokerGradient)" stroke-width="4"
+                stroke-linecap="round" stroke-linejoin="round"/>
 
-              <div class="hero-phone-app-item">
-                <div class="hero-phone-app hero-app-tiktok">
-                  <img src="https://cdn.simpleicons.org/tiktok/000000" alt="TikTok">
-                </div>
-                <span class="hero-phone-app-name">TikTok</span>
-              </div>
+              <path d="M29 48C39 43 49 44 58 49C67 44 79 43 91 48"
+                stroke="#F7F4FA" stroke-width="3.5" stroke-linecap="round"/>
 
-              <div class="hero-phone-app-item">
-                <div class="hero-phone-app hero-app-youtube">
-                  <img src="https://cdn.simpleicons.org/youtube/ffffff" alt="YouTube">
-                </div>
-                <span class="hero-phone-app-name">YouTube</span>
-              </div>
+              <path d="M37 60L49 55L54 61L47 66L37 60Z" fill="#C49BE5"/>
+              <path d="M83 60L71 55L66 61L73 66L83 60Z" fill="#C49BE5"/>
 
-              <div class="hero-phone-app-item">
-                <div class="hero-phone-app hero-app-instagram">
-                  <img src="https://cdn.simpleicons.org/instagram/ffffff" alt="Instagram">
-                </div>
-                <span class="hero-phone-app-name">Instagram</span>
-              </div>
+              <path d="M43 80C51 88 69 88 77 80"
+                stroke="#F7F4FA" stroke-width="3.5" stroke-linecap="round"/>
 
-              <div class="hero-phone-app-item">
-                <div class="hero-phone-app hero-app-threads">
-                  <img src="https://cdn.simpleicons.org/threads/000000" alt="Threads">
-                </div>
-                <span class="hero-phone-app-name">Threads</span>
-              </div>
+              <path d="M49 82L53 91L60 93L67 91L71 82"
+                stroke="#A77AD0" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
 
-              <!-- صورة PUBG Mobile -->
-              <div class="hero-phone-app-item">
-                <div class="hero-phone-app hero-app-pubg">
-                  <img
-                    src="https://commons.wikimedia.org/wiki/Special:FilePath/Icon%20PUBGM.jpg"
-                    alt="PUBG Mobile"
-                    loading="lazy"
-                    onerror="this.style.display='none';">
-                </div>
-                <span class="hero-phone-app-name">PUBG Mobile</span>
-              </div>
+              <path d="M16 18L10 11L22 13L16 18Z" fill="#A6192E"/>
+              <path d="M59 12L59 3L66 12L59 12Z" fill="#A6192E"/>
+              <path d="M104 18L110 11L98 13L104 18Z" fill="#A6192E"/>
+              <circle cx="60" cy="105" r="3" fill="#A6192E"/>
+            </svg>
 
-              <!-- صورة GTA 5 -->
-              <div class="hero-phone-app-item">
-                <div class="hero-phone-app hero-app-gta">
-                  <img
-                    src="https://cdn.akamai.steamstatic.com/steam/apps/271590/header.jpg"
-                    alt="Grand Theft Auto V"
-                    loading="lazy"
-                    onerror="this.style.display='none';">
-                </div>
-                <span class="hero-phone-app-name">GTA 5</span>
-              </div>
+            <div class="hero-phone-logo-name">JOKER <span>PLUS</span></div>
+            <div class="hero-phone-logo-caption">YOUR DIGITAL WORLD</div>
 
-              <!-- صورة 8 Ball Pool -->
-              <div class="hero-phone-app-item">
-                <div class="hero-phone-app hero-app-pool">
-                  <img
-                    src="https://commons.wikimedia.org/wiki/Special:FilePath/8ballpool.jpg"
-                    alt="8 Ball Pool"
-                    loading="lazy"
-                    onerror="this.style.display='none';">
-                </div>
-                <span class="hero-phone-app-name">8 Ball</span>
-              </div>
-
-            </div>
           </div>
 
           <div class="hero-phone-home"></div>
         </div>
       </div>
+
     </div>
 
   </div>
