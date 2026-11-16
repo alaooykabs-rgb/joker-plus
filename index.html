@@ -628,6 +628,276 @@ main {
   background:#ffffff90;
 }
 
+/* مجسم 3D لخدمات تيك توك وإنستغرام */
+
+.social-stage {
+  width:100%;
+  height:285px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  position:relative;
+  overflow:hidden;
+  isolation:isolate;
+  perspective:1100px;
+  background:
+    radial-gradient(ellipse at 50% 48%,#54247a55,transparent 65%),
+    radial-gradient(ellipse at 18% 65%,#a6192e22,transparent 48%);
+}
+
+.social-stage::before {
+  content:"";
+  position:absolute;
+  width:220px;
+  height:220px;
+  border-radius:50%;
+  background:#9b45d9;
+  filter:blur(75px);
+  opacity:.25;
+  animation:socialAura 4s ease-in-out infinite;
+}
+
+.social-stage::after {
+  content:"";
+  position:absolute;
+  width:230px;
+  height:110px;
+  border:1px solid #c49be544;
+  border-radius:50%;
+  transform:rotateX(68deg) rotateZ(-12deg);
+  box-shadow:0 0 25px #a77ad033,inset 0 0 20px #a77ad022;
+}
+
+.social-3d-object {
+  width:100%;
+  height:100%;
+  position:relative;
+  z-index:2;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  transform-style:preserve-3d;
+}
+
+.social-platform-card {
+  position:absolute;
+  width:112px;
+  height:126px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border-radius:27px;
+  transform-style:preserve-3d;
+  box-shadow:
+    0 18px 25px #000a,
+    0 0 25px var(--glow),
+    inset 0 2px 2px #ffffff55,
+    inset 0 -7px 12px #0005;
+  animation:socialCardFloat 4.5s ease-in-out infinite;
+}
+
+.social-platform-card::before {
+  content:"";
+  position:absolute;
+  inset:7px;
+  border:1px solid #ffffff35;
+  border-radius:21px;
+  transform:translateZ(9px);
+}
+
+.social-platform-card::after {
+  content:"";
+  position:absolute;
+  width:72%;
+  height:18px;
+  bottom:-17px;
+  left:14%;
+  border-radius:50%;
+  background:#0009;
+  filter:blur(12px);
+}
+
+.social-tiktok-card {
+  --glow:#00d9e966;
+  left:calc(50% - 115px);
+  top:calc(50% - 65px);
+  background:linear-gradient(145deg,#25232d,#08090d 60%,#1c1724);
+  border:1px solid #ffffff55;
+  transform:rotateY(16deg) rotateX(5deg) rotateZ(-9deg);
+}
+
+.social-instagram-card {
+  --glow:#e1306c88;
+  right:calc(50% - 115px);
+  top:calc(50% - 65px);
+  background:linear-gradient(145deg,#ffb347 0%,#fd1d1d 42%,#833ab4 78%,#35105c 100%);
+  border:1px solid #ffb6d288;
+  transform:rotateY(-16deg) rotateX(5deg) rotateZ(9deg);
+  animation-delay:-1.4s;
+}
+
+.social-platform-card img {
+  width:62px;
+  height:62px;
+  object-fit:contain;
+  position:relative;
+  z-index:2;
+  filter:drop-shadow(0 5px 8px #0008);
+  transform:translateZ(18px);
+}
+
+.social-tiktok-card img {
+  filter:drop-shadow(-3px 2px 0 #25f4ee) drop-shadow(3px -2px 0 #fe2c55) drop-shadow(0 5px 8px #0009);
+}
+
+.social-instagram-card img {
+  filter:drop-shadow(0 5px 8px #4b123f99);
+}
+
+.social-platform-name {
+  position:absolute;
+  bottom:13px;
+  z-index:3;
+  color:#fff;
+  font-size:10px;
+  font-weight:900;
+  letter-spacing:1px;
+  direction:ltr;
+  text-shadow:0 2px 7px #0009;
+  transform:translateZ(20px);
+}
+
+.social-center-glow {
+  position:absolute;
+  width:55px;
+  height:55px;
+  left:50%;
+  top:50%;
+  border-radius:50%;
+  transform:translate(-50%,-50%);
+  background:#b77be9;
+  filter:blur(28px);
+  opacity:.65;
+}
+
+.social-floating {
+  position:absolute;
+  z-index:4;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border-radius:50%;
+  color:#fff;
+  font-weight:900;
+  box-shadow:0 8px 18px #0009,0 0 17px currentColor;
+  animation:socialBubbleFloat 3.8s ease-in-out infinite;
+}
+
+.social-heart {
+  width:35px;
+  height:35px;
+  background:linear-gradient(145deg,#ff557d,#b7194c);
+  color:#ff6b91;
+  font-size:19px;
+  left:calc(50% - 142px);
+  top:34px;
+  animation-delay:-.5s;
+}
+
+.social-like {
+  width:29px;
+  height:29px;
+  background:linear-gradient(145deg,#a77ad0,#54247a);
+  color:#c49be5;
+  font-size:15px;
+  right:calc(50% - 145px);
+  top:30px;
+  animation-delay:-1.5s;
+}
+
+.social-notification {
+  width:37px;
+  height:37px;
+  background:linear-gradient(145deg,#d52c52,#77152d);
+  color:#ff4e70;
+  font-size:16px;
+  right:calc(50% - 165px);
+  bottom:38px;
+  animation-delay:-.9s;
+}
+
+.social-followers {
+  width:34px;
+  height:34px;
+  background:linear-gradient(145deg,#7543a3,#35105c);
+  color:#c49be5;
+  font-size:15px;
+  left:calc(50% - 160px);
+  bottom:35px;
+  animation-delay:-2s;
+}
+
+.social-mini-heart {
+  position:absolute;
+  color:#ff4775;
+  font-size:18px;
+  text-shadow:0 0 12px #ff4775;
+  animation:socialMiniHeart 3s ease-in-out infinite;
+}
+
+.social-mini-heart.one {
+  left:calc(50% - 28px);
+  top:28px;
+}
+
+.social-mini-heart.two {
+  right:calc(50% - 32px);
+  bottom:22px;
+  color:#c49be5;
+  text-shadow:0 0 12px #a77ad0;
+  animation-delay:-1.2s;
+}
+
+.social-spark {
+  position:absolute;
+  width:6px;
+  height:6px;
+  border-radius:50%;
+  background:#e4c5ff;
+  box-shadow:0 0 12px #c49be5,0 0 22px #a77ad0;
+  animation:socialSpark 2.5s ease-in-out infinite;
+}
+
+.social-spark.one {left:25%;top:28%;animation-delay:-.5s}
+.social-spark.two {right:23%;top:24%;animation-delay:-1.2s}
+.social-spark.three {left:31%;bottom:23%;animation-delay:-1.8s}
+.social-spark.four {right:30%;bottom:25%;animation-delay:-.9s}
+
+@keyframes socialCardFloat {
+  0%,100% {translate:0 0}
+  50% {translate:0 -9px}
+}
+
+@keyframes socialBubbleFloat {
+  0%,100% {translate:0 0;scale:1}
+  50% {translate:0 -11px;scale:1.08}
+}
+
+@keyframes socialAura {
+  0%,100% {transform:scale(.85);opacity:.2}
+  50% {transform:scale(1.2);opacity:.4}
+}
+
+@keyframes socialMiniHeart {
+  0%,100% {transform:translateY(0) scale(.9);opacity:.7}
+  50% {transform:translateY(-12px) scale(1.2);opacity:1}
+}
+
+@keyframes socialSpark {
+  0%,100% {opacity:.2;transform:scale(.6)}
+  50% {opacity:1;transform:scale(1.5)}
+}
+
 /* بطاقات PlayStation */
 
 .store-stage {
@@ -1091,7 +1361,7 @@ footer {text-align:center;color:#756c7c;font-size:11px;padding:25px 15px;border-
 @media(max-width:700px) {
   .sections {grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
   .section-card {padding:7px;border-radius:13px}
-  .phone-stage,.store-stage,.tv-stage {height:180px}
+  .phone-stage,.store-stage,.tv-stage,.social-stage {height:180px}
   .phone {transform:scale(.66) rotateY(-9deg) rotateX(3deg);transform-origin:center}
   .section-card:hover .phone {transform:scale(.66) rotateY(-3deg) rotateX(1deg)}
   .store-cards {transform:scale(.72)}
@@ -1131,6 +1401,16 @@ footer {text-align:center;color:#756c7c;font-size:11px;padding:25px 15px;border-
   .hero-floating-app.threads {--x:-110px;--y:84px}
   .hero-floating-app.instagram {--x:-110px;--y:140px}
 
+  .social-platform-card {width:88px;height:105px;border-radius:22px}
+  .social-platform-card img {width:48px;height:48px}
+  .social-platform-name {font-size:8px;bottom:11px}
+  .social-tiktok-card {left:calc(50% - 94px)}
+  .social-instagram-card {right:calc(50% - 94px)}
+  .social-heart {left:calc(50% - 125px);top:23px}
+  .social-like {right:calc(50% - 128px);top:20px}
+  .social-notification {right:calc(50% - 137px);bottom:22px}
+  .social-followers {left:calc(50% - 135px);bottom:20px}
+
   .packages-grid {grid-template-columns:1fr;gap:13px}
   .package-card {padding:18px 15px}
   .package-name {font-size:20px}
@@ -1147,7 +1427,7 @@ footer {text-align:center;color:#756c7c;font-size:11px;padding:25px 15px;border-
 @media(max-width:390px) {
   .sections {grid-template-columns:repeat(3,minmax(0,1fr));gap:6px}
   .section-card {padding:6px}
-  .phone-stage,.store-stage,.tv-stage {height:160px}
+  .phone-stage,.store-stage,.tv-stage,.social-stage {height:160px}
   .phone {transform:scale(.58) rotateY(-9deg) rotateX(3deg)}
   .section-card:hover .phone {transform:scale(.58) rotateY(-3deg) rotateX(1deg)}
   .store-cards {transform:scale(.62)}
@@ -1175,6 +1455,15 @@ footer {text-align:center;color:#756c7c;font-size:11px;padding:25px 15px;border-
   .hero-floating-app.pubg {--x:-108px;--y:25px}
   .hero-floating-app.threads {--x:-108px;--y:75px}
   .hero-floating-app.instagram {--x:-108px;--y:125px}
+
+  .social-platform-card {width:78px;height:94px}
+  .social-platform-card img {width:42px;height:42px}
+  .social-tiktok-card {left:calc(50% - 84px)}
+  .social-instagram-card {right:calc(50% - 84px)}
+  .social-heart {left:calc(50% - 112px)}
+  .social-like {right:calc(50% - 115px)}
+  .social-notification {right:calc(50% - 125px)}
+  .social-followers {left:calc(50% - 122px)}
 }
 
 @media(prefers-reduced-motion:reduce) {
@@ -1184,7 +1473,9 @@ footer {text-align:center;color:#756c7c;font-size:11px;padding:25px 15px;border-
   .hero-phone,
   .hero-phone-scene,
   .hero-floating-app,
-  .hero-phone-logo svg {
+  .hero-phone-logo svg,
+  .social-stage *,
+  .social-stage::before {
     animation:none !important;
   }
 
@@ -1642,6 +1933,54 @@ function escapeHTML(value) {
 }
 
 function createPhone(section,customImage) {
+
+  /* تصميم 3D خاص بقسم خدمات تيك توك وإنستغرام */
+
+  if(section.id === "social") {
+    return `
+      <div class="social-stage">
+        <div class="social-3d-object">
+
+          <div class="social-center-glow"></div>
+
+          <div class="social-platform-card social-tiktok-card">
+            <img
+              src="https://cdn.simpleicons.org/tiktok/ffffff"
+              alt="TikTok"
+              loading="lazy"
+              onerror="this.style.display='none';this.parentElement.insertAdjacentHTML('beforeend','<span style=\\'font-size:42px;color:white\\'>♪</span>');"
+            >
+            <span class="social-platform-name">TIKTOK</span>
+          </div>
+
+          <div class="social-platform-card social-instagram-card">
+            <img
+              src="https://cdn.simpleicons.org/instagram/ffffff"
+              alt="Instagram"
+              loading="lazy"
+              onerror="this.style.display='none';this.parentElement.insertAdjacentHTML('beforeend','<span style=\\'font-size:42px;color:white\\'>◎</span>');"
+            >
+            <span class="social-platform-name">INSTAGRAM</span>
+          </div>
+
+          <div class="social-floating social-heart">♥</div>
+          <div class="social-floating social-like">♥</div>
+          <div class="social-floating social-notification">♡</div>
+          <div class="social-floating social-followers">♟</div>
+
+          <span class="social-mini-heart one">♥</span>
+          <span class="social-mini-heart two">♥</span>
+
+          <span class="social-spark one"></span>
+          <span class="social-spark two"></span>
+          <span class="social-spark three"></span>
+          <span class="social-spark four"></span>
+
+        </div>
+      </div>
+    `;
+  }
+
   if(section.id === "store") {
     return `
       <div class="store-stage">
