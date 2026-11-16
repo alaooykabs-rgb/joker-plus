@@ -157,17 +157,7 @@ body {
   position:relative;
   z-index:3;
   border-radius:34px;
-  background:linear-gradient(
-    115deg,
-    #17131e 0%,
-    #8e8495 5%,
-    #39313f 10%,
-    #17131e 19%,
-    #aaa0b0 50%,
-    #403747 83%,
-    #bcb2c3 96%,
-    #28212f 100%
-  );
+  background:linear-gradient(115deg,#17131e 0%,#8e8495 5%,#39313f 10%,#17131e 19%,#aaa0b0 50%,#403747 83%,#bcb2c3 96%,#28212f 100%);
   box-shadow:
     0 0 0 1px #ffffff55,
     0 0 0 2px #17131e,
@@ -216,9 +206,7 @@ body {
     radial-gradient(ellipse at 30% 30%,#a77ad055,transparent 40%),
     radial-gradient(ellipse at 75% 70%,#54247a99,transparent 48%),
     linear-gradient(145deg,#171020,#09070e 75%);
-  box-shadow:
-    inset 0 0 0 1px #ffffff25,
-    inset 0 -25px 40px #0008;
+  box-shadow:inset 0 0 0 1px #ffffff25,inset 0 -25px 40px #0008;
 }
 
 .hero-phone-island {
@@ -258,8 +246,6 @@ body {
   font-weight:bold;
   z-index:4;
 }
-
-/* شعار الجوكر داخل الهاتف */
 
 .hero-phone-logo {
   position:relative;
@@ -332,12 +318,7 @@ body {
     0 0 20px #a77ad044,
     inset 0 1px 0 #ffffff45,
     inset 0 -3px 7px #0008;
-  transform:
-    translate(-50%,-50%)
-    translate(var(--x),var(--y))
-    rotate(var(--tilt,0deg))
-    rotateY(var(--ry,0deg))
-    rotateX(var(--rx,0deg));
+  transform:translate(-50%,-50%) translate(var(--x),var(--y)) rotate(var(--tilt,0deg)) rotateY(var(--ry,0deg)) rotateX(var(--rx,0deg));
   transform-style:preserve-3d;
   animation:floatIcon 4s ease-in-out infinite;
   transition:filter .3s,box-shadow .3s;
@@ -346,10 +327,7 @@ body {
 
 .hero-floating-app:hover {
   filter:brightness(1.4);
-  box-shadow:
-    0 16px 28px #000c,
-    0 0 28px #c49be577,
-    inset 0 1px 0 #ffffff55;
+  box-shadow:0 16px 28px #000c,0 0 28px #c49be577,inset 0 1px 0 #ffffff55;
 }
 
 .hero-floating-app img {
@@ -366,7 +344,7 @@ body {
   object-fit:cover;
 }
 
-/* توزيع دائري حول الهاتف - 12 موقعاً */
+/* توزيع الأيقونات مع إبعادها عن الهاتف */
 
 .hero-floating-app.snap {
   --x:0px;
@@ -379,7 +357,7 @@ body {
 }
 
 .hero-floating-app.tiktok {
-  --x:95px;
+  --x:135px;
   --y:-165px;
   --tilt:12deg;
   --ry:-15deg;
@@ -419,7 +397,7 @@ body {
 }
 
 .hero-floating-app.telegram {
-  --x:95px;
+  --x:135px;
   --y:165px;
   --tilt:12deg;
   --ry:-15deg;
@@ -439,7 +417,7 @@ body {
 }
 
 .hero-floating-app.threads {
-  --x:-95px;
+  --x:-135px;
   --y:165px;
   --tilt:-10deg;
   --ry:-15deg;
@@ -479,7 +457,7 @@ body {
 }
 
 .hero-floating-app.facebook {
-  --x:-95px;
+  --x:-135px;
   --y:-165px;
   --tilt:12deg;
   --ry:-15deg;
@@ -499,14 +477,8 @@ body {
 }
 
 @keyframes floatIcon {
-  0%,100% {
-    translate:0 0;
-    filter:brightness(1);
-  }
-  50% {
-    translate:0 -10px;
-    filter:brightness(1.2);
-  }
+  0%,100% {translate:0 0;filter:brightness(1)}
+  50% {translate:0 -10px;filter:brightness(1.2)}
 }
 
 @keyframes heroPhoneTilt {
@@ -541,10 +513,7 @@ header {
   filter:drop-shadow(0 0 18px #a77ad088);
 }
 
-.header-emblem svg {
-  width:100%;
-  height:100%;
-}
+.header-emblem svg {width:100%;height:100%}
 
 /* بقية المتجر */
 
@@ -561,15 +530,8 @@ main {
   margin:15px 0 20px;
 }
 
-.section-heading h2 {
-  font-size:19px;
-  margin:0;
-}
-
-.section-heading span {
-  color:var(--muted);
-  font-size:11px;
-}
+.section-heading h2 {font-size:19px;margin:0}
+.section-heading span {color:var(--muted);font-size:11px}
 
 /* شبكة الأقسام */
 
@@ -622,9 +584,7 @@ main {
   transition:transform .35s ease;
 }
 
-.section-card:hover .phone {
-  transform:rotateY(-3deg) rotateX(1deg) translateY(-3px);
-}
+.section-card:hover .phone {transform:rotateY(-3deg) rotateX(1deg) translateY(-3px)}
 
 .phone::before {
   content:"";
@@ -659,23 +619,8 @@ main {
   box-shadow:inset 0 0 0 1px #ffffff20;
 }
 
-.phone-time {
-  position:absolute;
-  top:8px;
-  right:12px;
-  font-size:6px;
-  color:#eee;
-  z-index:2;
-}
-
-.phone-brand {
-  text-align:center;
-  font-size:7px;
-  font-weight:900;
-  letter-spacing:1.2px;
-  color:#d8c4ed;
-  margin:4px 0 10px;
-}
+.phone-time {position:absolute;top:8px;right:12px;font-size:6px;color:#eee;z-index:2}
+.phone-brand {text-align:center;font-size:7px;font-weight:900;letter-spacing:1.2px;color:#d8c4ed;margin:4px 0 10px}
 
 .app-grid {
   display:grid;
@@ -684,12 +629,7 @@ main {
   justify-items:center;
 }
 
-.app-item {
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  min-width:0;
-}
+.app-item {display:flex;flex-direction:column;align-items:center;min-width:0}
 
 .app-icon {
   width:29px;
@@ -703,20 +643,8 @@ main {
   box-shadow:0 3px 8px #0008;
 }
 
-.app-icon img {
-  width:100%;
-  height:100%;
-  object-fit:contain;
-  display:block;
-}
-
-.app-name {
-  font-size:5px;
-  color:#ddd3e7;
-  margin-top:3px;
-  text-align:center;
-  white-space:nowrap;
-}
+.app-icon img {width:100%;height:100%;object-fit:contain;display:block}
+.app-name {font-size:5px;color:#ddd3e7;margin-top:3px;text-align:center;white-space:nowrap}
 
 .section-apps .app-icon {
   background:linear-gradient(145deg,#21182b,#100d16);
@@ -724,17 +652,9 @@ main {
   box-shadow:0 3px 10px #000b,inset 0 1px 0 #ffffff12;
 }
 
-.section-apps .app-icon.app-icon-light {
-  background:#fff;
-  border:1px solid #ddd;
-  box-shadow:0 3px 8px #0008;
-}
+.section-apps .app-icon.app-icon-light {background:#fff;border:1px solid #ddd;box-shadow:0 3px 8px #0008}
 
-.section-social .app-grid {
-  grid-template-columns:repeat(2,minmax(0,1fr));
-  gap:17px 12px;
-  margin-top:8px;
-}
+.section-social .app-grid {grid-template-columns:repeat(2,minmax(0,1fr));gap:17px 12px;margin-top:8px}
 
 .section-social .app-icon {
   width:58px;
@@ -745,15 +665,8 @@ main {
   box-shadow:0 4px 12px #000b;
 }
 
-.section-social .app-icon.app-icon-light {
-  background:#fff;
-  border:1px solid #ddd;
-}
-
-.section-social .app-name {
-  font-size:7px;
-  margin-top:5px;
-}
+.section-social .app-icon.app-icon-light {background:#fff;border:1px solid #ddd}
+.section-social .app-name {font-size:7px;margin-top:5px}
 
 .snapchat-screen {
   height:100%;
@@ -776,47 +689,13 @@ main {
   box-shadow:0 0 30px #fffc0044,0 10px 25px #0008,inset 0 2px 5px #ffffffaa;
 }
 
-.snapchat-logo img {
-  width:75px;
-  height:75px;
-  object-fit:contain;
-}
+.snapchat-logo img {width:75px;height:75px;object-fit:contain}
+.snapchat-caption {color:#fffc00;font-size:8px;font-weight:bold;letter-spacing:1.5px;margin-top:14px}
 
-.snapchat-caption {
-  color:#fffc00;
-  font-size:8px;
-  font-weight:bold;
-  letter-spacing:1.5px;
-  margin-top:14px;
-}
-
-.phone-coming {
-  height:100%;
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  justify-content:center;
-  text-align:center;
-}
-
-.phone-coming strong {
-  font-size:10px;
-  letter-spacing:1.5px;
-  color:#e3c8ff;
-}
-
-.phone-coming span {
-  font-size:6px;
-  color:#a99ab5;
-  margin-top:7px;
-}
-
-.custom-phone-image {
-  width:100%;
-  height:100%;
-  object-fit:cover;
-  border-radius:20px;
-}
+.phone-coming {height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center}
+.phone-coming strong {font-size:10px;letter-spacing:1.5px;color:#e3c8ff}
+.phone-coming span {font-size:6px;color:#a99ab5;margin-top:7px}
+.custom-phone-image {width:100%;height:100%;object-fit:cover;border-radius:20px}
 
 .phone-footer {
   position:absolute;
@@ -842,14 +721,7 @@ main {
   background:radial-gradient(ellipse at center,#54247a44,transparent 68%);
 }
 
-.store-cards {
-  width:170px;
-  height:205px;
-  position:relative;
-  margin:0 auto;
-  transform:scale(.88);
-  flex:none;
-}
+.store-cards {width:170px;height:205px;position:relative;margin:0 auto;transform:scale(.88);flex:none}
 
 .store-card {
   position:absolute;
@@ -857,23 +729,12 @@ main {
   height:165px;
   border-radius:13px;
   border:1px solid #b99ad7;
-  background:
-    radial-gradient(circle at 80% 15%,#7545a0 0,transparent 42%),
-    linear-gradient(145deg,#30203e,#100d17 68%);
+  background:radial-gradient(circle at 80% 15%,#7545a0 0,transparent 42%),linear-gradient(145deg,#30203e,#100d17 68%);
   box-shadow:0 12px 22px #0009,inset 0 1px 0 #ffffff35;
 }
 
-.store-card.back-one {
-  left:17px;
-  top:20px;
-  transform:rotate(-10deg);
-}
-
-.store-card.back-two {
-  right:17px;
-  top:20px;
-  transform:rotate(10deg);
-}
+.store-card.back-one {left:17px;top:20px;transform:rotate(-10deg)}
+.store-card.back-two {right:17px;top:20px;transform:rotate(10deg)}
 
 .store-card.front {
   left:29px;
@@ -886,16 +747,8 @@ main {
   transition:transform .35s ease;
 }
 
-.section-card:hover .store-card.front {
-  transform:rotateY(-2deg) translateY(-3px);
-}
-
-.store-card.front img {
-  width:65px;
-  height:65px;
-  object-fit:contain;
-  filter:drop-shadow(0 5px 12px #0009);
-}
+.section-card:hover .store-card.front {transform:rotateY(-2deg) translateY(-3px)}
+.store-card.front img {width:65px;height:65px;object-fit:contain;filter:drop-shadow(0 5px 12px #0009)}
 
 /* تلفزيون IPTV */
 
@@ -910,17 +763,8 @@ main {
   background:radial-gradient(ellipse at center,#54247a55,transparent 68%);
 }
 
-.tv-set {
-  width:min(245px,95%);
-  position:relative;
-  padding-bottom:25px;
-  filter:drop-shadow(0 18px 16px #0009);
-  transition:transform .35s ease;
-}
-
-.section-card:hover .tv-set {
-  transform:translateY(-4px);
-}
+.tv-set {width:min(245px,95%);position:relative;padding-bottom:25px;filter:drop-shadow(0 18px 16px #0009);transition:transform .35s ease}
+.section-card:hover .tv-set {transform:translateY(-4px)}
 
 .tv-frame {
   position:relative;
@@ -940,8 +784,7 @@ main {
   justify-content:center;
   position:relative;
   overflow:hidden;
-  background:
-    radial-gradient(ellipse at 50% 50%,#63338e 0%,#301342 35%,#130b1c 75%,#08070b 100%);
+  background:radial-gradient(ellipse at 50% 50%,#63338e 0%,#301342 35%,#130b1c 75%,#08070b 100%);
   box-shadow:inset 0 0 35px #0009;
 }
 
@@ -949,9 +792,7 @@ main {
   content:"";
   position:absolute;
   inset:0;
-  background:
-    linear-gradient(120deg,#ffffff20,transparent 28%),
-    linear-gradient(300deg,#a77ad022,transparent 45%);
+  background:linear-gradient(120deg,#ffffff20,transparent 28%),linear-gradient(300deg,#a77ad022,transparent 45%);
   pointer-events:none;
 }
 
@@ -966,86 +807,16 @@ main {
   animation:tvGlow 4s ease-in-out infinite;
 }
 
-.tv-camera {
-  position:absolute;
-  top:6px;
-  left:50%;
-  transform:translateX(-50%);
-  width:3px;
-  height:3px;
-  background:#08070b;
-  border-radius:50%;
-  z-index:3;
-  box-shadow:0 0 3px #aaa;
-}
+.tv-camera {position:absolute;top:6px;left:50%;transform:translateX(-50%);width:3px;height:3px;background:#08070b;border-radius:50%;z-index:3}
 
-.tv-brand-group {
-  position:relative;
-  z-index:2;
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  justify-content:center;
-  gap:8px;
-  max-width:100%;
-  padding:8px 5px;
-}
+.tv-brand-group {position:relative;z-index:2;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;max-width:100%;padding:8px 5px}
 
-.tv-logo {
-  position:relative;
-  z-index:2;
-  color:#f7f4fa;
-  font-size:clamp(13px,3.5vw,18px);
-  font-weight:900;
-  letter-spacing:1px;
-  line-height:1.25;
-  white-space:nowrap;
-  text-shadow:0 0 18px #c49be5aa;
-  direction:ltr;
-}
-
+.tv-logo {position:relative;z-index:2;color:#f7f4fa;font-size:clamp(13px,3.5vw,18px);font-weight:900;letter-spacing:1px;line-height:1.25;white-space:nowrap;text-shadow:0 0 18px #c49be5aa;direction:ltr}
 .tv-logo span {color:#d3a8f3}
-
-.tv-subtitle {
-  position:relative;
-  z-index:2;
-  bottom:auto;
-  color:#e4d4f2;
-  font-size:6px;
-  line-height:1.4;
-  letter-spacing:1.5px;
-  white-space:nowrap;
-  direction:ltr;
-}
-
-.tv-indicator {
-  position:absolute;
-  bottom:2px;
-  left:50%;
-  transform:translateX(-50%);
-  width:4px;
-  height:4px;
-  border-radius:50%;
-  background:#bd8de7;
-  box-shadow:0 0 7px #bd8de7;
-}
-
-.tv-stand {
-  width:65px;
-  height:16px;
-  margin:-1px auto 0;
-  background:linear-gradient(90deg,#17131e,#5c5364 50%,#17131e);
-  clip-path:polygon(39% 0,61% 0,76% 72%,100% 100%,0 100%,24% 72%);
-}
-
-.tv-base {
-  width:105px;
-  height:7px;
-  margin:-1px auto 0;
-  border-radius:50%;
-  background:linear-gradient(180deg,#71687a,#211b29 75%);
-  box-shadow:0 5px 9px #0009;
-}
+.tv-subtitle {position:relative;z-index:2;bottom:auto;color:#e4d4f2;font-size:6px;line-height:1.4;letter-spacing:1.5px;white-space:nowrap;direction:ltr}
+.tv-indicator {position:absolute;bottom:2px;left:50%;transform:translateX(-50%);width:4px;height:4px;border-radius:50%;background:#bd8de7;box-shadow:0 0 7px #bd8de7}
+.tv-stand {width:65px;height:16px;margin:-1px auto 0;background:linear-gradient(90deg,#17131e,#5c5364 50%,#17131e);clip-path:polygon(39% 0,61% 0,76% 72%,100% 100%,0 100%,24% 72%)}
+.tv-base {width:105px;height:7px;margin:-1px auto 0;border-radius:50%;background:linear-gradient(180deg,#71687a,#211b29 75%);box-shadow:0 5px 9px #0009}
 
 @keyframes tvGlow {
   0%,100% {transform:scale(.8);opacity:.5}
@@ -1054,46 +825,13 @@ main {
 
 /* المنتجات */
 
-.section-card h3 {
-  font-size:15px;
-  margin:15px 3px 7px;
-}
-
-.section-description {
-  font-size:12px;
-  color:var(--muted);
-  line-height:1.7;
-  margin:0 3px 13px;
-}
-
-.services {
-  display:grid;
-  gap:10px;
-}
-
-.service {
-  border-top:1px solid #2a2230;
-  padding:12px 2px 0;
-}
-
-.service-title {
-  font-size:13px;
-  font-weight:bold;
-}
-
-.service-description {
-  font-size:11px;
-  color:var(--muted);
-  line-height:1.7;
-  margin:6px 0;
-}
-
-.price {
-  color:#d2b2f0;
-  font-size:13px;
-  font-weight:bold;
-  margin:8px 0;
-}
+.section-card h3 {font-size:15px;margin:15px 3px 7px}
+.section-description {font-size:12px;color:var(--muted);line-height:1.7;margin:0 3px 13px}
+.services {display:grid;gap:10px}
+.service {border-top:1px solid #2a2230;padding:12px 2px 0}
+.service-title {font-size:13px;font-weight:bold}
+.service-description {font-size:11px;color:var(--muted);line-height:1.7;margin:6px 0}
+.price {color:#d2b2f0;font-size:13px;font-weight:bold;margin:8px 0}
 
 .buy-button {
   display:block;
@@ -1108,41 +846,14 @@ main {
   transition:.2s;
 }
 
-.buy-button:hover {
-  background:linear-gradient(100deg,#51227b,#35105c);
-}
+.buy-button:hover {background:linear-gradient(100deg,#51227b,#35105c)}
 
-.empty {
-  font-size:12px;
-  color:#81778a;
-  padding:9px 2px;
-}
-
-.loading-message,.error-message {
-  grid-column:1/-1;
-  text-align:center;
-  color:var(--muted);
-  padding:30px 10px;
-  font-size:13px;
-  line-height:1.8;
-}
-
+.empty {font-size:12px;color:#81778a;padding:9px 2px}
+.loading-message,.error-message {grid-column:1/-1;text-align:center;color:var(--muted);padding:30px 10px;font-size:13px;line-height:1.8}
 .error-message {color:#e8a1a8}
 
-footer {
-  text-align:center;
-  color:#756c7c;
-  font-size:11px;
-  padding:25px 15px;
-  border-top:1px solid #211a29;
-}
-
-.footer-logo {
-  font-size:16px;
-  font-weight:bold;
-  color:#c5a4df;
-  margin-bottom:8px;
-}
+footer {text-align:center;color:#756c7c;font-size:11px;padding:25px 15px;border-top:1px solid #211a29}
+.footer-logo {font-size:16px;font-weight:bold;color:#c5a4df;margin-bottom:8px}
 
 /* شاشة البداية */
 
@@ -1173,11 +884,7 @@ footer {
   animation:splashAura 2.4s ease-in-out infinite;
 }
 
-.splash-screen.is-hidden {
-  opacity:0;
-  visibility:hidden;
-  pointer-events:none;
-}
+.splash-screen.is-hidden {opacity:0;visibility:hidden;pointer-events:none}
 
 .splash-emblem {
   width:112px;
@@ -1193,97 +900,26 @@ footer {
   filter:drop-shadow(0 0 22px #a77ad077);
 }
 
-.splash-emblem svg {
-  width:100%;
-  height:100%;
-  overflow:visible;
-}
+.splash-emblem svg {width:100%;height:100%;overflow:visible}
 
-.splash-emblem .emblem-main {
-  stroke-dasharray:260;
-  stroke-dashoffset:260;
-  animation:drawEmblem 1.05s ease .35s forwards;
-}
+.splash-emblem .emblem-main {stroke-dasharray:260;stroke-dashoffset:260;animation:drawEmblem 1.05s ease .35s forwards}
+.splash-emblem .emblem-dot {opacity:0;transform-box:fill-box;transform-origin:center;animation:dotPop .4s ease .95s forwards}
 
-.splash-emblem .emblem-dot {
-  opacity:0;
-  transform-box:fill-box;
-  transform-origin:center;
-  animation:dotPop .4s ease .95s forwards;
-}
-
-.splash-name {
-  position:relative;
-  z-index:1;
-  direction:ltr;
-  font-size:clamp(27px,7vw,38px);
-  font-weight:900;
-  letter-spacing:3px;
-  color:#f7f4fa;
-  opacity:0;
-  transform:translateY(13px);
-  animation:nameReveal .75s ease 1.15s forwards;
-}
-
+.splash-name {position:relative;z-index:1;direction:ltr;font-size:clamp(27px,7vw,38px);font-weight:900;letter-spacing:3px;color:#f7f4fa;opacity:0;transform:translateY(13px);animation:nameReveal .75s ease 1.15s forwards}
 .splash-name span {color:#c49be5}
+.splash-caption {position:relative;z-index:1;color:#aaa3b3;font-size:10px;letter-spacing:3px;opacity:0;animation:nameReveal .6s ease 1.55s forwards}
+.splash-loader {position:relative;z-index:1;width:76px;height:2px;margin-top:7px;overflow:hidden;background:#ffffff18;border-radius:4px;opacity:0;animation:nameReveal .4s ease 1.65s forwards}
+.splash-loader::after {content:"";display:block;width:38%;height:100%;border-radius:4px;background:linear-gradient(90deg,#35105c,#c49be5,#a6192e);animation:loaderMove 1.15s ease-in-out 1.8s both}
 
-.splash-caption {
-  position:relative;
-  z-index:1;
-  color:#aaa3b3;
-  font-size:10px;
-  letter-spacing:3px;
-  opacity:0;
-  animation:nameReveal .6s ease 1.55s forwards;
-}
-
-.splash-loader {
-  position:relative;
-  z-index:1;
-  width:76px;
-  height:2px;
-  margin-top:7px;
-  overflow:hidden;
-  background:#ffffff18;
-  border-radius:4px;
-  opacity:0;
-  animation:nameReveal .4s ease 1.65s forwards;
-}
-
-.splash-loader::after {
-  content:"";
-  display:block;
-  width:38%;
-  height:100%;
-  border-radius:4px;
-  background:linear-gradient(90deg,#35105c,#c49be5,#a6192e);
-  animation:loaderMove 1.15s ease-in-out 1.8s both;
-}
-
-@keyframes emblemEnter {
-  to {opacity:1;transform:translateY(0) scale(1) rotate(0)}
-}
-
-@keyframes emblemFloat {
-  0%,100% {transform:translateY(0)}
-  50% {transform:translateY(-7px)}
-}
-
+@keyframes emblemEnter {to {opacity:1;transform:translateY(0) scale(1) rotate(0)}}
+@keyframes emblemFloat {0%,100% {transform:translateY(0)}50% {transform:translateY(-7px)}}
 @keyframes drawEmblem {to {stroke-dashoffset:0}}
 @keyframes dotPop {to {opacity:1;transform:scale(1)}}
 @keyframes nameReveal {to {opacity:1;transform:translateY(0)}}
+@keyframes splashAura {0%,100% {transform:scale(.92);opacity:.55}50% {transform:scale(1.08);opacity:1}}
+@keyframes loaderMove {0% {transform:translateX(0)}100% {transform:translateX(210%)}}
 
-@keyframes splashAura {
-  0%,100% {transform:scale(.92);opacity:.55}
-  50% {transform:scale(1.08);opacity:1}
-}
-
-@keyframes loaderMove {
-  0% {transform:translateX(0)}
-  100% {transform:translateX(210%)}
-}
-
-/* قسم تطبيقات بلس المتحرك أسفل الأقسام */
+/* قسم تطبيقات بلس المتحرك */
 
 .plus-apps-showcase {
   margin:34px auto 8px;
@@ -1297,22 +933,8 @@ footer {
   overflow:hidden;
 }
 
-.plus-apps-title {
-  margin:0;
-  color:#f7f4fa;
-  font-size:clamp(20px,4vw,27px);
-  font-weight:900;
-  letter-spacing:.3px;
-}
-
-.plus-apps-title span {
-  display:block;
-  margin-top:7px;
-  color:#b98bdd;
-  font-size:11px;
-  letter-spacing:3px;
-  direction:ltr;
-}
+.plus-apps-title {margin:0;color:#f7f4fa;font-size:clamp(20px,4vw,27px);font-weight:900;letter-spacing:.3px}
+.plus-apps-title span {display:block;margin-top:7px;color:#b98bdd;font-size:11px;letter-spacing:3px;direction:ltr}
 
 .device-stage {
   height:330px;
@@ -1360,8 +982,6 @@ footer {
   border:1px solid #ffffff24;
 }
 
-/* حجم تلفون العرض مطابق لتلفون البنر */
-
 .iphone-frame {
   width:158px;
   height:313px;
@@ -1377,29 +997,8 @@ footer {
   box-shadow:inset 0 0 0 1px #ffffff1c,inset 0 -25px 40px #0008;
 }
 
-/* تقليل أزرار الجوانب */
-
-.iphone-frame::before {
-  content:"";
-  position:absolute;
-  right:-4px;
-  top:62px;
-  width:4px;
-  height:48px;
-  border-radius:0 4px 4px 0;
-  background:linear-gradient(90deg,#514858,#d1c8d5,#514858);
-}
-
-.iphone-frame::after {
-  content:"";
-  position:absolute;
-  left:-4px;
-  top:55px;
-  width:4px;
-  height:28px;
-  border-radius:4px 0 0 4px;
-  background:linear-gradient(90deg,#cfc6d3,#514858);
-}
+.iphone-frame::before {content:"";position:absolute;right:-4px;top:62px;width:4px;height:48px;border-radius:0 4px 4px 0;background:linear-gradient(90deg,#514858,#d1c8d5,#514858)}
+.iphone-frame::after {content:"";position:absolute;left:-4px;top:55px;width:4px;height:28px;border-radius:4px 0 0 4px;background:linear-gradient(90deg,#cfc6d3,#514858)}
 
 .dynamic-island {
   position:absolute;
@@ -1418,95 +1017,23 @@ footer {
   padding-right:8px;
 }
 
-.dynamic-island::after {
-  content:"";
-  width:5px;
-  height:5px;
-  border-radius:50%;
-  background:radial-gradient(circle at 35% 35%,#27314c,#090b12 65%);
-  box-shadow:0 0 3px #64709a55;
-}
+.dynamic-island::after {content:"";width:5px;height:5px;border-radius:50%;background:radial-gradient(circle at 35% 35%,#27314c,#090b12 65%);box-shadow:0 0 3px #64709a55}
 
-.iphone-status {
-  position:absolute;
-  top:12px;
-  left:15px;
-  right:15px;
-  display:flex;
-  justify-content:space-between;
-  direction:ltr;
-  color:#fff;
-  font-size:6px;
-  font-weight:bold;
-  z-index:5;
-}
+.iphone-status {position:absolute;top:12px;left:15px;right:15px;display:flex;justify-content:space-between;direction:ltr;color:#fff;font-size:6px;font-weight:bold;z-index:5}
 
-.iphone-wallpaper {
-  position:absolute;
-  inset:0;
-  background:radial-gradient(ellipse at 30% 35%,#a77ad044,transparent 38%),radial-gradient(ellipse at 75% 65%,#54247a88,transparent 45%),linear-gradient(145deg,#171020,#09070e 70%);
-}
+.iphone-wallpaper {position:absolute;inset:0;background:radial-gradient(ellipse at 30% 35%,#a77ad044,transparent 38%),radial-gradient(ellipse at 75% 65%,#54247a88,transparent 45%),linear-gradient(145deg,#171020,#09070e 70%)}
 
-.iphone-content {
-  position:relative;
-  z-index:2;
-  width:100%;
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  padding-top:17px;
-}
-
-.device-brand {
-  direction:ltr;
-  font-size:13px;
-  font-weight:900;
-  letter-spacing:1.5px;
-  text-shadow:0 0 15px #c49be5aa;
-}
-
+.iphone-content {position:relative;z-index:2;width:100%;display:flex;flex-direction:column;align-items:center;padding-top:17px}
+.device-brand {direction:ltr;font-size:13px;font-weight:900;letter-spacing:1.5px;text-shadow:0 0 15px #c49be5aa}
 .device-brand span {color:#c49be5}
-
-.device-caption {
-  margin-top:7px;
-  color:#cbb5df;
-  font-size:7px;
-  letter-spacing:2px;
-  direction:ltr;
-}
-
-.device-app-icons {
-  display:flex;
-  justify-content:center;
-  gap:9px;
-  margin-top:22px;
-}
-
-.device-app-icons i {
-  width:22px;
-  height:22px;
-  border-radius:7px;
-  display:block;
-  background:linear-gradient(145deg,#a77ad0,#35105c);
-  border:1px solid #ffffff35;
-  box-shadow:0 3px 8px #0008;
-}
-
+.device-caption {margin-top:7px;color:#cbb5df;font-size:7px;letter-spacing:2px;direction:ltr}
+.device-app-icons {display:flex;justify-content:center;gap:9px;margin-top:22px}
+.device-app-icons i {width:22px;height:22px;border-radius:7px;display:block;background:linear-gradient(145deg,#a77ad0,#35105c);border:1px solid #ffffff35;box-shadow:0 3px 8px #0008}
 .device-app-icons i:nth-child(2) {background:linear-gradient(145deg,#fffc00,#a68b00)}
 .device-app-icons i:nth-child(3) {background:linear-gradient(145deg,#f77737,#833ab4)}
 .device-app-icons i:nth-child(4) {background:linear-gradient(145deg,#25d366,#087c42)}
 
-.iphone-home-indicator {
-  position:absolute;
-  bottom:7px;
-  left:50%;
-  transform:translateX(-50%);
-  width:48px;
-  height:3px;
-  border-radius:5px;
-  background:#ffffffcc;
-  z-index:4;
-}
+.iphone-home-indicator {position:absolute;bottom:7px;left:50%;transform:translateX(-50%);width:48px;height:3px;border-radius:5px;background:#ffffffcc;z-index:4}
 
 .ipad-frame {
   width:330px;
@@ -1517,86 +1044,17 @@ footer {
   box-shadow:4px 6px 0 #100b16,9px 14px 0 #08060b,0 25px 38px #000c,0 0 28px #8d56b344,inset 0 0 0 1px #ffffffaa,inset 0 0 0 3px #17131e;
 }
 
-.ipad-frame .device-screen {
-  border-radius:13px;
-  background:radial-gradient(ellipse at 50% 20%,#482064,#100b18 72%,#08070b);
-  box-shadow:inset 0 0 0 1px #ffffff20,inset 0 0 35px #0009;
-}
+.ipad-frame .device-screen {border-radius:13px;background:radial-gradient(ellipse at 50% 20%,#482064,#100b18 72%,#08070b);box-shadow:inset 0 0 0 1px #ffffff20,inset 0 0 35px #0009}
+.ipad-camera {position:absolute;left:3px;top:50%;transform:translateY(-50%);width:5px;height:5px;border-radius:50%;background:#070609;z-index:5;box-shadow:0 0 3px #aaa,inset 0 0 2px #536078}
+.ipad-side-button {position:absolute;top:-4px;right:48px;width:35px;height:4px;border-radius:4px 4px 0 0;background:linear-gradient(90deg,#514858,#d1c8d5,#514858)}
 
-.ipad-camera {
-  position:absolute;
-  left:3px;
-  top:50%;
-  transform:translateY(-50%);
-  width:5px;
-  height:5px;
-  border-radius:50%;
-  background:#070609;
-  z-index:5;
-  box-shadow:0 0 3px #aaa,inset 0 0 2px #536078;
-}
-
-.ipad-side-button {
-  position:absolute;
-  top:-4px;
-  right:48px;
-  width:35px;
-  height:4px;
-  border-radius:4px 4px 0 0;
-  background:linear-gradient(90deg,#514858,#d1c8d5,#514858);
-}
-
-.ipad-home-indicator {
-  position:absolute;
-  bottom:5px;
-  left:50%;
-  transform:translateX(-50%);
-  width:38px;
-  height:3px;
-  border-radius:5px;
-  background:#ffffffaa;
-  z-index:4;
-}
-
-.ipad-content {
-  position:relative;
-  z-index:2;
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  justify-content:center;
-  width:100%;
-  height:100%;
-}
-
-.ipad-content .device-brand {
-  font-size:19px;
-  letter-spacing:2px;
-}
-
-.ipad-content .device-caption {
-  font-size:9px;
-  margin-top:9px;
-}
-
-.ipad-content .device-app-icons {
-  gap:14px;
-  margin-top:25px;
-}
-
-.ipad-content .device-app-icons i {
-  width:29px;
-  height:29px;
-  border-radius:9px;
-}
-
-.device-type {
-  color:#d9c4ec;
-  font-size:11px;
-  font-weight:bold;
-  letter-spacing:2px;
-  direction:ltr;
-}
+.ipad-home-indicator {position:absolute;bottom:5px;left:50%;transform:translateX(-50%);width:38px;height:3px;border-radius:5px;background:#ffffffaa;z-index:4}
+.ipad-content {position:relative;z-index:2;display:flex;flex-direction:column;align-items:center;justify-content:center;width:100%;height:100%}
+.ipad-content .device-brand {font-size:19px;letter-spacing:2px}
+.ipad-content .device-caption {font-size:9px;margin-top:9px}
+.ipad-content .device-app-icons {gap:14px;margin-top:25px}
+.ipad-content .device-app-icons i {width:29px;height:29px;border-radius:9px}
+.device-type {color:#d9c4ec;font-size:11px;font-weight:bold;letter-spacing:2px;direction:ltr}
 
 @keyframes deviceSwitch {
   0%,5% {opacity:0;transform:translateY(18px) scale(.88)}
@@ -1607,282 +1065,81 @@ footer {
 /* توافق الجوال والآيباد */
 
 @media(max-width:700px) {
-  .sections {
-    grid-template-columns:repeat(3,minmax(0,1fr));
-    gap:8px;
-  }
-
-  .section-card {
-    padding:7px;
-    border-radius:13px;
-  }
-
-  .phone-stage,.store-stage,.tv-stage {
-    height:180px;
-  }
-
-  .phone {
-    transform:scale(.66) rotateY(-9deg) rotateX(3deg);
-    transform-origin:center;
-  }
-
-  .section-card:hover .phone {
-    transform:scale(.66) rotateY(-3deg) rotateX(1deg);
-  }
-
+  .sections {grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+  .section-card {padding:7px;border-radius:13px}
+  .phone-stage,.store-stage,.tv-stage {height:180px}
+  .phone {transform:scale(.66) rotateY(-9deg) rotateX(3deg);transform-origin:center}
+  .section-card:hover .phone {transform:scale(.66) rotateY(-3deg) rotateX(1deg)}
   .store-cards {transform:scale(.72)}
-
   .tv-set {width:95%}
-
-  .section-card h3 {
-    font-size:12px;
-    line-height:1.5;
-  }
-
-  .section-description {
-    font-size:10px;
-    line-height:1.6;
-  }
-
+  .section-card h3 {font-size:12px;line-height:1.5}
+  .section-description {font-size:10px;line-height:1.6}
   .service-title {font-size:11px}
   .service-description {font-size:10px}
   .price {font-size:11px}
-
-  .buy-button {
-    padding:9px 3px;
-    font-size:10px;
-  }
-
-  main {
-    padding-right:10px;
-    padding-left:10px;
-  }
-
+  .buy-button {padding:9px 3px;font-size:10px}
+  main {padding-right:10px;padding-left:10px}
   .section-heading h2 {font-size:16px}
   .section-heading span {font-size:9px}
 
-  .hero-banner {
-    margin:10px 10px 25px;
-    min-height:410px;
-    padding:20px 8px;
-  }
-
-  .hero-content {
-    flex-direction:column-reverse;
-    gap:0;
-    justify-content:center;
-  }
-
-  .hero-message {
-    order:2;
-    flex:none;
-    width:100%;
-    margin-top:-5px;
-  }
-
-  .hero-phone-scene {
-    order:1;
-    width:360px;
-    max-width:100%;
-    height:330px;
-    flex:none;
-    transform:scale(.88);
-    margin:-5px auto;
-  }
-
-  .hero-phone {
-    transform:scale(.88) rotateY(-12deg) rotateX(4deg);
-  }
-
-  .hero-slogan {
-    font-size:20px;
-  }
-
+  .hero-banner {margin:10px 10px 25px;min-height:410px;padding:20px 8px}
+  .hero-content {flex-direction:column-reverse;gap:0;justify-content:center}
+  .hero-message {order:2;flex:none;width:100%;margin-top:-5px}
+  .hero-phone-scene {order:1;width:360px;max-width:100%;height:330px;flex:none;transform:scale(.88);margin:-5px auto}
+  .hero-phone {transform:scale(.88) rotateY(-12deg) rotateX(4deg)}
+  .hero-slogan {font-size:20px}
   .hero-line {margin-top:10px}
 
-  /* مدار دائري أصغر ليناسب شاشة الجوال */
+  .hero-floating-app {width:40px;height:40px;padding:4px;border-radius:12px}
+  .hero-floating-app::after {inset:-4px;border-radius:15px}
 
-  .hero-floating-app {
-    width:40px;
-    height:40px;
-    padding:4px;
-    border-radius:12px;
-  }
-
-  .hero-floating-app::after {
-    inset:-4px;
-    border-radius:15px;
-  }
-
-  .hero-floating-app.snap {
-    --x:0px;
-    --y:-145px;
-  }
-
-  .hero-floating-app.tiktok {
-    --x:72px;
-    --y:-125px;
-  }
-
-  .hero-floating-app.gta {
-    --x:125px;
-    --y:-72px;
-  }
-
-  .hero-floating-app.youtube {
-    --x:145px;
-    --y:0px;
-  }
-
-  .hero-floating-app.whatsapp {
-    --x:125px;
-    --y:72px;
-  }
-
-  .hero-floating-app.telegram {
-    --x:72px;
-    --y:125px;
-  }
-
-  .hero-floating-app.instagram {
-    --x:0px;
-    --y:145px;
-  }
-
-  .hero-floating-app.threads {
-    --x:-72px;
-    --y:125px;
-  }
-
-  .hero-floating-app.pubg {
-    --x:-125px;
-    --y:72px;
-  }
-
-  .hero-floating-app.x-app {
-    --x:-145px;
-    --y:0px;
-  }
-
-  .hero-floating-app.twitch {
-    --x:-125px;
-    --y:-72px;
-  }
-
-  .hero-floating-app.facebook {
-    --x:-72px;
-    --y:-125px;
-  }
+  .hero-floating-app.snap {--x:0px;--y:-145px}
+  .hero-floating-app.tiktok {--x:112px;--y:-125px}
+  .hero-floating-app.gta {--x:125px;--y:-72px}
+  .hero-floating-app.youtube {--x:145px;--y:0px}
+  .hero-floating-app.whatsapp {--x:125px;--y:72px}
+  .hero-floating-app.telegram {--x:112px;--y:125px}
+  .hero-floating-app.instagram {--x:0px;--y:145px}
+  .hero-floating-app.threads {--x:-112px;--y:125px}
+  .hero-floating-app.pubg {--x:-125px;--y:72px}
+  .hero-floating-app.x-app {--x:-145px;--y:0px}
+  .hero-floating-app.twitch {--x:-125px;--y:-72px}
+  .hero-floating-app.facebook {--x:-112px;--y:-125px}
 }
 
 @media(max-width:390px) {
-  .sections {
-    grid-template-columns:repeat(3,minmax(0,1fr));
-    gap:6px;
-  }
-
+  .sections {grid-template-columns:repeat(3,minmax(0,1fr));gap:6px}
   .section-card {padding:6px}
-
-  .phone-stage,.store-stage,.tv-stage {
-    height:160px;
-  }
-
-  .phone {
-    transform:scale(.58) rotateY(-9deg) rotateX(3deg);
-  }
-
-  .section-card:hover .phone {
-    transform:scale(.58) rotateY(-3deg) rotateX(1deg);
-  }
-
+  .phone-stage,.store-stage,.tv-stage {height:160px}
+  .phone {transform:scale(.58) rotateY(-9deg) rotateX(3deg)}
+  .section-card:hover .phone {transform:scale(.58) rotateY(-3deg) rotateX(1deg)}
   .store-cards {transform:scale(.62)}
   .tv-set {width:98%}
-
   .section-card h3 {font-size:11px}
   .section-description {font-size:9px}
   .buy-button {font-size:9px}
-
   .plus-apps-showcase {padding:22px 10px 25px}
   .device-stage {height:315px}
   .iphone-frame {transform:scale(.82)}
   .ipad-frame {transform:scale(.82)}
-
   .hero-banner {min-height:390px}
-
-  .hero-phone-scene {
-    width:340px;
-    height:300px;
-    transform:scale(.86);
-  }
-
+  .hero-phone-scene {width:340px;height:300px;transform:scale(.86)}
   .hero-phone {transform:scale(.82)}
   .hero-slogan {font-size:18px}
+  .hero-floating-app {width:36px;height:36px;padding:3px}
 
-  .hero-floating-app {
-    width:36px;
-    height:36px;
-    padding:3px;
-  }
-
-  .hero-floating-app.snap {
-    --x:0px;
-    --y:-132px;
-  }
-
-  .hero-floating-app.tiktok {
-    --x:65px;
-    --y:-112px;
-  }
-
-  .hero-floating-app.gta {
-    --x:112px;
-    --y:-65px;
-  }
-
-  .hero-floating-app.youtube {
-    --x:132px;
-    --y:0px;
-  }
-
-  .hero-floating-app.whatsapp {
-    --x:112px;
-    --y:65px;
-  }
-
-  .hero-floating-app.telegram {
-    --x:65px;
-    --y:112px;
-  }
-
-  .hero-floating-app.instagram {
-    --x:0px;
-    --y:132px;
-  }
-
-  .hero-floating-app.threads {
-    --x:-65px;
-    --y:112px;
-  }
-
-  .hero-floating-app.pubg {
-    --x:-112px;
-    --y:65px;
-  }
-
-  .hero-floating-app.x-app {
-    --x:-132px;
-    --y:0px;
-  }
-
-  .hero-floating-app.twitch {
-    --x:-112px;
-    --y:-65px;
-  }
-
-  .hero-floating-app.facebook {
-    --x:-65px;
-    --y:-112px;
-  }
+  .hero-floating-app.snap {--x:0px;--y:-132px}
+  .hero-floating-app.tiktok {--x:105px;--y:-112px}
+  .hero-floating-app.gta {--x:112px;--y:-65px}
+  .hero-floating-app.youtube {--x:132px;--y:0px}
+  .hero-floating-app.whatsapp {--x:112px;--y:65px}
+  .hero-floating-app.telegram {--x:105px;--y:112px}
+  .hero-floating-app.instagram {--x:0px;--y:132px}
+  .hero-floating-app.threads {--x:-105px;--y:112px}
+  .hero-floating-app.pubg {--x:-112px;--y:65px}
+  .hero-floating-app.x-app {--x:-132px;--y:0px}
+  .hero-floating-app.twitch {--x:-112px;--y:-65px}
+  .hero-floating-app.facebook {--x:-105px;--y:-112px}
 }
 
 @media(prefers-reduced-motion:reduce) {
@@ -1896,10 +1153,7 @@ footer {
     animation:none !important;
   }
 
-  .splash-emblem,.splash-name,.splash-caption,.splash-loader {
-    opacity:1;
-    transform:none;
-  }
+  .splash-emblem,.splash-name,.splash-caption,.splash-loader {opacity:1;transform:none}
 }
 </style>
 </head>
@@ -1916,24 +1170,12 @@ footer {
           <stop offset="1" stop-color="#63358C"/>
         </linearGradient>
       </defs>
-
-      <path class="emblem-main"
-        d="M23 39L16 18L39 29L59 12L80 29L104 18L97 39L91 73C88 91 75 103 60 105C45 103 32 91 29 73L23 39Z"
-        stroke="url(#jokerGradient)" stroke-width="4"
-        stroke-linecap="round" stroke-linejoin="round"/>
-
-      <path d="M29 48C39 43 49 44 58 49C67 44 79 43 91 48"
-        stroke="#F7F4FA" stroke-width="3.5" stroke-linecap="round"/>
-
+      <path class="emblem-main" d="M23 39L16 18L39 29L59 12L80 29L104 18L97 39L91 73C88 91 75 103 60 105C45 103 32 91 29 73L23 39Z" stroke="url(#jokerGradient)" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M29 48C39 43 49 44 58 49C67 44 79 43 91 48" stroke="#F7F4FA" stroke-width="3.5" stroke-linecap="round"/>
       <path d="M37 60L49 55L54 61L47 66L37 60Z" fill="#C49BE5"/>
       <path d="M83 60L71 55L66 61L73 66L83 60Z" fill="#C49BE5"/>
-
-      <path d="M43 80C51 88 69 88 77 80"
-        stroke="#F7F4FA" stroke-width="3.5" stroke-linecap="round"/>
-
-      <path d="M49 82L53 91L60 93L67 91L71 82"
-        stroke="#A77AD0" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-
+      <path d="M43 80C51 88 69 88 77 80" stroke="#F7F4FA" stroke-width="3.5" stroke-linecap="round"/>
+      <path d="M49 82L53 91L60 93L67 91L71 82" stroke="#A77AD0" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
       <path class="emblem-dot" d="M16 18L10 11L22 13L16 18Z" fill="#A6192E"/>
       <path class="emblem-dot" d="M59 12L59 3L66 12L59 12Z" fill="#A6192E"/>
       <path class="emblem-dot" d="M104 18L110 11L98 13L104 18Z" fill="#A6192E"/>
@@ -1955,24 +1197,12 @@ footer {
           <stop offset="1" stop-color="#63358C"/>
         </linearGradient>
       </defs>
-
-      <path
-        d="M23 39L16 18L39 29L59 12L80 29L104 18L97 39L91 73C88 91 75 103 60 105C45 103 32 91 29 73L23 39Z"
-        stroke="url(#jokerGradientHeader)" stroke-width="4"
-        stroke-linecap="round" stroke-linejoin="round"/>
-
-      <path d="M29 48C39 43 49 44 58 49C67 44 79 43 91 48"
-        stroke="#F7F4FA" stroke-width="3.5" stroke-linecap="round"/>
-
+      <path d="M23 39L16 18L39 29L59 12L80 29L104 18L97 39L91 73C88 91 75 103 60 105C45 103 32 91 29 73L23 39Z" stroke="url(#jokerGradientHeader)" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M29 48C39 43 49 44 58 49C67 44 79 43 91 48" stroke="#F7F4FA" stroke-width="3.5" stroke-linecap="round"/>
       <path d="M37 60L49 55L54 61L47 66L37 60Z" fill="#C49BE5"/>
       <path d="M83 60L71 55L66 61L73 66L83 60Z" fill="#C49BE5"/>
-
-      <path d="M43 80C51 88 69 88 77 80"
-        stroke="#F7F4FA" stroke-width="3.5" stroke-linecap="round"/>
-
-      <path d="M49 82L53 91L60 93L67 91L71 82"
-        stroke="#A77AD0" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-
+      <path d="M43 80C51 88 69 88 77 80" stroke="#F7F4FA" stroke-width="3.5" stroke-linecap="round"/>
+      <path d="M49 82L53 91L60 93L67 91L71 82" stroke="#A77AD0" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
       <path d="M16 18L10 11L22 13L16 18Z" fill="#A6192E"/>
       <path d="M59 12L59 3L66 12L59 12Z" fill="#A6192E"/>
       <path d="M104 18L110 11L98 13L104 18Z" fill="#A6192E"/>
@@ -1983,84 +1213,57 @@ footer {
 
 <section class="hero-banner" aria-label="JOKER PLUS banner">
   <div class="hero-content">
-
     <div class="hero-message">
       <p class="hero-slogan">لسنا الوحيدين<br>لكنَ الأفضل</p>
       <div class="hero-line"></div>
     </div>
 
     <div class="hero-phone-scene">
-
-      <!-- التطبيقات والألعاب حول الهاتف بشكل دائري -->
-
       <div class="hero-floating-app snap">
         <img src="https://cdn.simpleicons.org/snapchat/000000" alt="Snapchat">
       </div>
-
       <div class="hero-floating-app tiktok">
         <img src="https://cdn.simpleicons.org/tiktok/000000" alt="TikTok">
       </div>
-
       <div class="hero-floating-app gta">
-        <img
-          src="https://cdn.akamai.steamstatic.com/steam/apps/271590/header.jpg"
-          alt="Grand Theft Auto V"
-          loading="lazy">
+        <img src="https://cdn.akamai.steamstatic.com/steam/apps/271590/header.jpg" alt="Grand Theft Auto V" loading="lazy">
       </div>
-
       <div class="hero-floating-app youtube">
         <img src="https://cdn.simpleicons.org/youtube/ffffff" alt="YouTube">
       </div>
-
       <div class="hero-floating-app whatsapp">
         <img src="https://cdn.simpleicons.org/whatsapp/ffffff" alt="WhatsApp">
       </div>
-
       <div class="hero-floating-app telegram">
         <img src="https://cdn.simpleicons.org/telegram/ffffff" alt="Telegram">
       </div>
-
       <div class="hero-floating-app instagram">
         <img src="https://cdn.simpleicons.org/instagram/ffffff" alt="Instagram">
       </div>
-
       <div class="hero-floating-app threads">
         <img src="https://cdn.simpleicons.org/threads/000000" alt="Threads">
       </div>
-
       <div class="hero-floating-app pubg">
-        <img
-          src="https://commons.wikimedia.org/wiki/Special:FilePath/Icon%20PUBGM.jpg"
-          alt="PUBG Mobile"
-          loading="lazy">
+        <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Icon%20PUBGM.jpg" alt="PUBG Mobile" loading="lazy">
       </div>
-
       <div class="hero-floating-app x-app">
         <img src="https://cdn.simpleicons.org/x/000000" alt="X">
       </div>
-
       <div class="hero-floating-app twitch">
         <img src="https://cdn.simpleicons.org/twitch/ffffff" alt="Twitch">
       </div>
-
       <div class="hero-floating-app facebook">
         <img src="https://cdn.simpleicons.org/facebook/ffffff" alt="Facebook">
       </div>
 
-      <!-- الهاتف في المنتصف -->
-
       <div class="hero-phone">
         <div class="hero-phone-screen">
-
           <div class="hero-phone-status">
             <span>9:41</span>
             <span>●●● WiFi ▰</span>
           </div>
-
           <div class="hero-phone-island"></div>
-
           <div class="hero-phone-logo">
-
             <svg viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
               <defs>
                 <linearGradient id="phoneJokerGradient" x1="20" y1="15" x2="100" y2="105" gradientUnits="userSpaceOnUse">
@@ -2069,41 +1272,24 @@ footer {
                   <stop offset="1" stop-color="#63358C"/>
                 </linearGradient>
               </defs>
-
-              <path
-                d="M23 39L16 18L39 29L59 12L80 29L104 18L97 39L91 73C88 91 75 103 60 105C45 103 32 91 29 73L23 39Z"
-                stroke="url(#phoneJokerGradient)" stroke-width="4"
-                stroke-linecap="round" stroke-linejoin="round"/>
-
-              <path d="M29 48C39 43 49 44 58 49C67 44 79 43 91 48"
-                stroke="#F7F4FA" stroke-width="3.5" stroke-linecap="round"/>
-
+              <path d="M23 39L16 18L39 29L59 12L80 29L104 18L97 39L91 73C88 91 75 103 60 105C45 103 32 91 29 73L23 39Z" stroke="url(#phoneJokerGradient)" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M29 48C39 43 49 44 58 49C67 44 79 43 91 48" stroke="#F7F4FA" stroke-width="3.5" stroke-linecap="round"/>
               <path d="M37 60L49 55L54 61L47 66L37 60Z" fill="#C49BE5"/>
               <path d="M83 60L71 55L66 61L73 66L83 60Z" fill="#C49BE5"/>
-
-              <path d="M43 80C51 88 69 88 77 80"
-                stroke="#F7F4FA" stroke-width="3.5" stroke-linecap="round"/>
-
-              <path d="M49 82L53 91L60 93L67 91L71 82"
-                stroke="#A77AD0" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-
+              <path d="M43 80C51 88 69 88 77 80" stroke="#F7F4FA" stroke-width="3.5" stroke-linecap="round"/>
+              <path d="M49 82L53 91L60 93L67 91L71 82" stroke="#A77AD0" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
               <path d="M16 18L10 11L22 13L16 18Z" fill="#A6192E"/>
               <path d="M59 12L59 3L66 12L59 12Z" fill="#A6192E"/>
               <path d="M104 18L110 11L98 13L104 18Z" fill="#A6192E"/>
               <circle cx="60" cy="105" r="3" fill="#A6192E"/>
             </svg>
-
             <div class="hero-phone-logo-name">JOKER <span>PLUS</span></div>
             <div class="hero-phone-logo-caption">YOUR DIGITAL WORLD</div>
-
           </div>
-
           <div class="hero-phone-home"></div>
         </div>
       </div>
-
     </div>
-
   </div>
 </section>
 
@@ -2120,14 +1306,13 @@ footer {
   <section class="plus-apps-showcase" aria-label="تطبيقات بلس">
     <h2 class="plus-apps-title">تطبيقات بلس <span>PLUS APPS</span></h2>
     <div class="device-stage">
-
       <div class="device-scene iphone-scene">
         <div class="device-frame iphone-frame">
           <div class="device-screen">
             <div class="iphone-wallpaper"></div>
             <div class="iphone-status">
               <span>9:41</span>
-              <span>●●●  WiFi  ▰</span>
+              <span>●●● WiFi ▰</span>
             </div>
             <div class="dynamic-island"></div>
             <div class="iphone-content">
@@ -2156,7 +1341,6 @@ footer {
         </div>
         <div class="device-type">iPAD</div>
       </div>
-
     </div>
   </section>
 </main>
@@ -2167,12 +1351,8 @@ footer {
 </footer>
 
 <script>
-const SUPABASE_URL =
-"https://pvyqzpqqrqzpbzcpftvx.supabase.co";
-
-const SUPABASE_PUBLISHABLE_KEY =
-"sb_publishable_btiyr5EDG2oiajHAgzz7Sw_QNnjFZM4";
-
+const SUPABASE_URL = "https://pvyqzpqqrqzpbzcpftvx.supabase.co";
+const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_btiyr5EDG2oiajHAgzz7Sw_QNnjFZM4";
 const WHATSAPP_NUMBER = "96566985873";
 
 const supabaseClient = window.supabase.createClient(
@@ -2248,11 +1428,7 @@ function iconUrl(slug) {
 
 function createAppIcon(app,sectionId) {
   const [name,slug] = app;
-
-  const lightIcon =
-    ["tiktok","x"].includes(slug)
-      ? "app-icon-light"
-      : "";
+  const lightIcon = ["tiktok","x"].includes(slug) ? "app-icon-light" : "";
 
   return `
     <div class="app-item">
@@ -2382,7 +1558,6 @@ function whatsappLink(item) {
   const title = item.title || "طلب من متجر JOKER PLUS";
   const price = item.price ? " - السعر: " + item.price : "";
   const message = "السلام عليكم، أريد طلب: " + title + price;
-
   return "https://wa.me/" + WHATSAPP_NUMBER + "?text=" + encodeURIComponent(message);
 }
 
