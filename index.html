@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
@@ -76,8 +77,6 @@ main {
   color:var(--muted);
   font-size:11px;
 }
-
-/* شبكة الأقسام: 3 أعمدة */
 
 .sections {
   display:grid;
@@ -232,7 +231,7 @@ main {
   box-shadow:0 3px 10px #000b,inset 0 1px 0 #ffffff12;
 }
 
-/* تويتر وتيك توك فقط بخلفية فاتحة */
+/* تويتر وتيك توك فقط بخلفية فاتحة في تطبيقات بلس */
 
 .section-apps .app-icon.app-icon-light {
   background:#fff;
@@ -255,6 +254,14 @@ main {
   background:#17121e;
   border:1px solid #59416c;
   box-shadow:0 4px 12px #000b;
+}
+
+/* TikTok فقط بخلفية فاتحة في قسم الخدمات */
+
+.section-social .app-item:has(.app-name) .app-icon:has(img[alt="TikTok"]) {
+  background:#fff;
+  border:1px solid #ddd;
+  box-shadow:0 3px 8px #0008;
 }
 
 .section-social .app-name {
@@ -336,7 +343,7 @@ main {
   background:#ffffff90;
 }
 
-/* بطاقات PlayStation - متمركزة ومتقاربة */
+/* بطاقات PlayStation */
 
 .store-stage {
   width:100%;
@@ -404,7 +411,7 @@ main {
   filter:drop-shadow(0 5px 12px #0009);
 }
 
-/* تلفزيون IPTV حديث */
+/* تلفزيون IPTV */
 
 .tv-stage {
   width:100%;
