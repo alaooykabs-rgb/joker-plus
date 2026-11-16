@@ -366,7 +366,7 @@ body {
 .hero-floating-app.snap {--x:115px;--y:-160px;--tilt:-12deg;--ry:18deg;--rx:8deg;animation-delay:-.5s;background:#fffc00}
 .hero-floating-app.tiktok {--x:115px;--y:-96px;--tilt:12deg;--ry:-15deg;--rx:8deg;animation-delay:-1.7s}
 .hero-floating-app.gta {--x:115px;--y:-32px;--tilt:9deg;--ry:16deg;--rx:-8deg;background:#d5d0c2;animation-delay:-1.3s}
-.hero-floating-app.youtube {--x:115px;--y:32px;--tilt:10deg;--ry:-17deg;--rx:10deg;background:#ed1c24;animation-delay:-2.2s}
+.hero-floating-app.youtube {--x:115px;--y:32px;--tilt:10deg;--ry:-17deg;--rx:10deg;animation-delay:-2.2s;background:#ed1c24}
 .hero-floating-app.whatsapp {--x:115px;--y:96px;--tilt:-10deg;--ry:15deg;--rx:-8deg;background:#25d366;animation-delay:-.9s}
 .hero-floating-app.telegram {--x:115px;--y:160px;--tilt:12deg;--ry:-15deg;--rx:8deg;background:#229ed9;animation-delay:-2.6s}
 .hero-floating-app.facebook {--x:-115px;--y:-160px;--tilt:12deg;--ry:-15deg;--rx:8deg;background:#1877f2;animation-delay:-1.2s}
@@ -465,6 +465,16 @@ main {
 .section-card:hover {
   border-color:#68438b;
   transform:translateY(-3px);
+}
+
+/* بطاقة تطبيقات بلس قابلة للضغط */
+
+.section-apps {
+  cursor:pointer;
+}
+
+.section-apps:active {
+  transform:scale(.98);
 }
 
 /* الهاتف */
@@ -837,6 +847,7 @@ footer {text-align:center;color:#756c7c;font-size:11px;padding:25px 15px;border-
   background:linear-gradient(145deg,#17121eaa,#0e0c12dd);
   box-shadow:0 15px 38px #0006,inset 0 1px 0 #ffffff0b;
   overflow:hidden;
+  scroll-margin-top:20px;
 }
 
 .plus-apps-title {
@@ -1264,7 +1275,7 @@ footer {text-align:center;color:#756c7c;font-size:11px;padding:25px 15px;border-
     <p class="loading-message">جاري تحميل المتجر...</p>
   </div>
 
-  <section class="plus-apps-showcase" aria-label="باقات تطبيقات بلس للآيفون">
+  <section class="plus-apps-showcase" id="plusPackagesSection" aria-label="باقات تطبيقات بلس للآيفون">
     <h2 class="plus-apps-title">باقات تطبيقات بلس <span>PLUS APPS PACKAGES</span></h2>
     <p class="packages-intro">
       اختر الباقة المناسبة لك واستمتع بمميزات تطبيقات بلس على الآيفون
@@ -1676,7 +1687,8 @@ function createSection(section,items,images) {
   const sectionItems = items.filter(item => item.section_key === section.id);
 
   return `
-    <article class="section-card section-${section.id}">
+    <article class="section-card section-${section.id}"
+      ${section.id === "apps" ? 'onclick="openPlusPackages(event)"' : ''}>
       ${createPhone(section,sectionImage?.image_url)}
       <h3>${escapeHTML(section.name)}</h3>
       <p class="section-description">${escapeHTML(section.description)}</p>
@@ -1689,6 +1701,21 @@ function createSection(section,items,images) {
       </div>
     </article>
   `;
+}
+
+/* الانتقال إلى باقات تطبيقات بلس عند الضغط على القسم */
+
+function openPlusPackages(event) {
+  if(event.target.closest("a,button,summary,details")) return;
+
+  const packagesSection = document.getElementById("plusPackagesSection");
+
+  if(packagesSection) {
+    packagesSection.scrollIntoView({
+      behavior:"smooth",
+      block:"start"
+    });
+  }
 }
 
 /* إنشاء بطاقة كل باقة */
