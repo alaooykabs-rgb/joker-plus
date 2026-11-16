@@ -1030,6 +1030,64 @@ footer {text-align:center;color:#756c7c;font-size:11px;padding:25px 15px;border-
   font-size:11px;
 }
 
+/* صفحة الباقات المستقلة */
+
+#storePage[hidden],
+#packagesPage[hidden] {
+  display:none !important;
+}
+
+#packagesPage {
+  min-height:100vh;
+  max-width:1150px;
+  margin:0 auto;
+  padding:25px 20px 50px;
+}
+
+.packages-page-top {
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:15px;
+  margin-bottom:25px;
+}
+
+.packages-back-button {
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
+  padding:12px 18px;
+  border:1px solid #68438b;
+  border-radius:12px;
+  background:linear-gradient(110deg,#35105c,#51227b);
+  color:#fff;
+  font-size:13px;
+  font-weight:bold;
+  text-decoration:none;
+  cursor:pointer;
+  box-shadow:0 5px 18px #35105c66;
+  transition:.2s;
+}
+
+.packages-back-button:hover {
+  background:linear-gradient(110deg,#51227b,#35105c);
+  transform:translateY(-2px);
+}
+
+.packages-page-brand {
+  color:#c49be5;
+  font-size:14px;
+  font-weight:900;
+  letter-spacing:1.5px;
+  direction:ltr;
+}
+
+#packagesPage .plus-apps-showcase {
+  margin:0 auto;
+  max-width:1000px;
+}
+
 @media(max-width:700px) {
   .sections {grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
   .section-card {padding:7px;border-radius:13px}
@@ -1079,6 +1137,11 @@ footer {text-align:center;color:#756c7c;font-size:11px;padding:25px 15px;border-
   .package-price {font-size:29px}
   .package-perks li {font-size:12px}
   .package-details-content {font-size:12px}
+
+  #packagesPage {padding:18px 10px 35px}
+  .packages-page-top {margin-bottom:18px}
+  .packages-back-button {padding:11px 13px;font-size:12px}
+  .packages-page-brand {font-size:12px}
 }
 
 @media(max-width:390px) {
@@ -1158,6 +1221,9 @@ footer {text-align:center;color:#756c7c;font-size:11px;padding:25px 15px;border-
   <div class="splash-caption">YOUR DIGITAL DESTINATION</div>
   <div class="splash-loader"></div>
 </div>
+
+<!-- محتوى المتجر الرئيسي -->
+<div id="storePage">
 
 <header>
   <div class="header-emblem" aria-label="شعار الجوكر">
@@ -1274,6 +1340,25 @@ footer {text-align:center;color:#756c7c;font-size:11px;padding:25px 15px;border-
   <div class="sections" id="sections">
     <p class="loading-message">جاري تحميل المتجر...</p>
   </div>
+</main>
+
+<footer>
+  <div class="footer-logo">JOKER PLUS</div>
+  جميع الحقوق محفوظة © 2026
+</footer>
+
+</div>
+<!-- نهاية محتوى المتجر الرئيسي -->
+
+<!-- صفحة الباقات المستقلة -->
+<div id="packagesPage" hidden>
+  <div class="packages-page-top">
+    <button class="packages-back-button" type="button" onclick="backToStore()">
+      <span>→</span>
+      رجوع للمتجر
+    </button>
+    <div class="packages-page-brand">JOKER PLUS 🃏</div>
+  </div>
 
   <section class="plus-apps-showcase" id="plusPackagesSection" aria-label="باقات تطبيقات بلس للآيفون">
     <h2 class="plus-apps-title">باقات تطبيقات بلس <span>PLUS APPS PACKAGES</span></h2>
@@ -1285,12 +1370,7 @@ footer {text-align:center;color:#756c7c;font-size:11px;padding:25px 15px;border-
     </div>
     <p class="package-device-note">جميع الباقات مخصصة لأجهزة الآيفون 🃏</p>
   </section>
-</main>
-
-<footer>
-  <div class="footer-logo">JOKER PLUS</div>
-  جميع الحقوق محفوظة © 2026
-</footer>
+</div>
 
 <script>
 const SUPABASE_URL = "https://pvyqzpqqrqzpbzcpftvx.supabase.co";
@@ -1703,19 +1783,36 @@ function createSection(section,items,images) {
   `;
 }
 
-/* الانتقال إلى باقات تطبيقات بلس عند الضغط على القسم */
+/* فتح صفحة الباقات المستقلة */
 
 function openPlusPackages(event) {
-  if(event.target.closest("a,button,summary,details")) return;
+  if(event && event.target.closest("a,button,summary,details")) return;
 
-  const packagesSection = document.getElementById("plusPackagesSection");
+  const storePage = document.getElementById("storePage");
+  const packagesPage = document.getElementById("packagesPage");
 
-  if(packagesSection) {
-    packagesSection.scrollIntoView({
-      behavior:"smooth",
-      block:"start"
-    });
-  }
+  storePage.hidden = true;
+  packagesPage.hidden = false;
+
+  window.scrollTo({
+    top:0,
+    behavior:"instant"
+  });
+}
+
+/* الرجوع إلى المتجر */
+
+function backToStore() {
+  const storePage = document.getElementById("storePage");
+  const packagesPage = document.getElementById("packagesPage");
+
+  packagesPage.hidden = true;
+  storePage.hidden = false;
+
+  window.scrollTo({
+    top:0,
+    behavior:"instant"
+  });
 }
 
 /* إنشاء بطاقة كل باقة */
