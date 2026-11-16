@@ -303,6 +303,18 @@ body {
   display:block;
 }
 
+/* صور الألعاب الحقيقية */
+
+.hero-app-pubg img,
+.hero-app-gta img,
+.hero-app-pool img {
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  padding:0;
+  border-radius:7px;
+}
+
 .hero-phone-app-name {
   color:#eee5f5;
   font-size:5px;
@@ -1739,18 +1751,39 @@ footer {
                 <span class="hero-phone-app-name">Threads</span>
               </div>
 
+              <!-- صورة PUBG Mobile -->
               <div class="hero-phone-app-item">
-                <div class="hero-phone-app hero-app-pubg">PUBG</div>
+                <div class="hero-phone-app hero-app-pubg">
+                  <img
+                    src="https://commons.wikimedia.org/wiki/Special:FilePath/Icon%20PUBGM.jpg"
+                    alt="PUBG Mobile"
+                    loading="lazy"
+                    onerror="this.style.display='none';">
+                </div>
                 <span class="hero-phone-app-name">PUBG Mobile</span>
               </div>
 
+              <!-- صورة GTA 5 -->
               <div class="hero-phone-app-item">
-                <div class="hero-phone-app hero-app-gta">GTA</div>
+                <div class="hero-phone-app hero-app-gta">
+                  <img
+                    src="https://cdn.akamai.steamstatic.com/steam/apps/271590/header.jpg"
+                    alt="Grand Theft Auto V"
+                    loading="lazy"
+                    onerror="this.style.display='none';">
+                </div>
                 <span class="hero-phone-app-name">GTA 5</span>
               </div>
 
+              <!-- صورة 8 Ball Pool -->
               <div class="hero-phone-app-item">
-                <div class="hero-phone-app hero-app-pool">8</div>
+                <div class="hero-phone-app hero-app-pool">
+                  <img
+                    src="https://commons.wikimedia.org/wiki/Special:FilePath/8ballpool.jpg"
+                    alt="8 Ball Pool"
+                    loading="lazy"
+                    onerror="this.style.display='none';">
+                </div>
                 <span class="hero-phone-app-name">8 Ball</span>
               </div>
 
