@@ -316,7 +316,7 @@ body {
   50% {transform:rotateY(5deg) rotateX(1deg)}
 }
 
-/* الشعار أعلى البنر فقط */
+/* الشعار الجديد */
 
 header {
   text-align:center;
@@ -324,13 +324,13 @@ header {
 }
 
 .header-emblem {
-  width:66px;
-  height:66px;
+  width:78px;
+  height:78px;
   margin:0 auto;
   display:flex;
   align-items:center;
   justify-content:center;
-  filter:drop-shadow(0 0 16px #a77ad066);
+  filter:drop-shadow(0 0 18px #a77ad088);
 }
 
 .header-emblem svg {
@@ -1481,14 +1481,6 @@ footer {
     flex:none;
   }
 
-  .hero-phone {
-    transform:scale(.88);
-  }
-
-  .iphone-frame {
-    transform:scale(.88);
-  }
-
   .hero-slogan {
     font-size:21px;
   }
@@ -1574,13 +1566,39 @@ footer {
 
 <div class="splash-screen" id="splashScreen" aria-label="JOKER PLUS">
   <div class="splash-emblem" aria-hidden="true">
+    <!-- شعار الجوكر الجديد SVG -->
     <svg viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <path class="emblem-main" d="M22 42L39 20L57 42L78 17L98 42L88 82C86 91 78 97 69 97H49C40 97 32 91 30 82L22 42Z" stroke="#C49BE5" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
-      <path d="M31 67C43 73 77 73 90 67" stroke="#A77AD0" stroke-width="3" stroke-linecap="round"/>
-      <path d="M45 83H75" stroke="#F7F4FA" stroke-width="3" stroke-linecap="round"/>
-      <circle class="emblem-dot" cx="22" cy="42" r="4" fill="#A6192E"/>
-      <circle class="emblem-dot" cx="78" cy="17" r="4" fill="#A6192E"/>
-      <circle class="emblem-dot" cx="98" cy="42" r="4" fill="#A6192E"/>
+      <defs>
+        <linearGradient id="jokerGradient" x1="20" y1="15" x2="100" y2="105" gradientUnits="userSpaceOnUse">
+          <stop stop-color="#E2C5FF"/>
+          <stop offset=".55" stop-color="#A77AD0"/>
+          <stop offset="1" stop-color="#63358C"/>
+        </linearGradient>
+      </defs>
+
+      <path class="emblem-main"
+        d="M23 39L16 18L39 29L59 12L80 29L104 18L97 39L91 73C88 91 75 103 60 105C45 103 32 91 29 73L23 39Z"
+        stroke="url(#jokerGradient)" stroke-width="4"
+        stroke-linecap="round" stroke-linejoin="round"/>
+
+      <path d="M29 48C39 43 49 44 58 49C67 44 79 43 91 48"
+        stroke="#F7F4FA" stroke-width="3.5" stroke-linecap="round"/>
+
+      <path d="M37 60L49 55L54 61L47 66L37 60Z"
+        fill="#C49BE5"/>
+      <path d="M83 60L71 55L66 61L73 66L83 60Z"
+        fill="#C49BE5"/>
+
+      <path d="M43 80C51 88 69 88 77 80"
+        stroke="#F7F4FA" stroke-width="3.5" stroke-linecap="round"/>
+
+      <path d="M49 82L53 91L60 93L67 91L71 82"
+        stroke="#A77AD0" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+
+      <path class="emblem-dot" d="M16 18L10 11L22 13L16 18Z" fill="#A6192E"/>
+      <path class="emblem-dot" d="M59 12L59 3L66 12L59 12Z" fill="#A6192E"/>
+      <path class="emblem-dot" d="M104 18L110 11L98 13L104 18Z" fill="#A6192E"/>
+      <circle cx="60" cy="105" r="3" fill="#A6192E"/>
     </svg>
   </div>
   <div class="splash-name">JOKER <span>PLUS</span></div>
@@ -1590,13 +1608,37 @@ footer {
 
 <header>
   <div class="header-emblem" aria-label="شعار الجوكر">
+    <!-- الشعار الجديد أعلى البنر -->
     <svg viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <path d="M22 42L39 20L57 42L78 17L98 42L88 82C86 91 78 97 69 97H49C40 97 32 91 30 82L22 42Z" stroke="#C49BE5" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
-      <path d="M31 67C43 73 77 73 90 67" stroke="#A77AD0" stroke-width="3" stroke-linecap="round"/>
-      <path d="M45 83H75" stroke="#F7F4FA" stroke-width="3" stroke-linecap="round"/>
-      <circle cx="22" cy="42" r="4" fill="#A6192E"/>
-      <circle cx="78" cy="17" r="4" fill="#A6192E"/>
-      <circle cx="98" cy="42" r="4" fill="#A6192E"/>
+      <defs>
+        <linearGradient id="jokerGradientHeader" x1="20" y1="15" x2="100" y2="105" gradientUnits="userSpaceOnUse">
+          <stop stop-color="#E2C5FF"/>
+          <stop offset=".55" stop-color="#A77AD0"/>
+          <stop offset="1" stop-color="#63358C"/>
+        </linearGradient>
+      </defs>
+
+      <path
+        d="M23 39L16 18L39 29L59 12L80 29L104 18L97 39L91 73C88 91 75 103 60 105C45 103 32 91 29 73L23 39Z"
+        stroke="url(#jokerGradientHeader)" stroke-width="4"
+        stroke-linecap="round" stroke-linejoin="round"/>
+
+      <path d="M29 48C39 43 49 44 58 49C67 44 79 43 91 48"
+        stroke="#F7F4FA" stroke-width="3.5" stroke-linecap="round"/>
+
+      <path d="M37 60L49 55L54 61L47 66L37 60Z" fill="#C49BE5"/>
+      <path d="M83 60L71 55L66 61L73 66L83 60Z" fill="#C49BE5"/>
+
+      <path d="M43 80C51 88 69 88 77 80"
+        stroke="#F7F4FA" stroke-width="3.5" stroke-linecap="round"/>
+
+      <path d="M49 82L53 91L60 93L67 91L71 82"
+        stroke="#A77AD0" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+
+      <path d="M16 18L10 11L22 13L16 18Z" fill="#A6192E"/>
+      <path d="M59 12L59 3L66 12L59 12Z" fill="#A6192E"/>
+      <path d="M104 18L110 11L98 13L104 18Z" fill="#A6192E"/>
+      <circle cx="60" cy="105" r="3" fill="#A6192E"/>
     </svg>
   </div>
 </header>
