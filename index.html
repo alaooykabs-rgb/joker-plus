@@ -1401,11 +1401,14 @@ footer {text-align:center;color:#756c7c;font-size:11px;padding:25px 15px;border-
   .hero-floating-app.threads {--x:-110px;--y:84px}
   .hero-floating-app.instagram {--x:-110px;--y:140px}
 
-  .social-platform-card {width:88px;height:105px;border-radius:22px}
-  .social-platform-card img {width:48px;height:48px}
-  .social-platform-name {font-size:8px;bottom:11px}
-  .social-tiktok-card {left:calc(50% - 94px)}
-  .social-instagram-card {right:calc(50% - 94px)}
+  /* تصغير مجسمي تيك توك وإنستغرام وإبقاؤهما داخل البطاقة */
+  .social-platform-card {width:44px;height:64px;border-radius:15px}
+  .social-platform-card::before {inset:4px;border-radius:11px}
+  .social-platform-card img {width:28px;height:28px}
+  .social-platform-name {font-size:5px;bottom:7px;letter-spacing:.3px}
+  .social-tiktok-card {left:calc(50% - 54px);top:calc(50% - 32px)}
+  .social-instagram-card {right:calc(50% - 54px);top:calc(50% - 32px)}
+
   .social-heart {left:calc(50% - 125px);top:23px}
   .social-like {right:calc(50% - 128px);top:20px}
   .social-notification {right:calc(50% - 137px);bottom:22px}
@@ -1456,10 +1459,14 @@ footer {text-align:center;color:#756c7c;font-size:11px;padding:25px 15px;border-
   .hero-floating-app.threads {--x:-108px;--y:75px}
   .hero-floating-app.instagram {--x:-108px;--y:125px}
 
-  .social-platform-card {width:78px;height:94px}
-  .social-platform-card img {width:42px;height:42px}
-  .social-tiktok-card {left:calc(50% - 84px)}
-  .social-instagram-card {right:calc(50% - 84px)}
+  /* تصغير إضافي للشاشات الأضيق */
+  .social-platform-card {width:40px;height:58px;border-radius:13px}
+  .social-platform-card::before {inset:3px;border-radius:10px}
+  .social-platform-card img {width:24px;height:24px}
+  .social-platform-name {font-size:4.5px;bottom:6px;letter-spacing:0}
+  .social-tiktok-card {left:calc(50% - 50px);top:calc(50% - 29px)}
+  .social-instagram-card {right:calc(50% - 50px);top:calc(50% - 29px)}
+
   .social-heart {left:calc(50% - 112px)}
   .social-like {right:calc(50% - 115px)}
   .social-notification {right:calc(50% - 125px)}
