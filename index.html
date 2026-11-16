@@ -125,8 +125,8 @@ body {
 }
 
 .hero-phone {
-  width:164px;
-  height:325px;
+  width:158px;
+  height:313px;
   padding:6px;
   position:relative;
   border-radius:34px;
@@ -1152,9 +1152,11 @@ footer {
   border:1px solid #ffffff24;
 }
 
+/* حجم تلفون العرض مطابق لتلفون البنر */
+
 .iphone-frame {
-  width:148px;
-  height:282px;
+  width:158px;
+  height:313px;
   padding:6px;
   border-radius:35px;
   background:linear-gradient(115deg,#29232e 0%,#c5bbc9 7%,#514858 13%,#17131e 24%,#aaa0b0 49%,#403747 77%,#d2c9d6 94%,#28212f 100%);
@@ -1167,6 +1169,8 @@ footer {
   box-shadow:inset 0 0 0 1px #ffffff1c,inset 0 -25px 40px #0008;
 }
 
+/* تقليل أزرار الجوانب */
+
 .iphone-frame::before {
   content:"";
   position:absolute;
@@ -1176,7 +1180,6 @@ footer {
   height:48px;
   border-radius:0 4px 4px 0;
   background:linear-gradient(90deg,#514858,#d1c8d5,#514858);
-  box-shadow:0 65px 0 -0.2px #aaa0b0;
 }
 
 .iphone-frame::after {
@@ -1188,7 +1191,6 @@ footer {
   height:28px;
   border-radius:4px 0 0 4px;
   background:linear-gradient(90deg,#cfc6d3,#514858);
-  box-shadow:0 43px 0 #aaa0b0,0 78px 0 #aaa0b0;
 }
 
 .dynamic-island {
@@ -1483,6 +1485,10 @@ footer {
     transform:scale(.88);
   }
 
+  .iphone-frame {
+    transform:scale(.88);
+  }
+
   .hero-slogan {
     font-size:21px;
   }
@@ -1519,7 +1525,7 @@ footer {
 
   .plus-apps-showcase {padding:22px 10px 25px}
   .device-stage {height:315px}
-  .iphone-frame {transform:scale(.92)}
+  .iphone-frame {transform:scale(.82)}
   .ipad-frame {transform:scale(.82)}
 
   .hero-banner {min-height:390px}
