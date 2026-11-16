@@ -371,7 +371,7 @@ body {
 .hero-floating-app.telegram {--x:115px;--y:160px;--tilt:12deg;--ry:-15deg;--rx:8deg;background:#229ed9;animation-delay:-2.6s}
 .hero-floating-app.facebook {--x:-115px;--y:-160px;--tilt:12deg;--ry:-15deg;--rx:8deg;background:#1877f2;animation-delay:-1.2s}
 .hero-floating-app.twitch {--x:-115px;--y:-96px;--tilt:-10deg;--ry:15deg;--rx:-8deg;background:#9146ff;animation-delay:-2.1s}
-.hero-floating-app.x-app {--x:-115px;--y:-32px;--tilt:10deg;--ry:-17deg;--rx:10deg;animation-delay:-1.5s}
+.hero-floating-app.x-app {--x:-115px;--y:-32px;--tilt:10deg;--ry:-17deg;--rx:10deg}
 .hero-floating-app.pubg {--x:-115px;--y:32px;--tilt:-12deg;--ry:16deg;--rx:-8deg;background:#6b5128;animation-delay:-.8s}
 .hero-floating-app.threads {--x:-115px;--y:96px;--tilt:-10deg;--ry:-15deg;--rx:8deg;animation-delay:-2.5s}
 .hero-floating-app.instagram {--x:-115px;--y:160px;--tilt:12deg;--ry:18deg;--rx:-8deg;background:linear-gradient(135deg,#833ab4,#fd1d1d,#fcb045);animation-delay:-1s}
@@ -1776,7 +1776,7 @@ function createSection(section,items,images) {
         ${
           sectionItems.length
             ? sectionItems.map(createService).join("")
-            : `<div class="empty">لا توجد منتجات متاحة حالياً</div>`
+            : ""
         }
       </div>
     </article>
