@@ -1993,7 +1993,10 @@ button:focus-visible,.buy-button:focus-visible {
   font:700 12px Arial,sans-serif;cursor:pointer;transition:transform .18s,filter .18s;
   -webkit-tap-highlight-color:transparent;
 }
-.joker-tool-btn:active,.product-share-btn:active {transform:scale(.96);filter:brightness(1.2)}
+.joker-tool-btn:active,.product-share-btn:active,.account-fab:active {transform:scale(.96);filter:brightness(1.2)}
+.account-fab {position:fixed;top:max(14px,env(safe-area-inset-top));left:14px;z-index:100005;width:48px;height:48px;padding:0;border-radius:50%;display:grid;place-items:center;font-size:21px;background:linear-gradient(145deg,#512879,#1b1027);border:1px solid #b78add;box-shadow:0 8px 24px #0009,0 0 18px #a77ad044}
+.account-fab span {font-size:0}
+.account-fab span:before {content:"👤";font-size:21px}
 .product-share-btn {width:100%;margin-top:8px;background:linear-gradient(135deg,#241532,#17101d)}
 .product-actions {display:grid;grid-template-columns:1fr;gap:4px}
 .joker-float-support {
@@ -2030,7 +2033,7 @@ button:focus-visible,.buy-button:focus-visible {
 }
 
 @media(prefers-reduced-motion:reduce) {
- .joker-tool-btn,.product-share-btn,.joker-float-support {transition:none}
+ .joker-tool-btn,.product-share-btn,.joker-float-support,.account-fab {transition:none}
 }
 </style>
 </head>
@@ -2187,8 +2190,9 @@ button:focus-visible,.buy-button:focus-visible {
   </div>
 </section>
 
-<div class="joker-tools" aria-label="أدوات المتجر">
-  <button class="joker-tool-btn" type="button" onclick="openAccount()">👤 حساب العميل</button>
+<button class="joker-tool-btn account-fab" type="button" onclick="openAccount()" aria-label="حساب العميل" title="حساب العميل"><span>حساب العميل</span></button>
+
+<div class="joker-tools" aria-label="مشاركة المتجر">
   <button class="joker-tool-btn" type="button" onclick="shareStore()">↗ مشاركة المتجر</button>
 </div>
 
@@ -2231,7 +2235,7 @@ button:focus-visible,.buy-button:focus-visible {
     </div>
     <form id="accountForm" onsubmit="submitAccount(event)">
       <input class="account-field" id="accountEmailInput" type="email" autocomplete="email" placeholder="البريد الإلكتروني" required>
-      <input class="account-field" id="accountPasswordInput" type="password" autocomplete="current-password" placeholder="كلمة المرور (6 أحرف على الأقل)" minlength="6" required>
+      <input class="account-field" id="accountPasswordInput" type="password" autocomplete="current-password" placeholder="كلمة المرور (8 أحرف على الأقل)" minlength="8" required>
       <div class="account-actions">
         <button type="submit" data-auth-mode="signin">تسجيل الدخول</button>
         <button class="account-secondary" type="button" onclick="registerCustomer()">إنشاء حساب</button>
@@ -2993,8 +2997,8 @@ async function registerCustomer() {
   const email = document.getElementById("accountEmailInput").value.trim();
   const password = document.getElementById("accountPasswordInput").value;
   const status = document.getElementById("accountStatus");
-  if(!email || password.length < 6) {
-    status.textContent = "أدخل بريدك الإلكتروني وكلمة مرور من 6 أحرف على الأقل.";
+  if(!email || password.length < 8) {
+    status.textContent = "أدخل بريدك الإلكتروني وكلمة مرور من 8 أحرف على الأقل.";
     return;
   }
   status.textContent = "جارٍ إنشاء الحساب...";
