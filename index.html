@@ -898,34 +898,6 @@ main {
   50% {opacity:1;transform:scale(1.5)}
 }
 
-/* شبكة التطبيقات العشرين أسفل مجسم APP+ */
-.apps-plus-apps-grid {
-  display:grid;
-  grid-template-columns:repeat(5,minmax(0,1fr));
-  gap:9px 4px;
-  justify-items:center;
-  align-items:start;
-  padding:10px 4px 5px;
-  border-top:1px solid #c49be522;
-  margin-top:3px;
-}
-.apps-plus-apps-grid .app-item {width:100%;min-width:0}
-.apps-plus-apps-grid .app-icon {
-  width:clamp(17px,4vw,30px);
-  height:clamp(17px,4vw,30px);
-  border-radius:8px;
-  border:1px solid #59416c;
-  background:linear-gradient(145deg,#21182b,#100d16);
-}
-.apps-plus-apps-grid .app-icon.app-icon-light {background:#fff}
-.apps-plus-apps-grid .app-name {
-  max-width:100%;
-  font-size:clamp(5px,1.25vw,8px);
-  overflow:hidden;
-  text-overflow:ellipsis;
-  margin-top:3px;
-}
-
 /* مجسمات 3D مخصصة لتطبيقات بلس وأكواد سناب */
 
 .apps-plus-stage,
@@ -1632,9 +1604,6 @@ footer {text-align:center;color:#756c7c;font-size:11px;padding:25px 15px;border-
     transform:scale(.58);
     transform-origin:center center;
   }
-  .apps-plus-apps-grid {gap:7px 2px;padding:8px 2px 4px}
-  .apps-plus-apps-grid .app-icon {width:clamp(15px,4.2vw,22px);height:clamp(15px,4.2vw,22px)}
-  .apps-plus-apps-grid .app-name {font-size:5px}
 }
 
 @media (max-width:390px) {
@@ -1642,8 +1611,6 @@ footer {text-align:center;color:#756c7c;font-size:11px;padding:25px 15px;border-
   .snap-plus-object {
     transform:scale(.52);
   }
-  .apps-plus-apps-grid {gap:6px 1px}
-  .apps-plus-apps-grid .app-icon {width:15px;height:15px}
 }
 
 </style>
@@ -2122,9 +2089,6 @@ function createPhone(section,customImage) {
           <span class="apps-plus-spark one">✦</span>
           <span class="apps-plus-spark two">✧</span>
         </div>
-      </div>
-      <div class="apps-plus-apps-grid" aria-label="20 تطبيقاً متوفراً">
-        ${section.apps.map(app => createAppIcon(app,section.id)).join("")}
       </div>
     `;
   }
