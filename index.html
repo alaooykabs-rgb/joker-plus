@@ -1591,6 +1591,28 @@ footer {text-align:center;color:#756c7c;font-size:11px;padding:25px 15px;border-
 
   .splash-emblem,.splash-name,.splash-caption,.splash-loader {opacity:1;transform:none}
 }
+/* إصلاح ظهور مجسمي تطبيقات بلس وأكواد سناب بالكامل داخل بطاقات الهاتف */
+@media (max-width:700px) {
+  .apps-plus-stage,
+  .snap-plus-stage {
+    overflow:hidden;
+    width:100%;
+    min-width:0;
+  }
+  .apps-plus-object,
+  .snap-plus-object {
+    transform:scale(.55);
+    transform-origin:center center;
+  }
+}
+
+@media (max-width:390px) {
+  .apps-plus-object,
+  .snap-plus-object {
+    transform:scale(.48);
+  }
+}
+
 </style>
 </head>
 
