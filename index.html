@@ -2064,7 +2064,7 @@ footer {text-align:center;color:#756c7c;font-size:11px;padding:25px 15px;border-
     </div>
     <div class="cart-foot">
       <div class="cart-total"><span>الإجمالي</span><strong id="cartTotal">0.00 د.ك</strong></div>
-      <button class="cart-checkout" id="cartCheckout" type="button" onclick="checkoutCart()" disabled>إرسال الطلب عبر واتساب</button>
+      <button class="cart-checkout" id="cartCheckout" type="button" onclick="checkoutCart()" disabled>إتمام الطلب عبر واتساب</button>
     </div>
   </section>
 </div>
@@ -2867,12 +2867,13 @@ function createPackageCard(pack) {
       </details>
 
       <div class="package-buy">
-        <a class="buy-button"
-           href="${whatsappLink(orderItem)}"
-           target="_blank"
-           rel="noopener noreferrer">
-          اطلب ${escapeHTML(pack.name)} عبر واتساب
-        </a>
+        <button class="add-cart-button" type="button"
+          data-title="${escapeHTML(pack.name + " - تطبيقات بلس للآيفون")}"
+          data-price="${escapeHTML(String(pack.price ?? ""))}"
+          data-product-id="package-${escapeHTML(String(pack.id ?? pack.name))}"
+          onclick="addToCartFromButton(this,event)">
+          ＋ أضف إلى السلة
+        </button>
       </div>
     </article>
   `;
