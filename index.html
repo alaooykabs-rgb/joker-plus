@@ -1029,7 +1029,7 @@ main {
 .snap-plus-star {position:absolute;color:#fffc00;font-size:20px;text-shadow:0 0 13px #fffc00;animation:socialMiniHeart 3s ease-in-out infinite}
 .snap-plus-star.one {left:25%;top:20%}.snap-plus-star.two {right:24%;bottom:20%;animation-delay:-1.3s}
 
-/* صورة واضحة لقسم عالم الألعاب */
+/* يد تحكم واقعية بخلفية بنفسجية لقسم عالم الألعاب */
 .game-zone-stage {
   width:100%;
   min-height:210px;
@@ -1037,56 +1037,59 @@ main {
   flex-direction:column;
   align-items:center;
   justify-content:center;
-  gap:9px;
+  gap:7px;
   position:relative;
   overflow:hidden;
   isolation:isolate;
   background:
-    radial-gradient(ellipse at 50% 48%,#286bd966,transparent 62%),
-    linear-gradient(145deg,#101a30,#090d18 72%);
+    radial-gradient(ellipse at 50% 43%,#a855f766 0%,transparent 58%),
+    radial-gradient(circle at 15% 85%,#6d28d955,transparent 38%),
+    linear-gradient(145deg,#281044 0%,#170b29 58%,#0d0718 100%);
+  border:1px solid #bd83f044;
   border-radius:18px;
 }
 .game-zone-stage::before {
   content:"";
   position:absolute;
-  width:145px;
-  height:145px;
+  width:155px;
+  height:115px;
   border-radius:50%;
-  background:#3985ff;
+  background:#a855f7;
   filter:blur(48px);
   opacity:.34;
+  top:22%;
 }
-.game-zone-hero-icon {
+.game-zone-stage::after {
+  content:"";
+  position:absolute;
+  inset:10px;
+  border:1px solid #e9d5ff18;
+  border-radius:13px;
+  pointer-events:none;
+}
+.game-zone-controller {
   position:relative;
   z-index:1;
-  width:clamp(76px,72%,132px);
-  aspect-ratio:1;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  border-radius:28px;
-  font-size:clamp(48px,13vw,78px);
-  line-height:1;
-  background:linear-gradient(145deg,#263f68,#111b30);
-  border:1px solid #9bc5ff99;
-  box-shadow:0 14px 28px #000b,0 0 30px #438bff66,inset 0 2px 5px #ffffff33;
-  text-shadow:0 5px 12px #0009;
+  width:clamp(150px,78%,220px);
+  height:auto;
+  overflow:visible;
+  filter:drop-shadow(0 13px 12px #05020bbd) drop-shadow(0 0 15px #c084fc55);
   animation:socialCardFloat 4.5s ease-in-out infinite;
 }
 .game-zone-title {
   position:relative;
   z-index:1;
-  color:#e7f1ff;
+  color:#f5eaff;
   font-size:clamp(11px,2.7vw,15px);
   font-weight:900;
   letter-spacing:1.4px;
-  text-shadow:0 0 12px #438bff;
+  text-shadow:0 0 13px #c084fc;
   text-align:center;
 }
 .game-zone-subtitle {
   position:relative;
   z-index:1;
-  color:#91b9f2;
+  color:#d8b4fe;
   font-size:10px;
   font-weight:700;
   text-align:center;
@@ -2395,7 +2398,68 @@ function createPhone(section,customImage) {
   if(section.id === "gamezone") {
     return `
       <div class="game-zone-stage">
-        <div class="game-zone-hero-icon" aria-label="ألعاب">🎮</div>
+        <svg class="game-zone-controller" viewBox="0 0 320 190" role="img" aria-label="يد تحكم ألعاب واقعية">
+          <defs>
+            <linearGradient id="gzBody" x1="0" y1="0" x2="0.18" y2="1">
+              <stop offset="0" stop-color="#f8f7fc"/>
+              <stop offset=".38" stop-color="#c9c5d4"/>
+              <stop offset="1" stop-color="#777184"/>
+            </linearGradient>
+            <linearGradient id="gzGrip" x1="0" y1="0" x2=".2" y2="1">
+              <stop offset="0" stop-color="#d8d4e0"/>
+              <stop offset="1" stop-color="#625c70"/>
+            </linearGradient>
+            <linearGradient id="gzDark" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0" stop-color="#494354"/>
+              <stop offset="1" stop-color="#17131f"/>
+            </linearGradient>
+            <radialGradient id="gzStick"><stop offset="0" stop-color="#777184"/><stop offset=".7" stop-color="#302b3a"/><stop offset="1" stop-color="#14111a"/></radialGradient>
+            <linearGradient id="gzPurple" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0" stop-color="#e9c9ff"/><stop offset="1" stop-color="#9333ea"/>
+            </linearGradient>
+          </defs>
+          <!-- جسم اليد والمقابض -->
+          <path d="M105 42 C82 37 66 52 57 78 L31 145 C25 164 40 178 58 169 L111 140 Q160 153 209 140 L262 169 C280 178 295 164 289 145 L263 78 C254 52 238 37 215 42 Q160 57 105 42Z" fill="url(#gzGrip)" stroke="#f5efff" stroke-opacity=".65" stroke-width="2.5"/>
+          <path d="M105 42 Q160 56 215 42 C235 38 250 49 258 68 Q211 84 160 82 Q109 84 62 68 C70 49 85 38 105 42Z" fill="url(#gzBody)" stroke="#fff" stroke-opacity=".75" stroke-width="2"/>
+          <path d="M43 139 L67 82 Q79 75 91 82 L72 151 Q58 163 43 155Z" fill="#5b5368" opacity=".34"/>
+          <path d="M277 139 L253 82 Q241 75 229 82 L248 151 Q262 163 277 155Z" fill="#5b5368" opacity=".34"/>
+          <!-- لوحة الوسط -->
+          <path d="M119 52 Q160 44 201 52 L211 103 Q160 117 109 103Z" fill="#a9a3b4" opacity=".58"/>
+          <rect x="139" y="55" width="42" height="8" rx="4" fill="#393342"/>
+          <rect x="145" y="57" width="30" height="3" rx="1.5" fill="#d9b8ff" opacity=".8"/>
+          <rect x="149" y="72" width="22" height="5" rx="2.5" fill="#554d61"/>
+          <circle cx="160" cy="91" r="4" fill="#8b5cf6"/>
+          <!-- عصا التحكم اليسرى -->
+          <circle cx="105" cy="104" r="23" fill="#5a5365" opacity=".45"/>
+          <circle cx="105" cy="101" r="19" fill="url(#gzDark)" stroke="#eee8f7" stroke-opacity=".45" stroke-width="1.5"/>
+          <circle cx="105" cy="99" r="13" fill="url(#gzStick)" stroke="#aaa2b5" stroke-opacity=".5"/>
+          <circle cx="101" cy="95" r="4" fill="#fff" opacity=".12"/>
+          <!-- عصا التحكم اليمنى -->
+          <circle cx="215" cy="104" r="23" fill="#5a5365" opacity=".45"/>
+          <circle cx="215" cy="101" r="19" fill="url(#gzDark)" stroke="#eee8f7" stroke-opacity=".45" stroke-width="1.5"/>
+          <circle cx="215" cy="99" r="13" fill="url(#gzStick)" stroke="#aaa2b5" stroke-opacity=".5"/>
+          <circle cx="211" cy="95" r="4" fill="#fff" opacity=".12"/>
+          <!-- أزرار الاتجاهات -->
+          <g fill="url(#gzDark)" stroke="#d8d1e1" stroke-opacity=".55" stroke-width="1">
+            <rect x="76" y="72" width="13" height="31" rx="3"/>
+            <rect x="67" y="81" width="31" height="13" rx="3"/>
+          </g>
+          <path d="M82.5 76 V99 M71 87.5 H94" stroke="#c5bdcf" stroke-opacity=".45" stroke-width="1"/>
+          <!-- أزرار الحركة -->
+          <g stroke="#f3e8ff" stroke-opacity=".55" stroke-width="1">
+            <circle cx="239" cy="78" r="7.5" fill="#a855f7"/>
+            <circle cx="255" cy="94" r="7.5" fill="#d946ef"/>
+            <circle cx="223" cy="94" r="7.5" fill="#7c3aed"/>
+            <circle cx="239" cy="110" r="7.5" fill="#9333ea"/>
+          </g>
+          <g fill="#fff" font-size="8" font-weight="bold" text-anchor="middle">
+            <text x="239" y="81">△</text><text x="255" y="97">○</text><text x="223" y="97">□</text><text x="239" y="113">×</text>
+          </g>
+          <!-- تفاصيل علوية وأضواء -->
+          <path d="M111 43 L119 34 Q160 26 201 34 L209 43" fill="none" stroke="#fff" stroke-opacity=".55" stroke-width="3" stroke-linecap="round"/>
+          <circle cx="151" cy="45" r="2" fill="#c084fc"/><circle cx="169" cy="45" r="2" fill="#c084fc"/>
+          <path d="M47 147 Q53 158 64 154 M273 147 Q267 158 256 154" fill="none" stroke="#eee7f7" stroke-opacity=".3" stroke-width="2" stroke-linecap="round"/>
+        </svg>
         <div class="game-zone-title">GAMING ZONE</div>
         <div class="game-zone-subtitle">JOKER PLUS</div>
       </div>
