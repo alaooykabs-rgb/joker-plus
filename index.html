@@ -2295,7 +2295,7 @@ button:focus-visible,.buy-button:focus-visible {
 <div class="account-modal" id="accountModal" hidden onclick="closeAccount(event)">
   <section class="account-box" role="dialog" aria-modal="true" aria-labelledby="accountTitle" onclick="event.stopPropagation()">
     <h2 id="accountTitle">حساب JOKER PLUS</h2>
-    <p class="account-hint">تقدر تتصفح وتشتري بدون تسجيل. الحساب اختياري لحفظ جلسة دخولك.</p>
+    <p class="account-hint">تقدر تتصفح وتضيف للسلة بدون تسجيل، لكن تأكيد الطلب يتطلب تسجيل الدخول أو إنشاء حساب.</p>
     <div id="accountSignedIn" hidden>
       <div class="joker-profile-head">
         <img id="accountAvatarPreview" class="joker-account-avatar" alt="الصورة الشخصية" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='50' fill='%2335105c'/%3E%3Ctext x='50' y='64' font-size='48' text-anchor='middle' fill='white'%3E♛%3C/text%3E%3C/svg%3E">
@@ -3037,6 +3037,39 @@ function openTechnicalSupport() {
   window.open(url,"_blank","noopener,noreferrer");
 }
 
+/* حالة تسجيل العميل: الإضافة للسلة حرة، وتأكيد الطلب يتطلب حساب */
+let customerLoggedIn = false;
+let pendingCheckoutAfterLogin = false;
+
+supabaseClient.auth.getSession().then(function(result) {
+  customerLoggedIn = !!(result && result.data && result.data.session);
+}).catch(function() {});
+
+supabaseClient.auth.onAuthStateChange(function(event,session) {
+  customerLoggedIn = !!session;
+  if(event === "SIGNED_IN" && session && pendingCheckoutAfterLogin) {
+    pendingCheckoutAfterLogin = false;
+    closeAccount();
+    openCart();
+  }
+});
+
+function requireLoginToOrder() {
+  if(customerLoggedIn) return true;
+  pendingCheckoutAfterLogin = true;
+  if(typeof closeCart === "function") closeCart();
+  openAccount();
+  const status = document.getElementById("accountStatus");
+  if(status) status.textContent = "لازم تسجّل دخول أو تنشئ حساب قبل تأكيد الطلب. سلتك محفوظة وتنتظرك.";
+  return false;
+}
+
+function orderLinkClick(event) {
+  if(requireLoginToOrder()) return true;
+  if(event) event.preventDefault();
+  return false;
+}
+
 /* تسجيل اختياري عبر Supabase Auth */
 function openAccount() {
   const modal = document.getElementById("accountModal");
@@ -3404,6 +3437,7 @@ function closeCart(event) {
 
 function checkoutCart() {
   if(!cartItems.length) return;
+  if(!requireLoginToOrder()) return;
   const orderItems = cartItems.map(item => ({title:item.title,quantity:Number(item.quantity || 0),price:item.price || ""}));
   const lines = orderItems.map(item =>
     "• " + item.title + " × " + item.quantity +
@@ -3460,7 +3494,7 @@ function createService(item) {
           <button type="button" aria-label="تنقيص منتج" onclick="changeProductCardQuantity(this,-1)">−</button>
         </div>
       </div>
-      <a class="buy-button" style="margin-top:8px" href="${whatsappLink(item)}" target="_blank" rel="noopener noreferrer">
+      <a class="buy-button" style="margin-top:8px" href="${whatsappLink(item)}" target="_blank" rel="noopener noreferrer" onclick="return orderLinkClick(event)">
         اطلب الآن عبر واتساب
       </a>
       <button class="product-share-btn" type="button"
