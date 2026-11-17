@@ -1875,12 +1875,18 @@ footer {text-align:center;color:#756c7c;font-size:11px;padding:25px 15px;border-
   font-size:13px;font-weight:800;cursor:pointer;
 }
 .cart-checkout:disabled {opacity:.4;cursor:not-allowed}
+.cart-add-row {display:flex;align-items:center;gap:8px;margin-top:9px}
+.card-qty-picker {display:flex;align-items:center;justify-content:space-between;gap:8px;min-width:104px;padding:5px 7px;border:1px solid #604477;border-radius:10px;background:#160e20;color:#fff}
+.card-qty-picker button {width:25px;height:25px;border:1px solid #654783;border-radius:7px;background:#2b1939;color:#fff;font-size:17px;line-height:1;cursor:pointer}
+.card-qty-value {min-width:18px;text-align:center;font-size:12px;font-weight:900}
+.cart-add-row .add-cart-button {flex:1;min-width:0;margin-top:0;width:auto;padding:10px 7px}
 .add-cart-button {
   width:100%;margin-top:8px;padding:10px 9px;border:1px solid #76529a;
   border-radius:10px;background:linear-gradient(110deg,#21122e,#39204f);
   color:#eadcf7;font-size:12px;font-weight:800;cursor:pointer;transition:.18s;
 }
 .add-cart-button:active {transform:scale(.97);background:#512779}
+@media(max-width:360px){.cart-add-row{gap:5px}.card-qty-picker{min-width:88px;gap:5px;padding:4px}.card-qty-picker button{width:23px;height:23px}}
 @media(max-width:480px) {
   .cart-fab {left:12px;bottom:12px;padding:11px 14px}
   .cart-backdrop {padding:8px}
@@ -2639,10 +2645,12 @@ function addToCartFromButton(button,event) {
   const title = button.dataset.title || "منتج من JOKER PLUS";
   const price = button.dataset.price || "";
   const productId = button.dataset.productId || "";
+  const picker = button.closest(".cart-add-row")?.querySelector(".card-qty-value");
+  const selectedQuantity = Math.max(1,Math.min(99,Number(picker?.textContent || 1)));
   const key = productId || (title + "|" + price);
   const existing = cartItems.find(item => item.key === key);
-  if(existing) existing.quantity += 1;
-  else cartItems.push({key,title,price,quantity:1});
+  if(existing) existing.quantity += selectedQuantity;
+  else cartItems.push({key,title,price,quantity:selectedQuantity});
   saveCart();
   const oldText = button.textContent;
   button.textContent = "✓ تمت الإضافة";
@@ -2653,6 +2661,13 @@ function addToCartFromButton(button,event) {
       button.classList.remove("is-added");
     }
   },1100);
+}
+
+function changeCardQuantity(button,delta) {
+  const valueNode = button.parentElement.querySelector(".card-qty-value");
+  if(!valueNode) return;
+  const current = Number(valueNode.textContent || 1);
+  valueNode.textContent = Math.max(1,Math.min(99,current + delta));
 }
 
 function renderCart() {
@@ -2738,13 +2753,20 @@ function createService(item) {
       <div class="service-title">${escapeHTML(title)}</div>
       ${item.description ? `<div class="service-description">${escapeHTML(item.description)}</div>` : ""}
       ${item.price ? `<div class="price">${escapeHTML(item.price)}</div>` : ""}
-      <button class="add-cart-button" type="button"
-        data-title="${escapeHTML(title)}"
-        data-price="${escapeHTML(price)}"
-        data-product-id="${escapeHTML(String(item.id ?? ""))}"
-        onclick="addToCartFromButton(this,event)">
-        ＋ أضف إلى السلة
-      </button>
+      <div class="cart-add-row">
+        <div class="card-qty-picker" aria-label="تحديد الكمية">
+          <button type="button" aria-label="زيادة الكمية" onclick="changeCardQuantity(this,1)">+</button>
+          <span class="card-qty-value">1</span>
+          <button type="button" aria-label="تقليل الكمية" onclick="changeCardQuantity(this,-1)">−</button>
+        </div>
+        <button class="add-cart-button" type="button"
+          data-title="${escapeHTML(title)}"
+          data-price="${escapeHTML(price)}"
+          data-product-id="${escapeHTML(String(item.id ?? ""))}"
+          onclick="addToCartFromButton(this,event)">
+          ＋ أضف إلى السلة
+        </button>
+      </div>
       <a class="buy-button" style="margin-top:8px" href="${whatsappLink(item)}" target="_blank" rel="noopener noreferrer">
         اطلب الآن عبر واتساب
       </a>
@@ -2867,13 +2889,20 @@ function createPackageCard(pack) {
       </details>
 
       <div class="package-buy">
-        <button class="add-cart-button" type="button"
-          data-title="${escapeHTML(pack.name + " - تطبيقات بلس للآيفون")}"
-          data-price="${escapeHTML(String(pack.price ?? ""))}"
-          data-product-id="package-${escapeHTML(String(pack.id ?? pack.name))}"
-          onclick="addToCartFromButton(this,event)">
-          ＋ أضف إلى السلة
-        </button>
+        <div class="cart-add-row">
+          <div class="card-qty-picker" aria-label="تحديد الكمية">
+            <button type="button" aria-label="زيادة الكمية" onclick="changeCardQuantity(this,1)">+</button>
+            <span class="card-qty-value">1</span>
+            <button type="button" aria-label="تقليل الكمية" onclick="changeCardQuantity(this,-1)">−</button>
+          </div>
+          <button class="add-cart-button" type="button"
+            data-title="${escapeHTML(pack.name + " - تطبيقات بلس للآيفون")}"
+            data-price="${escapeHTML(String(pack.price ?? ""))}"
+            data-product-id="package-${escapeHTML(String(pack.id ?? pack.name))}"
+            onclick="addToCartFromButton(this,event)">
+            ＋ أضف إلى السلة
+          </button>
+        </div>
       </div>
     </article>
   `;
