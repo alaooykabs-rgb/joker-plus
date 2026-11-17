@@ -2062,6 +2062,35 @@ button:focus-visible,.buy-button:focus-visible {
 @media(prefers-reduced-motion:reduce) {
  .joker-tool-btn,.product-share-btn,.joker-float-support {transition:none}
 }
+
+/* JOKER PLUS: إضافات الحساب فقط — لا تغيّر تنسيق أقسام المتجر */
+.account-modal {overflow-y:auto;align-items:flex-start;padding:calc(18px + env(safe-area-inset-top)) 14px calc(18px + env(safe-area-inset-bottom))}
+.account-box {margin:auto;max-height:calc(100dvh - 36px);overflow-y:auto;overscroll-behavior:contain;backdrop-filter:blur(22px);-webkit-backdrop-filter:blur(22px);background:linear-gradient(145deg,#2b1939ed,#0c0912f2);border-color:#a77ad077}
+.joker-profile-head {display:flex;align-items:center;gap:13px;margin:4px 0 18px;padding:12px;border:1px solid #ffffff18;border-radius:16px;background:#ffffff08;overflow-wrap:anywhere}
+.joker-account-avatar {width:66px;height:66px;flex:0 0 66px;object-fit:cover;border-radius:50%;border:2px solid #b98ce0;box-shadow:0 0 18px #a77ad044}
+.joker-account-section {margin:14px 0;padding:14px;border:1px solid #ffffff19;border-radius:16px;background:linear-gradient(145deg,#ffffff0b,#ffffff03);box-shadow:inset 0 1px 0 #ffffff0c}
+.joker-account-section h3 {margin:0 0 10px;color:#e5caff;font-size:15px}
+.joker-upload-label {display:block;text-align:center;padding:12px;border:1px dashed #9870b8;border-radius:11px;color:#e5caff;background:#35105c55;font-size:12px;font-weight:800;cursor:pointer}
+.joker-avatar-file {position:absolute;width:1px;height:1px;opacity:0;pointer-events:none}
+.joker-orders-heading {display:flex;align-items:center;justify-content:space-between;gap:10px}
+.joker-orders-refresh {border:1px solid #8057a4;border-radius:9px;padding:7px 11px;background:#35105c;color:#fff;font-weight:700}
+.joker-orders-list {display:grid;gap:9px}
+.joker-order-card {padding:12px;border:1px solid #ffffff18;border-radius:12px;background:#09070dbb;font-size:12px;line-height:1.8}
+.joker-order-card strong {color:#e5caff}
+.joker-order-meta {display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap;color:#bdb0c8}
+.joker-order-status {color:#d8b6f5;font-weight:800}
+.account-box .account-field {min-width:0}
+@media(max-width:480px) {
+ .account-modal {padding-left:10px;padding-right:10px}
+ .account-box {width:100%;padding:16px;border-radius:18px;max-height:calc(100dvh - 24px)}
+ .joker-account-section {padding:11px}
+ .joker-account-avatar {width:58px;height:58px;flex-basis:58px}
+}
+@media(prefers-reduced-motion:no-preference) {
+ .splash-emblem {filter:drop-shadow(0 0 26px #a77ad099)}
+ .splash-screen::before {border-width:1px;box-shadow:0 0 90px #8b4acb33,inset 0 0 70px #8b4acb22}
+}
+
 </style>
 </head>
 
@@ -2268,8 +2297,22 @@ button:focus-visible,.buy-button:focus-visible {
     <h2 id="accountTitle">حساب JOKER PLUS</h2>
     <p class="account-hint">تقدر تتصفح وتشتري بدون تسجيل. الحساب اختياري لحفظ جلسة دخولك.</p>
     <div id="accountSignedIn" hidden>
-      <p class="account-hint">تم تسجيل الدخول بالبريد:</p>
-      <strong id="accountEmail"></strong>
+      <div class="joker-profile-head">
+        <img id="accountAvatarPreview" class="joker-account-avatar" alt="الصورة الشخصية" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='50' fill='%2335105c'/%3E%3Ctext x='50' y='64' font-size='48' text-anchor='middle' fill='white'%3E♛%3C/text%3E%3C/svg%3E">
+        <div><strong id="accountEmail"></strong><p class="account-hint">ملفك الشخصي في JOKER PLUS</p></div>
+      </div>
+      <div class="joker-account-section">
+        <h3>تعديل بيانات الحساب</h3>
+        <input class="account-field" id="accountNameInput" type="text" maxlength="60" autocomplete="name" placeholder="الاسم الكامل">
+        <input class="account-field" id="accountPhoneInput" type="tel" maxlength="24" autocomplete="tel" placeholder="رقم الهاتف">
+        <label class="joker-upload-label" for="accountAvatarInput">📷 تغيير الصورة الشخصية</label>
+        <input id="accountAvatarInput" class="joker-avatar-file" type="file" accept="image/png,image/jpeg,image/webp">
+        <div class="account-actions"><button type="button" onclick="saveCustomerProfile()">حفظ بياناتي</button></div>
+      </div>
+      <div class="joker-account-section">
+        <div class="joker-orders-heading"><h3>طلباتي</h3><button type="button" class="joker-orders-refresh" onclick="loadCustomerOrders()">تحديث</button></div>
+        <div id="customerOrders" class="joker-orders-list"><p class="account-hint">سجّل الدخول لعرض طلباتك.</p></div>
+      </div>
       <div class="account-actions">
         <button type="button" onclick="signOutCustomer()">تسجيل الخروج</button>
         <button class="account-secondary" type="button" onclick="closeAccount()">إغلاق</button>
@@ -3015,11 +3058,107 @@ async function refreshAccountState() {
     const user = data?.session?.user;
     document.getElementById("accountSignedIn").hidden = !user;
     document.getElementById("accountForm").hidden = !!user;
-    if(user) document.getElementById("accountEmail").textContent = user.email || "حساب العميل";
+    if(user) {
+      document.getElementById("accountEmail").textContent = user.email || "حساب العميل";
+      document.getElementById("accountNameInput").value = user.user_metadata?.full_name || "";
+      document.getElementById("accountPhoneInput").value = user.user_metadata?.phone || "";
+      const avatar = user.user_metadata?.avatar_url;
+      if(avatar) document.getElementById("accountAvatarPreview").src = avatar;
+      loadCustomerOrders();
+    }
   } catch(error) {
     if(status) status.textContent = "تعذر التحقق من الحساب حالياً.";
   }
 }
+
+async function saveCustomerProfile() {
+  const status = document.getElementById("accountStatus");
+  const full_name = document.getElementById("accountNameInput").value.trim();
+  const phone = document.getElementById("accountPhoneInput").value.trim();
+  status.textContent = "جارٍ حفظ بياناتك...";
+  try {
+    const {data,error} = await supabaseClient.auth.updateUser({data:{full_name,phone}});
+    if(error) throw error;
+    status.textContent = "تم حفظ بيانات الحساب بنجاح.";
+    if(data?.user) {
+      document.getElementById("accountEmail").textContent = data.user.email || "حساب العميل";
+    }
+  } catch(error) {
+    status.textContent = error.message || "تعذر حفظ البيانات حالياً.";
+  }
+}
+
+async function uploadCustomerAvatar(file) {
+  const status = document.getElementById("accountStatus");
+  if(!file) return;
+  if(!["image/jpeg","image/png","image/webp"].includes(file.type)) {
+    status.textContent = "اختر صورة بصيغة JPG أو PNG أو WEBP.";
+    return;
+  }
+  if(file.size > 5 * 1024 * 1024) {
+    status.textContent = "حجم الصورة يجب ألا يتجاوز 5 ميجابايت.";
+    return;
+  }
+  status.textContent = "جارٍ رفع الصورة الشخصية...";
+  try {
+    const {data:sessionData,error:sessionError} = await supabaseClient.auth.getSession();
+    if(sessionError) throw sessionError;
+    const user = sessionData?.session?.user;
+    if(!user) throw new Error("سجّل الدخول أولاً.");
+    const extension = file.type === "image/png" ? "png" : file.type === "image/webp" ? "webp" : "jpg";
+    const path = user.id + "/avatar-" + Date.now() + "." + extension;
+    const {error:uploadError} = await supabaseClient.storage.from("avatars").upload(path,file,{upsert:true,contentType:file.type});
+    if(uploadError) throw uploadError;
+    const {data:publicData} = supabaseClient.storage.from("avatars").getPublicUrl(path);
+    const avatar_url = publicData?.publicUrl;
+    if(!avatar_url) throw new Error("تعذر الحصول على رابط الصورة.");
+    const {error:updateError} = await supabaseClient.auth.updateUser({data:{avatar_url}});
+    if(updateError) throw updateError;
+    document.getElementById("accountAvatarPreview").src = avatar_url;
+    status.textContent = "تم تحديث الصورة الشخصية بنجاح.";
+  } catch(error) {
+    status.textContent = error.message || "تعذر رفع الصورة. تأكد من إعداد Storage وإنشاء bucket باسم avatars.";
+  }
+}
+
+async function loadCustomerOrders() {
+  const container = document.getElementById("customerOrders");
+  if(!container) return;
+  container.innerHTML = '<p class="account-hint">جارٍ تحميل طلباتك...</p>';
+  try {
+    const {data:sessionData,error:sessionError} = await supabaseClient.auth.getSession();
+    if(sessionError) throw sessionError;
+    const user = sessionData?.session?.user;
+    if(!user) {
+      container.innerHTML = '<p class="account-hint">سجّل الدخول لعرض طلباتك.</p>';
+      return;
+    }
+    const {data,error} = await supabaseClient.from("orders").select("*").eq("user_id",user.id).order("created_at",{ascending:false}).limit(30);
+    if(error) throw error;
+    if(!data || !data.length) {
+      container.innerHTML = '<p class="account-hint">ما عندك طلبات مسجلة حالياً.</p>';
+      return;
+    }
+    container.innerHTML = data.map(order => {
+      const number = order.order_number || order.id || "—";
+      const total = order.total ?? order.total_amount ?? order.amount ?? "—";
+      const statusText = order.status || "قيد المراجعة";
+      const date = order.created_at ? new Date(order.created_at).toLocaleDateString("ar-KW") : "—";
+      return '<article class="joker-order-card"><div class="joker-order-meta"><span>رقم الطلب: <strong>' + escapeHTML(String(number)) + '</strong></span><span>' + escapeHTML(date) + '</span></div><div class="joker-order-meta"><span>الإجمالي: <strong>' + escapeHTML(String(total)) + '</strong></span><span class="joker-order-status">' + escapeHTML(String(statusText)) + '</span></div></article>';
+    }).join("");
+  } catch(error) {
+    console.warn("JOKER PLUS orders:",error);
+    container.innerHTML = '<p class="account-hint">تعذر تحميل الطلبات. تأكد من وجود جدول orders وربطه بحساب العميل في Supabase.</p>';
+  }
+}
+
+document.addEventListener("change",function(event) {
+  if(event.target && event.target.id === "accountAvatarInput") {
+    uploadCustomerAvatar(event.target.files?.[0]);
+    event.target.value = "";
+  }
+});
+
 async function submitAccount(event) {
   event.preventDefault();
   const email = document.getElementById("accountEmailInput").value.trim();
@@ -3236,7 +3375,8 @@ function closeCart(event) {
 
 function checkoutCart() {
   if(!cartItems.length) return;
-  const lines = cartItems.map(item =>
+  const orderItems = cartItems.map(item => ({title:item.title,quantity:Number(item.quantity || 0),price:item.price || ""}));
+  const lines = orderItems.map(item =>
     "• " + item.title + " × " + item.quantity +
     (item.price ? " - " + item.price + " د.ك" : " - السعر عند الطلب")
   );
@@ -3245,7 +3385,27 @@ function checkoutCart() {
     lines.join("\n") + "\n\nالإجمالي التقريبي: " + total.toFixed(2) +
     " د.ك\nيرجى تأكيد توفر المنتجات والإجمالي النهائي.";
   const url = "https://wa.me/" + WHATSAPP_NUMBER + "?text=" + encodeURIComponent(message);
+  /* فتح واتساب فوراً كما كان، ثم حفظ نسخة من الطلب للحساب المسجل فقط */
   window.open(url,"_blank","noopener,noreferrer");
+  (async function saveWhatsAppOrderForCustomer() {
+    try {
+      const {data,error} = await supabaseClient.auth.getSession();
+      if(error) throw error;
+      const user = data?.session?.user;
+      if(!user) return;
+      const orderNumber = "JP-" + Date.now().toString();
+      const {error:insertError} = await supabaseClient.from("orders").insert({
+        user_id:user.id,
+        order_number:orderNumber,
+        items:orderItems,
+        total:Number(total.toFixed(2)),
+        status:"بانتظار تأكيد الطلب"
+      });
+      if(insertError) throw insertError;
+    } catch(error) {
+      console.warn("JOKER PLUS: تعذر حفظ الطلب في سجل العميل:",error);
+    }
+  })();
 }
 
 function createService(item) {
