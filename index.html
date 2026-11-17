@@ -2304,7 +2304,7 @@ button:focus-visible,.buy-button:focus-visible {
       <div class="joker-account-section">
         <h3>تعديل بيانات الحساب</h3>
         <input class="account-field" id="accountNameInput" type="text" maxlength="60" autocomplete="name" placeholder="الاسم الكامل">
-        <input class="account-field" id="accountPhoneInput" type="tel" maxlength="24" autocomplete="tel" placeholder="رقم الهاتف">
+        <input class="account-field" id="accountPhoneInput" type="tel" dir="ltr" style="text-align:left" maxlength="24" autocomplete="tel" value="+" placeholder="+965 XXXXXXXX">
         <label class="joker-upload-label" for="accountAvatarInput">📷 تغيير الصورة الشخصية</label>
         <input id="accountAvatarInput" class="joker-avatar-file" type="file" accept="image/png,image/jpeg,image/webp">
         <div class="account-actions"><button type="button" onclick="saveCustomerProfile()">حفظ بياناتي</button></div>
@@ -3061,7 +3061,7 @@ async function refreshAccountState() {
     if(user) {
       document.getElementById("accountEmail").textContent = user.email || "حساب العميل";
       document.getElementById("accountNameInput").value = user.user_metadata?.full_name || "";
-      document.getElementById("accountPhoneInput").value = user.user_metadata?.phone || "";
+      document.getElementById("accountPhoneInput").value = user.user_metadata?.phone || "+";
       const avatar = user.user_metadata?.avatar_url;
       if(avatar) document.getElementById("accountAvatarPreview").src = avatar;
       loadCustomerOrders();
@@ -3074,7 +3074,8 @@ async function refreshAccountState() {
 async function saveCustomerProfile() {
   const status = document.getElementById("accountStatus");
   const full_name = document.getElementById("accountNameInput").value.trim();
-  const phone = document.getElementById("accountPhoneInput").value.trim();
+  let phone = document.getElementById("accountPhoneInput").value.trim();
+  if(phone === "+") phone = "";
   status.textContent = "جارٍ حفظ بياناتك...";
   try {
     const {data,error} = await supabaseClient.auth.updateUser({data:{full_name,phone}});
@@ -3151,6 +3152,13 @@ async function loadCustomerOrders() {
     container.innerHTML = '<p class="account-hint">تعذر تحميل الطلبات.<br><small dir="ltr">' + escapeHTML(String((error && (error.message || error.code)) || error)) + '</small></p>';
   }
 }
+
+document.addEventListener("input",function(event) {
+  if(event.target && event.target.id === "accountPhoneInput") {
+    const digits = event.target.value.replace(/[^0-9]/g,"");
+    event.target.value = "+" + digits;
+  }
+});
 
 document.addEventListener("change",function(event) {
   if(event.target && event.target.id === "accountAvatarInput") {
