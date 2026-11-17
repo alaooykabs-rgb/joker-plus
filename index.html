@@ -1970,6 +1970,68 @@ button:focus-visible,.buy-button:focus-visible {
   .package-policies li {font-size:11px}
 }
 
+
+/* JOKER PLUS: زجاجية ناعمة + تفاعل اللمس + تحميل صور أخف */
+.shared-product-highlight {outline:2px solid #c49be5;box-shadow:0 0 0 5px #a77ad022,0 0 28px #a77ad066!important;transition:outline .25s,box-shadow .25s}
+.section-card,.service,.package-card,.cart-panel,.info-panel,.product-gallery,
+.package-details-content,.cart-row {
+  backdrop-filter:blur(12px);
+  -webkit-backdrop-filter:blur(12px);
+}
+.section-card,.service,.package-card {
+  background:linear-gradient(145deg,#ffffff0b,#ffffff03 45%,#a77ad00a),linear-gradient(155deg,#17121eeF,#0e0c12ee);
+}
+.service {border:1px solid #ffffff16;border-radius:14px;padding:10px;margin:10px 0}
+.joker-tools {
+  max-width:1110px;margin:-12px auto 22px;padding:0 18px;
+  display:flex;justify-content:center;gap:9px;flex-wrap:wrap;
+}
+.joker-tool-btn,.product-share-btn {
+  border:1px solid #765296;border-radius:12px;padding:10px 14px;
+  color:#f7f0ff;background:linear-gradient(135deg,#392052cc,#17101dcc);
+  box-shadow:0 8px 20px #0005,inset 0 1px 0 #ffffff20;
+  font:700 12px Arial,sans-serif;cursor:pointer;transition:transform .18s,filter .18s;
+  -webkit-tap-highlight-color:transparent;
+}
+.joker-tool-btn:active,.product-share-btn:active {transform:scale(.96);filter:brightness(1.2)}
+.product-share-btn {width:100%;margin-top:8px;background:linear-gradient(135deg,#241532,#17101d)}
+.product-actions {display:grid;grid-template-columns:1fr;gap:4px}
+.joker-float-support {
+  position:fixed;z-index:9998;left:16px;bottom:18px;
+  border:1px solid #6cbb8b;border-radius:999px;padding:12px 16px;
+  color:#fff;background:linear-gradient(135deg,#16834b,#075c35);
+  box-shadow:0 10px 28px #0009;font:800 13px Arial,sans-serif;
+  cursor:pointer;-webkit-tap-highlight-color:transparent;
+}
+.joker-float-support:active {transform:scale(.96)}
+.account-modal[hidden] {display:none!important}
+.account-modal {
+  position:fixed;inset:0;z-index:100010;background:#050309d9;
+  display:flex;align-items:center;justify-content:center;padding:18px;
+  backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
+}
+.account-box {
+  width:min(100%,410px);padding:22px;border:1px solid #8057a4;border-radius:22px;
+  background:linear-gradient(145deg,#251532f5,#0d0a12f7);
+  box-shadow:0 25px 70px #000c,inset 0 1px 0 #ffffff20;
+}
+.account-box h2 {margin:0 0 8px;color:#e5caff;font-size:21px}
+.account-hint,.account-status {font-size:12px;line-height:1.8;color:#c9bbd5}
+.account-field {display:block;width:100%;margin:12px 0;padding:13px;border-radius:11px;border:1px solid #59416c;background:#100b17;color:#fff;font:14px Arial;outline:none}
+.account-field:focus {border-color:#c49be5;box-shadow:0 0 0 3px #a77ad022}
+.account-actions {display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.account-actions button {flex:1;min-width:110px;border:1px solid #8057a4;border-radius:11px;padding:12px;background:#35105c;color:#fff;font-weight:800}
+.account-actions .account-secondary {background:#21172b}
+.account-status {min-height:24px;color:#e4c5ff}
+@media(max-width:480px) {
+ .joker-tools {padding:0 10px;gap:7px}
+ .joker-tool-btn {font-size:11px;padding:10px}
+ .joker-float-support {left:10px;bottom:12px;padding:11px 13px;font-size:12px}
+}
+
+@media(prefers-reduced-motion:reduce) {
+ .joker-tool-btn,.product-share-btn,.joker-float-support {transition:none}
+}
 </style>
 </head>
 
@@ -2111,6 +2173,11 @@ button:focus-visible,.buy-button:focus-visible {
   </div>
 </section>
 
+<div class="joker-tools" aria-label="أدوات المتجر">
+  <button class="joker-tool-btn" type="button" onclick="openAccount()">👤 حساب العميل</button>
+  <button class="joker-tool-btn" type="button" onclick="shareStore()">↗ مشاركة المتجر</button>
+</div>
+
 <main>
   <div class="section-heading">
     <h2>أقسام المتجر</h2>
@@ -2134,6 +2201,34 @@ button:focus-visible,.buy-button:focus-visible {
 </div>
 <!-- نهاية محتوى المتجر الرئيسي -->
 
+
+<!-- حساب العميل: تسجيل اختياري عبر Supabase Auth -->
+<div class="account-modal" id="accountModal" hidden onclick="closeAccount(event)">
+  <section class="account-box" role="dialog" aria-modal="true" aria-labelledby="accountTitle" onclick="event.stopPropagation()">
+    <h2 id="accountTitle">حساب JOKER PLUS</h2>
+    <p class="account-hint">تقدر تتصفح وتشتري بدون تسجيل. الحساب اختياري لحفظ جلسة دخولك.</p>
+    <div id="accountSignedIn" hidden>
+      <p class="account-hint">تم تسجيل الدخول بالبريد:</p>
+      <strong id="accountEmail"></strong>
+      <div class="account-actions">
+        <button type="button" onclick="signOutCustomer()">تسجيل الخروج</button>
+        <button class="account-secondary" type="button" onclick="closeAccount()">إغلاق</button>
+      </div>
+    </div>
+    <form id="accountForm" onsubmit="submitAccount(event)">
+      <input class="account-field" id="accountEmailInput" type="email" autocomplete="email" placeholder="البريد الإلكتروني" required>
+      <input class="account-field" id="accountPasswordInput" type="password" autocomplete="current-password" placeholder="كلمة المرور (6 أحرف على الأقل)" minlength="6" required>
+      <div class="account-actions">
+        <button type="submit" data-auth-mode="signin">تسجيل الدخول</button>
+        <button class="account-secondary" type="button" onclick="registerCustomer()">إنشاء حساب</button>
+        <button class="account-secondary" type="button" onclick="closeAccount()">إغلاق</button>
+      </div>
+    </form>
+    <p class="account-status" id="accountStatus" role="status" aria-live="polite"></p>
+  </section>
+</div>
+
+<button class="joker-float-support" type="button" onclick="openTechnicalSupport()">💬 الدعم الفني</button>
 
 <!-- إشعار إضافة المنتج -->
 <div class="cart-toast" id="cartToast" role="status" aria-live="polite">✓ تمت إضافة المنتج إلى السلة</div>
@@ -2771,9 +2866,9 @@ function createProductGallery(item) {
   const safeImages = images.map(escapeHTML);
   return `
     <div class="product-gallery">
-      <img class="product-gallery-main" src="${safeImages[0]}" alt="${escapeHTML(item.title || "صورة المنتج")}" loading="lazy">
+      <img class="product-gallery-main" src="${safeImages[0]}" alt="${escapeHTML(item.title || "صورة المنتج")}" loading="lazy" decoding="async">
       ${safeImages.length > 1 ? `<div class="product-gallery-thumbs">
-        ${safeImages.map((url,index) => `<button class="product-gallery-thumb ${index === 0 ? "active" : ""}" type="button" data-image="${url}" aria-label="عرض الصورة ${index+1}" onclick="selectProductGalleryImage(this)"><img src="${url}" alt=""></button>`).join("")}
+        ${safeImages.map((url,index) => `<button class="product-gallery-thumb ${index === 0 ? "active" : ""}" type="button" data-image="${url}" aria-label="عرض الصورة ${index+1}" onclick="selectProductGalleryImage(this)"><img src="${url}" alt="" loading="lazy" decoding="async"></button>`).join("")}
       </div>` : ""}
     </div>
   `;
@@ -2792,6 +2887,144 @@ function whatsappLink(item) {
   const price = item.price ? " - السعر: " + item.price + " د.ك" : "";
   const message = "السلام عليكم، أريد طلب: " + title + price;
   return "https://wa.me/" + WHATSAPP_NUMBER + "?text=" + encodeURIComponent(message);
+}
+
+
+/* مشاركة المتجر والمنتجات */
+async function shareContent(title,text,url) {
+  const payload = {title,text,url};
+  try {
+    if(navigator.share) {
+      await navigator.share(payload);
+      return;
+    }
+  } catch(error) {
+    if(error && error.name === "AbortError") return;
+  }
+  try {
+    await navigator.clipboard.writeText(url);
+    showActionToast("✓ تم نسخ الرابط");
+  } catch(error) {
+    window.prompt("انسخ الرابط:",url);
+  }
+}
+function shareStore() {
+  shareContent("JOKER PLUS","تفضل بزيارة متجر JOKER PLUS",window.location.href);
+}
+function shareProduct(button) {
+  const title = button.dataset.productTitle || "منتج من JOKER PLUS";
+  const id = button.dataset.productId || "";
+  const url = new URL(window.location.href);
+  if(id) url.searchParams.set("product",id);
+  shareContent(title,"شاهد هذا المنتج في متجر JOKER PLUS: " + title,url.toString());
+}
+function showActionToast(message) {
+  const toast = document.getElementById("cartToast");
+  if(!toast) return;
+  toast.textContent = message;
+  toast.classList.add("show");
+  window.setTimeout(() => {
+    toast.classList.remove("show");
+    toast.textContent = "✓ تمت إضافة المنتج إلى السلة";
+  },2200);
+}
+function openTechnicalSupport() {
+  const message = "السلام عليكم ورحمة الله وبركاته";
+  const url = "https://wa.me/" + WHATSAPP_NUMBER + "?text=" + encodeURIComponent(message);
+  window.open(url,"_blank","noopener,noreferrer");
+}
+
+/* تسجيل اختياري عبر Supabase Auth */
+function openAccount() {
+  const modal = document.getElementById("accountModal");
+  if(!modal) return;
+  modal.hidden = false;
+  document.getElementById("accountStatus").textContent = "";
+  refreshAccountState();
+}
+function closeAccount(event) {
+  if(event && event.target !== event.currentTarget) return;
+  const modal = document.getElementById("accountModal");
+  if(modal) modal.hidden = true;
+}
+async function refreshAccountState() {
+  const status = document.getElementById("accountStatus");
+  try {
+    const {data,error} = await supabaseClient.auth.getSession();
+    if(error) throw error;
+    const user = data?.session?.user;
+    document.getElementById("accountSignedIn").hidden = !user;
+    document.getElementById("accountForm").hidden = !!user;
+    if(user) document.getElementById("accountEmail").textContent = user.email || "حساب العميل";
+  } catch(error) {
+    if(status) status.textContent = "تعذر التحقق من الحساب حالياً.";
+  }
+}
+async function submitAccount(event) {
+  event.preventDefault();
+  const email = document.getElementById("accountEmailInput").value.trim();
+  const password = document.getElementById("accountPasswordInput").value;
+  const status = document.getElementById("accountStatus");
+  status.textContent = "جارٍ تسجيل الدخول...";
+  try {
+    const {error} = await supabaseClient.auth.signInWithPassword({email,password});
+    if(error) throw error;
+    status.textContent = "تم تسجيل الدخول بنجاح.";
+    await refreshAccountState();
+  } catch(error) {
+    status.textContent = error.message || "تعذر تسجيل الدخول.";
+  }
+}
+async function registerCustomer() {
+  const email = document.getElementById("accountEmailInput").value.trim();
+  const password = document.getElementById("accountPasswordInput").value;
+  const status = document.getElementById("accountStatus");
+  if(!email || password.length < 6) {
+    status.textContent = "أدخل بريدك الإلكتروني وكلمة مرور من 6 أحرف على الأقل.";
+    return;
+  }
+  status.textContent = "جارٍ إنشاء الحساب...";
+  try {
+    const {data,error} = await supabaseClient.auth.signUp({email,password});
+    if(error) throw error;
+    status.textContent = data?.session
+      ? "تم إنشاء الحساب وتسجيل الدخول."
+      : "تم إرسال رسالة تأكيد إلى بريدك الإلكتروني إذا كان تأكيد البريد مفعّلاً.";
+    await refreshAccountState();
+  } catch(error) {
+    status.textContent = error.message || "تعذر إنشاء الحساب.";
+  }
+}
+async function signOutCustomer() {
+  const status = document.getElementById("accountStatus");
+  try {
+    const {error} = await supabaseClient.auth.signOut();
+    if(error) throw error;
+    status.textContent = "تم تسجيل الخروج.";
+    await refreshAccountState();
+  } catch(error) {
+    status.textContent = error.message || "تعذر تسجيل الخروج.";
+  }
+}
+
+/* تحسين تحميل الصور بعد إنشاء المحتوى */
+function optimizeStoreImages(root=document) {
+  root.querySelectorAll("img").forEach(img => {
+    if(!img.closest(".hero-banner") && !img.closest(".splash-screen")) {
+      if(!img.hasAttribute("loading")) img.loading = "lazy";
+      img.decoding = "async";
+    }
+  });
+}
+function openSharedProductIfRequested() {
+  const id = new URLSearchParams(window.location.search).get("product");
+  if(!id) return;
+  const target = Array.from(document.querySelectorAll("[data-product-id]"))
+    .find(node => node.dataset.productId === id);
+  if(target) {
+    target.scrollIntoView({behavior:"smooth",block:"center"});
+    target.classList.add("shared-product-highlight");
+  }
 }
 
 /* نظام سلة المشتريات */
@@ -2959,7 +3192,7 @@ function createService(item) {
   const title = String(item.title || "منتج من JOKER PLUS");
   const price = String(item.price ?? "");
   return `
-    <div class="service">
+    <div class="service" id="product-${escapeHTML(String(item.id ?? title))}" data-product-id="${escapeHTML(String(item.id ?? ""))}">
       <div class="service-title">${escapeHTML(title)}</div>
       ${createProductGallery(item)}
       ${item.description ? `<div class="service-description">${escapeHTML(item.description)}</div>` : ""}
@@ -2981,6 +3214,10 @@ function createService(item) {
       <a class="buy-button" style="margin-top:8px" href="${whatsappLink(item)}" target="_blank" rel="noopener noreferrer">
         اطلب الآن عبر واتساب
       </a>
+      <button class="product-share-btn" type="button"
+        data-product-id="${escapeHTML(String(item.id ?? ""))}"
+        data-product-title="${escapeHTML(title)}"
+        onclick="shareProduct(this)">↗ مشاركة المنتج</button>
     </div>
   `;
 }
@@ -3126,6 +3363,10 @@ function createPackageCard(pack) {
           <button type="button" aria-label="تنقيص منتج" onclick="changeProductCardQuantity(this,-1)">−</button>
         </div>
         </div>
+        <button class="product-share-btn" type="button"
+          data-product-id="package-${escapeHTML(String(pack.id ?? pack.name))}"
+          data-product-title="${escapeHTML(pack.name + " - تطبيقات بلس للآيفون")}"
+          onclick="shareProduct(this)">↗ مشاركة الباقة</button>
       </div>
     </article>
   `;
@@ -3156,6 +3397,8 @@ async function loadStore() {
     container.innerHTML = sectionsData.map(section =>
       createSection(section,items,images)
     ).join("");
+    optimizeStoreImages(container);
+    window.setTimeout(openSharedProductIfRequested,120);
 
   } catch(error) {
     console.error("JOKER PLUS:",error);
