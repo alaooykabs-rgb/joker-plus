@@ -2640,27 +2640,36 @@ function cartPrice(value) {
   return Number.isFinite(amount) ? amount : 0;
 }
 
+function cartButtonKey(button) {
+  const title = button.dataset.title || "منتج من JOKER PLUS";
+  const price = button.dataset.price || "";
+  const productId = button.dataset.productId || "";
+  return productId || (title + "|" + price);
+}
+
+function syncCartAddButtons() {
+  document.querySelectorAll(".add-cart-button").forEach(button => {
+    const isInCart = cartItems.some(item => item.key === cartButtonKey(button));
+    button.disabled = isInCart;
+    button.textContent = isInCart ? "✓ تمت الإضافة" : "＋ أضف إلى السلة";
+    button.classList.toggle("is-added",isInCart);
+    button.setAttribute("aria-disabled",isInCart ? "true" : "false");
+  });
+}
+
 function addToCartFromButton(button,event) {
   if(event) event.stopPropagation();
   const title = button.dataset.title || "منتج من JOKER PLUS";
   const price = button.dataset.price || "";
-  const productId = button.dataset.productId || "";
-  // كل ضغطة على زر الإضافة تضيف قطعة واحدة فقط؛ تعديل العدد يتم من السلة.
-  const selectedQuantity = 1;
-  const key = productId || (title + "|" + price);
-  const existing = cartItems.find(item => item.key === key);
-  if(existing) existing.quantity += selectedQuantity;
-  else cartItems.push({key,title,price,quantity:selectedQuantity});
+  const key = cartButtonKey(button);
+  // إذا كان المنتج موجوداً، لا نسمح بإضافته مرة ثانية من نفس الزر.
+  if(cartItems.some(item => item.key === key)) {
+    syncCartAddButtons();
+    return;
+  }
+  // كل ضغطة تضيف قطعة واحدة فقط؛ زيادة الكمية تتم من زر + داخل السلة.
+  cartItems.push({key,title,price,quantity:1});
   saveCart();
-  const oldText = button.textContent;
-  button.textContent = "✓ تمت الإضافة";
-  button.classList.add("is-added");
-  window.setTimeout(() => {
-    if(button.isConnected) {
-      button.textContent = oldText;
-      button.classList.remove("is-added");
-    }
-  },1100);
 }
 
 function changeCardQuantity(button,delta) {
@@ -2677,6 +2686,7 @@ function renderCart() {
   const totalNode = document.getElementById("cartTotal");
   const checkoutNode = document.getElementById("cartCheckout");
   if(countNode) countNode.textContent = count;
+  syncCartAddButtons();
   if(!itemsNode || !totalNode || !checkoutNode) return;
 
   if(!cartItems.length) {
