@@ -1880,6 +1880,9 @@ footer {text-align:center;color:#756c7c;font-size:11px;padding:25px 15px;border-
 .card-qty-picker button {width:25px;height:25px;border:1px solid #654783;border-radius:7px;background:#2b1939;color:#fff;font-size:17px;line-height:1;cursor:pointer}
 .card-qty-value {min-width:18px;text-align:center;font-size:12px;font-weight:900}
 .cart-add-row .add-cart-button {flex:1;min-width:0;margin-top:0;width:auto;padding:10px 7px}
+.card-qty-picker {display:none;align-items:center;gap:6px;flex-shrink:0;padding:5px 7px;border:1px solid #604477;border-radius:10px;background:#160e20;color:#fff}
+.card-qty-picker button {width:28px;height:28px;border:1px solid #654783;border-radius:8px;background:#2b1939;color:#fff;font-size:18px;line-height:1;cursor:pointer}
+.card-qty-picker .card-qty-value {min-width:16px;text-align:center;font-size:12px;font-weight:900}
 .add-cart-button {
   width:100%;margin-top:8px;padding:10px 9px;border:1px solid #76529a;
   border-radius:10px;background:linear-gradient(110deg,#21122e,#39204f);
@@ -2654,6 +2657,14 @@ function syncCartAddButtons() {
     button.textContent = isInCart ? "✓ تمت الإضافة" : "＋ أضف إلى السلة";
     button.classList.toggle("is-added",isInCart);
     button.setAttribute("aria-disabled",isInCart ? "true" : "false");
+    const row = button.closest(".cart-add-row");
+    const picker = row && row.querySelector(".card-qty-picker");
+    if(picker) {
+      picker.style.display = isInCart ? "flex" : "none";
+      const item = cartItems.find(entry => entry.key === cartButtonKey(button));
+      const value = picker.querySelector(".card-qty-value");
+      if(value) value.textContent = item ? item.quantity : "1";
+    }
   });
 }
 
@@ -2672,11 +2683,16 @@ function addToCartFromButton(button,event) {
   saveCart();
 }
 
-function changeCardQuantity(button,delta) {
-  const valueNode = button.parentElement.querySelector(".card-qty-value");
-  if(!valueNode) return;
-  const current = Number(valueNode.textContent || 1);
-  valueNode.textContent = Math.max(1,Math.min(99,current + delta));
+function changeProductCardQuantity(button,delta) {
+  const row = button.closest(".cart-add-row");
+  const addButton = row && row.querySelector(".add-cart-button");
+  if(!addButton) return;
+  const key = cartButtonKey(addButton);
+  const index = cartItems.findIndex(item => item.key === key);
+  if(index < 0) return;
+  cartItems[index].quantity = Math.min(99, Number(cartItems[index].quantity || 1) + delta);
+  if(cartItems[index].quantity <= 0) cartItems.splice(index,1);
+  saveCart();
 }
 
 function renderCart() {
@@ -2771,6 +2787,11 @@ function createService(item) {
           onclick="addToCartFromButton(this,event)">
           ＋ أضف إلى السلة
         </button>
+        <div class="card-qty-picker" aria-label="تعديل كمية المنتج">
+          <button type="button" aria-label="زيادة منتج" onclick="changeProductCardQuantity(this,1)">+</button>
+          <span class="card-qty-value">1</span>
+          <button type="button" aria-label="تنقيص منتج" onclick="changeProductCardQuantity(this,-1)">−</button>
+        </div>
       </div>
       <a class="buy-button" style="margin-top:8px" href="${whatsappLink(item)}" target="_blank" rel="noopener noreferrer">
         اطلب الآن عبر واتساب
@@ -2902,6 +2923,11 @@ function createPackageCard(pack) {
             onclick="addToCartFromButton(this,event)">
             ＋ أضف إلى السلة
           </button>
+        <div class="card-qty-picker" aria-label="تعديل كمية المنتج">
+          <button type="button" aria-label="زيادة منتج" onclick="changeProductCardQuantity(this,1)">+</button>
+          <span class="card-qty-value">1</span>
+          <button type="button" aria-label="تنقيص منتج" onclick="changeProductCardQuantity(this,-1)">−</button>
+        </div>
         </div>
       </div>
     </article>
