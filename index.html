@@ -1128,12 +1128,24 @@ main {
   animation:tvGlow 4s ease-in-out infinite;
 }
 
-.tv-camera {position:absolute;top:6px;left:50%;transform:translateX(-50%);width:3px;height:3px;background:#08070b;border-radius:50%;z-index:3}
-.tv-brand-group {position:relative;z-index:2;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;max-width:100%;padding:8px 5px}
-.tv-logo {position:relative;z-index:2;color:#f7f4fa;font-size:clamp(13px,3.5vw,18px);font-weight:900;letter-spacing:1px;line-height:1.25;white-space:nowrap;text-shadow:0 0 18px #c49be5aa;direction:ltr}
+.tv-camera {position:absolute;top:6px;left:50%;transform:translateX(-50%);width:3px;height:3px;background:#08070b;border-radius:50%;z-index:5}
+.tv-brand-group {position:absolute;z-index:2;inset:0;display:flex;flex-direction:column;align-items:stretch;justify-content:flex-start;gap:5px;padding:10px 10px 7px;background:linear-gradient(145deg,#11101aee,#24102fee 55%,#09080fee)}
+.tv-topbar {display:flex;align-items:center;justify-content:space-between;direction:ltr;color:#eee;font-size:6px;font-weight:800;letter-spacing:.8px}
+.tv-topbar b {color:#ff4b65;font-size:6px;letter-spacing:.5px}
+.tv-logo {color:#f7f4fa;font-size:10px;font-weight:950;letter-spacing:1px;line-height:1.1;white-space:nowrap;text-shadow:0 0 12px #c49be5aa;direction:ltr;text-align:left}
 .tv-logo span {color:#d3a8f3}
-.tv-subtitle {position:relative;z-index:2;bottom:auto;color:#e4d4f2;font-size:6px;line-height:1.4;letter-spacing:1.5px;white-space:nowrap;direction:ltr}
-.tv-indicator {position:absolute;bottom:2px;left:50%;transform:translateX(-50%);width:4px;height:4px;border-radius:50%;background:#bd8de7;box-shadow:0 0 7px #bd8de7}
+.tv-subtitle {color:#cbb9dc;font-size:5px;line-height:1.2;letter-spacing:1px;white-space:nowrap;direction:ltr;text-align:left}
+.tv-channel-grid {display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:4px;flex:1;min-height:0;margin-top:2px}
+.tv-channel {position:relative;overflow:hidden;border:1px solid #ffffff22;border-radius:4px;display:flex;align-items:flex-end;padding:3px;color:#fff;font-size:5px;font-weight:800;letter-spacing:.2px;text-shadow:0 1px 4px #000;min-height:0}
+.tv-channel::before {content:"";position:absolute;inset:0;background:linear-gradient(0deg,#08060de8,transparent 75%)}
+.tv-channel span {position:relative;z-index:1;white-space:nowrap}
+.tv-channel.sports {background:radial-gradient(circle at 50% 25%,#f6d36b,#b84a25 42%,#29122d 100%)}
+.tv-channel.cinema {background:radial-gradient(circle at 60% 25%,#d6a1ff,#663b9a 45%,#1b1230 100%)}
+.tv-channel.news {background:radial-gradient(circle at 55% 20%,#8ed7ff,#17618d 45%,#10213c 100%)}
+.tv-channel.series {background:radial-gradient(circle at 40% 20%,#f58c9c,#87334f 48%,#241126 100%)}
+.tv-channel.kids {background:radial-gradient(circle at 45% 20%,#ffdf83,#e87939 48%,#3a1c48 100%)}
+.tv-channel.live {background:radial-gradient(circle at 50% 20%,#9ce3b2,#287b61 48%,#102a2b 100%)}
+.tv-indicator {position:absolute;bottom:3px;left:50%;transform:translateX(-50%);width:4px;height:4px;border-radius:50%;background:#bd8de7;box-shadow:0 0 7px #bd8de7}
 .tv-stand {width:65px;height:16px;margin:-1px auto 0;background:linear-gradient(90deg,#17131e,#5c5364 50%,#17131e);clip-path:polygon(39% 0,61% 0,76% 72%,100% 100%,0 100%,24% 72%)}
 .tv-base {width:105px;height:7px;margin:-1px auto 0;border-radius:50%;background:linear-gradient(180deg,#71687a,#211b29 75%);box-shadow:0 5px 9px #0009}
 
@@ -2278,8 +2290,17 @@ function createPhone(section,customImage) {
             <div class="tv-screen">
               <div class="tv-camera"></div>
               <div class="tv-brand-group">
+                <div class="tv-topbar"><span>JOKER IPTV</span><b>● LIVE</b></div>
                 <div class="tv-logo">JOKER <span>PLUS</span></div>
-                <div class="tv-subtitle">YOUR DIGITAL WORLD</div>
+                <div class="tv-subtitle">LIVE TV · MOVIES · SERIES</div>
+                <div class="tv-channel-grid">
+                  <div class="tv-channel sports"><span>SPORTS</span></div>
+                  <div class="tv-channel cinema"><span>MOVIES</span></div>
+                  <div class="tv-channel news"><span>NEWS</span></div>
+                  <div class="tv-channel series"><span>SERIES</span></div>
+                  <div class="tv-channel kids"><span>KIDS</span></div>
+                  <div class="tv-channel live"><span>LIVE TV</span></div>
+                </div>
               </div>
               <div class="tv-indicator"></div>
             </div>
