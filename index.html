@@ -2337,7 +2337,7 @@ button:focus-visible,.buy-button:focus-visible {
 <div class="cart-toast" id="cartToast" role="status" aria-live="polite">✓ تمت إضافة المنتج إلى السلة</div>
 
 <!-- سلة المشتريات -->
-<button class="cart-fab" id="cartFab" type="button" onclick="openCart()" aria-label="فتح سلة المشتريات">
+<button class="cart-fab" id="cartFab" type="button" hidden onclick="openCart()" aria-label="فتح سلة المشتريات">
   <span>🛒 السلة</span><span class="cart-count" id="cartCount">0</span>
 </button>
 
@@ -3318,6 +3318,8 @@ function renderCart() {
   const totalNode = document.getElementById("cartTotal");
   const checkoutNode = document.getElementById("cartCheckout");
   if(countNode) countNode.textContent = count;
+  const fabNode = document.getElementById("cartFab");
+  if(fabNode) fabNode.hidden = count <= 0;
   syncCartAddButtons();
   if(!itemsNode || !totalNode || !checkoutNode) return;
 
