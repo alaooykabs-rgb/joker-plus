@@ -1992,12 +1992,22 @@ button:focus-visible,.buy-button:focus-visible {
 }
 .service {border:1px solid #ffffff16;border-radius:14px;padding:10px;margin:10px 0}
 .joker-tools {
-  position:fixed;
-  top:max(12px, env(safe-area-inset-top));
-  left:max(12px, env(safe-area-inset-left));
-  z-index:9998;
-  margin:0;padding:0;
-  display:flex;justify-content:flex-start;gap:9px;flex-wrap:wrap;
+  position:fixed !important;
+  top:calc(env(safe-area-inset-top, 0px) + 12px) !important;
+  left:calc(env(safe-area-inset-left, 0px) + 12px) !important;
+  right:auto !important;
+  bottom:auto !important;
+  z-index:99998 !important;
+  margin:0 !important;
+  padding:0 !important;
+  display:flex;
+  justify-content:flex-start;
+  gap:9px;
+  flex-wrap:wrap;
+  transform:translate3d(0,0,0);
+  -webkit-transform:translate3d(0,0,0);
+  will-change:transform;
+  pointer-events:auto;
 }
 /* زر الحساب ثابت أعلى اليسار، ويبقى خلف شاشة اللوجو الافتتاحية */
 .joker-tools .joker-tool-btn {
@@ -2042,7 +2052,11 @@ button:focus-visible,.buy-button:focus-visible {
 .account-actions .account-secondary {background:#21172b}
 .account-status {min-height:24px;color:#e4c5ff}
 @media(max-width:480px) {
- .joker-tools {top:max(10px, env(safe-area-inset-top));left:max(10px, env(safe-area-inset-left));gap:7px}
+ .joker-tools {
+   top:calc(env(safe-area-inset-top, 0px) + 10px) !important;
+   left:calc(env(safe-area-inset-left, 0px) + 10px) !important;
+   right:auto !important;bottom:auto !important;gap:7px;
+ }
  .joker-tool-btn {font-size:11px;padding:10px}
  .joker-float-support {left:10px;bottom:12px;padding:11px 13px;font-size:12px}
 }
