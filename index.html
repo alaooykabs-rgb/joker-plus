@@ -898,6 +898,109 @@ main {
   50% {opacity:1;transform:scale(1.5)}
 }
 
+/* مجسمات 3D مخصصة لتطبيقات بلس وأكواد سناب */
+
+.apps-plus-stage,
+.snap-plus-stage {
+  width:100%;
+  height:285px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  position:relative;
+  overflow:hidden;
+  isolation:isolate;
+  perspective:1100px;
+  background:
+    radial-gradient(ellipse at 50% 48%,#54247a66,transparent 66%),
+    radial-gradient(ellipse at 18% 65%,#a6192e22,transparent 48%);
+}
+
+.apps-plus-stage::before,
+.snap-plus-stage::before {
+  content:"";
+  position:absolute;
+  width:210px;
+  height:210px;
+  border-radius:50%;
+  background:#9b45d9;
+  filter:blur(75px);
+  opacity:.3;
+  animation:socialAura 4s ease-in-out infinite;
+}
+
+.apps-plus-object,
+.snap-plus-object {
+  width:100%;height:100%;position:relative;z-index:2;
+  display:flex;align-items:center;justify-content:center;
+  transform-style:preserve-3d;
+}
+
+.apps-plus-main {
+  width:112px;height:112px;border-radius:29px;position:absolute;
+  display:flex;align-items:center;justify-content:center;
+  background:linear-gradient(145deg,#6d3995,#21102f 72%);
+  border:1px solid #d9b7f4aa;
+  box-shadow:0 18px 28px #000b,0 0 32px #a77ad077,inset 0 2px 3px #ffffff55;
+  transform:rotateY(-13deg) rotateX(7deg) rotateZ(-5deg);
+  animation:socialCardFloat 4.5s ease-in-out infinite;
+}
+
+.apps-plus-main::before,.snap-plus-main::before {
+  content:"";position:absolute;inset:7px;border:1px solid #ffffff38;border-radius:22px;
+}
+
+.apps-plus-main strong {
+  color:#fff;font-size:35px;font-weight:900;letter-spacing:-3px;
+  text-shadow:0 0 18px #e4c5ff;
+}
+.apps-plus-main strong span {color:#e2bfff;font-size:23px}
+
+.apps-plus-mini {
+  width:58px;height:58px;position:absolute;border-radius:17px;
+  display:flex;align-items:center;justify-content:center;
+  border:1px solid #ffffff66;box-shadow:0 12px 22px #000b,0 0 18px #a77ad044;
+  animation:socialBubbleFloat 3.8s ease-in-out infinite;
+}
+.apps-plus-mini img {width:34px;height:34px;object-fit:contain;filter:drop-shadow(0 3px 5px #0008)}
+.apps-plus-mini.one {left:calc(50% - 126px);top:calc(50% - 74px);background:#fffc00;transform:rotate(-12deg)}
+.apps-plus-mini.two {right:calc(50% - 126px);top:calc(50% - 75px);background:#050505;transform:rotate(12deg);animation-delay:-1s}
+.apps-plus-mini.three {left:calc(50% - 119px);bottom:calc(50% - 75px);background:#1b9d58;transform:rotate(9deg);animation-delay:-1.7s}
+.apps-plus-mini.four {right:calc(50% - 119px);bottom:calc(50% - 75px);background:#e62117;transform:rotate(-9deg);animation-delay:-.7s}
+.apps-plus-orbit {position:absolute;width:225px;height:135px;border:1px solid #c49be544;border-radius:50%;transform:rotateX(66deg) rotateZ(-12deg);box-shadow:0 0 25px #a77ad033}
+.apps-plus-spark {position:absolute;color:#e4c5ff;font-size:20px;text-shadow:0 0 13px #c49be5;animation:socialMiniHeart 3s ease-in-out infinite}
+.apps-plus-spark.one {left:25%;top:22%}.apps-plus-spark.two {right:25%;bottom:20%;animation-delay:-1.2s}
+
+.snap-plus-main {
+  width:116px;height:132px;position:absolute;border-radius:28px;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;
+  background:linear-gradient(145deg,#fff700,#c9b900 72%,#817700);
+  border:1px solid #fffda7;
+  box-shadow:0 18px 28px #000b,0 0 32px #fffc0066,inset 0 2px 3px #ffffffaa;
+  transform:rotateY(-12deg) rotateX(7deg) rotateZ(-6deg);
+  animation:socialCardFloat 4.5s ease-in-out infinite;
+}
+.snap-plus-main img {width:68px;height:68px;object-fit:contain;filter:drop-shadow(0 5px 7px #0006);position:relative;z-index:2}
+.snap-plus-main strong {font-size:14px;letter-spacing:1.5px;color:#171400;text-shadow:0 1px 0 #fff8;position:relative;z-index:2}
+.snap-plus-badge {
+  position:absolute;right:calc(50% - 112px);top:calc(50% - 79px);
+  width:57px;height:57px;border-radius:18px;display:flex;align-items:center;justify-content:center;
+  background:linear-gradient(145deg,#332047,#100b18);border:1px solid #c49be5;
+  color:#e4c5ff;font-size:25px;font-weight:900;box-shadow:0 12px 22px #000b,0 0 20px #a77ad055;
+  transform:rotate(12deg);animation:socialBubbleFloat 3.8s ease-in-out infinite;
+}
+.snap-plus-code {
+  position:absolute;left:calc(50% - 113px);bottom:calc(50% - 77px);
+  width:62px;height:62px;border-radius:18px;display:flex;align-items:center;justify-content:center;
+  background:linear-gradient(145deg,#6c3c94,#241032);border:1px solid #d5b1f2;
+  color:#fff;font-size:12px;font-weight:900;letter-spacing:1px;
+  box-shadow:0 12px 22px #000b,0 0 20px #a77ad055;transform:rotate(-11deg);
+  animation:socialBubbleFloat 3.8s ease-in-out infinite;animation-delay:-1.2s;
+}
+.snap-plus-orbit {position:absolute;width:225px;height:135px;border:1px solid #fffc0055;border-radius:50%;transform:rotateX(66deg) rotateZ(-12deg);box-shadow:0 0 25px #fffc0022}
+.snap-plus-star {position:absolute;color:#fffc00;font-size:20px;text-shadow:0 0 13px #fffc00;animation:socialMiniHeart 3s ease-in-out infinite}
+.snap-plus-star.one {left:25%;top:20%}.snap-plus-star.two {right:24%;bottom:20%;animation-delay:-1.3s}
+
 /* بطاقات PlayStation */
 
 .store-stage {
@@ -1361,7 +1464,7 @@ footer {text-align:center;color:#756c7c;font-size:11px;padding:25px 15px;border-
 @media(max-width:700px) {
   .sections {grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
   .section-card {padding:7px;border-radius:13px}
-  .phone-stage,.store-stage,.tv-stage,.social-stage {height:180px}
+  .phone-stage,.store-stage,.tv-stage,.social-stage,.apps-plus-stage,.snap-plus-stage {height:180px}
   .phone {transform:scale(.66) rotateY(-9deg) rotateX(3deg);transform-origin:center}
   .section-card:hover .phone {transform:scale(.66) rotateY(-3deg) rotateX(1deg)}
   .store-cards {transform:scale(.72)}
@@ -1430,7 +1533,7 @@ footer {text-align:center;color:#756c7c;font-size:11px;padding:25px 15px;border-
 @media(max-width:390px) {
   .sections {grid-template-columns:repeat(3,minmax(0,1fr));gap:6px}
   .section-card {padding:6px}
-  .phone-stage,.store-stage,.tv-stage,.social-stage {height:160px}
+  .phone-stage,.store-stage,.tv-stage,.social-stage,.apps-plus-stage,.snap-plus-stage {height:160px}
   .phone {transform:scale(.58) rotateY(-9deg) rotateX(3deg)}
   .section-card:hover .phone {transform:scale(.58) rotateY(-3deg) rotateX(1deg)}
   .store-cards {transform:scale(.62)}
@@ -1940,6 +2043,45 @@ function escapeHTML(value) {
 }
 
 function createPhone(section,customImage) {
+
+  /* مجسم 3D خاص بقسم تطبيقات بلس */
+
+  if(section.id === "apps") {
+    return `
+      <div class="apps-plus-stage">
+        <div class="apps-plus-object">
+          <div class="apps-plus-orbit"></div>
+          <div class="apps-plus-main"><strong>APP<span>+</span></strong></div>
+          <div class="apps-plus-mini one"><img src="https://cdn.simpleicons.org/snapchat/000000" alt="Snapchat"></div>
+          <div class="apps-plus-mini two"><img src="https://cdn.simpleicons.org/tiktok/ffffff" alt="TikTok"></div>
+          <div class="apps-plus-mini three"><img src="https://cdn.simpleicons.org/whatsapp/ffffff" alt="WhatsApp"></div>
+          <div class="apps-plus-mini four"><img src="https://cdn.simpleicons.org/youtube/ffffff" alt="YouTube"></div>
+          <span class="apps-plus-spark one">✦</span>
+          <span class="apps-plus-spark two">✧</span>
+        </div>
+      </div>
+    `;
+  }
+
+  /* مجسم 3D خاص بأكواد سناب بلس */
+
+  if(section.id === "games") {
+    return `
+      <div class="snap-plus-stage">
+        <div class="snap-plus-object">
+          <div class="snap-plus-orbit"></div>
+          <div class="snap-plus-main">
+            <img src="https://cdn.simpleicons.org/snapchat/000000" alt="Snapchat Plus">
+            <strong>SNAP PLUS</strong>
+          </div>
+          <div class="snap-plus-badge">✦</div>
+          <div class="snap-plus-code">CODE</div>
+          <span class="snap-plus-star one">✦</span>
+          <span class="snap-plus-star two">✧</span>
+        </div>
+      </div>
+    `;
+  }
 
   /* تصميم 3D خاص بقسم خدمات تيك توك وإنستغرام */
 
