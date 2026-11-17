@@ -1699,6 +1699,19 @@ footer {text-align:center;color:#756c7c;font-size:11px;padding:25px 15px;border-
   .apps-plus-apps-grid .app-icon {width:15px;height:15px}
 }
 
+/* تحسين إطار وصور قسم IPTV فقط */
+.section-iptv .tv-stage {height:315px}
+.section-iptv .tv-set {width:min(285px,98%)}
+.section-iptv .tv-channel {background-size:100% 100%;background-position:center;background-repeat:no-repeat}
+@media(max-width:700px) {
+  .section-iptv .tv-stage {height:205px}
+  .section-iptv .tv-set {width:100%}
+}
+@media(max-width:390px) {
+  .section-iptv .tv-stage {height:185px}
+  .section-iptv .tv-set {width:100%}
+}
+
 </style>
 </head>
 
