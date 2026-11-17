@@ -1993,7 +1993,8 @@ button:focus-visible,.buy-button:focus-visible {
 .service {border:1px solid #ffffff16;border-radius:14px;padding:10px;margin:10px 0}
 .joker-tools {
   position:fixed !important;
-  top:calc(env(safe-area-inset-top, 0px) + 12px) !important;
+  inset-block-start:calc(env(safe-area-inset-top, 0px) + 12px) !important;
+  inset-inline-start:auto !important;
   left:calc(env(safe-area-inset-left, 0px) + 12px) !important;
   right:auto !important;
   bottom:auto !important;
@@ -2004,6 +2005,10 @@ button:focus-visible,.buy-button:focus-visible {
   justify-content:flex-start;
   gap:9px;
   flex-wrap:wrap;
+  transform:none !important;
+  filter:none !important;
+  perspective:none !important;
+  contain:none !important;
   pointer-events:auto;
 }
 /* زر الحساب ثابت أعلى اليسار، ويبقى خلف شاشة اللوجو الافتتاحية */
@@ -2107,6 +2112,19 @@ button:focus-visible,.buy-button:focus-visible {
 <div class="joker-tools" id="jokerAccountButton" aria-label="حساب العميل">
   <button class="joker-tool-btn" type="button" onclick="openAccount()">👤 حساب العميل</button>
 </div>
+<script>
+/* تثبيت زر الحساب خارج body لتجنب تأثره بتمرير الصفحة على iOS */
+(function () {
+  function attachAccountButtonToViewport() {
+    var accountButton = document.getElementById("jokerAccountButton");
+    if (accountButton && accountButton.parentElement !== document.documentElement) {
+      document.documentElement.appendChild(accountButton);
+    }
+  }
+  attachAccountButtonToViewport();
+  window.addEventListener("pageshow", attachAccountButtonToViewport);
+})();
+</script>
 
 <!-- محتوى المتجر الرئيسي -->
 <div id="storePage">
