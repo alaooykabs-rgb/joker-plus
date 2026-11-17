@@ -3043,10 +3043,6 @@ async function registerCustomer() {
     status.textContent = "أدخل بريدك الإلكتروني وكلمة مرور من 8 أحرف على الأقل.";
     return;
   }
-  if(!/^[^\\s@]+@gmail\\.com$/i.test(email)) {
-    status.textContent = "التسجيل متاح فقط باستخدام بريد Gmail ينتهي بـ @gmail.com.";
-    return;
-  }
   status.textContent = "جارٍ إنشاء الحساب...";
   try {
     const {data,error} = await supabaseClient.auth.signUp({email,password});
