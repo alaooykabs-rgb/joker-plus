@@ -1896,6 +1896,62 @@ footer {text-align:center;color:#756c7c;font-size:11px;padding:25px 15px;border-
   .cart-panel {max-height:86vh;border-radius:19px}
 }
 
+
+/* لمسات التفاعل ومعرض صور المنتجات */
+button,.buy-button,.packages-back-button { -webkit-tap-highlight-color:transparent; }
+button:active,.buy-button:active,.packages-back-button:active {
+  transform:scale(.96);
+  filter:brightness(1.18);
+}
+button:focus-visible,.buy-button:focus-visible {
+  outline:2px solid #c49be5;
+  outline-offset:3px;
+}
+.add-cart-button.is-added {background:linear-gradient(110deg,#1d392b,#24583a);border-color:#4b9b6b;color:#e4ffed}
+.cart-add-row {transition:filter .2s}
+.cart-add-row.cart-added-pulse {animation:cartAddedPulse .55s ease}
+@keyframes cartAddedPulse {0%{transform:scale(1)}35%{transform:scale(1.035);filter:brightness(1.35)}100%{transform:scale(1)}}
+.cart-toast {
+  position:fixed;z-index:100001;top:18px;left:50%;transform:translate(-50%,-18px);
+  padding:12px 18px;border:1px solid #4c9c70;border-radius:13px;
+  background:linear-gradient(120deg,#14281e,#1d4930);color:#e7ffef;
+  box-shadow:0 12px 35px #0009;font-size:13px;font-weight:800;
+  opacity:0;pointer-events:none;transition:opacity .25s,transform .25s;
+}
+.cart-toast.show {opacity:1;transform:translate(-50%,0)}
+.product-gallery {margin:10px 0 12px;padding:8px;border:1px solid #3b2a49;border-radius:13px;background:#100b17}
+.product-gallery-main {width:100%;height:145px;display:block;object-fit:contain;border-radius:9px;background:#08070b}
+.product-gallery-thumbs {display:flex;gap:7px;overflow-x:auto;padding-top:8px}
+.product-gallery-thumb {width:48px;height:48px;flex:0 0 48px;padding:3px;border:1px solid #57416b;border-radius:8px;background:#17101f;cursor:pointer}
+.product-gallery-thumb img {width:100%;height:100%;object-fit:contain}
+.product-gallery-thumb.active {border-color:#c49be5;box-shadow:0 0 12px #a77ad066}
+.package-policies {
+  margin:24px auto 0;padding:18px 17px;max-width:1000px;
+  border:1px solid #704b8c;border-radius:17px;
+  background:linear-gradient(145deg,#1c1227,#100b17);
+  box-shadow:0 12px 30px #0006;
+}
+.package-policies h3 {margin:0 0 13px;color:#e0c5f5;font-size:16px}
+.package-policies ul {margin:0;padding:0 20px 0 0;display:grid;gap:10px}
+.package-policies li {color:#e9e1ef;font-size:12px;line-height:1.9}
+.package-policies li::marker {color:#c49be5}
+.info-page {min-height:100vh;max-width:900px;margin:0 auto;padding:24px 18px 55px}
+.info-panel {margin:30px auto 0;padding:22px;border:1px solid #563873;border-radius:20px;background:linear-gradient(145deg,#1b1225,#0e0b13);box-shadow:0 15px 40px #0007}
+.info-panel h1 {margin:0 0 18px;color:#e2c5ff;font-size:22px}
+.info-panel h2 {color:#d7b4f4;font-size:15px;margin:18px 0 7px}
+.info-panel p {color:#e7dfed;font-size:13px;line-height:2;margin:0 0 10px}
+.info-panel details {padding:12px 0;border-bottom:1px solid #35263f}
+.info-panel summary {color:#f0e5fa;font-size:13px;font-weight:800;cursor:pointer}
+.info-panel details p {margin:9px 0 0;color:#bfb2ca}
+.footer-links {display:flex;justify-content:center;gap:16px;flex-wrap:wrap;margin-top:12px}
+.footer-links button {border:0;background:none;color:#c49be5;font:inherit;font-size:11px;text-decoration:underline;cursor:pointer}
+#faqPage[hidden],#refundPage[hidden] {display:none!important}
+@media(max-width:480px) {
+  .product-gallery-main {height:120px}
+  .package-policies {padding:15px 13px}
+  .package-policies li {font-size:11px}
+}
+
 </style>
 </head>
 
@@ -2051,11 +2107,18 @@ footer {text-align:center;color:#756c7c;font-size:11px;padding:25px 15px;border-
 <footer>
   <div class="footer-logo">JOKER PLUS</div>
   جميع الحقوق محفوظة © 2026
+  <div class="footer-links">
+    <button type="button" onclick="openInfoPage('faqPage')">الأسئلة الشائعة</button>
+    <button type="button" onclick="openInfoPage('refundPage')">سياسة الاسترجاع</button>
+  </div>
 </footer>
 
 </div>
 <!-- نهاية محتوى المتجر الرئيسي -->
 
+
+<!-- إشعار إضافة المنتج -->
+<div class="cart-toast" id="cartToast" role="status" aria-live="polite">✓ تمت إضافة المنتج إلى السلة</div>
 
 <!-- سلة المشتريات -->
 <button class="cart-fab" id="cartFab" type="button" onclick="openCart()" aria-label="فتح سلة المشتريات">
@@ -2096,6 +2159,16 @@ footer {text-align:center;color:#756c7c;font-size:11px;padding:25px 15px;border-
     <div class="packages-grid" id="plusPackages">
       <p class="loading-message">جاري تجهيز الباقات...</p>
     </div>
+    <section class="package-policies" aria-label="الشروط والأحكام">
+      <h3>الشروط والأحكام ⚠️</h3>
+      <ul>
+        <li>ضمان السناب ضمان تشغيلي فقط رغم ان الحماية عاليه الا ان يوجد نسبة للحظر و المتجر غير مسؤول عن تعرضك للحظر و استخدامك للأداة على مسؤوليتك الشخصية ⚠️.</li>
+        <li>لا نضمن استمرارية اي تطبيق داخل المتجر بحكم سياسات ابل في اقفال بعض النسخ المعدله ❌.</li>
+        <li>عند تعطل تطبيق معين داخل المتجر لانملك اي صلاحيات بتعديله او اصلاحه دعمنا الفني مخصص فقط لتطبيق المتجر ⚠️.</li>
+        <li>لايمكن استرداد المبلغ المدفوع في هذا المنتج بسبب طبيعته وهو منتج رقمي لايمكن استرداده او استبداله ❌.</li>
+        <li>عند شرائك للمنتج انت تقر انك اطلعت على السياسات ✅.</li>
+      </ul>
+    </section>
     <p class="package-device-note">جميع الباقات مخصصة لأجهزة الآيفون 🃏</p>
   </section>
 </div>
@@ -2117,6 +2190,36 @@ footer {text-align:center;color:#756c7c;font-size:11px;padding:25px 15px;border-
     <p>نعمل على إعادة توفير الباقات في أقرب وقت ممكن، وسيتم الإعلان عن عودتها فور توفرها.</p>
     <p>نشكركم على تفهمكم وثقتكم الدائمة بنا ❤️.</p>
     <p class="notice-signature">JOKER PLUS | متجر الجوكر</p>
+  </section>
+</div>
+
+<!-- صفحة الأسئلة الشائعة -->
+<div id="faqPage" class="info-page" hidden>
+  <div class="packages-page-top">
+    <button class="packages-back-button" type="button" onclick="closeInfoPage()">→ رجوع للمتجر</button>
+    <div class="packages-page-brand">JOKER PLUS 🃏</div>
+  </div>
+  <section class="info-panel">
+    <h1>الأسئلة الشائعة</h1>
+    <details><summary>كيف أضيف منتجاً إلى السلة؟</summary><p>اضغط على زر «أضف إلى السلة» في بطاقة المنتج، وستظهر رسالة تأكيد الإضافة.</p></details>
+    <details><summary>كيف أزيد أو أنقص كمية المنتج؟</summary><p>استخدم زري + و− بجانب حالة «تمت الإضافة»، أو عدّل الكمية من داخل السلة.</p></details>
+    <details><summary>كيف أرسل طلبي؟</summary><p>افتح السلة وراجع المنتجات والكميات والإجمالي، ثم اضغط «إتمام الطلب عبر واتساب» لإرسال تفاصيل الطلب.</p></details>
+    <details><summary>هل يمكن حذف منتج من السلة؟</summary><p>نعم، يمكنك استخدام زر الحذف داخل السلة، أو تقليل الكمية حتى تصل إلى صفر.</p></details>
+    <details><summary>هل المنتجات الرقمية قابلة للاسترجاع؟</summary><p>يرجى مراجعة الشروط والأحكام وسياسة الاسترجاع المعروضة أسفل باقات تطبيقات بلس قبل الشراء.</p></details>
+  </section>
+</div>
+
+<!-- صفحة سياسة الاسترجاع -->
+<div id="refundPage" class="info-page" hidden>
+  <div class="packages-page-top">
+    <button class="packages-back-button" type="button" onclick="closeInfoPage()">→ رجوع للمتجر</button>
+    <div class="packages-page-brand">JOKER PLUS 🃏</div>
+  </div>
+  <section class="info-panel">
+    <h1>سياسة الاسترجاع</h1>
+    <p>لايمكن استرداد المبلغ المدفوع في هذا المنتج بسبب طبيعته وهو منتج رقمي لايمكن استرداده او استبداله ❌.</p>
+    <p>عند شرائك للمنتج انت تقر انك اطلعت على السياسات ✅.</p>
+    <p>يرجى قراءة الشروط والأحكام كاملةً أسفل باقات تطبيقات بلس قبل إتمام الشراء.</p>
   </section>
 </div>
 
@@ -2610,6 +2713,72 @@ function createPhone(section,customImage) {
   `;
 }
 
+function openInfoPage(pageId) {
+  ["storePage","packagesPage","noticePage","faqPage","refundPage"].forEach(id => {
+    const node = document.getElementById(id);
+    if(node) node.hidden = id !== pageId;
+  });
+  window.scrollTo({top:0,behavior:"instant"});
+}
+
+function closeInfoPage() {
+  ["packagesPage","noticePage","faqPage","refundPage"].forEach(id => {
+    const node = document.getElementById(id);
+    if(node) node.hidden = true;
+  });
+  document.getElementById("storePage").hidden = false;
+  window.scrollTo({top:0,behavior:"instant"});
+}
+
+let cartToastTimer = null;
+function showCartToast() {
+  const toast = document.getElementById("cartToast");
+  if(!toast) return;
+  toast.classList.add("show");
+  if(cartToastTimer) clearTimeout(cartToastTimer);
+  cartToastTimer = setTimeout(() => toast.classList.remove("show"),1900);
+}
+
+function productImageList(item) {
+  let source = item.image_urls ?? item.images ?? item.gallery ?? item.image_url ?? item.image ?? "";
+  if(typeof source === "string") {
+    const raw = source.trim();
+    if(raw.startsWith("[")) {
+      try { source = JSON.parse(raw); } catch(error) { source = raw; }
+    } else {
+      source = raw ? raw.split(/[,\\n]/).map(value => value.trim()).filter(Boolean) : [];
+    }
+  }
+  if(!Array.isArray(source)) source = source ? [source] : [];
+  return [...new Set(source.map(entry => {
+    if(typeof entry === "string") return entry.trim();
+    if(entry && typeof entry === "object") return String(entry.url || entry.image_url || entry.src || "").trim();
+    return "";
+  }).filter(url => /^https?:\/\//i.test(url) || /^data:image\//i.test(url)))];
+}
+
+function createProductGallery(item) {
+  const images = productImageList(item);
+  if(!images.length) return "";
+  const safeImages = images.map(escapeHTML);
+  return `
+    <div class="product-gallery">
+      <img class="product-gallery-main" src="${safeImages[0]}" alt="${escapeHTML(item.title || "صورة المنتج")}" loading="lazy">
+      ${safeImages.length > 1 ? `<div class="product-gallery-thumbs">
+        ${safeImages.map((url,index) => `<button class="product-gallery-thumb ${index === 0 ? "active" : ""}" type="button" data-image="${url}" aria-label="عرض الصورة ${index+1}" onclick="selectProductGalleryImage(this)"><img src="${url}" alt=""></button>`).join("")}
+      </div>` : ""}
+    </div>
+  `;
+}
+
+function selectProductGalleryImage(button) {
+  const gallery = button.closest(".product-gallery");
+  if(!gallery) return;
+  const main = gallery.querySelector(".product-gallery-main");
+  if(main) main.src = button.dataset.image || "";
+  gallery.querySelectorAll(".product-gallery-thumb").forEach(node => node.classList.toggle("active",node === button));
+}
+
 function whatsappLink(item) {
   const title = item.title || "طلب من متجر JOKER PLUS";
   const price = item.price ? " - السعر: " + item.price + " د.ك" : "";
@@ -2681,6 +2850,13 @@ function addToCartFromButton(button,event) {
   // كل ضغطة تضيف قطعة واحدة فقط؛ زيادة الكمية تتم من زر + داخل السلة.
   cartItems.push({key,title,price,quantity:1});
   saveCart();
+  showCartToast();
+  const row = button.closest(".cart-add-row");
+  if(row) {
+    row.classList.remove("cart-added-pulse");
+    void row.offsetWidth;
+    row.classList.add("cart-added-pulse");
+  }
 }
 
 function changeProductCardQuantity(button,delta) {
@@ -2777,6 +2953,7 @@ function createService(item) {
   return `
     <div class="service">
       <div class="service-title">${escapeHTML(title)}</div>
+      ${createProductGallery(item)}
       ${item.description ? `<div class="service-description">${escapeHTML(item.description)}</div>` : ""}
       ${item.price ? `<div class="price">${escapeHTML(item.price)}</div>` : ""}
       <div class="cart-add-row">
