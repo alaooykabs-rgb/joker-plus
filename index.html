@@ -1964,6 +1964,15 @@ button:focus-visible,.buy-button:focus-visible {
 .footer-links {display:flex;justify-content:center;gap:16px;flex-wrap:wrap;margin-top:12px}
 .footer-links button {border:0;background:none;color:#c49be5;font:inherit;font-size:11px;text-decoration:underline;cursor:pointer}
 #faqPage[hidden],#refundPage[hidden] {display:none!important}
+.footer-share-btn {
+  display:inline-block;margin-top:12px;padding:10px 18px;
+  border:1px solid #765296;border-radius:12px;
+  color:#f7f0ff;background:linear-gradient(135deg,#392052cc,#17101dcc);
+  box-shadow:0 8px 20px #0005,inset 0 1px 0 #ffffff20;
+  font:700 12px Arial,sans-serif;cursor:pointer;
+  -webkit-tap-highlight-color:transparent;
+}
+.footer-share-btn:active {transform:scale(.97);filter:brightness(1.15)}
 @media(max-width:480px) {
   .product-gallery-main {height:120px}
   .package-policies {padding:15px 13px}
@@ -1993,10 +2002,7 @@ button:focus-visible,.buy-button:focus-visible {
   font:700 12px Arial,sans-serif;cursor:pointer;transition:transform .18s,filter .18s;
   -webkit-tap-highlight-color:transparent;
 }
-.joker-tool-btn:active,.product-share-btn:active,.account-fab:active {transform:scale(.96);filter:brightness(1.2)}
-.account-fab {position:fixed;top:max(14px,env(safe-area-inset-top));left:14px;z-index:100005;width:48px;height:48px;padding:0;border-radius:50%;display:grid;place-items:center;font-size:21px;background:linear-gradient(145deg,#512879,#1b1027);border:1px solid #b78add;box-shadow:0 8px 24px #0009,0 0 18px #a77ad044}
-.account-fab span {font-size:0}
-.account-fab span:before {content:"👤";font-size:21px}
+.joker-tool-btn:active,.product-share-btn:active {transform:scale(.96);filter:brightness(1.2)}
 .product-share-btn {width:100%;margin-top:8px;background:linear-gradient(135deg,#241532,#17101d)}
 .product-actions {display:grid;grid-template-columns:1fr;gap:4px}
 .joker-float-support {
@@ -2033,7 +2039,7 @@ button:focus-visible,.buy-button:focus-visible {
 }
 
 @media(prefers-reduced-motion:reduce) {
- .joker-tool-btn,.product-share-btn,.joker-float-support,.account-fab {transition:none}
+ .joker-tool-btn,.product-share-btn,.joker-float-support {transition:none}
 }
 </style>
 </head>
@@ -2190,10 +2196,8 @@ button:focus-visible,.buy-button:focus-visible {
   </div>
 </section>
 
-<button class="joker-tool-btn account-fab" type="button" onclick="openAccount()" aria-label="حساب العميل" title="حساب العميل"><span>حساب العميل</span></button>
-
-<div class="joker-tools" aria-label="مشاركة المتجر">
-  <button class="joker-tool-btn" type="button" onclick="shareStore()">↗ مشاركة المتجر</button>
+<div class="joker-tools" aria-label="حساب العميل">
+  <button class="joker-tool-btn" type="button" onclick="openAccount()">👤 حساب العميل</button>
 </div>
 
 <main>
@@ -2214,6 +2218,7 @@ button:focus-visible,.buy-button:focus-visible {
     <button type="button" onclick="openInfoPage('faqPage')">الأسئلة الشائعة</button>
     <button type="button" onclick="openInfoPage('refundPage')">سياسة الاسترجاع</button>
   </div>
+  <button class="footer-share-btn" type="button" onclick="shareStore()">↗ مشاركة المتجر</button>
 </footer>
 
 </div>
