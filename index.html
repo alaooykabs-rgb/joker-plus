@@ -1431,6 +1431,47 @@ footer {text-align:center;color:#756c7c;font-size:11px;padding:25px 15px;border-
   font-size:11px;
 }
 
+
+/* صفحة إشعار عدم توفر الباقات */
+#noticePage[hidden] {display:none !important}
+#noticePage {
+  min-height:100vh;
+  padding:24px 16px 45px;
+  background:
+    radial-gradient(ellipse at 50% 15%,rgba(168,85,247,.16),transparent 48%),
+    var(--bg);
+}
+.unavailable-notice {
+  max-width:620px;
+  margin:42px auto 0;
+  padding:30px 22px;
+  text-align:center;
+  border:1px solid rgba(168,85,247,.35);
+  border-radius:22px;
+  background:linear-gradient(145deg,rgba(30,20,39,.96),rgba(13,11,17,.98));
+  box-shadow:0 18px 55px #0008,0 0 30px rgba(168,85,247,.09);
+}
+.unavailable-notice .notice-symbol {
+  font-size:42px;
+  margin-bottom:15px;
+}
+.unavailable-notice h2 {
+  color:#d8b4fe;
+  font-size:20px;
+  margin:0 0 20px;
+}
+.unavailable-notice p {
+  color:#eee7f4;
+  font-size:14px;
+  line-height:2.1;
+  margin:0 0 13px;
+}
+.unavailable-notice .notice-signature {
+  color:#d8b4fe;
+  font-weight:800;
+  margin-top:22px;
+}
+
 /* صفحة الباقات المستقلة */
 
 #storePage[hidden],
@@ -1825,6 +1866,26 @@ footer {text-align:center;color:#756c7c;font-size:11px;padding:25px 15px;border-
       <p class="loading-message">جاري تجهيز الباقات...</p>
     </div>
     <p class="package-device-note">جميع الباقات مخصصة لأجهزة الآيفون 🃏</p>
+  </section>
+</div>
+
+<!-- صفحة إشعار عدم توفر الباقات للأقسام الفارغة -->
+<div id="noticePage" hidden>
+  <div class="packages-page-top">
+    <button class="packages-back-button" type="button" onclick="backFromNotice()">
+      <span>→</span>
+      رجوع للمتجر
+    </button>
+    <div class="packages-page-brand">JOKER PLUS 🃏</div>
+  </div>
+
+  <section class="unavailable-notice" aria-label="إشعار عدم توفر الباقات">
+    <div class="notice-symbol">🃏</div>
+    <h2>عملاءنا الكرام،</h2>
+    <p>نعتذر منكم عن عدم توفر الباقات في الوقت الحالي، وذلك لأسباب خارجة عن إرادتنا.</p>
+    <p>نعمل على إعادة توفير الباقات في أقرب وقت ممكن، وسيتم الإعلان عن عودتها فور توفرها.</p>
+    <p>نشكركم على تفهمكم وثقتكم الدائمة بنا ❤️.</p>
+    <p class="notice-signature">JOKER PLUS | متجر الجوكر</p>
   </section>
 </div>
 
@@ -2319,7 +2380,9 @@ function createSection(section,items,images) {
 
   return `
     <article class="section-card section-${section.id}"
-      ${section.id === "apps" ? 'onclick="openPlusPackages(event)"' : ''}>
+      ${section.id === "apps"
+        ? 'onclick="openPlusPackages(event)"'
+        : (!sectionItems.length ? 'onclick="openUnavailableSection(event)"' : '')}>
       ${createPhone(section,sectionImage?.image_url)}
       <h3>${escapeHTML(section.name)}</h3>
       <p class="section-description">${escapeHTML(section.description)}</p>
@@ -2364,6 +2427,25 @@ function backToStore() {
     top:0,
     behavior:"instant"
   });
+}
+
+/* فتح إشعار الأقسام التي لا تحتوي على باقات أو منتجات */
+function openUnavailableSection(event) {
+  if(event && event.target.closest("a,button,summary,details")) return;
+
+  document.getElementById("storePage").hidden = true;
+  document.getElementById("packagesPage").hidden = true;
+  document.getElementById("noticePage").hidden = false;
+
+  window.scrollTo({top:0,behavior:"instant"});
+}
+
+/* الرجوع من إشعار عدم توفر الباقات */
+function backFromNotice() {
+  document.getElementById("noticePage").hidden = true;
+  document.getElementById("storePage").hidden = false;
+
+  window.scrollTo({top:0,behavior:"instant"});
 }
 
 /* إنشاء بطاقة كل باقة */
