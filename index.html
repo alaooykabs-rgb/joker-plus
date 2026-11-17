@@ -1897,6 +1897,24 @@ footer {text-align:center;color:#756c7c;font-size:11px;padding:25px 15px;border-
 }
 
 
+/* تأثير لمس موحّد على كامل المتجر */
+:where(button,a,[role="button"],summary,.section-card,.service,.package-card,.store-card,.social-platform-card,.social-instagram-card,.social-tiktok-card,.product-gallery-thumb) {
+  -webkit-tap-highlight-color:transparent;
+  touch-action:manipulation;
+  transition:transform .16s ease,filter .16s ease,box-shadow .16s ease,border-color .16s ease;
+}
+:where(button,a,[role="button"],summary,.section-card,.service,.package-card,.store-card,.social-platform-card,.social-instagram-card,.social-tiktok-card,.product-gallery-thumb):active {
+  filter:brightness(1.16);
+}
+:where(button,a,[role="button"],summary,.section-card,.service,.package-card,.store-card,.social-platform-card,.social-instagram-card,.social-tiktok-card,.product-gallery-thumb):active {
+  transform:scale(.985);
+}
+@media (prefers-reduced-motion:reduce) {
+  :where(button,a,[role="button"],summary,.section-card,.service,.package-card,.store-card,.social-platform-card,.social-instagram-card,.social-tiktok-card,.product-gallery-thumb) {
+    transition:none;
+  }
+}
+
 /* لمسات التفاعل ومعرض صور المنتجات */
 button,.buy-button,.packages-back-button { -webkit-tap-highlight-color:transparent; }
 button:active,.buy-button:active,.packages-back-button:active {
