@@ -1705,6 +1705,41 @@ footer {text-align:center;color:#756c7c;font-size:11px;padding:25px 15px;border-
   .apps-plus-apps-grid .app-icon {width:15px;height:15px}
 }
 
+
+/* تحسين قسم IPTV مع إبقاء بقية الأقسام بثلاثة أعمدة */
+@media (max-width:700px) {
+  .section-iptv {
+    grid-column:1 / -1;
+  }
+  .section-iptv .tv-stage {
+    height:235px;
+  }
+  .section-iptv .tv-set {
+    width:min(285px,90%);
+  }
+}
+
+@media (max-width:390px) {
+  .section-iptv .tv-stage {
+    height:220px;
+  }
+  .section-iptv .tv-set {
+    width:min(270px,90%);
+  }
+}
+
+/* منع قص صور قنوات IPTV؛ تبقى الصور كاملة داخل كل مربع */
+.tv-channel.sports,
+.tv-channel.cinema,
+.tv-channel.news,
+.tv-channel.series,
+.tv-channel.kids,
+.tv-channel.live {
+  background-size:100% 100%,contain !important;
+  background-position:center,center !important;
+  background-repeat:no-repeat !important;
+}
+
 </style>
 </head>
 
