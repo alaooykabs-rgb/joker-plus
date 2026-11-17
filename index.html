@@ -3148,7 +3148,7 @@ async function loadCustomerOrders() {
     }).join("");
   } catch(error) {
     console.warn("JOKER PLUS orders:",error);
-    container.innerHTML = '<p class="account-hint">تعذر تحميل الطلبات. تأكد من وجود جدول orders وربطه بحساب العميل في Supabase.</p>';
+    container.innerHTML = '<p class="account-hint">تعذر تحميل الطلبات.<br><small dir="ltr">' + escapeHTML(String((error && (error.message || error.code)) || error)) + '</small></p>';
   }
 }
 
