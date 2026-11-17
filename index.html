@@ -898,6 +898,34 @@ main {
   50% {opacity:1;transform:scale(1.5)}
 }
 
+/* شبكة التطبيقات العشرين أسفل مجسم APP+ */
+.apps-plus-apps-grid {
+  display:grid;
+  grid-template-columns:repeat(5,minmax(0,1fr));
+  gap:9px 4px;
+  justify-items:center;
+  align-items:start;
+  padding:10px 4px 5px;
+  border-top:1px solid #c49be522;
+  margin-top:3px;
+}
+.apps-plus-apps-grid .app-item {width:100%;min-width:0}
+.apps-plus-apps-grid .app-icon {
+  width:clamp(17px,4vw,30px);
+  height:clamp(17px,4vw,30px);
+  border-radius:8px;
+  border:1px solid #59416c;
+  background:linear-gradient(145deg,#21182b,#100d16);
+}
+.apps-plus-apps-grid .app-icon.app-icon-light {background:#fff}
+.apps-plus-apps-grid .app-name {
+  max-width:100%;
+  font-size:clamp(5px,1.25vw,8px);
+  overflow:hidden;
+  text-overflow:ellipsis;
+  margin-top:3px;
+}
+
 /* مجسمات 3D مخصصة لتطبيقات بلس وأكواد سناب */
 
 .apps-plus-stage,
@@ -957,17 +985,17 @@ main {
 .apps-plus-main strong span {color:#e2bfff;font-size:23px}
 
 .apps-plus-mini {
-  width:58px;height:58px;position:absolute;border-radius:17px;
+  width:50px;height:50px;position:absolute;border-radius:15px;
   display:flex;align-items:center;justify-content:center;
   border:1px solid #ffffff66;box-shadow:0 12px 22px #000b,0 0 18px #a77ad044;
   animation:socialBubbleFloat 3.8s ease-in-out infinite;
 }
 .apps-plus-mini img {width:34px;height:34px;object-fit:contain;filter:drop-shadow(0 3px 5px #0008)}
-.apps-plus-mini.one {left:calc(50% - 126px);top:calc(50% - 74px);background:#fffc00;transform:rotate(-12deg)}
-.apps-plus-mini.two {right:calc(50% - 126px);top:calc(50% - 75px);background:#050505;transform:rotate(12deg);animation-delay:-1s}
-.apps-plus-mini.three {left:calc(50% - 119px);bottom:calc(50% - 75px);background:#1b9d58;transform:rotate(9deg);animation-delay:-1.7s}
-.apps-plus-mini.four {right:calc(50% - 119px);bottom:calc(50% - 75px);background:#e62117;transform:rotate(-9deg);animation-delay:-.7s}
-.apps-plus-orbit {position:absolute;width:225px;height:135px;border:1px solid #c49be544;border-radius:50%;transform:rotateX(66deg) rotateZ(-12deg);box-shadow:0 0 25px #a77ad033}
+.apps-plus-mini.one {left:calc(50% - 90px);top:calc(50% - 58px);background:#fffc00;transform:rotate(-12deg)}
+.apps-plus-mini.two {right:calc(50% - 90px);top:calc(50% - 58px);background:#050505;transform:rotate(12deg);animation-delay:-1s}
+.apps-plus-mini.three {left:calc(50% - 88px);bottom:calc(50% - 58px);background:#1b9d58;transform:rotate(9deg);animation-delay:-1.7s}
+.apps-plus-mini.four {right:calc(50% - 88px);bottom:calc(50% - 58px);background:#e62117;transform:rotate(-9deg);animation-delay:-.7s}
+.apps-plus-orbit {position:absolute;width:170px;height:105px;border:1px solid #c49be544;border-radius:50%;transform:rotateX(66deg) rotateZ(-12deg);box-shadow:0 0 25px #a77ad033}
 .apps-plus-spark {position:absolute;color:#e4c5ff;font-size:20px;text-shadow:0 0 13px #c49be5;animation:socialMiniHeart 3s ease-in-out infinite}
 .apps-plus-spark.one {left:25%;top:22%}.apps-plus-spark.two {right:25%;bottom:20%;animation-delay:-1.2s}
 
@@ -983,21 +1011,21 @@ main {
 .snap-plus-main img {width:68px;height:68px;object-fit:contain;filter:drop-shadow(0 5px 7px #0006);position:relative;z-index:2}
 .snap-plus-main strong {font-size:14px;letter-spacing:1.5px;color:#171400;text-shadow:0 1px 0 #fff8;position:relative;z-index:2}
 .snap-plus-badge {
-  position:absolute;right:calc(50% - 112px);top:calc(50% - 79px);
+  position:absolute;right:calc(50% - 94px);top:calc(50% - 68px);
   width:57px;height:57px;border-radius:18px;display:flex;align-items:center;justify-content:center;
   background:linear-gradient(145deg,#332047,#100b18);border:1px solid #c49be5;
   color:#e4c5ff;font-size:25px;font-weight:900;box-shadow:0 12px 22px #000b,0 0 20px #a77ad055;
   transform:rotate(12deg);animation:socialBubbleFloat 3.8s ease-in-out infinite;
 }
 .snap-plus-code {
-  position:absolute;left:calc(50% - 113px);bottom:calc(50% - 77px);
+  position:absolute;left:calc(50% - 94px);bottom:calc(50% - 68px);
   width:62px;height:62px;border-radius:18px;display:flex;align-items:center;justify-content:center;
   background:linear-gradient(145deg,#6c3c94,#241032);border:1px solid #d5b1f2;
   color:#fff;font-size:12px;font-weight:900;letter-spacing:1px;
   box-shadow:0 12px 22px #000b,0 0 20px #a77ad055;transform:rotate(-11deg);
   animation:socialBubbleFloat 3.8s ease-in-out infinite;animation-delay:-1.2s;
 }
-.snap-plus-orbit {position:absolute;width:225px;height:135px;border:1px solid #fffc0055;border-radius:50%;transform:rotateX(66deg) rotateZ(-12deg);box-shadow:0 0 25px #fffc0022}
+.snap-plus-orbit {position:absolute;width:190px;height:115px;border:1px solid #fffc0055;border-radius:50%;transform:rotateX(66deg) rotateZ(-12deg);box-shadow:0 0 25px #fffc0022}
 .snap-plus-star {position:absolute;color:#fffc00;font-size:20px;text-shadow:0 0 13px #fffc00;animation:socialMiniHeart 3s ease-in-out infinite}
 .snap-plus-star.one {left:25%;top:20%}.snap-plus-star.two {right:24%;bottom:20%;animation-delay:-1.3s}
 
@@ -1601,16 +1629,21 @@ footer {text-align:center;color:#756c7c;font-size:11px;padding:25px 15px;border-
   }
   .apps-plus-object,
   .snap-plus-object {
-    transform:scale(.55);
+    transform:scale(.58);
     transform-origin:center center;
   }
+  .apps-plus-apps-grid {gap:7px 2px;padding:8px 2px 4px}
+  .apps-plus-apps-grid .app-icon {width:clamp(15px,4.2vw,22px);height:clamp(15px,4.2vw,22px)}
+  .apps-plus-apps-grid .app-name {font-size:5px}
 }
 
 @media (max-width:390px) {
   .apps-plus-object,
   .snap-plus-object {
-    transform:scale(.48);
+    transform:scale(.52);
   }
+  .apps-plus-apps-grid {gap:6px 1px}
+  .apps-plus-apps-grid .app-icon {width:15px;height:15px}
 }
 
 </style>
@@ -1811,18 +1844,26 @@ const sectionsData = [
     name:"تطبيقات بلس",
     description:"أفضل التطبيقات والخدمات المميزة",
     apps:[
-      ["Instagram","instagram"],
-      ["Snapchat","snapchat"],
       ["TikTok","tiktok"],
-      ["Spotify","spotify"],
+      ["Snapchat","snapchat"],
       ["YouTube","youtube"],
       ["WhatsApp","whatsapp"],
+      ["Instagram","instagram"],
+      ["Spotify","spotify"],
       ["Telegram","telegram"],
       ["Netflix","netflix"],
       ["Facebook","facebook"],
       ["Discord","discord"],
       ["Pinterest","pinterest"],
-      ["Twitter","x"]
+      ["X","x"],
+      ["Twitch","twitch"],
+      ["Reddit","reddit"],
+      ["CapCut","capcut"],
+      ["Canva","canva"],
+      ["Zoom","zoom"],
+      ["Gmail","gmail"],
+      ["Google Drive","googledrive"],
+      ["Google Maps","googlemaps"]
     ]
   },
   {
@@ -2081,6 +2122,9 @@ function createPhone(section,customImage) {
           <span class="apps-plus-spark one">✦</span>
           <span class="apps-plus-spark two">✧</span>
         </div>
+      </div>
+      <div class="apps-plus-apps-grid" aria-label="20 تطبيقاً متوفراً">
+        ${section.apps.map(app => createAppIcon(app,section.id)).join("")}
       </div>
     `;
   }
