@@ -1814,6 +1814,79 @@ footer {text-align:center;color:#756c7c;font-size:11px;padding:25px 15px;border-
   background-repeat:no-repeat !important;
 }
 
+
+
+/* سلة مشتريات JOKER PLUS */
+[hidden] {display:none !important}
+.cart-fab {
+  position:fixed;left:18px;bottom:18px;z-index:9000;
+  display:flex;align-items:center;gap:9px;
+  padding:12px 16px;border:1px solid #8d61b3;border-radius:999px;
+  color:#fff;background:linear-gradient(120deg,#35105c,#67369a);
+  box-shadow:0 8px 28px #0009,0 0 18px #8b54b744;
+  font-size:13px;font-weight:800;cursor:pointer;
+}
+.cart-fab:active {transform:scale(.96)}
+.cart-count {
+  min-width:22px;height:22px;padding:0 6px;border-radius:50px;
+  display:grid;place-items:center;background:#a6192e;color:#fff;font-size:11px;
+}
+.cart-backdrop {
+  position:fixed;inset:0;z-index:100000;background:#050308c9;
+  display:flex;align-items:flex-end;justify-content:center;padding:14px;
+  backdrop-filter:blur(5px);
+}
+.cart-panel {
+  width:min(100%,520px);max-height:min(82vh,720px);overflow:hidden;
+  display:flex;flex-direction:column;border:1px solid #654184;border-radius:22px;
+  background:linear-gradient(145deg,#1b1026,#0c0911 70%);
+  box-shadow:0 22px 70px #000b;
+}
+.cart-head {
+  display:flex;align-items:center;justify-content:space-between;
+  padding:17px 18px;border-bottom:1px solid #33233f;
+}
+.cart-head h2 {margin:0;font-size:17px;color:#fff}
+.cart-close {
+  width:34px;height:34px;border:1px solid #493457;border-radius:50%;
+  color:#fff;background:#21142c;font-size:20px;cursor:pointer;
+}
+.cart-items {overflow:auto;padding:8px 16px;min-height:80px}
+.cart-row {
+  display:grid;grid-template-columns:minmax(0,1fr) auto;gap:10px;
+  align-items:center;padding:13px 2px;border-bottom:1px solid #2a2230;
+}
+.cart-product-name {font-size:13px;font-weight:800;color:#fff;line-height:1.6}
+.cart-product-price {font-size:11px;color:#c7a4e5;margin-top:4px}
+.cart-controls {display:flex;align-items:center;gap:7px}
+.cart-qty-btn,.cart-remove {
+  width:29px;height:29px;border:1px solid #51386a;border-radius:9px;
+  background:#24142f;color:#fff;font-size:17px;cursor:pointer;
+}
+.cart-qty {min-width:18px;text-align:center;font-size:12px;font-weight:bold}
+.cart-remove {font-size:13px;color:#ff9ba7;border-color:#69313b}
+.cart-empty {padding:28px 8px;text-align:center;color:#a99caf;font-size:13px}
+.cart-foot {padding:15px 17px;border-top:1px solid #33233f;background:#100b17}
+.cart-total {display:flex;justify-content:space-between;align-items:center;margin-bottom:13px;font-size:14px;font-weight:800}
+.cart-total strong {color:#d7b4f4;font-size:17px}
+.cart-checkout {
+  display:block;width:100%;padding:13px;border:0;border-radius:12px;
+  background:linear-gradient(100deg,#35105c,#6a3998);color:#fff;
+  font-size:13px;font-weight:800;cursor:pointer;
+}
+.cart-checkout:disabled {opacity:.4;cursor:not-allowed}
+.add-cart-button {
+  width:100%;margin-top:8px;padding:10px 9px;border:1px solid #76529a;
+  border-radius:10px;background:linear-gradient(110deg,#21122e,#39204f);
+  color:#eadcf7;font-size:12px;font-weight:800;cursor:pointer;transition:.18s;
+}
+.add-cart-button:active {transform:scale(.97);background:#512779}
+@media(max-width:480px) {
+  .cart-fab {left:12px;bottom:12px;padding:11px 14px}
+  .cart-backdrop {padding:8px}
+  .cart-panel {max-height:86vh;border-radius:19px}
+}
+
 </style>
 </head>
 
@@ -1973,6 +2046,28 @@ footer {text-align:center;color:#756c7c;font-size:11px;padding:25px 15px;border-
 
 </div>
 <!-- نهاية محتوى المتجر الرئيسي -->
+
+
+<!-- سلة المشتريات -->
+<button class="cart-fab" id="cartFab" type="button" onclick="openCart()" aria-label="فتح سلة المشتريات">
+  <span>🛒 السلة</span><span class="cart-count" id="cartCount">0</span>
+</button>
+
+<div class="cart-backdrop" id="cartBackdrop" hidden onclick="closeCart(event)">
+  <section class="cart-panel" role="dialog" aria-modal="true" aria-labelledby="cartTitle" onclick="event.stopPropagation()">
+    <div class="cart-head">
+      <h2 id="cartTitle">سلة المشتريات</h2>
+      <button class="cart-close" type="button" onclick="closeCart()" aria-label="إغلاق">×</button>
+    </div>
+    <div class="cart-items" id="cartItems">
+      <div class="cart-empty">السلة فارغة حالياً</div>
+    </div>
+    <div class="cart-foot">
+      <div class="cart-total"><span>الإجمالي</span><strong id="cartTotal">0.00 د.ك</strong></div>
+      <button class="cart-checkout" id="cartCheckout" type="button" onclick="checkoutCart()" disabled>إرسال الطلب عبر واتساب</button>
+    </div>
+  </section>
+</div>
 
 <!-- صفحة الباقات المستقلة -->
 <div id="packagesPage" hidden>
@@ -2513,13 +2608,144 @@ function whatsappLink(item) {
   return "https://wa.me/" + WHATSAPP_NUMBER + "?text=" + encodeURIComponent(message);
 }
 
+/* نظام سلة المشتريات */
+const CART_STORAGE_KEY = "jokerPlusCartV1";
+let cartItems = [];
+
+function readCart() {
+  try {
+    const saved = JSON.parse(localStorage.getItem(CART_STORAGE_KEY) || "[]");
+    cartItems = Array.isArray(saved) ? saved.filter(item =>
+      item && typeof item.title === "string" && Number(item.quantity) > 0
+    ) : [];
+  } catch(error) {
+    cartItems = [];
+  }
+}
+
+function saveCart() {
+  try { localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(cartItems)); } catch(error) {}
+  renderCart();
+}
+
+function cartPrice(value) {
+  const normalized = String(value ?? "").replace(/[^0-9.]/g,"");
+  const amount = Number.parseFloat(normalized);
+  return Number.isFinite(amount) ? amount : 0;
+}
+
+function addToCartFromButton(button,event) {
+  if(event) event.stopPropagation();
+  const title = button.dataset.title || "منتج من JOKER PLUS";
+  const price = button.dataset.price || "";
+  const productId = button.dataset.productId || "";
+  const key = productId || (title + "|" + price);
+  const existing = cartItems.find(item => item.key === key);
+  if(existing) existing.quantity += 1;
+  else cartItems.push({key,title,price,quantity:1});
+  saveCart();
+  const oldText = button.textContent;
+  button.textContent = "✓ تمت الإضافة";
+  button.classList.add("is-added");
+  window.setTimeout(() => {
+    if(button.isConnected) {
+      button.textContent = oldText;
+      button.classList.remove("is-added");
+    }
+  },1100);
+}
+
+function renderCart() {
+  const count = cartItems.reduce((sum,item) => sum + Number(item.quantity || 0),0);
+  const countNode = document.getElementById("cartCount");
+  const itemsNode = document.getElementById("cartItems");
+  const totalNode = document.getElementById("cartTotal");
+  const checkoutNode = document.getElementById("cartCheckout");
+  if(countNode) countNode.textContent = count;
+  if(!itemsNode || !totalNode || !checkoutNode) return;
+
+  if(!cartItems.length) {
+    itemsNode.innerHTML = '<div class="cart-empty">السلة فارغة حالياً<br>أضف المنتجات التي ترغب بها 🛒</div>';
+  } else {
+    itemsNode.innerHTML = cartItems.map((item,index) => `
+      <div class="cart-row">
+        <div>
+          <div class="cart-product-name">${escapeHTML(item.title)}</div>
+          <div class="cart-product-price">${escapeHTML(item.price || "السعر عند الطلب")} ${item.price ? "د.ك للقطعة" : ""}</div>
+        </div>
+        <div class="cart-controls">
+          <button class="cart-qty-btn" type="button" aria-label="زيادة الكمية" onclick="changeCartQuantity(${index},1)">+</button>
+          <span class="cart-qty">${Number(item.quantity)}</span>
+          <button class="cart-qty-btn" type="button" aria-label="تقليل الكمية" onclick="changeCartQuantity(${index},-1)">−</button>
+          <button class="cart-remove" type="button" aria-label="حذف المنتج" onclick="removeCartItem(${index})">×</button>
+        </div>
+      </div>
+    `).join("");
+  }
+
+  const total = cartItems.reduce((sum,item) => sum + cartPrice(item.price) * Number(item.quantity || 0),0);
+  totalNode.textContent = total.toFixed(2) + " د.ك";
+  checkoutNode.disabled = !cartItems.length;
+}
+
+function changeCartQuantity(index,delta) {
+  if(!cartItems[index]) return;
+  cartItems[index].quantity += delta;
+  if(cartItems[index].quantity <= 0) cartItems.splice(index,1);
+  saveCart();
+}
+
+function removeCartItem(index) {
+  cartItems.splice(index,1);
+  saveCart();
+}
+
+function openCart() {
+  const backdrop = document.getElementById("cartBackdrop");
+  if(backdrop) {
+    renderCart();
+    backdrop.hidden = false;
+    document.body.style.overflow = "hidden";
+  }
+}
+
+function closeCart(event) {
+  if(event && event.target !== event.currentTarget) return;
+  const backdrop = document.getElementById("cartBackdrop");
+  if(backdrop) backdrop.hidden = true;
+  document.body.style.overflow = "";
+}
+
+function checkoutCart() {
+  if(!cartItems.length) return;
+  const lines = cartItems.map(item =>
+    "• " + item.title + " × " + item.quantity +
+    (item.price ? " - " + item.price + " د.ك" : " - السعر عند الطلب")
+  );
+  const total = cartItems.reduce((sum,item) => sum + cartPrice(item.price) * Number(item.quantity || 0),0);
+  const message = "السلام عليكم، أريد طلب المنتجات التالية من JOKER PLUS:\n\n" +
+    lines.join("\n") + "\n\nالإجمالي التقريبي: " + total.toFixed(2) +
+    " د.ك\nيرجى تأكيد توفر المنتجات والإجمالي النهائي.";
+  const url = "https://wa.me/" + WHATSAPP_NUMBER + "?text=" + encodeURIComponent(message);
+  window.open(url,"_blank","noopener,noreferrer");
+}
+
 function createService(item) {
+  const title = String(item.title || "منتج من JOKER PLUS");
+  const price = String(item.price ?? "");
   return `
     <div class="service">
-      <div class="service-title">${escapeHTML(item.title)}</div>
+      <div class="service-title">${escapeHTML(title)}</div>
       ${item.description ? `<div class="service-description">${escapeHTML(item.description)}</div>` : ""}
       ${item.price ? `<div class="price">${escapeHTML(item.price)}</div>` : ""}
-      <a class="buy-button" href="${whatsappLink(item)}" target="_blank" rel="noopener noreferrer">
+      <button class="add-cart-button" type="button"
+        data-title="${escapeHTML(title)}"
+        data-price="${escapeHTML(price)}"
+        data-product-id="${escapeHTML(String(item.id ?? ""))}"
+        onclick="addToCartFromButton(this,event)">
+        ＋ أضف إلى السلة
+      </button>
+      <a class="buy-button" style="margin-top:8px" href="${whatsappLink(item)}" target="_blank" rel="noopener noreferrer">
         اطلب الآن عبر واتساب
       </a>
     </div>
@@ -2697,6 +2923,8 @@ window.addEventListener("load",function() {
   },3200);
 });
 
+readCart();
+renderCart();
 loadPackages();
 loadStore();
 </script>
