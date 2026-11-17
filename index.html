@@ -1029,134 +1029,68 @@ main {
 .snap-plus-star {position:absolute;color:#fffc00;font-size:20px;text-shadow:0 0 13px #fffc00;animation:socialMiniHeart 3s ease-in-out infinite}
 .snap-plus-star.one {left:25%;top:20%}.snap-plus-star.two {right:24%;bottom:20%;animation-delay:-1.3s}
 
-/* مجسم يد تحكم لقسم عالم الألعاب */
-
+/* صورة واضحة لقسم عالم الألعاب */
 .game-zone-stage {
   width:100%;
-  height:285px;
+  min-height:210px;
   display:flex;
+  flex-direction:column;
   align-items:center;
   justify-content:center;
+  gap:9px;
   position:relative;
   overflow:hidden;
   isolation:isolate;
-  perspective:1000px;
   background:
-    radial-gradient(ellipse at 50% 50%,#2455a855,transparent 65%),
-    radial-gradient(ellipse at 20% 70%,#7b35b533,transparent 48%);
+    radial-gradient(ellipse at 50% 48%,#286bd966,transparent 62%),
+    linear-gradient(145deg,#101a30,#090d18 72%);
+  border-radius:18px;
 }
 .game-zone-stage::before {
   content:"";
   position:absolute;
-  width:190px;
-  height:190px;
+  width:145px;
+  height:145px;
   border-radius:50%;
-  background:#3679d9;
-  filter:blur(65px);
-  opacity:.35;
-  animation:socialAura 4s ease-in-out infinite;
+  background:#3985ff;
+  filter:blur(48px);
+  opacity:.34;
 }
-.game-zone-orbit {
-  position:absolute;
-  width:205px;
-  height:110px;
-  border:1px solid #79aaff66;
-  border-radius:50%;
-  transform:rotateX(65deg) rotateZ(-12deg);
-  box-shadow:0 0 25px #438bff33,inset 0 0 20px #438bff22;
-}
-.game-zone-controller {
-  width:190px;
-  height:118px;
+.game-zone-hero-icon {
   position:relative;
-  z-index:2;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  padding:0 24px;
-  border-radius:42px 42px 34px 34px;
-  border:1px solid #b8d3ff99;
-  background:linear-gradient(145deg,#526b91 0%,#202b43 38%,#101725 75%,#344967 100%);
-  box-shadow:0 20px 30px #000b,0 0 30px #438bff66,inset 0 3px 5px #ffffff55,inset 0 -8px 14px #0008;
-  transform:rotateY(-12deg) rotateX(8deg) rotateZ(-5deg);
-  animation:socialCardFloat 4.5s ease-in-out infinite;
-}
-.game-zone-controller::before,
-.game-zone-controller::after {
-  content:"";
-  position:absolute;
-  bottom:-12px;
-  width:43px;
-  height:35px;
-  border-radius:0 0 22px 22px;
-  background:linear-gradient(90deg,#111827,#344967,#111827);
-  z-index:-1;
-}
-.game-zone-controller::before {left:25px;transform:rotate(8deg)}
-.game-zone-controller::after {right:25px;transform:rotate(-8deg)}
-.game-zone-dpad {
-  width:43px;
-  height:43px;
-  position:relative;
-}
-.game-zone-dpad::before,
-.game-zone-dpad::after {
-  content:"";
-  position:absolute;
-  left:50%;
-  top:50%;
-  transform:translate(-50%,-50%);
-  border-radius:4px;
-  background:linear-gradient(145deg,#e6efff,#7e91ad);
-  box-shadow:0 2px 5px #0009;
-}
-.game-zone-dpad::before {width:14px;height:43px}
-.game-zone-dpad::after {width:43px;height:14px}
-.game-zone-buttons {
-  width:48px;
-  height:48px;
-  position:relative;
-}
-.game-zone-buttons i {
-  position:absolute;
-  width:13px;
-  height:13px;
-  border-radius:50%;
-  box-shadow:0 2px 5px #0009,inset 0 1px 2px #ffffff88;
-}
-.game-zone-buttons i:nth-child(1) {top:0;left:17px;background:#e75c76}
-.game-zone-buttons i:nth-child(2) {right:0;top:17px;background:#62a5ff}
-.game-zone-buttons i:nth-child(3) {bottom:0;left:17px;background:#6ed49a}
-.game-zone-buttons i:nth-child(4) {left:0;top:17px;background:#e5c66a}
-.game-zone-center {
-  position:absolute;
-  left:50%;
-  top:50%;
-  transform:translate(-50%,-50%);
-  color:#dceaff;
-  font-size:10px;
-  font-weight:900;
-  letter-spacing:1px;
-  text-shadow:0 0 12px #8dbbff;
-}
-.game-zone-chip {
-  position:absolute;
-  z-index:3;
-  width:42px;
-  height:42px;
+  z-index:1;
+  width:clamp(76px,72%,132px);
+  aspect-ratio:1;
   display:flex;
   align-items:center;
   justify-content:center;
-  border-radius:13px;
-  border:1px solid #a9caffaa;
-  background:linear-gradient(145deg,#344f79,#121d31);
-  color:#fff;
-  font-size:21px;
-  box-shadow:0 10px 20px #000b,0 0 18px #438bff55;
-  animation:socialBubbleFloat 3.8s ease-in-out infinite;
+  border-radius:28px;
+  font-size:clamp(48px,13vw,78px);
+  line-height:1;
+  background:linear-gradient(145deg,#263f68,#111b30);
+  border:1px solid #9bc5ff99;
+  box-shadow:0 14px 28px #000b,0 0 30px #438bff66,inset 0 2px 5px #ffffff33;
+  text-shadow:0 5px 12px #0009;
+  animation:socialCardFloat 4.5s ease-in-out infinite;
 }
-.game-zone-chip.one {left:calc(50% - 115px);top:65px;transform:rotate(-12deg)}
-.game-zone-chip.two {right:calc(50% - 115px);bottom:60px;transform:rotate(12deg);animation-delay:-1.2s}
+.game-zone-title {
+  position:relative;
+  z-index:1;
+  color:#e7f1ff;
+  font-size:clamp(11px,2.7vw,15px);
+  font-weight:900;
+  letter-spacing:1.4px;
+  text-shadow:0 0 12px #438bff;
+  text-align:center;
+}
+.game-zone-subtitle {
+  position:relative;
+  z-index:1;
+  color:#91b9f2;
+  font-size:10px;
+  font-weight:700;
+  text-align:center;
+}
 
 /* بطاقات PlayStation */
 
@@ -2461,14 +2395,9 @@ function createPhone(section,customImage) {
   if(section.id === "gamezone") {
     return `
       <div class="game-zone-stage">
-        <div class="game-zone-orbit"></div>
-        <div class="game-zone-chip one">🎮</div>
-        <div class="game-zone-controller">
-          <div class="game-zone-dpad"></div>
-          <div class="game-zone-center">JOKER</div>
-          <div class="game-zone-buttons"><i></i><i></i><i></i><i></i></div>
-        </div>
-        <div class="game-zone-chip two">★</div>
+        <div class="game-zone-hero-icon" aria-label="ألعاب">🎮</div>
+        <div class="game-zone-title">GAMING ZONE</div>
+        <div class="game-zone-subtitle">JOKER PLUS</div>
       </div>
     `;
   }
