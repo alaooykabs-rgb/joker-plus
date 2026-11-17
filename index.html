@@ -2004,9 +2004,6 @@ button:focus-visible,.buy-button:focus-visible {
   justify-content:flex-start;
   gap:9px;
   flex-wrap:wrap;
-  transform:translate3d(0,0,0);
-  -webkit-transform:translate3d(0,0,0);
-  will-change:transform;
   pointer-events:auto;
 }
 /* زر الحساب ثابت أعلى اليسار، ويبقى خلف شاشة اللوجو الافتتاحية */
@@ -2052,11 +2049,7 @@ button:focus-visible,.buy-button:focus-visible {
 .account-actions .account-secondary {background:#21172b}
 .account-status {min-height:24px;color:#e4c5ff}
 @media(max-width:480px) {
- .joker-tools {
-   top:calc(env(safe-area-inset-top, 0px) + 10px) !important;
-   left:calc(env(safe-area-inset-left, 0px) + 10px) !important;
-   right:auto !important;bottom:auto !important;gap:7px;
- }
+ .joker-tools {gap:7px}
  .joker-tool-btn {font-size:11px;padding:10px}
  .joker-float-support {left:10px;bottom:12px;padding:11px 13px;font-size:12px}
 }
@@ -2109,6 +2102,11 @@ button:focus-visible,.buy-button:focus-visible {
   }, { once: true });
 })();
 </script>
+
+<!-- زر الحساب خارج حاوية المتجر حتى يبقى ثابتاً أثناء التمرير على iPhone و iPad -->
+<div class="joker-tools" id="jokerAccountButton" aria-label="حساب العميل">
+  <button class="joker-tool-btn" type="button" onclick="openAccount()">👤 حساب العميل</button>
+</div>
 
 <!-- محتوى المتجر الرئيسي -->
 <div id="storePage">
@@ -2219,9 +2217,7 @@ button:focus-visible,.buy-button:focus-visible {
   </div>
 </section>
 
-<div class="joker-tools" aria-label="حساب العميل">
-  <button class="joker-tool-btn" type="button" onclick="openAccount()">👤 حساب العميل</button>
-</div>
+
 
 <main>
   <div class="section-heading">
