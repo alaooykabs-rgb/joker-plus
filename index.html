@@ -4034,16 +4034,31 @@ function checkoutCart() {
   })();
 }
 
-function createService(item) {
+function createService(item,opts) {
+  const compact = !!(opts && opts.compact);
   const title = String(item.title || "منتج من JOKER PLUS");
   const price = String(item.price ?? "");
   return `
     <div class="service" id="product-${escapeHTML(String(item.id ?? title))}" data-product-id="${escapeHTML(String(item.id ?? ""))}">
       <div class="service-title">${escapeHTML(title)}</div>
-      ${createProductGallery(item)}
+      ${compact ? "" : createProductGallery(item)}
       ${item.description ? `<div class="service-description">${escapeHTML(item.description)}</div>` : ""}
       ${item.price ? `<div class="price">${escapeHTML(item.price)}</div>` : ""}
-      ${item.available === false ? `<div class="cart-add-row"><button class="add-cart-button unavailable-btn" type="button" disabled>غير متوفر حالياً</button></div>` : `      <div class="cart-add-row">
+      ${item.available === false ? `<div class="cart-add-row"><button class="add-cart-button unavailable-btn" type="button" disabled>غير متوفر حالياً</button></div>` : (compact ? `
+      <div class="cart-add-row">
+        <div class="card-qty-picker" aria-label="تعديل كمية المنتج">
+          <button type="button" aria-label="زيادة منتج" onclick="changeProductCardQuantity(this,1)">+</button>
+          <span class="card-qty-value">1</span>
+          <button type="button" aria-label="تنقيص منتج" onclick="changeProductCardQuantity(this,-1)">−</button>
+        </div>
+        <button class="add-cart-button" type="button"
+          data-title="${escapeHTML(title)}"
+          data-price="${escapeHTML(price)}"
+          data-product-id="${escapeHTML(String(item.id ?? ""))}"
+          onclick="addToCartFromButton(this,event)">
+          ＋ أضف إلى السلة
+        </button>
+      </div>` : `      <div class="cart-add-row">
         <button class="add-cart-button" type="button"
           data-title="${escapeHTML(title)}"
           data-price="${escapeHTML(price)}"
@@ -4059,7 +4074,7 @@ function createService(item) {
       </div>
       <a class="buy-button" style="margin-top:8px" href="${whatsappLink(item)}" target="_blank" rel="noopener noreferrer" onclick="return orderLinkClick(event)">
         اطلب الآن عبر واتساب
-      </a>`}
+      </a>`)}
       <button class="product-share-btn" type="button"
         data-product-id="${escapeHTML(String(item.id ?? ""))}"
         data-product-title="${escapeHTML(title)}"
@@ -4588,7 +4603,7 @@ function openStoreRegionItems(code) {
   if(title) title.textContent = region ? "PSN - " + region.name + " | " + region.ar : "كل أكواد الستور";
   if(box) {
     box.innerHTML = list.length
-      ? list.map(createService).join("")
+      ? list.map(function(item){return createService(item,{compact:true});}).join("")
       : '<p class="account-hint">لا توجد منتجات لهذه المنطقة حالياً. تواصل مع الدعم الفني لو تحتاج كود.</p>';
     optimizeStoreImages(box);
   }
