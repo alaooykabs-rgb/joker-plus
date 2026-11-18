@@ -4594,7 +4594,7 @@ const PSN_USA_PRODUCTS = [
   {id:"psn-usa-100-a",amount:100,title:"PlayStation Gift Card USA Store USD 100",price:"30.71",available:true},
   {id:"psn-usa-100-b",amount:100,title:"PlayStation Gift Card USA Store USD 100",price:"30.78",available:false}
 ].map(function(item) {
-  return Object.assign({section_key:"store",description:""},item,{image_url:createPSNUSACardArtwork(item.amount)});
+  return Object.assign({section_key:"store",description:""},item,{image_url:"https://raw.githubusercontent.com/alaooykabs-rgb/joker-plus/main/assets/psn-usa-" + String(item.amount) + ".svg"});
 });
 
 function renderRegionGrid() {
