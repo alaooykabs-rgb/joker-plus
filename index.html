@@ -2430,6 +2430,37 @@ body {padding-bottom:calc(76px + env(safe-area-inset-bottom,0px))}
 .admin-status-btn {border:1px solid #765296;border-radius:10px;padding:9px 4px;background:#21172b;color:#fff;font:700 11px Arial,sans-serif;cursor:pointer}
 .admin-status-btn.active {background:#54247a;border-color:#c49be5;box-shadow:0 0 12px #a77ad066}
 .admin-status-btn:disabled {opacity:.6}
+
+/* ===== مناطق أكواد ستور ===== */
+.region-grid {display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin:14px 0}
+.region-card {
+  display:flex;flex-direction:column;align-items:center;gap:8px;
+  padding:18px 8px 14px;
+  border:1px solid #563873;border-radius:18px;
+  background:linear-gradient(160deg,#1b1026,#12091c);
+  box-shadow:0 10px 25px #0006,inset 0 1px 0 #ffffff12;
+  color:#fff;cursor:pointer;-webkit-tap-highlight-color:transparent;
+  transition:transform .15s,border-color .2s;
+}
+.region-card:active {transform:scale(.96);border-color:#c49be5}
+.region-orb {
+  position:relative;width:84px;height:84px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  background:radial-gradient(circle at 30% 25%,#4a2a72,#12091c 75%);
+  border:2px solid #8d61b3;box-shadow:0 0 22px #a77ad044;
+  font-size:46px;line-height:1;
+}
+.region-orb small {
+  position:absolute;bottom:-6px;left:50%;transform:translateX(-50%);
+  padding:1px 8px;border-radius:999px;background:#54247a;border:1px solid #c49be5;
+  color:#fff;font:800 10px/16px Arial,sans-serif;letter-spacing:.5px;
+}
+.region-name {font:800 14px Arial,sans-serif;direction:ltr;margin-top:6px}
+.region-ar {font:700 12px Arial,sans-serif;color:#bdb0c8}
+.region-all-btn {
+  width:100%;margin-top:4px;padding:13px;border:1px solid #8057a4;border-radius:13px;
+  background:#35105c;color:#fff;font:800 13px Arial,sans-serif;cursor:pointer;
+}
 </style>
 </head>
 
@@ -2863,6 +2894,32 @@ body {padding-bottom:calc(76px + env(safe-area-inset-bottom,0px))}
     </div>
     <p class="account-status" id="adminStatusMsg" role="status" aria-live="polite"></p>
     <div id="adminOrders" class="joker-orders-list"></div>
+  </section>
+</div>
+
+<!-- صفحة اختيار منطقة الستور (أكواد ستور) -->
+<div id="storeRegionsPage" class="info-page" hidden>
+  <div class="packages-page-top">
+    <button class="packages-back-button" type="button" onclick="closeInfoPage()">→ رجوع للمتجر</button>
+    <div class="packages-page-brand">JOKER PLUS 🃏</div>
+  </div>
+  <section class="info-panel">
+    <h1>أكواد ستور</h1>
+    <p class="account-hint">اختر منطقة الستور (الريجون) المناسبة لحسابك:</p>
+    <div class="region-grid" id="regionGrid"></div>
+    <button type="button" class="region-all-btn" onclick="openStoreRegionItems('all')">عرض كل أكواد الستور</button>
+  </section>
+</div>
+
+<!-- منتجات منطقة محددة -->
+<div id="storeRegionItemsPage" class="info-page" hidden>
+  <div class="packages-page-top">
+    <button class="packages-back-button" type="button" onclick="openInfoPage('storeRegionsPage')">→ رجوع للمناطق</button>
+    <div class="packages-page-brand">JOKER PLUS 🃏</div>
+  </div>
+  <section class="info-panel">
+    <h1 id="regionItemsTitle">أكواد ستور</h1>
+    <div class="services" id="regionItems"></div>
   </section>
 </div>
 
@@ -3387,7 +3444,7 @@ function createPhone(section,customImage) {
 }
 
 function openInfoPage(pageId) {
-  ["storePage","packagesPage","noticePage","faqPage","refundPage","ordersPage","searchPage","adminPage"].forEach(id => {
+  ["storePage","packagesPage","noticePage","faqPage","refundPage","ordersPage","searchPage","adminPage","storeRegionsPage","storeRegionItemsPage"].forEach(id => {
     const node = document.getElementById(id);
     if(node) node.hidden = id !== pageId;
   });
@@ -3395,7 +3452,7 @@ function openInfoPage(pageId) {
 }
 
 function closeInfoPage() {
-  ["packagesPage","noticePage","faqPage","refundPage","ordersPage","searchPage","adminPage"].forEach(id => {
+  ["packagesPage","noticePage","faqPage","refundPage","ordersPage","searchPage","adminPage","storeRegionsPage","storeRegionItemsPage"].forEach(id => {
     const node = document.getElementById(id);
     if(node) node.hidden = true;
   });
@@ -3766,6 +3823,15 @@ function openSharedProductIfRequested() {
   if(target) {
     target.scrollIntoView({behavior:"smooth",block:"center"});
     target.classList.add("shared-product-highlight");
+  } else if(storeItemsCache.some(item => String(item.id) === id && item.section_key === "store")) {
+    openStoreRegionItems("all");
+    window.setTimeout(function() {
+      const found = Array.from(document.querySelectorAll("#regionItems [data-product-id]")).find(node => node.dataset.productId === id);
+      if(found) {
+        found.scrollIntoView({behavior:"smooth",block:"center"});
+        found.classList.add("shared-product-highlight");
+      }
+    },150);
   }
 }
 
@@ -3998,13 +4064,15 @@ function createSection(section,items,images) {
     <article class="section-card section-${section.id}"
       ${section.id === "apps"
         ? 'onclick="openPlusPackages(event)"'
-        : (!sectionItems.length ? 'onclick="openUnavailableSection(event)"' : '')}>
+        : section.id === "store"
+          ? 'onclick="openStoreRegions(event)"'
+          : (!sectionItems.length ? 'onclick="openUnavailableSection(event)"' : '')}>
       ${createPhone(section,sectionImage?.image_url)}
       <h3>${escapeHTML(section.name)}</h3>
       <p class="section-description">${escapeHTML(section.description)}</p>
       <div class="services">
         ${
-          sectionItems.length
+          sectionItems.length && section.id !== "store"
             ? sectionItems.map(createService).join("")
             : ""
         }
@@ -4261,7 +4329,7 @@ function runStoreSearch() {
   storeItemsCache.forEach(function(item) {
     const hay = normalizeSearchText((item.title || "") + " " + (item.description || ""));
     if(hay.indexOf(query) !== -1) {
-      results.push({kind:"item",id:String(item.id ?? ""),title:String(item.title || "منتج"),price:item.price ? String(item.price) : ""});
+      results.push({kind:"item",section:String(item.section_key || ""),id:String(item.id ?? ""),title:String(item.title || "منتج"),price:item.price ? String(item.price) : ""});
     }
   });
   (typeof packagesData !== "undefined" ? packagesData : []).forEach(function(pack) {
@@ -4275,7 +4343,7 @@ function runStoreSearch() {
     return;
   }
   box.innerHTML = results.slice(0,30).map(function(r) {
-    return '<button type="button" class="store-search-item" data-kind="' + r.kind + '" data-id="' + escapeHTML(r.id) + '" onclick="openSearchResult(this)">' +
+    return '<button type="button" class="store-search-item" data-kind="' + r.kind + '" data-section="' + escapeHTML(r.section || "") + '" data-id="' + escapeHTML(r.id) + '" onclick="openSearchResult(this)">' +
       '<span>' + escapeHTML(r.title) + '</span>' +
       (r.price ? '<span class="store-search-price">' + escapeHTML(r.price) + ' د.ك</span>' : '') +
       '</button>';
@@ -4289,7 +4357,7 @@ function openSearchResult(button) {
     openInfoPage("packagesPage");
     return;
   }
-  closeInfoPage();
+  if(button.dataset.section === "store") openStoreRegionItems("all"); else closeInfoPage();
   window.setTimeout(function() {
     const target = Array.from(document.querySelectorAll("[data-product-id]")).find(function(node) {
       return node.dataset.productId === id;
@@ -4440,6 +4508,69 @@ async function setAdminOrderStatus(button) {
     if(msg) msg.textContent = "تعذر التحديث: " + ((error && (error.message || error.code)) || error);
   }
 }
+
+
+/* ===== مناطق أكواد ستور (PSN) ===== */
+const PSN_REGIONS = [
+  {code:"usa",flag:"🇺🇸",name:"USA",ar:"أمريكا",keys:["usa","us","أمريك","امريك","الولايات المتحدة"]},
+  {code:"ksa",flag:"🇸🇦",name:"KSA",ar:"السعودية",keys:["ksa","السعودية","سعودي"]},
+  {code:"uae",flag:"🇦🇪",name:"UAE",ar:"الإمارات",keys:["uae","الامارات","الإمارات"]},
+  {code:"kuwait",flag:"🇰🇼",name:"Kuwait",ar:"الكويت",keys:["kuwait","kw","الكويت","كويتي"]},
+  {code:"oman",flag:"🇴🇲",name:"Oman",ar:"عُمان",keys:["oman","عمان","عُمان"]},
+  {code:"bahrain",flag:"🇧🇭",name:"Bahrain",ar:"البحرين",keys:["bahrain","البحرين"]},
+  {code:"qatar",flag:"🇶🇦",name:"Qatar",ar:"قطر",keys:["qatar","قطر"]},
+  {code:"italy",flag:"🇮🇹",name:"Italy",ar:"إيطاليا",keys:["italy","ايطاليا","إيطاليا"]},
+  {code:"lebanon",flag:"🇱🇧",name:"Lebanon",ar:"لبنان",keys:["lebanon","لبنان"]},
+  {code:"portugal",flag:"🇵🇹",name:"Portugal",ar:"البرتغال",keys:["portugal","البرتغال"]},
+  {code:"uk",flag:"🇬🇧",name:"UK",ar:"بريطانيا",keys:["uk","بريطانيا","انجلترا","إنجلترا","المملكة المتحدة"]},
+  {code:"japan",flag:"🇯🇵",name:"Japan",ar:"اليابان",keys:["japan","اليابان"]},
+  {code:"france",flag:"🇫🇷",name:"France",ar:"فرنسا",keys:["france","فرنسا"]}
+];
+
+function renderRegionGrid() {
+  const grid = document.getElementById("regionGrid");
+  if(!grid) return;
+  grid.innerHTML = PSN_REGIONS.map(function(r) {
+    return '<button type="button" class="region-card" onclick="openStoreRegionItems(\'' + r.code + '\')">' +
+      '<span class="region-orb">' + r.flag + '<small>PSN</small></span>' +
+      '<span class="region-name">PSN - ' + escapeHTML(r.name) + '</span>' +
+      '<span class="region-ar">' + escapeHTML(r.ar) + '</span>' +
+      '</button>';
+  }).join("");
+}
+
+function itemMatchesRegion(item, region) {
+  const text = normalizeSearchText((item.title || "") + " " + (item.description || ""));
+  return region.keys.some(function(k) {
+    const key = normalizeSearchText(k);
+    if(/^[a-z]+$/.test(key)) return new RegExp("(^|[^a-z])" + key + "([^a-z]|$)").test(text);
+    return text.indexOf(key) !== -1;
+  });
+}
+
+function openStoreRegions(event) {
+  if(event && event.target.closest("a,button,summary,details")) return;
+  openInfoPage("storeRegionsPage");
+}
+
+function openStoreRegionItems(code) {
+  const region = PSN_REGIONS.find(r => r.code === code);
+  const all = storeItemsCache.filter(item => item.section_key === "store");
+  const list = region ? all.filter(item => itemMatchesRegion(item, region)) : all;
+  const title = document.getElementById("regionItemsTitle");
+  const box = document.getElementById("regionItems");
+  if(title) title.textContent = region ? "PSN - " + region.name + " | " + region.ar : "كل أكواد الستور";
+  if(box) {
+    box.innerHTML = list.length
+      ? list.map(createService).join("")
+      : '<p class="account-hint">لا توجد منتجات لهذه المنطقة حالياً. تواصل مع الدعم الفني لو تحتاج كود.</p>';
+    optimizeStoreImages(box);
+  }
+  openInfoPage("storeRegionItemsPage");
+  if(typeof syncCartAddButtons === "function") syncCartAddButtons();
+}
+
+renderRegionGrid();
 
 readCart();
 renderCart();
