@@ -2518,16 +2518,31 @@ body {padding-bottom:calc(76px + env(safe-area-inset-bottom,0px))}
   background:#35105c;color:#fff;font:800 13px Arial,sans-serif;cursor:pointer;
 }
 
-/* Anonymous customer feedback */
+/* Anonymous customer feedback — live Supabase reviews */
 .joker-reviews {max-width:820px;margin:30px auto 34px;padding:24px 18px;border:1px solid #76529388;border-radius:20px;background:linear-gradient(145deg,#21152fdd,#100c16f2);box-shadow:0 12px 28px #0006;text-align:center}
 .joker-reviews-title {margin:0 0 7px;color:#fff;font-size:20px;font-weight:950;text-shadow:0 0 16px #b77be955}
 .joker-reviews-subtitle {margin:0;color:#c7b5d4;font-size:12px;line-height:1.9}
-.joker-reviews-empty {margin-top:15px;padding:16px 12px;border:1px dashed #9873b277;border-radius:13px;background:#ffffff05}
-.joker-reviews-stars {color:#d6b2f4;font-size:20px;letter-spacing:5px;direction:ltr}
-.joker-reviews-empty strong {display:block;margin:6px 0;color:#f5eaff;font-size:13px}
-.joker-reviews-empty span {display:block;color:#aa98b8;font-size:11px;line-height:1.8}
+.joker-review-form {margin:18px auto 0;padding:16px;max-width:620px;border:1px solid #9873b255;border-radius:15px;background:#ffffff07;text-align:right}
+.joker-review-form label {display:block;margin:0 0 8px;color:#ead8f8;font-size:12px;font-weight:800}
+.joker-review-star-picker {display:flex;justify-content:center;gap:8px;direction:ltr;margin:5px 0 15px}
+.joker-review-star {border:0;background:transparent;color:#675873;font-size:34px;line-height:1;padding:3px;cursor:pointer;transition:transform .15s,color .15s}
+.joker-review-star.active,.joker-review-star:hover {color:#ffd166}
+.joker-review-star:focus-visible,.joker-review-submit:focus-visible,.joker-review-text:focus-visible {outline:2px solid #d6b2f4;outline-offset:3px}
+.joker-review-text {display:block;width:100%;min-height:92px;resize:vertical;box-sizing:border-box;border:1px solid #76529399;border-radius:11px;padding:12px;background:#0d0914;color:#fff;font:13px/1.8 Arial,sans-serif}
+.joker-review-text::placeholder {color:#9c8ba8}
+.joker-review-submit {display:block;width:100%;margin-top:12px;border:1px solid #b58bd4;border-radius:11px;padding:12px;background:linear-gradient(100deg,#57227d,#8b4cb5);color:#fff;font-weight:900;cursor:pointer}
+.joker-review-submit:disabled {opacity:.55;cursor:wait}
+.joker-review-feedback {min-height:22px;margin:9px 0 0;color:#e5caff;font-size:11px;line-height:1.7}
+.joker-review-summary {display:flex;justify-content:center;align-items:center;gap:9px;margin:18px 0 12px;color:#f6eaff;font-size:13px}
+.joker-review-summary strong {font-size:22px}
+.joker-review-summary-stars,.joker-review-card-stars {color:#ffd166;letter-spacing:2px;direction:ltr}
+.joker-review-list {display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;text-align:right}
+.joker-review-card {padding:13px;border:1px solid #9873b244;border-radius:13px;background:#ffffff07;min-width:0}
+.joker-review-card-head {display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;color:#e8d6f5;font-size:11px;font-weight:800}
+.joker-review-card p {margin:9px 0 0;color:#e5dbea;font-size:12px;line-height:1.9;overflow-wrap:anywhere;white-space:pre-wrap}
+.joker-review-empty {padding:15px;border:1px dashed #9873b277;border-radius:13px;background:#ffffff05;color:#b9a8c6;font-size:12px;line-height:1.9}
 .joker-anonymous-note {display:inline-flex;align-items:center;gap:6px;margin-top:12px;padding:6px 11px;border:1px solid #a77ad055;border-radius:30px;color:#e0c5f4;font-size:10px;font-weight:800}
-@media(max-width:650px){.joker-reviews{margin:20px 0 8px;padding:17px 12px}.joker-reviews-title{font-size:18px}}
+@media(max-width:650px){.joker-reviews{margin:20px 0 8px;padding:17px 12px}.joker-reviews-title{font-size:18px}.joker-review-list{grid-template-columns:1fr}.joker-review-form{padding:12px}}
 
 </style>
 
@@ -3166,12 +3181,25 @@ body {padding-bottom:calc(76px + env(safe-area-inset-bottom,0px))}
     <div class="joker-coming-kicker">COMMUNITY VOICES</div>
     <h3 class="joker-reviews-title" id="jokerReviewsTitle">آراء العملاء</h3>
     <p class="joker-reviews-subtitle">رأيكم يهمّنا ويساعدنا نطوّر تجربة JOKER PLUS للأفضل.</p>
-    <div class="joker-reviews-empty">
-      <div class="joker-reviews-stars" aria-label="تقييم العملاء">★★★★★</div>
-      <strong>ننتظر أول مشاركة منكم</strong>
-      <span>ستظهر آراء العملاء هنا بعد إضافتها، مع إخفاء الأسماء واستخدام هوية «عميل مجهول» حفاظاً على الخصوصية.</span>
+    <form class="joker-review-form" id="jokerReviewForm">
+      <label>قيّم تجربتك مع JOKER PLUS</label>
+      <div class="joker-review-star-picker" id="jokerReviewStarPicker" role="group" aria-label="اختر عدد النجوم">
+        <button class="joker-review-star" type="button" data-rating="1" aria-label="نجمة واحدة" aria-pressed="false">★</button>
+        <button class="joker-review-star" type="button" data-rating="2" aria-label="نجمتان" aria-pressed="false">★</button>
+        <button class="joker-review-star" type="button" data-rating="3" aria-label="3 نجوم" aria-pressed="false">★</button>
+        <button class="joker-review-star" type="button" data-rating="4" aria-label="4 نجوم" aria-pressed="false">★</button>
+        <button class="joker-review-star" type="button" data-rating="5" aria-label="5 نجوم" aria-pressed="false">★</button>
+      </div>
+      <label for="jokerReviewComment">اكتب رأيك</label>
+      <textarea class="joker-review-text" id="jokerReviewComment" maxlength="500" minlength="3" required placeholder="شاركنا تجربتك بكل صراحة…"></textarea>
+      <button class="joker-review-submit" id="jokerReviewSubmit" type="submit">إرسال التقييم</button>
+      <p class="joker-review-feedback" id="jokerReviewFeedback" role="status" aria-live="polite">تقييمك يُرسل دون اسم أو معلومات شخصية.</p>
+    </form>
+    <div class="joker-review-summary" id="jokerReviewSummary" hidden></div>
+    <div class="joker-review-list" id="jokerReviewList" aria-live="polite">
+      <div class="joker-review-empty">جاري تحميل آراء العملاء…</div>
     </div>
-    <div class="joker-anonymous-note"><span aria-hidden="true">♟</span> جميع الآراء بهوية مجهولة</div>
+    <div class="joker-anonymous-note"><span aria-hidden="true">♟</span> جميع الآراء بهوية مجهولة — لا نطلب اسمك</div>
   </section>
 </main>
 
@@ -5268,6 +5296,121 @@ loadStore();
   }
   tick();
   var timer = window.setInterval(tick, 1000);
+})();
+</script>
+
+
+<script id="joker-live-anonymous-reviews">
+(function () {
+  "use strict";
+  var form = document.getElementById("jokerReviewForm");
+  if (!form) return;
+  var picker = document.getElementById("jokerReviewStarPicker");
+  var comment = document.getElementById("jokerReviewComment");
+  var submit = document.getElementById("jokerReviewSubmit");
+  var feedback = document.getElementById("jokerReviewFeedback");
+  var list = document.getElementById("jokerReviewList");
+  var summary = document.getElementById("jokerReviewSummary");
+  var selectedRating = 0;
+  var client = window.supabaseClient;
+  try { if (!client && typeof supabaseClient !== "undefined") client = supabaseClient; } catch (_) {}
+
+  function setMessage(message, isError) {
+    feedback.textContent = message;
+    feedback.style.color = isError ? "#ff9ca8" : "#e5caff";
+  }
+  function chooseRating(value) {
+    selectedRating = value;
+    picker.querySelectorAll("[data-rating]").forEach(function (button) {
+      var active = Number(button.dataset.rating) <= value;
+      button.classList.toggle("active", active);
+      button.setAttribute("aria-pressed", Number(button.dataset.rating) === value ? "true" : "false");
+    });
+  }
+  picker.addEventListener("click", function (event) {
+    var button = event.target.closest("[data-rating]");
+    if (button) chooseRating(Number(button.dataset.rating));
+  });
+
+  function renderReviews(rows) {
+    list.replaceChildren();
+    if (!rows || !rows.length) {
+      var empty = document.createElement("div");
+      empty.className = "joker-review-empty";
+      empty.textContent = "لا توجد تقييمات منشورة حتى الآن. كن أول من يشاركنا رأيه!";
+      list.appendChild(empty);
+      summary.hidden = true;
+      return;
+    }
+    var average = rows.reduce(function (sum, row) { return sum + Number(row.rating || 0); }, 0) / rows.length;
+    summary.hidden = false;
+    var score = document.createElement("strong");
+    score.textContent = average.toFixed(1) + "/5";
+    var stars = document.createElement("span");
+    stars.className = "joker-review-summary-stars";
+    stars.textContent = "★★★★★";
+    var count = document.createElement("span");
+    count.textContent = "(" + rows.length + " تقييم منشور)";
+    summary.replaceChildren(score, stars, count);
+    rows.forEach(function (row) {
+      var card = document.createElement("article");
+      card.className = "joker-review-card";
+      var head = document.createElement("div");
+      head.className = "joker-review-card-head";
+      var identity = document.createElement("span");
+      identity.textContent = "عميل مجهول";
+      var rating = document.createElement("span");
+      rating.className = "joker-review-card-stars";
+      rating.textContent = "★".repeat(Math.max(0, Math.min(5, Number(row.rating) || 0))) + "☆".repeat(5 - Math.max(0, Math.min(5, Number(row.rating) || 0)));
+      var body = document.createElement("p");
+      body.textContent = row.comment || "";
+      head.append(identity, rating);
+      card.append(head, body);
+      list.appendChild(card);
+    });
+  }
+
+  async function loadReviews() {
+    if (!client) {
+      list.textContent = "تعذر الاتصال بخدمة التقييمات. تحقق من إعداد Supabase.";
+      return;
+    }
+    var result = await client.from("customer_reviews")
+      .select("id,rating,comment,created_at")
+      .eq("is_approved", true)
+      .order("created_at", { ascending: false })
+      .limit(30);
+    if (result.error) {
+      console.error("JOKER reviews load error:", result.error);
+      list.textContent = "تعذر تحميل التقييمات حالياً. تأكد من تنفيذ إعداد قاعدة البيانات.";
+      return;
+    }
+    renderReviews(result.data || []);
+  }
+
+  form.addEventListener("submit", async function (event) {
+    event.preventDefault();
+    var text = comment.value.trim();
+    if (!selectedRating) { setMessage("اختر عدد النجوم أولاً.", true); return; }
+    if (text.length < 3 || text.length > 500) { setMessage("اكتب تعليقاً من 3 إلى 500 حرف.", true); return; }
+    if (!client) { setMessage("خدمة التقييمات غير مهيأة بعد. نفّذ إعداد Supabase المرفق.", true); return; }
+    submit.disabled = true;
+    submit.textContent = "جارٍ إرسال تقييمك…";
+    setMessage("لحظة، يتم إرسال تقييمك بأمان…", false);
+    var result = await client.from("customer_reviews").insert({ rating: selectedRating, comment: text });
+    submit.disabled = false;
+    submit.textContent = "إرسال التقييم";
+    if (result.error) {
+      console.error("JOKER review submit error:", result.error);
+      setMessage("لم نتمكن من إرسال التقييم. تأكد من إعداد قاعدة البيانات ثم حاول مجدداً.", true);
+      return;
+    }
+    form.reset();
+    chooseRating(0);
+    setMessage("وصلنا تقييمك، شكراً لك! سيظهر للزوار بعد مراجعته.", false);
+    await loadReviews();
+  });
+  loadReviews();
 })();
 </script>
 
