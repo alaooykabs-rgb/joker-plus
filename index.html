@@ -2472,6 +2472,10 @@ body {padding-bottom:calc(76px + env(safe-area-inset-bottom,0px))}
 .admin-status-btn {border:1px solid #765296;border-radius:10px;padding:9px 4px;background:#21172b;color:#fff;font:700 11px Arial,sans-serif;cursor:pointer}
 .admin-status-btn.active {background:#54247a;border-color:#c49be5;box-shadow:0 0 12px #a77ad066}
 .admin-status-btn:disabled {opacity:.6}
+.admin-danger-btn {margin-top:9px;width:100%;border:1px solid #a94455;border-radius:10px;padding:9px;background:#42151f;color:#ffdce2;font:800 12px Arial,sans-serif;cursor:pointer}
+.admin-review-card {padding:12px;border:1px solid #ffffff20;border-radius:14px;background:#09070dbb;margin:8px 0}
+.admin-review-actions {display:flex;justify-content:flex-end;margin-top:8px}
+.admin-review-actions button {border:1px solid #a94455;border-radius:9px;padding:7px 12px;background:#42151f;color:#ffdce2;font-weight:800;cursor:pointer}
 
 /* ===== مناطق أكواد ستور ===== */
 .region-grid {display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin:14px 0}
@@ -3404,6 +3408,9 @@ body {padding-bottom:calc(76px + env(safe-area-inset-bottom,0px))}
     </div>
     <p class="account-status" id="adminStatusMsg" role="status" aria-live="polite"></p>
     <div id="adminOrders" class="joker-orders-list"></div>
+    <div class="joker-orders-heading" style="margin-top:24px"><h2>إدارة تعليقات العملاء</h2><button type="button" class="joker-orders-refresh" onclick="loadAdminReviews()">تحديث</button></div>
+    <p class="account-status" id="adminReviewsMsg" role="status" aria-live="polite"></p>
+    <div id="adminReviews" class="joker-orders-list"></div>
   </section>
 </div>
 
@@ -4982,6 +4989,7 @@ function openAdmin() {
   openInfoPage("adminPage");
   setActiveNav("");
   loadAdminOrders();
+  loadAdminReviews();
 }
 
 function setAdminFilter(button) {
@@ -5038,8 +5046,68 @@ function renderAdminOrders() {
       '<div class="admin-order-items">' + (itemsHtml || "—") + '</div>' +
       '<div class="admin-order-total">الإجمالي: ' + escapeHTML(totalText) + '</div>' +
       '<div class="admin-status-row">' + buttons + '</div>' +
+      (current !== 'تم التنفيذ' ? '<button type="button" class="admin-danger-btn" data-order-delete="' + escapeHTML(number) + '" onclick="deleteAdminOrder(this)">حذف الطلب غير المنفذ</button>' : '') +
       '</article>';
   }).join("");
+}
+
+async function deleteAdminOrder(button) {
+  if(!isAdminUser) return;
+  const orderNumber = button.dataset.orderDelete;
+  if(!window.confirm("تأكيد حذف الطلب رقم #" + orderNumber + "؟ لا يمكن التراجع عن الحذف.")) return;
+  button.disabled = true;
+  const msg = document.getElementById("adminStatusMsg");
+  if(msg) msg.textContent = "جارٍ حذف الطلب...";
+  try {
+    const {error} = await supabaseClient.rpc("admin_delete_order", {p_order_number: orderNumber});
+    if(error) throw error;
+    adminOrdersCache = adminOrdersCache.filter(o => String(o.order_number) !== String(orderNumber));
+    if(msg) msg.textContent = "تم حذف الطلب #" + orderNumber;
+    renderAdminOrders();
+  } catch(error) {
+    button.disabled = false;
+    if(msg) msg.textContent = "تعذر حذف الطلب: " + ((error && (error.message || error.code)) || error) + " — تأكد من تنفيذ كود SQL الإضافي.";
+  }
+}
+
+async function loadAdminReviews() {
+  const box = document.getElementById("adminReviews");
+  const msg = document.getElementById("adminReviewsMsg");
+  if(!box || !isAdminUser) return;
+  box.innerHTML = '<p class="account-hint">جارٍ تحميل التعليقات...</p>';
+  try {
+    const {data,error} = await supabaseClient.rpc("admin_list_reviews");
+    if(error) throw error;
+    if(!data || !data.length) { box.innerHTML = '<p class="account-hint">لا توجد تعليقات حالياً.</p>'; return; }
+    box.innerHTML = data.map(function(r) {
+      const stars = "★".repeat(Number(r.rating)||0) + "☆".repeat(5-(Number(r.rating)||0));
+      return '<article class="admin-review-card" data-review-id="'+escapeHTML(r.id)+'"><div class="admin-order-top"><strong>'+stars+'</strong><span>'+(r.is_approved ? 'منشور' : 'بانتظار المراجعة')+'</span></div><div style="margin-top:8px;white-space:pre-wrap;overflow-wrap:anywhere">'+escapeHTML(r.comment||'')+'</div><div class="admin-review-actions"><button type="button" onclick="deleteAdminReview(this)" data-review="'+escapeHTML(r.id)+'">حذف التعليق</button></div></article>';
+    }).join("");
+  } catch(error) {
+    box.innerHTML = '<p class="account-hint">تعذر تحميل التعليقات. نفّذ كود SQL الإضافي.</p>';
+    if(msg) msg.textContent = String((error && (error.message || error.code)) || error);
+  }
+}
+
+async function deleteAdminReview(button) {
+  if(!isAdminUser) return;
+  const id = button.dataset.review;
+  if(!window.confirm("هل تريد حذف هذا التعليق نهائياً؟")) return;
+  button.disabled = true;
+  try {
+    const {error} = await supabaseClient.rpc("admin_delete_review", {p_review_id:id});
+    if(error) throw error;
+    const card = button.closest("[data-review-id]");
+    if(card) card.remove();
+    const msg = document.getElementById("adminReviewsMsg");
+    if(msg) msg.textContent = "تم حذف التعليق.";
+    if(document.getElementById("adminReviews") && !document.querySelector("#adminReviews [data-review-id]")) document.getElementById("adminReviews").innerHTML = '<p class="account-hint">لا توجد تعليقات حالياً.</p>';
+    if(typeof window.jokerReloadPublicReviews === "function") window.jokerReloadPublicReviews();
+  } catch(error) {
+    button.disabled = false;
+    const msg = document.getElementById("adminReviewsMsg");
+    if(msg) msg.textContent = "تعذر حذف التعليق: " + ((error && (error.message || error.code)) || error) + " — تأكد من تنفيذ كود SQL الإضافي.";
+  }
 }
 
 async function setAdminOrderStatus(button) {
@@ -5411,6 +5479,7 @@ loadStore();
     setMessage("وصلنا تقييمك، شكراً لك! سيظهر للزوار بعد مراجعته.", false);
     await loadReviews();
   });
+  window.jokerReloadPublicReviews = loadReviews;
   loadReviews();
 })();
 </script>
