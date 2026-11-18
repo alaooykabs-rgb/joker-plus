@@ -2595,6 +2595,100 @@ body {padding-bottom:calc(76px + env(safe-area-inset-bottom,0px))}
   }
 </style>
 
+
+<!-- لمسات JOKER الإبداعية: انعكاس الشعار، وهج الخلفية، انتقالات الأقسام، وإضاءة اللمس -->
+<style id="joker-signature-touches">
+  /* 8 — انعكاس ضوئي متحرك على شعار الجوكر */
+  .header-emblem {
+    position: relative;
+    overflow: hidden;
+    isolation: isolate;
+  }
+  .header-emblem::after,
+  .hero-phone-logo::after {
+    content: "";
+    position: absolute;
+    top: -35%;
+    left: -75%;
+    width: 42%;
+    height: 170%;
+    pointer-events: none;
+    z-index: 6;
+    transform: rotate(24deg);
+    background: linear-gradient(90deg, transparent 0%, #ffffff08 25%, #f2dcff88 50%, #ffffff12 75%, transparent 100%);
+    filter: blur(2px);
+    animation: jokerLogoReflection 5.8s ease-in-out infinite;
+  }
+  .header-emblem::after { border-radius: 50%; }
+  .hero-phone-logo { overflow: hidden; }
+  @keyframes jokerLogoReflection {
+    0%, 58% { left: -75%; opacity: 0; }
+    65% { opacity: .9; }
+    82% { left: 145%; opacity: .45; }
+    100% { left: 145%; opacity: 0; }
+  }
+
+  /* 13 — وهج بنفسجي ملكي متحرك مع لمسة حمراء هادئة */
+  body {
+    background-image:
+      radial-gradient(ellipse at 18% 22%, #54247a30 0%, transparent 42%),
+      radial-gradient(ellipse at 84% 58%, #a6192e16 0%, transparent 38%),
+      radial-gradient(ellipse at 50% -15%, #28113d 0, transparent 48%),
+      linear-gradient(#09080c, #09080c);
+    background-size: 155% 155%, 160% 160%, 100% 100%, 100% 100%;
+    background-position: 0% 15%, 100% 70%, center top, center;
+    background-repeat: no-repeat;
+    animation: jokerRoyalAtmosphere 20s ease-in-out infinite alternate;
+  }
+  @keyframes jokerRoyalAtmosphere {
+    0% { background-position: 0% 15%, 100% 70%, center top, center; }
+    50% { background-position: 45% 55%, 55% 30%, center top, center; }
+    100% { background-position: 100% 35%, 0% 80%, center top, center; }
+  }
+
+  /* 15 — ظهور ناعم ومتدرج للأقسام عند دخولها الشاشة */
+  .joker-reveal { opacity: 1; transform: none; }
+  body.joker-motion-ready .joker-reveal {
+    opacity: 0;
+    transform: translateY(16px);
+    transition: opacity .65s ease, transform .65s cubic-bezier(.2,.7,.2,1);
+    will-change: opacity, transform;
+  }
+  body.joker-motion-ready .joker-reveal.joker-revealed {
+    opacity: 1;
+    transform: translateY(0);
+    will-change: auto;
+  }
+
+  /* 94 — ومضة ضوئية قصيرة عند لمس الشاشة */
+  .joker-touch-flash {
+    position: fixed;
+    z-index: 2147483000;
+    width: 34px;
+    height: 34px;
+    margin: -17px 0 0 -17px;
+    border-radius: 50%;
+    pointer-events: none;
+    background: radial-gradient(circle, #f3e5ffb8 0%, #a77ad066 34%, #35105c00 74%);
+    box-shadow: 0 0 18px #a77ad066;
+    animation: jokerTouchFlash .48s ease-out forwards;
+  }
+  @keyframes jokerTouchFlash {
+    0% { opacity: .9; transform: scale(.35); }
+    65% { opacity: .45; transform: scale(2.1); }
+    100% { opacity: 0; transform: scale(2.8); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    body { animation: none !important; }
+    .header-emblem::after, .hero-phone-logo::after { animation: none !important; }
+    body.joker-motion-ready .joker-reveal {
+      opacity: 1; transform: none; transition: none;
+    }
+    .joker-touch-flash { display: none !important; }
+  }
+</style>
+
 </head>
 
 <body>
@@ -4803,6 +4897,70 @@ readCart();
 renderCart();
 loadPackages();
 loadStore();
+</script>
+
+
+<script id="joker-signature-touches-script">
+(function () {
+  "use strict";
+
+  /* 15 — مراقبة ظهور الأقسام، مع إبقاء المحتوى ظاهراً إذا تعذر دعم الميزة */
+  function setupJokerReveals() {
+    if (!("IntersectionObserver" in window) ||
+        window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+    var targets = document.querySelectorAll(
+      ".hero-banner, .section-heading, .section-card, .package-card"
+    );
+    if (!targets.length) return;
+
+    document.body.classList.add("joker-motion-ready");
+    var observer = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("joker-revealed");
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.08, rootMargin: "0px 0px -24px 0px" });
+
+    targets.forEach(function (element) {
+      element.classList.add("joker-reveal");
+      observer.observe(element);
+    });
+  }
+
+  /* 94 — إضاءة لمسية خفيفة، دون اعتراض الضغط أو تغيير سلوك الأزرار */
+  function setupJokerTouchFlash() {
+    if (!window.matchMedia ||
+        window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+    document.addEventListener("pointerdown", function (event) {
+      if (event.pointerType !== "touch" || !event.isPrimary) return;
+
+      var flash = document.createElement("span");
+      flash.className = "joker-touch-flash";
+      flash.setAttribute("aria-hidden", "true");
+      flash.style.left = event.clientX + "px";
+      flash.style.top = event.clientY + "px";
+      document.body.appendChild(flash);
+      flash.addEventListener("animationend", function () {
+        if (flash.parentNode) flash.parentNode.removeChild(flash);
+      }, { once: true });
+    }, { passive: true });
+  }
+
+  function initializeJokerTouches() {
+    setupJokerReveals();
+    setupJokerTouchFlash();
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initializeJokerTouches, { once: true });
+  } else {
+    initializeJokerTouches();
+  }
+})();
 </script>
 
 </body>
