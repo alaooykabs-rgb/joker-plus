@@ -1260,6 +1260,44 @@ main {
 footer {text-align:center;color:#756c7c;font-size:11px;padding:25px 15px;border-top:1px solid #211a29}
 .footer-logo {font-size:16px;font-weight:bold;color:#c5a4df;margin-bottom:8px}
 
+/* إضافة 10 — توقيع JOKER STORE الملكي أسفل الصفحة */
+.joker-store-signature {
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:10px;
+  width:max-content;
+  max-width:100%;
+  margin:20px auto 2px;
+  padding:10px 18px;
+  border:1px solid #a6192e55;
+  border-radius:999px;
+  background:linear-gradient(110deg,#35105c33,#100b16 52%,#a6192e18);
+  box-shadow:0 0 22px #35105c22,inset 0 0 14px #a6192e0b;
+}
+.joker-store-signature .signature-crown {
+  color:#c9a4e8;
+  font-size:17px;
+  line-height:1;
+  text-shadow:0 0 12px #a66bd988;
+}
+.joker-store-signature .signature-name {
+  color:#eadcf5;
+  font-size:11px;
+  font-weight:800;
+  letter-spacing:2.4px;
+  white-space:nowrap;
+}
+.joker-store-signature .signature-rule {
+  width:22px;
+  height:1px;
+  background:linear-gradient(90deg,transparent,#a6192e,transparent);
+}
+@media (max-width:360px) {
+  .joker-store-signature {gap:7px;padding:9px 13px}
+  .joker-store-signature .signature-name {font-size:10px;letter-spacing:1.8px}
+}
+
 /* شاشة البداية */
 
 .splash-screen {
@@ -2930,6 +2968,12 @@ body {padding-bottom:calc(76px + env(safe-area-inset-bottom,0px))}
 <footer>
   <div class="footer-logo">JOKER PLUS</div>
   جميع الحقوق محفوظة © 2026
+  <div class="joker-store-signature" aria-label="JOKER STORE">
+    <span class="signature-rule" aria-hidden="true"></span>
+    <span class="signature-crown" aria-hidden="true">♛</span>
+    <span class="signature-name">JOKER STORE</span>
+    <span class="signature-rule" aria-hidden="true"></span>
+  </div>
   <div class="footer-links">
     <button type="button" onclick="openInfoPage('faqPage')">الأسئلة الشائعة</button>
     <button type="button" onclick="openInfoPage('refundPage')">سياسة الاسترجاع</button>
