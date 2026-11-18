@@ -3,13 +3,7 @@
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="format-detection" content="telephone=no">
-<meta name="color-scheme" content="dark">
-<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
-<link rel="preconnect" href="https://mezczzzberxjghdrfdvb.supabase.co" crossorigin>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#09080c">
 <title>JOKER PLUS | متجر الجوكر</title>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -2486,62 +2480,6 @@ body {padding-bottom:calc(76px + env(safe-area-inset-bottom,0px))}
   background:#35105c;color:#fff;font:800 13px Arial,sans-serif;cursor:pointer;
 }
 </style>
-
-/* ===== JOKER STORE | iPhone / Safari / Dynamic Island refinement ===== */
-:root { color-scheme:dark; --joker-purple:#35105c; --joker-red:#a6192e; --joker-safe-top:env(safe-area-inset-top,0px); }
-html { min-width:320px; min-height:100%; -webkit-text-size-adjust:100%; text-size-adjust:100%; scroll-padding-top:calc(var(--joker-safe-top) + 76px); }
-body { min-width:320px; min-height:100svh; min-height:100dvh; overflow-x:clip; overscroll-behavior-y:contain; }
-img,svg,video,canvas { max-width:100%; }
-img { -webkit-user-drag:none; }
-button,input,textarea,select { font:inherit; }
-button,a,[role="button"] { touch-action:manipulation; }
-.joker-tools { top:calc(var(--joker-safe-top) + 10px) !important; left:calc(env(safe-area-inset-left,0px) + 10px) !important; max-width:calc(100vw - 20px); align-items:center; gap:7px; }
-.joker-tools .joker-tool-btn { min-height:42px; }
-.joker-language-btn { min-width:44px; padding:9px 11px !important; border-color:#a6192e !important; background:linear-gradient(135deg,#35105c,#24102f) !important; font-weight:900 !important; }
-/* Keep fixed controls below the Dynamic Island / notch and above the home indicator. */
-.joker-bottom-nav { bottom:calc(env(safe-area-inset-bottom,0px) + 9px); padding-bottom:max(8px,env(safe-area-inset-bottom,0px)); }
-.cart-toast { top:calc(var(--joker-safe-top) + 14px); max-width:calc(100vw - 28px); width:max-content; }
-.account-modal,.cart-backdrop { padding-top:calc(var(--joker-safe-top) + 10px); padding-bottom:calc(env(safe-area-inset-bottom,0px) + 10px); }
-.package-card { position:relative; isolation:isolate; overflow:hidden; border:1px solid #765296; box-shadow:0 12px 32px #0008,0 0 0 1px #35105c66,inset 0 1px 0 #ffffff12; }
-.package-card::before { content:""; position:absolute; inset:-1px; z-index:-1; pointer-events:none; border-radius:inherit; background:radial-gradient(ellipse at 50% 0%,#a77ad02b,transparent 55%),linear-gradient(135deg,#35105c55,transparent 48%,#a6192e22); opacity:.9; }
-.package-card::after { content:""; position:absolute; inset:0; z-index:-1; border-radius:inherit; pointer-events:none; box-shadow:inset 0 0 24px #a77ad012,0 0 22px #35105c44; }
-.package-card:hover { border-color:#b98ce0; box-shadow:0 16px 38px #000a,0 0 24px #6d369b55,inset 0 1px 0 #ffffff20; }
-.product-gallery { overflow:hidden; }
-.product-gallery-main { width:100%; max-width:100%; height:clamp(130px,32vw,230px); object-fit:contain; object-position:center; background:radial-gradient(ellipse at center,#20142d,#08070b 72%); }
-.product-gallery-thumbs { -webkit-overflow-scrolling:touch; scrollbar-width:thin; }
-.product-gallery-thumb img,.product-gallery-main,.service img,.section-card img { image-rendering:auto; }
-.sections,.packages-grid,.services,.store-search-results { min-width:0; }
-.section-card,.service,.package-card,.cart-panel,.info-panel { min-width:0; overflow-wrap:anywhere; }
-input,textarea,select { max-width:100%; }
-@supports (-webkit-touch-callout:none) {
-  body { min-height:-webkit-fill-available; }
-  .joker-bottom-nav { -webkit-backdrop-filter:blur(18px); }
-  .product-gallery-thumbs { -webkit-overflow-scrolling:touch; }
-}
-@media(max-width:430px) {
-  .joker-tools { gap:5px; }
-  .joker-tools .joker-account-btn { padding:4px !important; }
-  .joker-tool-avatar-wrap { width:42px !important; height:42px !important; }
-  .joker-language-btn { min-width:40px; min-height:40px !important; padding:7px 9px !important; }
-  .hero-banner,.plus-apps-showcase,#packagesPage { max-width:100%; }
-  .package-card { border-radius:17px; }
-  .product-gallery-main { height:clamp(120px,38vw,180px); }
-}
-@media(max-width:350px) {
-  .joker-tools { left:calc(env(safe-area-inset-left,0px) + 6px) !important; }
-  .joker-tool-avatar-wrap { width:38px !important; height:38px !important; }
-  .joker-tools .joker-tool-btn { min-height:38px; }
-  .joker-bottom-nav { left:6px; right:6px; }
-  .joker-bottom-nav .nav-item { font-size:10px; }
-}
-@media(prefers-reduced-motion:reduce) {
-  .package-card,.package-card::before,.package-card::after { animation:none !important; transition:none !important; }
-}
-html[dir="ltr"] body { text-align:left; }
-html[dir="ltr"] .joker-bottom-nav { direction:ltr; }
-html[dir="ltr"] .package-perks,html[dir="ltr"] .package-details-content ul { padding-left:22px; padding-right:0; }
-html[dir="ltr"] .package-policies ul { padding-left:22px; padding-right:0; }
-
 </head>
 
 <body>
@@ -2591,7 +2529,6 @@ html[dir="ltr"] .package-policies ul { padding-left:22px; padding-right:0; }
 <div class="joker-tools" id="jokerAccountButton" aria-label="حساب العميل">
   <button class="joker-tool-btn joker-account-btn" type="button" onclick="openAccount()" aria-label="حساب العميل"><span class="joker-tool-avatar-wrap"><img id="toolAvatar" class="joker-tool-avatar" alt="" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='50' fill='%2335105c'/%3E%3Ctext x='50' y='64' font-size='48' text-anchor='middle' fill='white'%3E♛%3C/text%3E%3C/svg%3E"></span></button>
   <button class="joker-tool-btn joker-admin-btn" id="adminBtn" type="button" hidden onclick="openAdmin()">Admin<span class="admin-badge" id="adminBadge" hidden>0</span></button>
-  <button class="joker-tool-btn joker-language-btn" id="jokerLanguageToggle" type="button" onclick="toggleJokerLanguage()" aria-label="Switch language">EN</button>
 </div>
 <script>
 /* تثبيت زر الحساب خارج body لتجنب تأثره بتمرير الصفحة على iOS */
@@ -4735,69 +4672,6 @@ readCart();
 renderCart();
 loadPackages();
 loadStore();
-</script>
-
-
-<script>
-/* ===== JOKER STORE bilingual interface (Arabic / English) ===== */
-(function(){
-  const translations = {
-    "حساب العميل":"Customer Account","تطبيقات بلس":"Plus Apps","أفضل التطبيقات والخدمات المميزة":"Premium apps and services",
-    "أكواد سناب":"Snap Codes","خدمات التيك توك والإنستغرام":"TikTok & Instagram Services","سلة المشتريات":"Shopping Cart",
-    "الإجمالي":"Total","إتمام الطلب عبر واتساب":"Continue via WhatsApp","أضف إلى السلة":"Add to Cart","عرض جميع تفاصيل الباقة":"View Package Details",
-    "مميزات الاشتراك العامة":"Membership Benefits","مميزات إضافية لهذه الباقة":"Package Extras","الشروط والأحكام ⚠️":"Terms & Conditions ⚠️",
-    "سياسة الاسترجاع":"Refund Policy","الطلبات":"Orders","بحث":"Search","الرئيسية":"Home","المتجر":"Store","الباقات":"Packages",
-    "الدعم الفني":"Support","الأسئلة الشائعة":"FAQ","تسجيل الدخول":"Sign In","إنشاء حساب":"Create Account","تسجيل الخروج":"Sign Out",
-    "البريد الإلكتروني":"Email Address","كلمة المرور (8 أحرف على الأقل)":"Password (at least 8 characters)","الاسم الكامل":"Full Name",
-    "ابحث عن منتج أو باقة...":"Search for a product or package...","اكتب اسم المنتج أو الباقة للبحث.":"Enter a product or package name to search.",
-    "سجّل الدخول لعرض طلباتك.":"Sign in to view your orders.","مشاركة الباقة":"Share Package","مشاركة المنتج":"Share Product",
-    "عرض المزيد":"Show More","عرض أقل":"Show Less","السلة":"Cart","العودة للمتجر":"Back to Store","رجوع":"Back",
-    "تمت إضافة المنتج إلى السلة":"Product added to cart","تعذر تحميل المتجر.":"Unable to load the store.",
-    "طلب من متجر JOKER PLUS":"Order from JOKER PLUS","تطبيقات بلس للآيفون":"Plus Apps for iPhone",
-    "الفضية":"Silver","الذهبية":"Gold","البلاتينية":"Platinum","فضية":"Silver","ذهبية":"Gold","بلاتينية":"Platinum",
-    "عرض جميع المنتجات":"View All Products","المنتجات":"Products","اختر القسم":"Choose a Category","المتجر الأمريكي":"US Store",
-    "أكواد بلايستيشن":"PlayStation Codes","أكواد ستور":"Store Codes","المفضلة":"Favorites","معلومات المتجر":"Store Information",
-    "الاسم":"Name","رقم الهاتف":"Phone Number","حفظ التغييرات":"Save Changes","حفظ":"Save","إلغاء":"Cancel",
-    "لا توجد منتجات حالياً":"No products available right now","السعر":"Price","الكمية":"Quantity","حذف":"Remove",
-    "تم نسخ الرابط":"Link copied","نسخ":"Copy","مشاركة":"Share","التفاصيل":"Details","الوصف":"Description",
-    "متاح":"Available","غير متاح":"Unavailable","جاري التحميل":"Loading","حدث خطأ":"An error occurred"
-  };
-  const reverse = Object.fromEntries(Object.entries(translations).map(([ar,en])=>[en,ar]));
-  let language = localStorage.getItem('joker-store-language') === 'en' ? 'en' : 'ar';
-  function translateNode(node){
-    if(!node || node.nodeType!==Node.TEXT_NODE) return;
-    const raw=node.nodeValue, trimmed=raw.trim();
-    if(!trimmed) return;
-    const replacement = language==='en' ? translations[trimmed] : reverse[trimmed];
-    if(replacement) node.nodeValue=raw.replace(trimmed,replacement);
-  }
-  function applyLanguage(){
-    document.documentElement.lang=language;
-    document.documentElement.dir=language==='en'?'ltr':'rtl';
-    document.body.classList.toggle('joker-language-en',language==='en');
-    const button=document.getElementById('jokerLanguageToggle');
-    if(button){button.textContent=language==='en'?'عربي':'EN';button.setAttribute('aria-label',language==='en'?'Switch to Arabic':'Switch to English');}
-    const walker=document.createTreeWalker(document.body,NodeFilter.SHOW_TEXT);
-    let node; while((node=walker.nextNode())) translateNode(node);
-    document.querySelectorAll('[placeholder],[aria-label],[title]').forEach(el=>{
-      ['placeholder','aria-label','title'].forEach(attr=>{
-        const value=el.getAttribute(attr); if(!value) return;
-        const replacement=language==='en'?translations[value]:reverse[value];
-        if(replacement) el.setAttribute(attr,replacement);
-      });
-    });
-  }
-  window.toggleJokerLanguage=function(){
-    language=language==='ar'?'en':'ar';
-    try{localStorage.setItem('joker-store-language',language);}catch(e){}
-    applyLanguage();
-  };
-  window.addEventListener('DOMContentLoaded',applyLanguage,{once:true});
-  window.addEventListener('load',()=>setTimeout(applyLanguage,350));
-  const observer=new MutationObserver(()=>{if(language==='en') applyLanguage();});
-  observer.observe(document.body,{childList:true,subtree:true});
-  window.addEventListener('pageshow',applyLanguage);
-})();
 </script>
 
 </body>
