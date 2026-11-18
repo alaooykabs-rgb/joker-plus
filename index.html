@@ -2250,6 +2250,52 @@ button:focus-visible,.buy-button:focus-visible {
   .support-text h3 {font-size:14px;margin-bottom:10px}
   .support-btn {padding:9px 18px;font-size:13px}
 }
+
+/* ===== حركة الأيقونات ===== */
+.icon-star {animation:starSpin 6s ease-in-out infinite;transform-origin:50% 50%}
+.icon-star path {animation:starGlow 2.4s ease-in-out infinite}
+
+.icon-rocket {animation:rocketFly 2.2s ease-in-out infinite;transform-origin:50% 50%}
+.rocket-flame {
+  stroke:#a6192e;
+  stroke-dasharray:4.5;
+  animation:flameFlick .45s ease-in-out infinite alternate;
+}
+
+.icon-laptop {animation:laptopFloat 3s ease-in-out infinite;transform-origin:50% 50%}
+.laptop-line {stroke-dasharray:8;stroke-dashoffset:8;animation:laptopType 2.6s ease-in-out infinite}
+.laptop-line.l2 {animation-delay:.6s}
+
+@keyframes starSpin {
+  0%,100% {transform:rotate(-12deg) scale(1)}
+  50% {transform:rotate(12deg) scale(1.18)}
+}
+@keyframes starGlow {
+  0%,100% {stroke:var(--purple-light);filter:drop-shadow(0 0 0 transparent)}
+  50% {stroke:#e6d2f7;filter:drop-shadow(0 0 5px #c49be5)}
+}
+@keyframes rocketFly {
+  0%,100% {transform:translateY(2px) rotate(-3deg)}
+  50% {transform:translateY(-3px) rotate(3deg)}
+}
+@keyframes flameFlick {
+  from {stroke-dashoffset:0;opacity:1}
+  to {stroke-dashoffset:2.5;opacity:.45}
+}
+@keyframes laptopFloat {
+  0%,100% {transform:translateY(1px)}
+  50% {transform:translateY(-2.5px)}
+}
+@keyframes laptopType {
+  0% {stroke-dashoffset:8}
+  45%,80% {stroke-dashoffset:0}
+  100% {stroke-dashoffset:8}
+}
+
+@media (prefers-reduced-motion:reduce) {
+  .icon-star,.icon-star path,.icon-rocket,.rocket-flame,.icon-laptop,.laptop-line {animation:none}
+  .laptop-line {stroke-dashoffset:0}
+}
 </style>
 </head>
 
@@ -2432,21 +2478,21 @@ button:focus-visible,.buy-button:focus-visible {
   <div class="why-us-grid">
     <div class="why-card">
       <div class="why-card-icon">
-        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.5l2.6 5.3 5.9.9-4.3 4.1 1 5.8L12 16.8l-5.2 2.8 1-5.8L3.5 9.7l5.9-.9z"/></svg>
+        <svg class="icon-star" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.5l2.6 5.3 5.9.9-4.3 4.1 1 5.8L12 16.8l-5.2 2.8 1-5.8L3.5 9.7l5.9-.9z"/></svg>
       </div>
       <p>جودة عالية<br>لجميع<br>المنتجات</p>
     </div>
 
     <div class="why-card">
       <div class="why-card-icon">
-        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.5c2.6 2.2 4 5.2 4 8.5v4.5H8V11c0-3.3 1.4-6.3 4-8.5z"/><circle cx="12" cy="9.5" r="1.7"/><path d="M8 13l-2.5 3.5V19L8 17.5M16 13l2.5 3.5V19L16 17.5M12 17v4"/></svg>
+        <svg class="icon-rocket" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.5c2.6 2.2 4 5.2 4 8.5v4.5H8V11c0-3.3 1.4-6.3 4-8.5z"/><circle cx="12" cy="9.5" r="1.7"/><path d="M8 13l-2.5 3.5V19L8 17.5M16 13l2.5 3.5V19L16 17.5"/><path class="rocket-flame" d="M12 17v4.5"/></svg>
       </div>
       <p>تسليم فوري<br>لجميع<br>المنتجات</p>
     </div>
 
     <div class="why-card">
       <div class="why-card-icon">
-        <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4.5" y="5" width="15" height="10.5" rx="1.8"/><path d="M2.5 19h19"/></svg>
+        <svg class="icon-laptop" viewBox="0 0 24 24" aria-hidden="true"><rect x="4.5" y="5" width="15" height="10.5" rx="1.8"/><path d="M2.5 19h19"/><path class="laptop-line l1" d="M8 9h8"/><path class="laptop-line l2" d="M8 12h5"/></svg>
       </div>
       <p>دعم فني 24<br>ساعة متواصل</p>
     </div>
