@@ -946,8 +946,11 @@ main {
 
 /* صورة تاريخية لقسم تطبيقات بلس — تظهر كاملة دون قص */
 .apps-plus-art-stage {
-  height:285px;
-  padding:7px;
+  /* اجعل الإطار بنفس نسبة الصورة حتى تكبر الصورة دون قص */
+  width:100%;
+  height:auto !important;
+  aspect-ratio:4 / 5;
+  padding:3px;
   background:linear-gradient(145deg,#170d22,#09070d);
   border:1px solid #68438b;
   border-radius:15px;
@@ -958,11 +961,11 @@ main {
   display:block;
   width:100%;
   height:100%;
-  max-width:100%;
-  max-height:100%;
+  max-width:none;
+  max-height:none;
   object-fit:contain;
   object-position:center;
-  border-radius:10px;
+  border-radius:11px;
 }
 
 
