@@ -2465,6 +2465,7 @@ body {padding-bottom:calc(76px + env(safe-area-inset-bottom,0px))}
   display:flex;align-items:center;justify-content:center;font-size:20px;line-height:1;
   background:#12091c;border:2px solid #c49be5;box-shadow:0 3px 8px #0009;
 }
+.unavailable-btn {background:#3a3441 !important;color:#aaa3b3 !important;border-color:#4a4252 !important;cursor:not-allowed;opacity:.85}
 .region-name {font:800 14px Arial,sans-serif;direction:ltr;margin-top:6px}
 .region-ar {font:700 12px Arial,sans-serif;color:#bdb0c8}
 .region-all-btn {
@@ -4042,7 +4043,7 @@ function createService(item) {
       ${createProductGallery(item)}
       ${item.description ? `<div class="service-description">${escapeHTML(item.description)}</div>` : ""}
       ${item.price ? `<div class="price">${escapeHTML(item.price)}</div>` : ""}
-      <div class="cart-add-row">
+      ${item.available === false ? `<div class="cart-add-row"><button class="add-cart-button unavailable-btn" type="button" disabled>غير متوفر حالياً</button></div>` : `      <div class="cart-add-row">
         <button class="add-cart-button" type="button"
           data-title="${escapeHTML(title)}"
           data-price="${escapeHTML(price)}"
@@ -4058,7 +4059,7 @@ function createService(item) {
       </div>
       <a class="buy-button" style="margin-top:8px" href="${whatsappLink(item)}" target="_blank" rel="noopener noreferrer" onclick="return orderLinkClick(event)">
         اطلب الآن عبر واتساب
-      </a>
+      </a>`}
       <button class="product-share-btn" type="button"
         data-product-id="${escapeHTML(String(item.id ?? ""))}"
         data-product-title="${escapeHTML(title)}"
@@ -4240,7 +4241,7 @@ async function loadStore() {
 
     const items = itemsResult.data || [];
     const images = imagesResult.data || [];
-    storeItemsCache = items;
+    storeItemsCache = items.concat(typeof PSN_USA_PRODUCTS !== "undefined" ? PSN_USA_PRODUCTS : []);
 
     container.innerHTML = sectionsData.map(section =>
       createSection(section,items,images)
@@ -4524,9 +4525,9 @@ async function setAdminOrderStatus(button) {
 /* ===== مناطق أكواد ستور (PSN) ===== */
 const PSN_REGIONS = [
   {code:"usa",flag:"🇺🇸",name:"USA",ar:"أمريكا",keys:["usa","us","أمريك","امريك","الولايات المتحدة"]},
-  {code:"ksa",flag:"🇸🇦",name:"KSA",ar:"السعودية",keys:["ksa","السعودية","سعودي"]},
-  {code:"uae",flag:"🇦🇪",name:"UAE",ar:"الإمارات",keys:["uae","الامارات","الإمارات"]},
   {code:"kuwait",flag:"🇰🇼",name:"Kuwait",ar:"الكويت",keys:["kuwait","kw","الكويت","كويتي"]},
+  {code:"uae",flag:"🇦🇪",name:"UAE",ar:"الإمارات",keys:["uae","الامارات","الإمارات"]},
+  {code:"ksa",flag:"🇸🇦",name:"KSA",ar:"السعودية",keys:["ksa","السعودية","سعودي"]},
   {code:"oman",flag:"🇴🇲",name:"Oman",ar:"عُمان",keys:["oman","عمان","عُمان"]},
   {code:"bahrain",flag:"🇧🇭",name:"Bahrain",ar:"البحرين",keys:["bahrain","البحرين"]},
   {code:"qatar",flag:"🇶🇦",name:"Qatar",ar:"قطر",keys:["qatar","قطر"]},
@@ -4539,6 +4540,17 @@ const PSN_REGIONS = [
 ];
 
 const PSN_CARD_IMG = "data:image/webp;base64,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";
+
+const PSN_USA_PRODUCTS = [
+  {id:"psn-usa-10-a",title:"PlayStation Gift Card USA Store USD 10",price:"3.20",available:true},
+  {id:"psn-usa-25-a",title:"PlayStation Gift Card USA Store USD 25",price:"7.68",available:true},
+  {id:"psn-usa-10-b",title:"PlayStation Gift Card USA Store USD 10",price:"3.08",available:false},
+  {id:"psn-usa-50-a",title:"PlayStation Gift Card USA Store USD 50",price:"15.39",available:true},
+  {id:"psn-usa-100-a",title:"PlayStation Gift Card USA Store USD 100",price:"30.71",available:true},
+  {id:"psn-usa-100-b",title:"PlayStation Gift Card USA Store USD 100",price:"30.78",available:false}
+].map(function(item) {
+  return Object.assign({section_key:"store",image_url:PSN_CARD_IMG,description:""},item);
+});
 
 function renderRegionGrid() {
   const grid = document.getElementById("regionGrid");
