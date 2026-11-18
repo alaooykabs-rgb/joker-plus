@@ -2373,5 +2373,44 @@ window.jokerReloadPublicReviews = loadReviews;
 loadReviews();
 })();
 </script>
+<script id="joker-scroll-restore">
+(function(){
+"use strict";
+var KEY="jokerScrollY";
+try{if("scrollRestoration" in history)history.scrollRestoration="manual";}catch(_){}
+function pageTop(){
+  var p=document.getElementById("storePage");
+  return !p||p.hidden;
+}
+var t=null;
+function save(){
+  try{sessionStorage.setItem(KEY,String(pageTop()?0:Math.round(window.pageYOffset||document.documentElement.scrollTop||0)));}catch(_){}
+}
+window.addEventListener("scroll",function(){if(t)return;t=setTimeout(function(){t=null;save();},120);},{passive:true});
+window.addEventListener("pagehide",save);
+document.addEventListener("visibilitychange",function(){if(document.visibilityState==="hidden")save();});
+var nav=null;
+try{nav=performance.getEntriesByType("navigation")[0];}catch(_){}
+var isReload=(nav&&nav.type==="reload")||(window.performance&&performance.navigation&&performance.navigation.type===1);
+var target=0;
+try{target=parseInt(sessionStorage.getItem(KEY)||"0",10)||0;}catch(_){}
+if(!isReload||target<=0)return;
+var stop=false,start=Date.now();
+function cancel(){stop=true;}
+["touchstart","wheel","keydown","mousedown"].forEach(function(e){window.addEventListener(e,cancel,{passive:true,once:true});});
+function max(){return Math.max(0,document.documentElement.scrollHeight-window.innerHeight);}
+function tick(){
+  if(stop)return;
+  var m=max();
+  if(m>=target-2||Date.now()-start>8000){
+    window.scrollTo({top:Math.min(target,m),behavior:"instant"});
+    stop=true;return;
+  }
+  window.scrollTo({top:m,behavior:"instant"});
+  setTimeout(tick,120);
+}
+tick();
+})();
+</script>
 </body>
 </html>
