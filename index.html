@@ -2474,6 +2474,11 @@ body {padding-bottom:calc(76px + env(safe-area-inset-bottom,0px))}
 .admin-status-btn:disabled {opacity:.6}
 .admin-danger-btn {margin-top:9px;width:100%;border:1px solid #a94455;border-radius:10px;padding:9px;background:#42151f;color:#ffdce2;font:800 12px Arial,sans-serif;cursor:pointer}
 .admin-review-card {padding:12px;border:1px solid #ffffff20;border-radius:14px;background:#09070dbb;margin:8px 0}
+.admin-section-tabs{display:flex;gap:9px;margin:0 0 18px;padding:5px;border:1px solid #76529366;border-radius:16px;background:#100b18}
+.admin-section-tab{flex:1;min-height:42px;border:1px solid transparent;border-radius:12px;padding:9px 12px;background:transparent;color:#d8c7e7;font:800 13px Arial,sans-serif;cursor:pointer;transition:.2s}
+.admin-section-tab.active{border-color:#a66bd0;background:linear-gradient(135deg,#67358c,#351b50);color:#fff;box-shadow:0 4px 14px #0005}
+#adminReviewsSection[hidden],#adminOrdersSection[hidden]{display:none!important}
+
 .admin-review-actions {display:flex;justify-content:flex-end;margin-top:8px}
 .admin-review-actions button {border:1px solid #a94455;border-radius:9px;padding:7px 12px;background:#42151f;color:#ffdce2;font-weight:800;cursor:pointer}
 
@@ -3399,6 +3404,11 @@ body {padding-bottom:calc(76px + env(safe-area-inset-bottom,0px))}
     <div class="packages-page-brand">ADMIN 🃏</div>
   </div>
   <section class="info-panel">
+    <div class="admin-section-tabs" role="tablist" aria-label="أقسام الإدارة">
+      <button type="button" class="admin-section-tab active" id="adminOrdersTab" role="tab" aria-selected="true" aria-controls="adminOrdersSection" onclick="showAdminSection('orders')">إدارة الطلبات</button>
+      <button type="button" class="admin-section-tab" id="adminReviewsTab" role="tab" aria-selected="false" aria-controls="adminReviewsSection" onclick="showAdminSection('reviews')">إدارة التعليقات</button>
+    </div>
+    <div id="adminOrdersSection" role="tabpanel" aria-labelledby="adminOrdersTab">
     <div class="joker-orders-heading"><h1>إدارة الطلبات</h1><button type="button" class="joker-orders-refresh" onclick="loadAdminOrders()">تحديث</button></div>
     <div class="admin-filters" id="adminFilters">
       <button type="button" class="active" data-filter="all" onclick="setAdminFilter(this)">الكل</button>
@@ -3408,9 +3418,12 @@ body {padding-bottom:calc(76px + env(safe-area-inset-bottom,0px))}
     </div>
     <p class="account-status" id="adminStatusMsg" role="status" aria-live="polite"></p>
     <div id="adminOrders" class="joker-orders-list"></div>
-    <div class="joker-orders-heading" style="margin-top:24px"><h2>إدارة تعليقات العملاء</h2><button type="button" class="joker-orders-refresh" onclick="loadAdminReviews()">تحديث</button></div>
-    <p class="account-status" id="adminReviewsMsg" role="status" aria-live="polite"></p>
-    <div id="adminReviews" class="joker-orders-list"></div>
+    </div>
+    <div id="adminReviewsSection" role="tabpanel" aria-labelledby="adminReviewsTab" hidden>
+      <div class="joker-orders-heading"><h1>إدارة التعليقات</h1><button type="button" class="joker-orders-refresh" onclick="loadAdminReviews()">تحديث</button></div>
+      <p class="account-status" id="adminReviewsMsg" role="status" aria-live="polite"></p>
+      <div id="adminReviews" class="joker-orders-list"></div>
+    </div>
   </section>
 </div>
 
@@ -4983,6 +4996,18 @@ async function refreshAdminBadge() {
   } catch(error) {}
 }
 
+function showAdminSection(section) {
+  if(!isAdminUser) return;
+  const orders = section !== "reviews";
+  document.getElementById("adminOrdersSection").hidden = !orders;
+  document.getElementById("adminReviewsSection").hidden = orders;
+  document.getElementById("adminOrdersTab").classList.toggle("active", orders);
+  document.getElementById("adminReviewsTab").classList.toggle("active", !orders);
+  document.getElementById("adminOrdersTab").setAttribute("aria-selected", orders ? "true" : "false");
+  document.getElementById("adminReviewsTab").setAttribute("aria-selected", orders ? "false" : "true");
+  if(!orders) loadAdminReviews();
+}
+
 function openAdmin() {
   if(!isAdminUser) return;
   if(typeof closeAccount === "function") closeAccount();
@@ -5476,7 +5501,7 @@ loadStore();
     }
     form.reset();
     chooseRating(0);
-    setMessage("وصلنا تقييمك، شكراً لك! سيظهر للزوار بعد مراجعته.", false);
+    setMessage("وصلنا تقييمك، شكراً لك!", false);
     await loadReviews();
   });
   window.jokerReloadPublicReviews = loadReviews;
