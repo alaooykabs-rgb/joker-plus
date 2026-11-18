@@ -3509,15 +3509,31 @@ function productImageList(item) {
   }).filter(url => /^https?:\/\//i.test(url) || /^data:image\//i.test(url)))];
 }
 
+function productImageFallback(img, amount) {
+  if(!img || img.dataset.fallbackApplied === "true") return;
+  img.dataset.fallbackApplied = "true";
+  const value = Number(amount);
+  const fallback = value && typeof PSN_USA_IMGS !== "undefined"
+    ? (PSN_USA_IMGS[value] || createPSNUSACardArtwork(value))
+    : (typeof PSN_CARD_IMG !== "undefined" ? PSN_CARD_IMG : "");
+  if(fallback && img.src !== fallback) img.src = fallback;
+  else img.onerror = null;
+}
+
 function createProductGallery(item) {
-  const images = productImageList(item);
+  let images = productImageList(item);
+  const amount = Number(item && item.amount);
+  if(!images.length && amount) {
+    images = [PSN_USA_IMGS[amount] || createPSNUSACardArtwork(amount)];
+  }
   if(!images.length) return "";
   const safeImages = images.map(escapeHTML);
+  const fallbackAmount = amount || 0;
   return `
     <div class="product-gallery">
-      <img class="product-gallery-main" src="${safeImages[0]}" alt="${escapeHTML(item.title || "صورة المنتج")}" loading="lazy" decoding="async">
+      <img class="product-gallery-main" src="${safeImages[0]}" alt="${escapeHTML(item.title || "صورة المنتج")}" loading="lazy" decoding="async" onerror="productImageFallback(this,${fallbackAmount})">
       ${safeImages.length > 1 ? `<div class="product-gallery-thumbs">
-        ${safeImages.map((url,index) => `<button class="product-gallery-thumb ${index === 0 ? "active" : ""}" type="button" data-image="${url}" aria-label="عرض الصورة ${index+1}" onclick="selectProductGalleryImage(this)"><img src="${url}" alt="" loading="lazy" decoding="async"></button>`).join("")}
+        ${safeImages.map((url,index) => `<button class="product-gallery-thumb ${index === 0 ? "active" : ""}" type="button" data-image="${url}" aria-label="عرض الصورة ${index+1}" onclick="selectProductGalleryImage(this)"><img src="${url}" alt="" loading="lazy" decoding="async" onerror="productImageFallback(this,${fallbackAmount})"></button>`).join("")}
       </div>` : ""}
     </div>
   `;
@@ -4601,7 +4617,9 @@ const PSN_USA_PRODUCTS = [
   {id:"psn-usa-100-a",amount:100,title:"PlayStation Gift Card USA Store USD 100",price:"30.71",available:true},
   {id:"psn-usa-100-b",amount:100,title:"PlayStation Gift Card USA Store USD 100",price:"30.78",available:false}
 ].map(function(item) {
-  return Object.assign({section_key:"store",description:""},item,{image_url:"https://cdn.jsdelivr.net/gh/alaooykabs-rgb/joker-plus@main/assets/psn-usa-" + String(item.amount) + ".svg"});
+  const amount = Number(item.amount);
+  const image = PSN_USA_IMGS[amount] || createPSNUSACardArtwork(amount);
+  return Object.assign({section_key:"store",description:""},item,{image_url:image});
 });
 
 function renderRegionGrid() {
