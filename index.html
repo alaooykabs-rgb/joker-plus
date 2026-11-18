@@ -3,7 +3,7 @@
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <meta name="theme-color" content="#09080c">
 <title>JOKER PLUS | متجر الجوكر</title>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -2480,6 +2480,121 @@ body {padding-bottom:calc(76px + env(safe-area-inset-bottom,0px))}
   background:#35105c;color:#fff;font:800 13px Arial,sans-serif;cursor:pointer;
 }
 </style>
+
+
+<!-- تحسينات توافق iPhone / Safari آمنة وإضافية -->
+<style id="joker-iphone-safe-enhancements">
+  /* استخدام مساحة الشاشة الكاملة مع احترام النتوء وDynamic Island */
+  html {
+    min-height: 100%;
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+    scroll-padding-top: calc(env(safe-area-inset-top, 0px) + 16px);
+    scroll-padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 16px);
+  }
+
+  body {
+    min-height: 100vh;
+    min-height: 100svh;
+    padding-top: env(safe-area-inset-top, 0px);
+    padding-bottom: calc(100px + env(safe-area-inset-bottom, 0px));
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* ثبات العناصر العائمة بعيداً عن حواف الشاشة */
+  .joker-tools {
+    top: calc(env(safe-area-inset-top, 0px) + 12px) !important;
+  }
+  .joker-bottom-nav {
+    bottom: calc(env(safe-area-inset-bottom, 0px) + 8px) !important;
+  }
+  .joker-float-support {
+    bottom: calc(82px + env(safe-area-inset-bottom, 0px)) !important;
+  }
+
+  /* منع خروج المحتوى والصور عن عرض أجهزة الهاتف */
+  img, video, canvas, svg {
+    max-width: 100%;
+  }
+  .product-gallery,
+  .product-gallery-main,
+  .product-gallery-thumbs,
+  .product-gallery-thumb,
+  .region-img {
+    min-width: 0;
+  }
+  .product-gallery-main {
+    width: 100%;
+    max-width: 100%;
+    height: clamp(120px, 34vw, 220px);
+    object-fit: contain;
+    object-position: center;
+  }
+  .product-gallery-thumb img,
+  .app-icon img,
+  .region-img img {
+    max-width: 100%;
+  }
+
+  /* توهج متوازن لبطاقات الباقات من دون تغيير ألوان الهوية أو أبعادها */
+  .package-card {
+    position: relative;
+    isolation: isolate;
+    border-color: #68458a;
+    box-shadow:
+      0 12px 28px #0007,
+      0 0 0 1px #a77ad018,
+      0 0 20px #35105c35,
+      inset 0 1px 0 #ffffff12;
+  }
+  .package-card::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    pointer-events: none;
+    z-index: -1;
+    opacity: .55;
+    box-shadow: inset 0 0 24px #a77ad014, 0 0 24px #a77ad018;
+  }
+  .package-card:hover,
+  .package-card:focus-within {
+    border-color: #a77ad0;
+    box-shadow:
+      0 16px 35px #0008,
+      0 0 0 1px #a77ad044,
+      0 0 26px #a77ad044,
+      inset 0 1px 0 #ffffff18;
+  }
+
+  /* أحجام شاشات صغيرة جداً مثل iPhone mini والهواتف بعرض 320px */
+  @media (max-width: 360px) {
+    .packages-grid { grid-template-columns: minmax(0, 1fr); }
+    .package-card { padding-inline: 13px; }
+    .joker-bottom-nav { left: 6px !important; right: 6px !important; }
+    .joker-bottom-nav .nav-item { min-width: 0; font-size: 10px; }
+    .joker-tools { max-width: calc(100vw - 20px); }
+    .product-gallery-main { height: 118px; }
+  }
+
+  /* تحسين التمرير واللمس على Safari دون فرض تكبير أو تعطيل التفاعل */
+  button, a, input, select, textarea, summary {
+    -webkit-tap-highlight-color: transparent;
+  }
+  input, select, textarea {
+    max-width: 100%;
+    scroll-margin-top: calc(env(safe-area-inset-top, 0px) + 16px);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .package-card,
+    .package-card::after {
+      transition: none !important;
+      animation: none !important;
+    }
+  }
+</style>
+
 </head>
 
 <body>
