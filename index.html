@@ -413,10 +413,22 @@ header {
   padding:30px 18px 15px;
 }
 
+.header-brand-row {
+  direction:rtl;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:13px;
+  width:fit-content;
+  max-width:100%;
+  margin:0 auto;
+}
+
 .header-emblem {
   width:78px;
   height:78px;
-  margin:0 auto;
+  margin:0;
+  flex:0 0 78px;
   display:flex;
   align-items:center;
   justify-content:center;
@@ -424,6 +436,22 @@ header {
 }
 
 .header-emblem svg {width:100%;height:100%}
+.header-brand-name {
+  color:#f7f4fa;
+  font-size:clamp(15px,3.8vw,22px);
+  font-weight:950;
+  letter-spacing:.35px;
+  line-height:1.25;
+  white-space:nowrap;
+  text-shadow:0 0 14px #a77ad088;
+  direction:ltr;
+}
+.header-brand-name span {color:#c49be5}
+@media(max-width:380px) {
+  .header-brand-row {gap:9px}
+  .header-emblem {width:64px;height:64px;flex-basis:64px}
+  .header-brand-name {font-size:14px}
+}
 
 /* بقية المتجر */
 
@@ -2988,6 +3016,7 @@ body {padding-bottom:calc(76px + env(safe-area-inset-bottom,0px))}
 <div id="storePage">
 
 <header>
+  <div class="header-brand-row">
   <div class="header-emblem" aria-label="شعار الجوكر">
     <svg viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
       <defs>
@@ -3008,6 +3037,8 @@ body {padding-bottom:calc(76px + env(safe-area-inset-bottom,0px))}
       <path d="M104 18L110 11L98 13L104 18Z" fill="#A6192E"/>
       <circle cx="60" cy="105" r="3" fill="#A6192E"/>
     </svg>
+  </div>
+  <div class="header-brand-name">Joker plus <span>&amp; S6r plus</span></div>
   </div>
 </header>
 
