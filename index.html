@@ -2412,6 +2412,24 @@ body {padding-bottom:calc(100px + env(safe-area-inset-bottom,0px))}
 .joker-bottom-nav .nav-badge {min-width:16px;height:16px;font-size:9px;line-height:16px;top:-2px;margin-left:5px}
 body {padding-bottom:calc(76px + env(safe-area-inset-bottom,0px))}
 .joker-float-support {bottom:calc(72px + env(safe-area-inset-bottom,0px)) !important}
+
+/* ===== لوحة الإدارة ===== */
+.joker-tools .joker-admin-btn {align-self:center;position:relative;border-color:#c49be5;color:#fff;letter-spacing:.5px}
+.admin-badge {display:inline-block;margin-right:6px;min-width:18px;padding:0 5px;border-radius:999px;background:#e02b20;color:#fff;font:800 10px/18px Arial,sans-serif;text-align:center}
+.admin-filters {display:flex;gap:7px;flex-wrap:wrap;margin-bottom:10px}
+.admin-filters button {border:1px solid #765296;border-radius:999px;padding:8px 13px;background:#17101d;color:#e5caff;font:700 12px Arial,sans-serif;cursor:pointer}
+.admin-filters button.active {background:#54247a;color:#fff;border-color:#c49be5}
+.admin-order {padding:14px;border:1px solid #ffffff18;border-radius:14px;background:#09070dbb;font-size:13px;line-height:1.9}
+.admin-order-top {display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap;color:#bdb0c8}
+.admin-order-top strong {color:#fff;direction:ltr;unicode-bidi:embed}
+.admin-order-customer {margin:6px 0;color:#e7dfed}
+.admin-order-customer a {color:#8fe0b3;font-weight:800;direction:ltr;unicode-bidi:embed}
+.admin-order-items {margin:6px 0;padding:8px 10px;border-radius:10px;background:#ffffff08;color:#e7dfed}
+.admin-order-total {font-weight:800;color:#e5caff}
+.admin-status-row {display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-top:10px}
+.admin-status-btn {border:1px solid #765296;border-radius:10px;padding:9px 4px;background:#21172b;color:#fff;font:700 11px Arial,sans-serif;cursor:pointer}
+.admin-status-btn.active {background:#54247a;border-color:#c49be5;box-shadow:0 0 12px #a77ad066}
+.admin-status-btn:disabled {opacity:.6}
 </style>
 </head>
 
@@ -2461,6 +2479,7 @@ body {padding-bottom:calc(76px + env(safe-area-inset-bottom,0px))}
 <!-- زر الحساب خارج حاوية المتجر حتى يبقى ثابتاً أثناء التمرير على iPhone و iPad -->
 <div class="joker-tools" id="jokerAccountButton" aria-label="حساب العميل">
   <button class="joker-tool-btn joker-account-btn" type="button" onclick="openAccount()" aria-label="حساب العميل"><span class="joker-tool-avatar-wrap"><img id="toolAvatar" class="joker-tool-avatar" alt="" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='50' fill='%2335105c'/%3E%3Ctext x='50' y='64' font-size='48' text-anchor='middle' fill='white'%3E♛%3C/text%3E%3C/svg%3E"></span></button>
+  <button class="joker-tool-btn joker-admin-btn" id="adminBtn" type="button" hidden onclick="openAdmin()">Admin<span class="admin-badge" id="adminBadge" hidden>0</span></button>
 </div>
 <script>
 /* تثبيت زر الحساب خارج body لتجنب تأثره بتمرير الصفحة على iOS */
@@ -2825,6 +2844,25 @@ body {padding-bottom:calc(76px + env(safe-area-inset-bottom,0px))}
     <h1>بحث</h1>
     <input class="account-field" id="storeSearchInput" type="search" autocomplete="off" placeholder="ابحث عن منتج أو باقة..." oninput="runStoreSearch()">
     <div id="storeSearchResults" class="store-search-results"><p class="account-hint">اكتب اسم المنتج أو الباقة للبحث.</p></div>
+  </section>
+</div>
+
+<!-- لوحة الإدارة: تظهر فقط لحساب الأدمن -->
+<div id="adminPage" class="info-page" hidden>
+  <div class="packages-page-top">
+    <button class="packages-back-button" type="button" onclick="closeInfoPage()">→ رجوع للمتجر</button>
+    <div class="packages-page-brand">ADMIN 🃏</div>
+  </div>
+  <section class="info-panel">
+    <div class="joker-orders-heading"><h1>إدارة الطلبات</h1><button type="button" class="joker-orders-refresh" onclick="loadAdminOrders()">تحديث</button></div>
+    <div class="admin-filters" id="adminFilters">
+      <button type="button" class="active" data-filter="all" onclick="setAdminFilter(this)">الكل</button>
+      <button type="button" data-filter="بانتظار تأكيد الطلب" onclick="setAdminFilter(this)">بانتظار التأكيد</button>
+      <button type="button" data-filter="قيد التنفيذ" onclick="setAdminFilter(this)">قيد التنفيذ</button>
+      <button type="button" data-filter="تم التنفيذ" onclick="setAdminFilter(this)">تم التنفيذ</button>
+    </div>
+    <p class="account-status" id="adminStatusMsg" role="status" aria-live="polite"></p>
+    <div id="adminOrders" class="joker-orders-list"></div>
   </section>
 </div>
 
@@ -3349,7 +3387,7 @@ function createPhone(section,customImage) {
 }
 
 function openInfoPage(pageId) {
-  ["storePage","packagesPage","noticePage","faqPage","refundPage","ordersPage","searchPage"].forEach(id => {
+  ["storePage","packagesPage","noticePage","faqPage","refundPage","ordersPage","searchPage","adminPage"].forEach(id => {
     const node = document.getElementById(id);
     if(node) node.hidden = id !== pageId;
   });
@@ -3357,7 +3395,7 @@ function openInfoPage(pageId) {
 }
 
 function closeInfoPage() {
-  ["packagesPage","noticePage","faqPage","refundPage","ordersPage","searchPage"].forEach(id => {
+  ["packagesPage","noticePage","faqPage","refundPage","ordersPage","searchPage","adminPage"].forEach(id => {
     const node = document.getElementById(id);
     if(node) node.hidden = true;
   });
@@ -3480,6 +3518,7 @@ supabaseClient.auth.onAuthStateChange(function(event,session) {
   setToolAvatar(session && session.user && session.user.user_metadata ? session.user.user_metadata.avatar_url : "");
   const ordersPageNode = document.getElementById("ordersPage");
   if(ordersPageNode && !ordersPageNode.hidden) window.setTimeout(loadCustomerOrders,0);
+  window.setTimeout(function() {checkAdminAccess(session);},0);
   if(event === "SIGNED_IN" && session && pendingCheckoutAfterLogin) {
     pendingCheckoutAfterLogin = false;
     closeAccount();
@@ -3603,7 +3642,8 @@ async function loadCustomerOrders() {
     }
     const {data,error} = await supabaseClient.from("orders").select("*").eq("user_id",user.id).order("created_at",{ascending:false}).limit(30);
     if(error) throw error;
-    const approvedOrders = (data || []).filter(order => String(order.status || "").trim() !== "بانتظار تأكيد الطلب");
+    const visibleStatuses = ["قيد التنفيذ","تم التنفيذ"];
+    const approvedOrders = (data || []).filter(order => visibleStatuses.includes(String(order.status || "").trim()));
     if(!approvedOrders.length) {
       container.innerHTML = '<p class="account-hint">ما عندك طلبات مسجلة حالياً.</p>';
       return;
@@ -4260,6 +4300,145 @@ function openSearchResult(button) {
       window.setTimeout(function() {target.classList.remove("shared-product-highlight");},3500);
     }
   },120);
+}
+
+
+/* ===== لوحة الإدارة (الحماية الفعلية في قاعدة البيانات، والزر هنا مجرد واجهة) ===== */
+const ADMIN_STATUSES = [
+  {value:"بانتظار تأكيد الطلب",label:"بانتظار التأكيد"},
+  {value:"قيد التنفيذ",label:"قيد التنفيذ"},
+  {value:"تم التنفيذ",label:"تم التنفيذ"}
+];
+let isAdminUser = false;
+let adminOrdersCache = [];
+let adminFilter = "all";
+
+async function checkAdminAccess(session) {
+  const btn = document.getElementById("adminBtn");
+  if(!btn) return;
+  if(!session) {
+    isAdminUser = false;
+    btn.hidden = true;
+    const pg = document.getElementById("adminPage");
+    if(pg && !pg.hidden) closeInfoPage();
+    return;
+  }
+  try {
+    const {data,error} = await supabaseClient.rpc("is_admin");
+    isAdminUser = !error && data === true;
+  } catch(error) {
+    isAdminUser = false;
+  }
+  btn.hidden = !isAdminUser;
+  if(isAdminUser) refreshAdminBadge();
+}
+
+supabaseClient.auth.getSession().then(function(result) {
+  checkAdminAccess(result && result.data ? result.data.session : null);
+}).catch(function() {});
+
+function updateAdminBadge() {
+  const badge = document.getElementById("adminBadge");
+  if(!badge) return;
+  const pending = adminOrdersCache.filter(o => String(o.status || "").trim() === "بانتظار تأكيد الطلب").length;
+  badge.textContent = pending;
+  badge.hidden = pending <= 0;
+}
+
+async function refreshAdminBadge() {
+  try {
+    const {data,error} = await supabaseClient.rpc("admin_list_orders");
+    if(error) throw error;
+    adminOrdersCache = data || [];
+    updateAdminBadge();
+  } catch(error) {}
+}
+
+function openAdmin() {
+  if(!isAdminUser) return;
+  if(typeof closeAccount === "function") closeAccount();
+  openInfoPage("adminPage");
+  setActiveNav("");
+  loadAdminOrders();
+}
+
+function setAdminFilter(button) {
+  adminFilter = button.dataset.filter || "all";
+  renderAdminOrders();
+}
+
+async function loadAdminOrders() {
+  const box = document.getElementById("adminOrders");
+  if(!box) return;
+  box.innerHTML = '<p class="account-hint">جارٍ تحميل الطلبات...</p>';
+  try {
+    const {data,error} = await supabaseClient.rpc("admin_list_orders");
+    if(error) throw error;
+    adminOrdersCache = data || [];
+    renderAdminOrders();
+  } catch(error) {
+    box.innerHTML = '<p class="account-hint">تعذر تحميل الطلبات.<br><small dir="ltr">' + escapeHTML(String((error && (error.message || error.code)) || error)) + '</small></p>';
+  }
+}
+
+function renderAdminOrders() {
+  const box = document.getElementById("adminOrders");
+  if(!box) return;
+  updateAdminBadge();
+  document.querySelectorAll("#adminFilters button").forEach(function(b) {
+    b.classList.toggle("active", b.dataset.filter === adminFilter);
+  });
+  const list = adminOrdersCache.filter(o => adminFilter === "all" || String(o.status || "").trim() === adminFilter);
+  if(!list.length) {
+    box.innerHTML = '<p class="account-hint">ما فيه طلبات بهذي الحالة.</p>';
+    return;
+  }
+  box.innerHTML = list.map(function(o) {
+    const number = String(o.order_number || "—");
+    const current = String(o.status || "").trim();
+    const items = Array.isArray(o.items) ? o.items : [];
+    const itemsHtml = items.map(function(it) {
+      return escapeHTML(String(it.title || "")) + " × " + escapeHTML(String(it.quantity || 1));
+    }).join("<br>");
+    const totalNumber = Number(o.total);
+    const totalText = isNaN(totalNumber) ? "—" : totalNumber.toFixed(2) + " د.ك";
+    const date = o.created_at ? new Date(o.created_at).toLocaleString("ar-KW") : "—";
+    const phoneDigits = String(o.phone || "").replace(/[^0-9]/g,"");
+    const customer = escapeHTML(String(o.full_name || "بدون اسم")) +
+      (o.email ? " — " + escapeHTML(String(o.email)) : "") +
+      (phoneDigits ? ' — <a href="https://wa.me/' + phoneDigits + '" target="_blank" rel="noopener noreferrer">+' + phoneDigits + '</a>' : "");
+    const buttons = ADMIN_STATUSES.map(function(st) {
+      return '<button type="button" class="admin-status-btn' + (current === st.value ? " active" : "") + '" data-order="' + escapeHTML(number) + '" data-status="' + escapeHTML(st.value) + '" onclick="setAdminOrderStatus(this)">' + escapeHTML(st.label) + '</button>';
+    }).join("");
+    return '<article class="admin-order">' +
+      '<div class="admin-order-top"><strong>#' + escapeHTML(number) + '</strong><span>' + escapeHTML(date) + '</span></div>' +
+      '<div class="admin-order-customer">' + customer + '</div>' +
+      '<div class="admin-order-items">' + (itemsHtml || "—") + '</div>' +
+      '<div class="admin-order-total">الإجمالي: ' + escapeHTML(totalText) + '</div>' +
+      '<div class="admin-status-row">' + buttons + '</div>' +
+      '</article>';
+  }).join("");
+}
+
+async function setAdminOrderStatus(button) {
+  const orderNumber = button.dataset.order;
+  const status = button.dataset.status;
+  const msg = document.getElementById("adminStatusMsg");
+  const row = button.parentElement;
+  row.querySelectorAll("button").forEach(b => b.disabled = true);
+  if(msg) msg.textContent = "جارٍ تحديث الحالة...";
+  try {
+    const {error} = await supabaseClient.rpc("admin_set_order_status",{p_order_number:orderNumber,p_status:status});
+    if(error) throw error;
+    adminOrdersCache.forEach(function(o) {
+      if(String(o.order_number) === orderNumber) o.status = status;
+    });
+    if(msg) msg.textContent = "تم تحديث الحالة إلى: " + status;
+    renderAdminOrders();
+  } catch(error) {
+    row.querySelectorAll("button").forEach(b => b.disabled = false);
+    if(msg) msg.textContent = "تعذر التحديث: " + ((error && (error.message || error.code)) || error);
+  }
 }
 
 readCart();
