@@ -3495,7 +3495,9 @@ function productImageList(item) {
   let source = item.image_urls ?? item.images ?? item.gallery ?? item.image_url ?? item.image ?? "";
   if(typeof source === "string") {
     const raw = source.trim();
-    if(raw.startsWith("[")) {
+    if(/^data:image\//i.test(raw)) {
+      source = [raw];
+    } else if(raw.startsWith("[")) {
       try { source = JSON.parse(raw); } catch(error) { source = raw; }
     } else {
       source = raw ? raw.split(/[,\\n]/).map(value => value.trim()).filter(Boolean) : [];
