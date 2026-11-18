@@ -4583,7 +4583,7 @@ function createPSNUSACardArtwork(amount) {
     </g>
     <text x="450" y="490" fill="#c4b5fd" fill-opacity=".75" font-family="Arial,sans-serif" font-size="16" text-anchor="middle" letter-spacing="5">JOKER PLUS • GAMING STORE</text>
   </svg>`;
-  return "data:image/svg+xml;charset=UTF-8," + encodeURIComponent(svg.replace("USD_VALUE","$" + String(amount)));
+  return "data:image/svg+xml;base64," + btoa(unescape(encodeURIComponent(svg.replace("USD_VALUE","$" + String(amount)))));
 }
 
 const PSN_USA_PRODUCTS = [
