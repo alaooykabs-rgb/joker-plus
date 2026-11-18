@@ -2536,6 +2536,7 @@ body {padding-bottom:calc(76px + env(safe-area-inset-bottom,0px))}
 .joker-review-summary {display:flex;justify-content:center;align-items:center;gap:9px;margin:18px 0 12px;color:#f6eaff;font-size:13px}
 .joker-review-summary strong {font-size:22px}
 .joker-review-summary-stars,.joker-review-card-stars {color:#ffd166;letter-spacing:2px;direction:ltr}
+.joker-review-submitted-heading{margin:18px 0 10px;padding-top:14px;border-top:1px solid #ffffff18;color:#e8d5ff;font-size:15px;font-weight:900;text-align:right}
 .joker-review-list {display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;text-align:right}
 .joker-review-card {padding:12px;border:1px solid #9873b244;border-radius:18px;background:#ffffff07;min-width:0}
 .joker-review-card-head {display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;color:#e8d6f5;font-size:11px;font-weight:800}
@@ -3179,7 +3180,7 @@ body {padding-bottom:calc(76px + env(safe-area-inset-bottom,0px))}
 
   <section class="joker-reviews" aria-labelledby="jokerReviewsTitle">
     <div class="joker-coming-kicker">COMMUNITY VOICES</div>
-    <h3 class="joker-reviews-title" id="jokerReviewsTitle">آراء العملاء</h3>
+    <h3 class="joker-reviews-title" id="jokerReviewsTitle">تقييم وإرسال</h3>
     <p class="joker-reviews-subtitle">رأيكم يهمّنا ويساعدنا نطوّر تجربة JOKER PLUS للأفضل.</p>
     <form class="joker-review-form" id="jokerReviewForm">
       <label>قيّم تجربتك مع JOKER PLUS</label>
@@ -3195,6 +3196,7 @@ body {padding-bottom:calc(76px + env(safe-area-inset-bottom,0px))}
       <button class="joker-review-submit" id="jokerReviewSubmit" type="submit">إرسال التقييم</button>
       <p class="joker-review-feedback" id="jokerReviewFeedback" role="status" aria-live="polite">تقييمك يُرسل دون اسم أو معلومات شخصية.</p>
     </form>
+    <div class="joker-review-submitted-heading">التقييمات التي أضافها العملاء</div>
     <div class="joker-review-summary" id="jokerReviewSummary" hidden></div>
     <div class="joker-review-list" id="jokerReviewList" aria-live="polite">
       <div class="joker-review-empty">جاري تحميل آراء العملاء…</div>
@@ -5336,7 +5338,7 @@ loadStore();
     if (!rows || !rows.length) {
       var empty = document.createElement("div");
       empty.className = "joker-review-empty";
-      empty.textContent = "لا توجد تقييمات منشورة حتى الآن. كن أول من يشاركنا رأيه!";
+      empty.textContent = "";
       list.appendChild(empty);
       summary.hidden = true;
       return;
