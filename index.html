@@ -2547,6 +2547,11 @@ body {padding-bottom:calc(76px + env(safe-area-inset-bottom,0px))}
 .joker-review-summary-stars,.joker-review-card-stars {color:#ffd166;letter-spacing:2px;direction:ltr}
 .joker-review-submitted-heading{margin:18px 0 10px;padding-top:14px;border-top:1px solid #ffffff18;color:#e8d5ff;font-size:15px;font-weight:900;text-align:right}
 .joker-review-list {display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;text-align:right}
+.joker-review-list.joker-review-marquee {display:flex;flex-wrap:nowrap;overflow-x:auto;overflow-y:hidden;gap:10px;direction:ltr;scrollbar-width:none;-ms-overflow-style:none;overscroll-behavior-x:contain;touch-action:pan-x;cursor:grab}
+.joker-review-list.joker-review-marquee::-webkit-scrollbar {display:none}
+.joker-review-list.joker-review-marquee:active {cursor:grabbing}
+.joker-review-list.joker-review-marquee .joker-review-card {direction:rtl;text-align:right;flex:0 0 min(280px,82vw);width:min(280px,82vw);box-sizing:border-box}
+.joker-review-list.joker-review-marquee .joker-review-card[aria-hidden="true"] {pointer-events:none}
 .joker-review-card {padding:12px;border:1px solid #9873b244;border-radius:18px;background:#ffffff07;min-width:0}
 .joker-review-card-head {display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;color:#e8d6f5;font-size:11px;font-weight:800}
 .joker-review-card p {margin:9px 0 0;color:#e5dbea;font-size:12px;line-height:1.9;overflow-wrap:anywhere;white-space:pre-wrap}
@@ -5427,6 +5432,7 @@ loadStore();
   });
 
   function renderReviews(rows) {
+    if (typeof list._jokerAutoStop === "function") list._jokerAutoStop();
     list.replaceChildren();
     if (!rows || !rows.length) {
       var empty = document.createElement("div");
@@ -5462,6 +5468,51 @@ loadStore();
       card.append(head, body);
       list.appendChild(card);
     });
+
+    // عند تجاوز خمسة تقييمات: شريط تلقائي متواصل مع دعم السحب اليدوي باللمس.
+    if (rows.length > 5) {
+      list.classList.add("joker-review-marquee");
+      Array.from(list.children).forEach(function (card) {
+        var clone = card.cloneNode(true);
+        clone.setAttribute("aria-hidden", "true");
+        list.appendChild(clone);
+      });
+      var autoTimer = null;
+      var resumeTimer = null;
+      var lastFrame = 0;
+      function stopAuto() {
+        if (autoTimer) cancelAnimationFrame(autoTimer);
+        autoTimer = null;
+        if (resumeTimer) clearTimeout(resumeTimer);
+      }
+      list._jokerAutoStop = stopAuto;
+      function startAuto() {
+        if (autoTimer || list.scrollWidth <= list.clientWidth) return;
+        lastFrame = 0;
+        function step(timestamp) {
+          if (!list.isConnected) { autoTimer = null; return; }
+          if (!lastFrame) lastFrame = timestamp;
+          var elapsed = Math.min(40, timestamp - lastFrame);
+          lastFrame = timestamp;
+          list.scrollLeft += elapsed * 0.035;
+          var loopWidth = list.scrollWidth / 2;
+          if (loopWidth > 0 && list.scrollLeft >= loopWidth) list.scrollLeft -= loopWidth;
+          autoTimer = requestAnimationFrame(step);
+        }
+        autoTimer = requestAnimationFrame(step);
+      }
+      function pauseAndResume() {
+        stopAuto();
+        resumeTimer = setTimeout(startAuto, 2200);
+      }
+      list.addEventListener("pointerdown", pauseAndResume, { passive: true });
+      list.addEventListener("touchstart", pauseAndResume, { passive: true });
+      list.addEventListener("wheel", pauseAndResume, { passive: true });
+      list.addEventListener("pointerup", pauseAndResume, { passive: true });
+      list.addEventListener("touchend", pauseAndResume, { passive: true });
+      list.addEventListener("touchcancel", pauseAndResume, { passive: true });
+      startAuto();
+    }
   }
 
   async function loadReviews() {
