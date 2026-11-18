@@ -2091,6 +2091,165 @@ button:focus-visible,.buy-button:focus-visible {
  .splash-screen::before {border-width:1px;box-shadow:0 0 90px #8b4acb33,inset 0 0 70px #8b4acb22}
 }
 
+
+/* ===== قسم: ليش يختارونا + بانر الدعم الفني ===== */
+.why-us {
+  max-width:1110px;
+  margin:0 auto 30px;
+  padding:0 14px;
+}
+
+.why-us-title {
+  margin:0 0 16px;
+  text-align:center;
+  color:var(--muted);
+  font-size:20px;
+  font-weight:700;
+}
+
+.why-us-grid {
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:12px;
+  margin-top:34px;
+}
+
+.why-card {
+  position:relative;
+  min-height:150px;
+  padding:48px 8px 18px;
+  border:1px solid var(--border);
+  border-radius:20px;
+  text-align:center;
+  background:linear-gradient(160deg,#1b1026,#12091c);
+  box-shadow:0 10px 25px #0006,inset 0 1px 0 #ffffff12;
+}
+
+.why-card-icon {
+  position:absolute;
+  top:-30px;
+  left:50%;
+  transform:translateX(-50%);
+  width:64px;
+  height:64px;
+  border-radius:50%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:radial-gradient(circle at 30% 25%,#35105c,#12091c 75%);
+  border:1px solid #654184;
+  box-shadow:0 0 22px #a77ad044;
+}
+
+.why-card-icon svg {
+  width:34px;
+  height:34px;
+  fill:none;
+  stroke:var(--purple-light);
+  stroke-width:1.8;
+  stroke-linecap:round;
+  stroke-linejoin:round;
+}
+
+.why-card p {
+  margin:0;
+  color:var(--white);
+  font-size:15px;
+  font-weight:700;
+  line-height:1.7;
+}
+
+.support-banner {
+  position:relative;
+  margin-top:22px;
+  padding:22px 18px;
+  border:1px solid #654184;
+  border-radius:24px;
+  overflow:hidden;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:18px;
+  background:
+    radial-gradient(ellipse at 20% 50%,#63358c66,transparent 55%),
+    linear-gradient(130deg,#1b1026,#09080c 60%,#28113d);
+  box-shadow:0 14px 35px #0008,inset 0 1px 0 #ffffff18;
+}
+
+.support-banner::before {
+  content:"";
+  position:absolute;
+  inset:0;
+  background:repeating-linear-gradient(115deg,transparent 0 22px,#ffffff06 22px 24px);
+  pointer-events:none;
+}
+
+.support-art {
+  position:relative;
+  z-index:1;
+  flex:none;
+  width:150px;
+  height:150px;
+}
+
+.support-art svg {width:100%;height:100%;display:block}
+
+.support-text {
+  position:relative;
+  z-index:1;
+  flex:1;
+  max-width:360px;
+  text-align:center;
+}
+
+.support-logo {
+  display:inline-block;
+  margin-bottom:8px;
+  font-size:14px;
+  font-weight:900;
+  letter-spacing:1.5px;
+  direction:ltr;
+  color:#fff;
+}
+
+.support-logo span {color:#c49be5}
+
+.support-text h3 {
+  margin:0 0 14px;
+  color:var(--white);
+  font-size:18px;
+  font-weight:800;
+  line-height:1.8;
+}
+
+.support-btn {
+  display:inline-block;
+  padding:11px 26px;
+  border-radius:10px;
+  background:linear-gradient(135deg,#54247a,#8d45c9);
+  color:#fff;
+  font-size:15px;
+  font-weight:800;
+  text-decoration:none;
+  box-shadow:0 8px 20px #8d45c955;
+  transition:transform .15s ease,box-shadow .15s ease;
+}
+
+.support-btn:active {transform:scale(.96)}
+
+@media (max-width:640px) {
+  .why-us {padding:0 10px}
+  .why-us-title {font-size:18px}
+  .why-us-grid {gap:8px}
+  .why-card {padding:46px 4px 16px;border-radius:18px;min-height:140px}
+  .why-card p {font-size:13px}
+  .why-card-icon {width:58px;height:58px;top:-28px}
+  .why-card-icon svg {width:30px;height:30px}
+  .support-banner {padding:16px 10px;gap:8px}
+  .support-art {width:105px;height:105px}
+  .support-text h3 {font-size:14px;margin-bottom:10px}
+  .support-btn {padding:9px 18px;font-size:13px}
+}
 </style>
 </head>
 
@@ -2265,6 +2424,58 @@ button:focus-visible,.buy-button:focus-visible {
 </section>
 
 
+
+<!-- ليش يختارونا + الدعم الفني -->
+<section class="why-us" aria-label="ليش يختارونا">
+  <h2 class="why-us-title">ليش يختارونا</h2>
+
+  <div class="why-us-grid">
+    <div class="why-card">
+      <div class="why-card-icon">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.5l2.6 5.3 5.9.9-4.3 4.1 1 5.8L12 16.8l-5.2 2.8 1-5.8L3.5 9.7l5.9-.9z"/></svg>
+      </div>
+      <p>جودة عالية<br>لجميع<br>المنتجات</p>
+    </div>
+
+    <div class="why-card">
+      <div class="why-card-icon">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.5c2.6 2.2 4 5.2 4 8.5v4.5H8V11c0-3.3 1.4-6.3 4-8.5z"/><circle cx="12" cy="9.5" r="1.7"/><path d="M8 13l-2.5 3.5V19L8 17.5M16 13l2.5 3.5V19L16 17.5M12 17v4"/></svg>
+      </div>
+      <p>تسليم فوري<br>لجميع<br>المنتجات</p>
+    </div>
+
+    <div class="why-card">
+      <div class="why-card-icon">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4.5" y="5" width="15" height="10.5" rx="1.8"/><path d="M2.5 19h19"/></svg>
+      </div>
+      <p>دعم فني 24<br>ساعة متواصل</p>
+    </div>
+  </div>
+
+  <div class="support-banner">
+    <div class="support-text">
+      <div class="support-logo">JOKER <span>PLUS</span></div>
+      <h3>اذا واجهتك مشكلة لا تتردد<br>بالرجوع الى الدعم الفني</h3>
+      <a class="support-btn" href="https://t.me/jokerplus3" target="_blank" rel="noopener noreferrer">بالضغط هنا</a>
+    </div>
+
+    <div class="support-art" aria-hidden="true">
+      <svg viewBox="0 0 150 150" xmlns="http://www.w3.org/2000/svg">
+        <rect x="18" y="8" width="62" height="134" rx="8" fill="#54247a"/>
+        <rect x="30" y="38" width="100" height="70" rx="8" fill="#2a2132" stroke="#8e8495" stroke-width="2"/>
+        <rect x="24" y="108" width="112" height="8" rx="4" fill="#8e8495"/>
+        <circle cx="80" cy="62" r="13" fill="#d9d3de"/>
+        <path d="M64 58a16 16 0 0132 0" fill="none" stroke="#fff" stroke-width="3"/>
+        <rect x="62" y="56" width="5" height="11" rx="2" fill="#fff"/>
+        <rect x="93" y="56" width="5" height="11" rx="2" fill="#fff"/>
+        <path d="M62 102c0-12 8-20 18-20s18 8 18 20z" fill="#b9b0c0"/>
+        <rect x="104" y="20" width="34" height="22" rx="6" fill="#c9c2d0"/>
+        <text x="121" y="36" font-size="14" font-weight="bold" text-anchor="middle" fill="#54247a">?</text>
+        <circle cx="38" cy="50" r="9" fill="none" stroke="#a77ad0" stroke-width="3" stroke-dasharray="4 3"/>
+      </svg>
+    </div>
+  </div>
+</section>
 
 <main>
   <div class="section-heading">
