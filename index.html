@@ -2670,7 +2670,7 @@ window.loadAdminProducts=async function(){
 window.compressJokerProductImage=function(file){
  return new Promise(function(resolve,reject){
   if(!file){resolve("");return;}
-  if(!/^image\\/(jpeg|png|webp)$/.test(file.type)){reject(new Error("صيغة الصورة غير مدعومة."));return;}
+  if(!/^image\/(jpeg|png|webp)$/.test(file.type)){reject(new Error("صيغة الصورة غير مدعومة."));return;}
   if(file.size>8*1024*1024){reject(new Error("حجم الصورة أكبر من 8 ميغابايت."));return;}
   var reader=new FileReader();
   reader.onerror=function(){reject(new Error("تعذر قراءة الصورة."));};
@@ -2721,6 +2721,93 @@ window.exportAdminReport=function(){
 };
 })();
 </script>
+
+
+<style id="joker-plus-upgrades-style">
+/* JOKER PLUS upgrades */
+.joker-dynamic-banners{max-width:1110px;margin:16px auto 24px;padding:0 14px;display:grid;gap:12px}
+.joker-banner-card{position:relative;display:block;min-height:150px;overflow:hidden;border:1px solid #8e64ae;border-radius:20px;background:linear-gradient(135deg,#35105c,#100b18);box-shadow:0 12px 30px #0007;color:#fff;text-decoration:none}
+.joker-banner-card img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.82}
+.joker-banner-card:after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,#09080cdd,transparent 90%)}
+.joker-banner-card strong{position:relative;z-index:1;display:block;padding:28px;font-size:clamp(18px,4vw,28px);text-shadow:0 2px 8px #000}
+.joker-banner-admin{display:grid;gap:10px;padding:14px;margin:14px 0;border:1px solid #67458588;border-radius:16px;background:#160f20}
+.joker-banner-admin input{width:100%}.joker-banner-row{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:10px;border:1px solid #ffffff20;border-radius:12px}
+.joker-banner-row img{width:90px;height:48px;object-fit:cover;border-radius:8px}.joker-banner-row button{border:1px solid #a6192e;background:#451321;color:#fff;border-radius:8px;padding:7px 10px}
+.joker-invoice-btn{margin:8px 0;border:1px solid #b58bd4;border-radius:10px;background:#35105c;color:#fff;padding:9px 13px;font-weight:800;cursor:pointer}
+.joker-sticky-add{position:sticky!important;bottom:calc(82px + env(safe-area-inset-bottom))!important;z-index:5;box-shadow:0 4px 18px #0009}
+.joker-realtime-status{font-size:11px;color:#cbb9dc;margin:8px 0}
+@media(max-width:600px){.joker-banner-card{min-height:125px}.joker-banner-row{align-items:flex-start;flex-wrap:wrap}}
+</style>
+<script id="joker-plus-requested-upgrades">
+(function(){
+'use strict';
+var bannerRows=[];
+function el(id){return document.getElementById(id)}
+function esc(v){return typeof escapeHTML==='function'?escapeHTML(String(v==null?'':v)):String(v==null?'':v).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})}
+function ensureBannerArea(){var main=el('sections');if(!main)return;var area=el('jokerDynamicBanners');if(!area){area=document.createElement('div');area.id='jokerDynamicBanners';area.className='joker-dynamic-banners';main.parentNode.insertBefore(area,main)}return area}
+window.loadJokerBanners=async function(){var area=ensureBannerArea();if(!area)return;try{var r=await supabaseClient.from('joker_banners').select('id,title,image_url,link_url,active,sort_order').eq('active',true).order('sort_order',{ascending:true});if(r.error)throw r.error;bannerRows=r.data||[];area.innerHTML=bannerRows.map(function(b){var inner='<img src="'+esc(b.image_url)+'" alt="'+esc(b.title||'إعلان JOKER PLUS')+'" loading="lazy"><strong>'+esc(b.title||'')+'</strong>';return b.link_url?'<a class="joker-banner-card" href="'+esc(b.link_url)+'" target="_blank" rel="noopener noreferrer">'+inner+'</a>':'<div class="joker-banner-card">'+inner+'</div>'}).join('');}catch(e){area.innerHTML='';console.warn('JOKER banners:',e.message||e)}};
+function addAdminBannerUI(){var tabs=document.querySelector('.admin-section-tabs'),panel=el('adminPage');if(!tabs||!panel||el('adminBannersSection'))return;var notify=document.createElement('button');notify.type='button';notify.className='joker-orders-refresh';notify.textContent='تفعيل إشعارات الطلبات';notify.style.margin='8px 0';notify.onclick=async function(){if(!('Notification'in window)){alert('المتصفح لا يدعم الإشعارات.');return}var p=await Notification.requestPermission();alert(p==='granted'?'تم تفعيل إشعارات الطلبات الجديدة.':'لم يتم السماح بالإشعارات.')};var head=panel.querySelector('.admin-dashboard-head');if(head)head.appendChild(notify);var tab=document.createElement('button');tab.type='button';tab.className='admin-section-tab';tab.id='adminBannersTab';tab.setAttribute('role','tab');tab.setAttribute('aria-selected','false');tab.textContent='البانرات والإعلانات';tab.onclick=function(){window.showJokerBannerAdmin()};tabs.appendChild(tab);var section=document.createElement('div');section.id='adminBannersSection';section.hidden=true;section.innerHTML='<div class="joker-orders-heading"><h1>إدارة البانرات والإعلانات</h1><button type="button" class="joker-orders-refresh" onclick="loadJokerBannerAdmin()">تحديث</button></div><form id="jokerBannerForm" class="joker-banner-admin"><input type="hidden" id="jokerBannerId"><label>عنوان الإعلان</label><input class="account-field" id="jokerBannerTitle" maxlength="160" required placeholder="عنوان البانر"><label>رابط صورة البانر</label><input class="account-field" id="jokerBannerImage" type="url" required placeholder="https://..."><label>رابط الانتقال (اختياري)</label><input class="account-field" id="jokerBannerLink" type="url" placeholder="https://..."><label>ترتيب العرض</label><input class="account-field" id="jokerBannerSort" type="number" value="0"><label class="joker-product-active"><input id="jokerBannerActive" type="checkbox" checked> الإعلان فعال</label><div class="joker-product-admin-actions"><button class="joker-coupon-save" type="submit">حفظ الإعلان</button><button class="joker-orders-refresh" type="button" onclick="resetJokerBannerForm()">تفريغ</button></div><p id="jokerBannerMsg" class="account-status" role="status"></p></form><div id="jokerBannerList" class="joker-product-admin-list"></div>';tabs.parentNode.insertBefore(section,tabs.nextSibling);el('jokerBannerForm').addEventListener('submit',saveJokerBanner)}
+window.showJokerBannerAdmin=function(){if(!(typeof isAdminUser!=="undefined"&&isAdminUser))return;['orders','coupons','reviews','products','banners'].forEach(function(k){var x=el('admin'+k.charAt(0).toUpperCase()+k.slice(1)+'Section');if(x)x.hidden=k!=='banners';var t=el('admin'+k.charAt(0).toUpperCase()+k.slice(1)+'Tab');if(t){t.classList.toggle('active',k==='banners');t.setAttribute('aria-selected',k==='banners'?'true':'false')}});loadJokerBannerAdmin()};
+window.resetJokerBannerForm=function(){var f=el('jokerBannerForm');if(f)f.reset();if(el('jokerBannerId'))el('jokerBannerId').value='';if(el('jokerBannerActive'))el('jokerBannerActive').checked=true};
+window.loadJokerBannerAdmin=async function(){if(!(typeof isAdminUser!=="undefined"&&isAdminUser))return;var box=el('jokerBannerList'),msg=el('jokerBannerMsg');if(!box)return;box.textContent='جاري تحميل الإعلانات...';try{var r=await supabaseClient.from('joker_banners').select('*').order('sort_order',{ascending:true});if(r.error)throw r.error;bannerRows=r.data||[];box.innerHTML=bannerRows.length?bannerRows.map(function(b){return '<div class="joker-banner-row"><img src="'+esc(b.image_url)+'" alt=""><div style="flex:1;min-width:130px"><strong>'+esc(b.title)+'</strong><small style="display:block;color:#b9a8c6">'+(b.active?'فعال':'متوقف')+'</small></div><button type="button" data-edit="'+esc(b.id)+'" style="background:#35105c;border-color:#8e64ae">تعديل</button><button type="button" data-del="'+esc(b.id)+'">حذف</button></div>'}).join(''):'<p class="account-hint">لا توجد إعلانات حتى الآن.</p>';box.querySelectorAll('[data-edit]').forEach(function(b){b.onclick=function(){var x=bannerRows.find(function(y){return String(y.id)===b.dataset.edit});if(!x)return;el('jokerBannerId').value=x.id;el('jokerBannerTitle').value=x.title||'';el('jokerBannerImage').value=x.image_url||'';el('jokerBannerLink').value=x.link_url||'';el('jokerBannerSort').value=x.sort_order||0;el('jokerBannerActive').checked=!!x.active;el('jokerBannerForm').scrollIntoView({behavior:'smooth'})}});box.querySelectorAll('[data-del]').forEach(function(b){b.onclick=async function(){if(!confirm('حذف هذا الإعلان؟'))return;var d=await supabaseClient.from('joker_banners').delete().eq('id',b.dataset.del);if(d.error){if(msg)msg.textContent=d.error.message;return}loadJokerBannerAdmin();loadJokerBanners()}})}catch(e){box.innerHTML='<p class="account-hint">تعذر تحميل البانرات. أنشئ جدول joker_banners وشغّل سياسات SQL المرفقة.</p>';if(msg)msg.textContent=e.message||String(e)}};
+async function saveJokerBanner(ev){ev.preventDefault();if(!(typeof isAdminUser!=="undefined"&&isAdminUser))return;var msg=el('jokerBannerMsg'),id=el('jokerBannerId').value,p={title:el('jokerBannerTitle').value.trim(),image_url:el('jokerBannerImage').value.trim(),link_url:el('jokerBannerLink').value.trim()||null,sort_order:Number(el('jokerBannerSort').value)||0,active:el('jokerBannerActive').checked};try{var r=id?await supabaseClient.from('joker_banners').update(p).eq('id',id):await supabaseClient.from('joker_banners').insert(p);if(r.error)throw r.error;if(msg)msg.textContent='تم حفظ الإعلان.';resetJokerBannerForm();await loadJokerBannerAdmin();await loadJokerBanners()}catch(e){if(msg)msg.textContent='تعذر الحفظ: '+(e.message||e)+' — تحقق من جدول وسياسات joker_banners في Supabase.'}}
+window.printJokerInvoice=function(order){if(typeof order==='string'){order=(typeof adminOrdersCache!=="undefined"?adminOrdersCache:[]).find(function(x){return String(x.order_number)===order})}if(!order){alert('بيانات الطلب غير متوفرة لطباعة الفاتورة.');return}var items=Array.isArray(order.items)?order.items:(Array.isArray(order.order_items)?order.order_items:[]);var num=order.order_number||order.id||'—',date=order.created_at?new Date(order.created_at).toLocaleString('ar-KW'):'—',total=Number(order.total??order.total_amount??order.amount??0);var rows=items.map(function(x){var q=Number(x.quantity||1),price=Number(String(x.price||0).replace(/[^0-9.]/g,''));return '<tr><td>'+esc(x.title||x.name||'منتج')+'</td><td>'+q+'</td><td>'+esc(x.price||'—')+'</td><td>'+(Number.isFinite(price)?(price*q).toFixed(3):'—')+'</td></tr>'}).join('');var w=window.open('','_blank','width=850,height=700');if(!w){alert('اسمح بالنوافذ المنبثقة لطباعة الفاتورة.');return}w.document.write('<!doctype html><html lang="ar" dir="rtl"><meta charset="utf-8"><title>فاتورة '+esc(num)+'</title><style>body{font-family:Arial;padding:35px;color:#20152b}header{display:flex;justify-content:space-between;border-bottom:3px solid #54247a;padding-bottom:18px}h1{color:#54247a}table{width:100%;border-collapse:collapse;margin-top:28px}th,td{padding:12px;border:1px solid #ddd;text-align:right}th{background:#eee}.total{margin-top:25px;font-size:20px;font-weight:bold}.muted{color:#666}@media print{button{display:none}}</style><header><div><h1>JOKER PLUS</h1><div>فاتورة طلب</div></div><div><b>رقم الطلب: '+esc(num)+'</b><p>'+esc(date)+'</p></div></header><p>العميل: '+esc(order.full_name||'—')+'</p><p>البريد: '+esc(order.email||'—')+'　 الهاتف: '+esc(order.phone||'—')+'</p><table><thead><tr><th>المنتج</th><th>الكمية</th><th>سعر الوحدة</th><th>الإجمالي</th></tr></thead><tbody>'+rows+'</tbody></table><div class="total">الإجمالي: '+(Number.isFinite(total)?total.toFixed(3):esc(total))+' د.ك</div><p class="muted">شكراً لثقتكم بـ JOKER PLUS</p><script>window.onload=function(){window.print()}<\/script></html>');w.document.close()};
+function wireInvoiceButtons(){var admin=el('adminOrders');if(admin)admin.querySelectorAll('.admin-order').forEach(function(card,i){if(card.querySelector('.joker-invoice-btn'))return;var o=(typeof adminOrdersCache!=="undefined"?adminOrdersCache:[]).filter(function(x){return (typeof adminFilter!=='undefined'?adminFilter:'all')==='all'||String(x.status||'').trim()===(typeof adminFilter!=='undefined'?adminFilter:'all')})[i];if(!o)return;var b=document.createElement('button');b.type='button';b.className='joker-invoice-btn';b.textContent='طباعة الفاتورة';b.onclick=function(){printJokerInvoice(o)};card.appendChild(b)});var customer=el('customerOrders');if(customer)customer.querySelectorAll('.joker-order-card').forEach(function(card,i){if(card.querySelector('.joker-invoice-btn'))return;var o=window.jokerCustomerOrdersCache&&window.jokerCustomerOrdersCache[i];if(!o)return;var b=document.createElement('button');b.type='button';b.className='joker-invoice-btn';b.textContent='طباعة الفاتورة';b.onclick=function(){printJokerInvoice(o)};card.appendChild(b)})}
+if(typeof window.renderAdminOrders==='function'){var oldRender=window.renderAdminOrders;window.renderAdminOrders=function(){oldRender.apply(this,arguments);wireInvoiceButtons()}}
+if(typeof window.loadCustomerOrders==='function'){var oldCustomer=window.loadCustomerOrders;window.loadCustomerOrders=async function(){await oldCustomer.apply(this,arguments);try{var s=await supabaseClient.auth.getSession(),u=s.data&&s.data.session&&s.data.session.user;if(u){var r=await supabaseClient.from('orders').select('*').eq('user_id',u.id).order('created_at',{ascending:false}).limit(30);window.jokerCustomerOrdersCache=r.data||[]}}catch(_){}wireInvoiceButtons()}}
+function startRealtime(){if(!(typeof isAdminUser!=="undefined"&&isAdminUser)||window.jokerOrdersRealtime)return;try{window.jokerOrdersRealtime=supabaseClient.channel('joker-admin-new-orders').on('postgres_changes',{event:'INSERT',schema:'public',table:'orders'},function(payload){var o=payload.new||{},n=o.order_number||o.id||'جديد';if('Notification'in window&&Notification.permission==='granted'){new Notification('طلب جديد - JOKER PLUS',{body:'وصل طلب جديد رقم #'+n})}if(typeof showActionToast==='function')showActionToast('🔔 وصل طلب جديد #'+n);if(typeof loadAdminOrders==='function'&&el('adminPage')&&!el('adminPage').hidden)loadAdminOrders()}).subscribe() }catch(e){console.warn('Realtime orders:',e)}}
+var oldOpenAdmin=window.openAdmin; if(typeof oldOpenAdmin==='function')window.openAdmin=function(){oldOpenAdmin.apply(this,arguments);addAdminBannerUI();startRealtime()};
+var oldNavGo=window.navGo;window.navGo=function(name){if(name==='home'){var store=el('storePage'),isHome=store&&!store.hidden;var other=['packagesPage','noticePage','faqPage','refundPage','ordersPage','searchPage','adminPage','storeRegionsPage','storeRegionItemsPage','jokerOrderSuccessPage'].some(function(id){var n=el(id);return n&&!n.hidden});if(isHome&&!other){window.location.reload();return}if(typeof closeInfoPage==='function'){closeInfoPage();setActiveNav('home');window.scrollTo({top:0,behavior:'smooth'});return}}if(typeof oldNavGo==='function')return oldNavGo.apply(this,arguments)};
+var oldLoad=window.loadStore; if(typeof oldLoad==='function')window.loadStore=async function(){var r=await oldLoad.apply(this,arguments);loadJokerBanners();return r};
+var oldShowSection=window.showAdminSection;if(typeof oldShowSection==='function')window.showAdminSection=function(section){oldShowSection.apply(this,arguments);if(section==='banners')showJokerBannerAdmin()};
+function install(){addAdminBannerUI();loadJokerBanners();function sticky(){document.querySelectorAll('.service .add-cart-button').forEach(function(b){b.classList.add('joker-sticky-add')})}sticky();var target=el('sections');if(target&&window.MutationObserver)new MutationObserver(sticky).observe(target,{childList:true,subtree:true});if((typeof isAdminUser!=="undefined"&&isAdminUser))startRealtime()}
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',install);else install();
+})();
+</script>
+
+
+<!--
+إعدادات Supabase المطلوبة للميزات الجديدة (نفّذ SQL التالي مرة واحدة من SQL Editor):
+
+-- جدول البانرات والإعلانات
+create table if not exists public.joker_banners (
+  id bigint generated by default as identity primary key,
+  title text not null,
+  image_url text not null,
+  link_url text,
+  active boolean not null default true,
+  sort_order integer not null default 0,
+  created_at timestamptz not null default now()
+);
+
+alter table public.joker_banners enable row level security;
+drop policy if exists "Public can read active joker banners" on public.joker_banners;
+create policy "Public can read active joker banners" on public.joker_banners
+for select to anon, authenticated using (active = true);
+drop policy if exists "Admins manage joker banners" on public.joker_banners;
+create policy "Admins manage joker banners" on public.joker_banners
+for all to authenticated
+using ((auth.jwt() -> 'app_metadata' ->> 'role') = 'admin')
+with check ((auth.jwt() -> 'app_metadata' ->> 'role') = 'admin');
+
+-- إتاحة أحداث الطلبات لـ Supabase Realtime (إذا لم يكن الجدول ضمن النشر مسبقاً)
+do $$
+begin
+  if not exists (
+    select 1 from pg_publication_tables
+    where pubname = 'supabase_realtime'
+      and schemaname = 'public' and tablename = 'orders'
+  ) then
+    alter publication supabase_realtime add table public.orders;
+  end if;
+end $$;
+
+مهم جداً:
+1) سياسة الكتابة أعلاه تفترض أن حساب الإدارة يحمل app_metadata.role = 'admin'. إذا كان نظام صلاحياتك الحالي يعتمد على معيار مختلف، عدّل شرط السياسة ليتطابق معه قبل تشغيلها. لا تمنح صلاحية الكتابة لجميع المستخدمين.
+2) إشعارات الطلبات الفورية تعمل بعد تشغيل Realtime ومنح المتصفح إذن الإشعارات، وتتطلب أن تسمح سياسات RLS للمسؤول بقراءة أحداث جدول orders.
+3) زر طباعة الفاتورة يطبع بيانات الطلب المتاحة في orders / admin_list_orders؛ أي حقل غير موجود في قاعدة البيانات سيظهر فارغاً أو بشرطة.
+4) زر الشراء الثابت يظهر أثناء التمرير داخل بطاقة المنتج، ويضيف المنتج إلى السلة باستخدام آلية المتجر الحالية.
+-->
 
 </body>
 </html>
