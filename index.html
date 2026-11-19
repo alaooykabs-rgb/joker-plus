@@ -31,6 +31,15 @@ body:before{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;opac
 @media(prefers-reduced-motion:reduce){body:before{animation:none}.joker-product-glow{animation:none!important}}
 </style>
 <style id="joker-no-white-logo-sweep">.header-emblem::after,.hero-phone-logo::after{content:none!important;animation:none!important}</style>
+
+<style id="joker-review-marquee-upgrade">
+.joker-review-list.joker-review-marquee{display:flex!important;flex-wrap:nowrap!important;flex-direction:row!important;direction:ltr!important;overflow-x:auto!important;overflow-y:hidden!important;gap:12px;scrollbar-width:none;-ms-overflow-style:none;overscroll-behavior-x:contain;touch-action:pan-x pan-y;cursor:grab;user-select:none;-webkit-user-select:none;scroll-behavior:auto!important;padding:3px 1px 10px}
+.joker-review-list.joker-review-marquee::-webkit-scrollbar{display:none}
+.joker-review-list.joker-review-marquee.is-dragging{cursor:grabbing;scroll-snap-type:none}
+.joker-review-list.joker-review-marquee .joker-review-card{direction:rtl;text-align:right;flex:0 0 min(300px,84vw);width:min(300px,84vw);min-width:0;scroll-snap-align:start;user-select:text;-webkit-user-select:text}
+.joker-review-list.joker-review-marquee .joker-review-card[aria-hidden="true"]{pointer-events:none}
+@media(prefers-reduced-motion:reduce){.joker-review-list.joker-review-marquee{scroll-behavior:auto}}
+</style>
 </head>
 <body>
 <div class="splash-screen" id="splashScreen" aria-label="JOKER PLUS">
@@ -2482,47 +2491,98 @@ head.append(identity, rating);
 card.append(head, body);
 list.appendChild(card);
 });
-if (rows.length > 5) {
+if (rows.length > 1) {
 list.classList.add("joker-review-marquee");
+// Duplicate the cards to create a continuous horizontal loop.
 Array.from(list.children).forEach(function (card) {
 var clone = card.cloneNode(true);
 clone.setAttribute("aria-hidden", "true");
+clone.setAttribute("tabindex", "-1");
 list.appendChild(clone);
 });
-var autoTimer = null;
+var autoFrame = 0;
 var resumeTimer = null;
 var lastFrame = 0;
-function stopAuto() {
-if (autoTimer) cancelAnimationFrame(autoTimer);
-autoTimer = null;
-if (resumeTimer) clearTimeout(resumeTimer);
+var dragging = false;
+var dragPointerId = null;
+var dragStartX = 0;
+var dragStartScroll = 0;
+var loopWidth = 0;
+function measureLoop() {
+loopWidth = list.scrollWidth / 2;
 }
-list._jokerAutoStop = stopAuto;
+function stopAuto() {
+if (autoFrame) cancelAnimationFrame(autoFrame);
+autoFrame = 0;
+lastFrame = 0;
+if (resumeTimer) clearTimeout(resumeTimer);
+resumeTimer = null;
+}
 function startAuto() {
-if (autoTimer || list.scrollWidth <= list.clientWidth) return;
+if (autoFrame || dragging || list.scrollWidth <= list.clientWidth + 2) return;
+measureLoop();
 lastFrame = 0;
 function step(timestamp) {
-if (!list.isConnected) { autoTimer = null; return; }
+if (!list.isConnected || dragging) { autoFrame = 0; return; }
 if (!lastFrame) lastFrame = timestamp;
 var elapsed = Math.min(40, timestamp - lastFrame);
 lastFrame = timestamp;
+// LTR scrolling keeps the loop direction consistent in Arabic layouts.
 list.scrollLeft += elapsed * 0.035;
-var loopWidth = list.scrollWidth / 2;
 if (loopWidth > 0 && list.scrollLeft >= loopWidth) list.scrollLeft -= loopWidth;
-autoTimer = requestAnimationFrame(step);
+if (list.scrollLeft < 0) list.scrollLeft = 0;
+autoFrame = requestAnimationFrame(step);
 }
-autoTimer = requestAnimationFrame(step);
+autoFrame = requestAnimationFrame(step);
 }
-function pauseAndResume() {
+function pauseAndResume(delay) {
 stopAuto();
-resumeTimer = setTimeout(startAuto, 2200);
+if (!dragging) resumeTimer = setTimeout(startAuto, delay || 2400);
 }
-list.addEventListener("pointerdown", pauseAndResume, { passive: true });
-list.addEventListener("touchstart", pauseAndResume, { passive: true });
-list.addEventListener("wheel", pauseAndResume, { passive: true });
-list.addEventListener("pointerup", pauseAndResume, { passive: true });
-list.addEventListener("touchend", pauseAndResume, { passive: true });
-list.addEventListener("touchcancel", pauseAndResume, { passive: true });
+// Native touch scrolling works on phones; pointer dragging adds mouse support.
+list.addEventListener("pointerdown", function (event) {
+stopAuto();
+if (event.pointerType === "mouse" && event.button === 0) {
+dragging = true;
+dragPointerId = event.pointerId;
+dragStartX = event.clientX;
+dragStartScroll = list.scrollLeft;
+list.classList.add("is-dragging");
+try { list.setPointerCapture(event.pointerId); } catch (_) {}
+}
+}, { passive: true });
+list.addEventListener("pointermove", function (event) {
+if (!dragging || event.pointerId !== dragPointerId) return;
+list.scrollLeft = dragStartScroll + (dragStartX - event.clientX);
+}, { passive: true });
+function finishDrag(event) {
+if (dragging && (!event || event.pointerId === dragPointerId)) {
+dragging = false;
+dragPointerId = null;
+list.classList.remove("is-dragging");
+pauseAndResume(1800);
+}
+}
+list.addEventListener("pointerup", finishDrag, { passive: true });
+list.addEventListener("pointercancel", finishDrag, { passive: true });
+list.addEventListener("lostpointercapture", finishDrag, { passive: true });
+list.addEventListener("touchstart", function () { stopAuto(); }, { passive: true });
+list.addEventListener("touchend", function () { pauseAndResume(2200); }, { passive: true });
+list.addEventListener("touchcancel", function () { pauseAndResume(2200); }, { passive: true });
+list.addEventListener("wheel", function () { pauseAndResume(1800); }, { passive: true });
+list.addEventListener("scroll", function () {
+if (!dragging && !autoFrame) pauseAndResume(1800);
+}, { passive: true });
+if (typeof ResizeObserver !== "undefined") {
+var resizeObserver = new ResizeObserver(function () { measureLoop(); });
+resizeObserver.observe(list);
+list._jokerResizeObserver = resizeObserver;
+}
+list._jokerAutoStop = function () {
+stopAuto();
+if (list._jokerResizeObserver) list._jokerResizeObserver.disconnect();
+};
+measureLoop();
 startAuto();
 }
 }
