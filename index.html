@@ -68,6 +68,25 @@ body:before{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;opac
 .joker-review-list.joker-review-marquee .joker-review-card[aria-hidden="true"]{pointer-events:none}
 @media(prefers-reduced-motion:reduce){.joker-review-list.joker-review-marquee{scroll-behavior:auto}}
 </style>
+
+<style id="joker-vip-cart-upgrade">
+.cart-backdrop{align-items:flex-end;padding:clamp(8px,2vw,18px);background:rgba(4,2,8,.82);backdrop-filter:blur(9px);-webkit-backdrop-filter:blur(9px)}
+.cart-panel{position:relative;width:min(100%,540px);max-height:min(86dvh,760px);border:1px solid rgba(177,119,224,.55);border-radius:26px 26px 22px 22px;background:radial-gradient(ellipse at 88% 0%,rgba(113,57,151,.24),transparent 42%),linear-gradient(155deg,#191020 0%,#0c0911 62%,#100b17 100%);box-shadow:0 28px 90px #000d,0 0 38px rgba(137,75,183,.13),inset 0 1px 0 #ffffff18;animation:jokerCartReveal .42s cubic-bezier(.2,.8,.2,1) both}
+@keyframes jokerCartReveal{from{opacity:0;transform:translateY(28px) scale(.985);filter:blur(4px)}to{opacity:1;transform:translateY(0) scale(1);filter:blur(0)}}
+.cart-head{padding:18px 18px 15px;border-bottom:1px solid rgba(174,125,208,.2);background:linear-gradient(100deg,#ffffff05,transparent)}
+.cart-heading-copy{display:flex;flex-direction:column;gap:4px}.cart-vip-kicker{font:800 9px/1.4 Arial,sans-serif;letter-spacing:1.7px;color:#bd91df;direction:ltr;text-align:right}.cart-head h2{font-size:19px;letter-spacing:.1px}.cart-heading-note{font-size:10px;color:#a99caf}
+.cart-head-actions{display:flex;align-items:center;gap:8px}.cart-sound-toggle{display:inline-flex;align-items:center;gap:5px;min-height:32px;padding:0 10px;border:1px solid #65477a;border-radius:999px;background:#1b1224;color:#cdb4df;font:700 10px Arial,sans-serif;cursor:pointer}.cart-sound-toggle[aria-pressed="true"]{border-color:#b98be0;background:linear-gradient(110deg,#38204c,#21142d);color:#fff;box-shadow:0 0 14px #9b61c733}.cart-close{flex:0 0 34px}
+.cart-items{padding:10px 15px;overscroll-behavior:contain}.cart-row{position:relative;margin:8px 0;padding:14px 12px;border:1px solid rgba(184,145,211,.19);border-radius:17px;background:linear-gradient(135deg,rgba(255,255,255,.075),rgba(255,255,255,.018));box-shadow:inset 0 1px 0 #ffffff0c,0 8px 18px #0003;backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);animation:jokerCartItemIn .28s ease both}.cart-row:last-child{border-bottom:1px solid rgba(184,145,211,.19)}
+@keyframes jokerCartItemIn{from{opacity:0;transform:translateY(7px)}to{opacity:1;transform:translateY(0)}}
+.cart-product-name{font-size:13px;line-height:1.8}.cart-product-price{color:#c9a5e6}.cart-qty-btn{border-color:#765397;background:linear-gradient(145deg,#30203c,#17101e);box-shadow:inset 0 1px #ffffff14}.cart-qty-btn:active,.cart-remove:active{transform:scale(.92)}
+.cart-foot{padding:14px 17px max(15px,env(safe-area-inset-bottom));border-top:1px solid rgba(174,125,208,.22);background:linear-gradient(180deg,#120d19,#0d0912)}
+.cart-grand-total,.joker-grand-total{margin:9px -3px 13px;padding:13px 12px;border:1px solid #a36bc9;border-radius:15px;background:linear-gradient(110deg,rgba(87,43,119,.35),rgba(30,17,42,.72));box-shadow:0 0 0 1px #a36bc91c,0 0 23px rgba(143,79,188,.2),inset 0 1px 0 #ffffff14}.joker-grand-total strong{color:#f0ddff;text-shadow:0 0 15px #a96bd477;font-size:20px}
+.cart-checkout{position:relative;overflow:hidden;border:1px solid #c49be5;border-radius:14px;background:linear-gradient(105deg,#35105c 0%,#603487 52%,#35105c 100%);box-shadow:0 8px 22px rgba(83,39,119,.28),inset 0 1px 0 #ffffff33;transition:transform .2s,box-shadow .2s}.cart-checkout:not(:disabled):active{transform:scale(.985);box-shadow:0 3px 12px #0008}.cart-checkout:disabled{filter:saturate(.5)}
+.cart-empty{position:relative;margin:10px 2px;padding:35px 16px;border:1px dashed rgba(179,132,211,.45);border-radius:20px;background:radial-gradient(ellipse at 50% 0%,rgba(118,65,157,.2),transparent 70%),#ffffff04;color:#c6b4d2;line-height:1.9}.cart-empty::before{content:"♠";display:flex;width:58px;height:58px;align-items:center;justify-content:center;margin:0 auto 14px;border:1px solid #8055a2;border-radius:18px;background:linear-gradient(145deg,#2c1a3a,#100b16);color:#d8b5f3;font-size:30px;box-shadow:0 0 25px #8c55b633;transform:rotate(-8deg)}
+.cart-empty strong{display:block;margin-bottom:4px;color:#fff;font-size:15px}.cart-empty small{display:block;color:#a99caf;font-size:11px}
+@media(max-width:480px){.cart-backdrop{padding:0;align-items:flex-end}.cart-panel{width:100%;max-height:min(89dvh,780px);border-radius:24px 24px 0 0;padding-bottom:env(safe-area-inset-bottom,0)}.cart-head{padding:16px 14px 13px}.cart-foot{padding-left:14px;padding-right:14px}.cart-sound-toggle{padding:0 8px}.cart-sound-toggle span{font-size:9px}}
+@media(prefers-reduced-motion:reduce){.cart-panel,.cart-row{animation:none!important;transition:none!important}}
+</style>
 </head>
 <body>
 <div class="splash-screen" id="splashScreen" aria-label="JOKER PLUS"><div class="splash-emblem" aria-hidden="true"><svg viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="splashJokerGradient" x1="20" y1="15" x2="100" y2="105" gradientUnits="userSpaceOnUse"><stop stop-color="#E2C5FF"/><stop offset=".55" stop-color="#A77AD0"/><stop offset="1" stop-color="#63358C"/></linearGradient></defs><path class="emblem-main" pathLength="260" d="M23 39L16 18L39 29L59 12L80 29L104 18L97 39L91 73C88 91 75 103 60 105C45 103 32 91 29 73L23 39Z" stroke="url(#splashJokerGradient)" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/><path d="M29 48C39 43 49 44 58 49C67 44 79 43 91 48" stroke="#F7F4FA" stroke-width="3.5" stroke-linecap="round"/><path d="M37 60L49 55L54 61L47 66L37 60Z" fill="#C49BE5"/><path d="M83 60L71 55L66 61L73 66L83 60Z" fill="#C49BE5"/><path d="M43 80C51 88 69 88 77 80" stroke="#F7F4FA" stroke-width="3.5" stroke-linecap="round"/><path d="M49 82L53 91L60 93L67 91L71 82" stroke="#A77AD0" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M16 18L10 11L22 13L16 18Z" fill="#A6192E"/><path d="M59 12L59 3L66 12L59 12Z" fill="#A6192E"/><path d="M104 18L110 11L98 13L104 18Z" fill="#A6192E"/><circle class="emblem-dot" cx="60" cy="105" r="3" fill="#A6192E"/></svg></div><div class="splash-name">JOKER <span>PLUS</span></div><div class="splash-caption">YOUR DIGITAL WORLD</div><div class="splash-loader"></div></div>
@@ -395,8 +414,8 @@ window.addEventListener("pageshow", attachBottomNav);
 <div class="cart-backdrop" id="cartBackdrop" hidden onclick="closeCart(event)">
 <section class="cart-panel" role="dialog" aria-modal="true" aria-labelledby="cartTitle" onclick="event.stopPropagation()">
 <div class="cart-head">
-<h2 id="cartTitle">سلة المشتريات</h2>
-<button class="cart-close" type="button" onclick="closeCart()" aria-label="إغلاق">×</button>
+<div class="cart-heading-copy"><span class="cart-vip-kicker">JOKER PLUS · PRIVATE CHECKOUT</span><h2 id="cartTitle">سلة المشتريات</h2><span class="cart-heading-note">تجربة تسوّق بتوقيع VIP</span></div>
+<div class="cart-head-actions"><button class="cart-sound-toggle" id="cartSoundToggle" type="button" onclick="toggleCartSound()" aria-pressed="false" aria-label="تفعيل صوت إضافة المنتجات">♫ <span>الصوت مغلق</span></button><button class="cart-close" type="button" onclick="closeCart()" aria-label="إغلاق">×</button></div>
 </div>
 <div class="cart-items" id="cartItems">
 <div class="cart-empty">السلة فارغة حالياً</div>
@@ -1503,6 +1522,11 @@ if(value) value.textContent = item ? item.quantity : "1";
 }
 });
 }
+const CART_SOUND_KEY = "jokerPlusCartSoundV1";
+function cartSoundEnabled(){try{return localStorage.getItem(CART_SOUND_KEY)==="on";}catch(error){return false;}}
+function syncCartSoundToggle(){const button=document.getElementById("cartSoundToggle");if(!button)return;const enabled=cartSoundEnabled();button.setAttribute("aria-pressed",enabled?"true":"false");button.setAttribute("aria-label",enabled?"إيقاف صوت إضافة المنتجات":"تفعيل صوت إضافة المنتجات");const label=button.querySelector("span");if(label)label.textContent=enabled?"الصوت يعمل":"الصوت مغلق";}
+function toggleCartSound(){const enabled=!cartSoundEnabled();try{localStorage.setItem(CART_SOUND_KEY,enabled?"on":"off");}catch(error){}syncCartSoundToggle();if(enabled)playCartAddSound(true);}
+function playCartAddSound(preview){if(!cartSoundEnabled())return;try{const AudioContextClass=window.AudioContext||window.webkitAudioContext;if(!AudioContextClass)return;const context=new AudioContextClass();const now=context.currentTime;const oscillator=context.createOscillator();const gain=context.createGain();oscillator.type="sine";oscillator.frequency.setValueAtTime(preview?660:740,now);oscillator.frequency.exponentialRampToValueAtTime(preview?880:990,now+.09);gain.gain.setValueAtTime(.0001,now);gain.gain.exponentialRampToValueAtTime(.055,now+.012);gain.gain.exponentialRampToValueAtTime(.0001,now+.19);oscillator.connect(gain);gain.connect(context.destination);oscillator.start(now);oscillator.stop(now+.2);oscillator.onended=()=>context.close();}catch(error){}}
 function addToCartFromButton(button,event) {
 if(event) event.stopPropagation();
 const title = button.dataset.title || "منتج من JOKER PLUS";
@@ -1515,6 +1539,7 @@ return;
 cartItems.push({key,title,price,quantity:1});
 saveCart();
 showCartToast();
+playCartAddSound();
 const row = button.closest(".cart-add-row");
 if(row) {
 row.classList.remove("cart-added-pulse");
@@ -1547,7 +1572,7 @@ if(navBadge) {navBadge.textContent = count; navBadge.hidden = count <= 0;}
 syncCartAddButtons();
 if(!itemsNode || !totalNode || !checkoutNode) return;
 if(!cartItems.length) {
-itemsNode.innerHTML = '<div class="cart-empty">السلة فارغة حالياً<br>أضف المنتجات التي ترغب بها 🛒</div>';
+itemsNode.innerHTML = '<div class="cart-empty"><strong>مساحتك الخاصة بانتظار اختياراتك</strong><small>أضف منتجاتك لتبدأ تجربة JOKER PLUS VIP</small></div>';
 } else {
 itemsNode.innerHTML = cartItems.map((item,index) => `
 <div class="cart-row">
@@ -1590,6 +1615,9 @@ const backdrop = document.getElementById("cartBackdrop");
 if(backdrop) {
 renderCart();
 backdrop.hidden = false;
+const panel = backdrop.querySelector(".cart-panel");
+if(panel){panel.style.animation="none";void panel.offsetWidth;panel.style.animation="";}
+syncCartSoundToggle();
 document.body.style.overflow = "hidden";
 }
 }
@@ -2960,42 +2988,5 @@ end $$;
 -->
 
 <div id="jokerTransitionCorridor" class="joker-transition-corridor" aria-hidden="true"></div>
-
-<style id="joker-plus-package-card-selected-upgrades">
-/* 11 — Glass luxury price frame */
-.package-card .package-price{
-  position:relative;display:flex;align-items:baseline;justify-content:center;gap:7px;
-  width:fit-content;min-width:132px;margin:15px auto 17px;padding:10px 22px;
-  border:1px solid #c49be577;border-radius:15px;
-  background:linear-gradient(145deg,#ffffff12,#a77ad014 52%,#ffffff06);
-  box-shadow:inset 0 1px 0 #ffffff20,0 7px 22px #0005,0 0 18px #a77ad022;
-  backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
-  color:#f5eaff;text-shadow:0 0 16px #c49be566;
-}
-.package-card .package-price small{color:#d7b9ed;font-size:.72em;font-weight:800}
-/* 41 — Clear feature rows with elegant check marks */
-.package-card .package-perks{list-style:none;padding:0;margin:15px 0;display:grid;gap:9px}
-.package-card .package-perks li{position:relative;padding:8px 31px 8px 10px;border:1px solid #a77ad022;border-radius:11px;background:linear-gradient(100deg,#ffffff08,#a77ad00b);color:#eee4f6;line-height:1.75}
-.package-card .package-perks li::before{content:"✓";position:absolute;right:9px;top:50%;transform:translateY(-50%);width:16px;height:16px;display:grid;place-items:center;border-radius:50%;background:#6c3b8d;color:#fff;font-size:10px;font-weight:900;box-shadow:0 0 10px #a77ad044}
-/* 71 — Tactile press response */
-.package-card{transition:transform .22s ease,border-color .22s ease,box-shadow .22s ease}
-.package-card:active{transform:translateY(2px) scale(.992);border-color:#c49be5;box-shadow:0 5px 15px #0008,0 0 22px #a77ad044,inset 0 0 0 1px #c49be533}
-.package-card button:active,.package-card summary:active{transform:scale(.975);filter:brightness(1.18)}
-/* 73 — Flip-like reveal when the native details panel is opened */
-.package-card .package-details-content{transform-origin:top center;transform:perspective(900px) rotateX(-9deg) translateY(-5px);opacity:0;transition:transform .38s cubic-bezier(.2,.75,.2,1),opacity .28s ease}
-.package-card .package-details[open] .package-details-content{transform:perspective(900px) rotateX(0) translateY(0);opacity:1}
-.package-card .package-details summary{cursor:pointer;transform-origin:center;transition:transform .18s ease,color .2s ease}
-.package-card .package-details[open] summary{color:#e8c9ff}
-/* 88 — Airier spacing between package cards */
-#plusPackages.packages-grid{gap:22px;row-gap:24px;column-gap:22px}
-@media(max-width:650px){
- #plusPackages.packages-grid{gap:17px;row-gap:19px}
- .package-card .package-price{min-width:124px;padding:9px 19px}
-}
-@media(prefers-reduced-motion:reduce){
- .package-card,.package-card:active,.package-card button,.package-card summary,.package-card .package-details-content{transition:none!important;transform:none!important;animation:none!important}
-}
-</style>
-
 </body>
 </html>
