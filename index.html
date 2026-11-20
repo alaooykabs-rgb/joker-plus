@@ -479,13 +479,6 @@ window.addEventListener("pageshow", attachBottomNav);
 <div id="customerOrders" class="joker-orders-list"><p class="account-hint">سجّل الدخول لعرض طلباتك.</p></div>
 </section>
 </div>
-<div id="jokerOrderSuccessPage" class="info-page" hidden>
-<div class="packages-page-top"><button class="packages-back-button" type="button" onclick="closeInfoPage()">→ رجوع للمتجر</button><div class="packages-page-brand">JOKER PLUS 🃏</div></div>
-<section class="info-panel joker-order-success">
-<div class="joker-success-mark">✓</div><h1>تم تسجيل طلبك بنجاح</h1><p>احتفظ برقم الطلب، وراح تقدر تتابع حالته من صفحة الطلبات.</p>
-<div class="joker-success-number"><span>رقم الطلب</span><strong id="jokerSuccessOrderNumber">—</strong><button type="button" class="joker-orders-refresh" onclick="copySuccessOrderNumber()">نسخ الرقم</button></div>
-<button type="button" class="joker-coupon-save" onclick="openInfoPage('ordersPage');loadCustomerOrders()">متابعة طلباتي</button>
-</section></div>
 <div id="searchPage" class="info-page" hidden>
 <div class="packages-page-top">
 <button class="packages-back-button" type="button" onclick="closeInfoPage()">→ رجوع للمتجر</button>
@@ -1094,7 +1087,7 @@ function renderJokerCommandCenter(){
  if(activity){const rows=Array.isArray(adminOrdersCache)?adminOrdersCache:[];if(rows.length){const latest=rows.slice().sort((a,b)=>new Date(b.created_at||0)-new Date(a.created_at||0))[0];activity.textContent="آخر نشاط مسجل: الطلب "+String(latest.order_number||"—")+" · "+String(latest.status||"حالة غير محددة");}else{activity.textContent="لا توجد طلبات مسجلة لعرض نشاط حديث.";}}
 }
 function openInfoPage(pageId) {
-["storePage","packagesPage","noticePage","faqPage","refundPage","ordersPage","searchPage","adminPage","storeRegionsPage","storeRegionItemsPage","jokerOrderSuccessPage","jokerPrivateShowroomPage"].forEach(id => {
+["storePage","packagesPage","noticePage","faqPage","refundPage","ordersPage","searchPage","adminPage","storeRegionsPage","storeRegionItemsPage","jokerPrivateShowroomPage"].forEach(id => {
 const node = document.getElementById(id);
 if(node) node.hidden = id !== pageId;
 });
@@ -1105,7 +1098,7 @@ if(corridor){corridor.classList.remove("is-active");void corridor.offsetWidth;co
 window.scrollTo({top:0,behavior:"instant"});
 }
 function closeInfoPage() {
-["packagesPage","noticePage","faqPage","refundPage","ordersPage","searchPage","adminPage","storeRegionsPage","storeRegionItemsPage","jokerOrderSuccessPage","jokerPrivateShowroomPage"].forEach(id => {
+["packagesPage","noticePage","faqPage","refundPage","ordersPage","searchPage","adminPage","storeRegionsPage","storeRegionItemsPage","jokerPrivateShowroomPage"].forEach(id => {
 const node = document.getElementById(id);
 if(node) node.hidden = true;
 });
@@ -1681,9 +1674,6 @@ if(error) throw error;
 if(!data || data.success !== true) throw new Error((data && data.message) || "تعذر تسجيل الطلب.");
 const finalTotal=Number(data.total || 0);
 const discount=Number(data.discount_amount || 0);
-const successNumber=document.getElementById("jokerSuccessOrderNumber");
-if(successNumber) successNumber.textContent=orderNumber;
-
 const lines = orderItems.map(item => "• " + item.title + " × " + item.quantity + (item.price ? " - " + item.price + " د.ك" : " - السعر عند الطلب"));
 const message = "السلام عليكم، أريد طلب المنتجات التالية من JOKER PLUS:\n\n" + lines.join("\n") + "\n\nرقم الطلب: " + orderNumber + (data.coupon_code ? "\nكود الخصم: " + data.coupon_code : "") + "\nالمجموع قبل الخصم: " + subtotal.toFixed(2) + " د.ك" + (discount > 0 ? "\nقيمة الخصم: " + discount.toFixed(2) + " د.ك" : "") + "\nالإجمالي بعد الخصم: " + finalTotal.toFixed(2) + " د.ك\nيرجى تأكيد توفر المنتجات.";
 const url="https://wa.me/" + WHATSAPP_NUMBER + "?text=" + encodeURIComponent(message);
@@ -1691,7 +1681,6 @@ if(waWindow) waWindow.location.href=url; else window.location.href=url;
 if(activeJokerCoupon) {activeJokerCoupon=null;const input=document.getElementById("jokerCouponInput");if(input) input.value="";}
 if(checkoutNode) checkoutNode.textContent="إتمام الطلب عبر واتساب";
 renderCart();
-openInfoPage("jokerOrderSuccessPage");
 } catch(error) {
 if(waWindow) waWindow.close();
 console.error("JOKER PLUS checkout:",error);
@@ -2742,24 +2731,12 @@ window.addEventListener("pageshow",function(e){if(e.persisted){userMoved=false;t
 .joker-product-row-actions button.danger{border-color:#a6192e;background:#451321}
 .joker-product-active{display:flex;align-items:center;gap:8px}
 .joker-product-active input{accent-color:#a77ad0}
-.joker-order-success{text-align:center;max-width:560px;margin:20px auto}
-.joker-success-mark{width:68px;height:68px;margin:0 auto 15px;border-radius:50%;display:grid;place-items:center;background:#2a6c45;color:#fff;font-size:35px;box-shadow:0 0 28px #2a9b5c55}
-.joker-order-success h1{font-size:23px;margin:8px 0}
-.joker-order-success>p{color:#cbb9dc;line-height:1.9}
-.joker-success-number{display:grid;gap:9px;padding:15px;margin:20px 0;border:1px solid #8b61ac;border-radius:16px;background:#ffffff08}
-.joker-success-number span{font-size:12px;color:#cbb9dc}
-.joker-success-number strong{font-size:22px;direction:ltr;letter-spacing:1px}
 @media(max-width:600px){.joker-product-admin-grid{grid-template-columns:1fr}.joker-product-row{align-items:flex-start;flex-direction:column}.joker-product-row-actions{width:100%}.joker-product-row-actions button{flex:1}}
 </style>
 <script id="joker-pro-edition-features">
 (function(){
 "use strict";
-window.copySuccessOrderNumber=function(){
- var el=document.getElementById("jokerSuccessOrderNumber"),value=el?el.textContent.trim():"";
- if(!value||value==="—")return;
- if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(value).then(function(){showActionToast("✓ تم نسخ رقم الطلب");}).catch(function(){window.prompt("انسخ رقم الطلب:",value);});}
- else window.prompt("انسخ رقم الطلب:",value);
-};
+
 window.resetAdminProductForm=function(){
  var form=document.getElementById("jokerAdminProductForm");if(form)form.reset();
  ["jokerProductId","jokerProductTitle","jokerProductPrice","jokerProductDescription","jokerProductImage"].forEach(function(id){var n=document.getElementById(id);if(n)n.value="";});
@@ -2932,7 +2909,7 @@ if(typeof window.renderAdminOrders==='function'){var oldRender=window.renderAdmi
 if(typeof window.loadCustomerOrders==='function'){var oldCustomer=window.loadCustomerOrders;window.loadCustomerOrders=async function(){await oldCustomer.apply(this,arguments);try{var s=await supabaseClient.auth.getSession(),u=s.data&&s.data.session&&s.data.session.user;if(u){var r=await supabaseClient.from('orders').select('*').eq('user_id',u.id).order('created_at',{ascending:false}).limit(30);window.jokerCustomerOrdersCache=r.data||[]}}catch(_){}wireInvoiceButtons()}}
 function startRealtime(){if(!(typeof isAdminUser!=="undefined"&&isAdminUser)||window.jokerOrdersRealtime)return;try{window.jokerOrdersRealtime=supabaseClient.channel('joker-admin-new-orders').on('postgres_changes',{event:'INSERT',schema:'public',table:'orders'},function(payload){var o=payload.new||{},n=o.order_number||o.id||'جديد';if('Notification'in window&&Notification.permission==='granted'){new Notification('طلب جديد - JOKER PLUS',{body:'وصل طلب جديد رقم #'+n})}if(typeof showActionToast==='function')showActionToast('🔔 وصل طلب جديد #'+n);if(typeof loadAdminOrders==='function'&&el('adminPage')&&!el('adminPage').hidden)loadAdminOrders()}).subscribe() }catch(e){console.warn('Realtime orders:',e)}}
 var oldOpenAdmin=window.openAdmin; if(typeof oldOpenAdmin==='function')window.openAdmin=function(){oldOpenAdmin.apply(this,arguments);addAdminBannerUI();startRealtime()};
-var oldNavGo=window.navGo;window.navGo=function(name){if(name==='home'){var store=el('storePage'),isHome=store&&!store.hidden;var other=['packagesPage','noticePage','faqPage','refundPage','ordersPage','searchPage','adminPage','storeRegionsPage','storeRegionItemsPage','jokerOrderSuccessPage'].some(function(id){var n=el(id);return n&&!n.hidden});if(isHome&&!other){window.location.reload();return}if(typeof closeInfoPage==='function'){closeInfoPage();setActiveNav('home');window.scrollTo({top:0,behavior:'smooth'});return}}if(typeof oldNavGo==='function')return oldNavGo.apply(this,arguments)};
+var oldNavGo=window.navGo;window.navGo=function(name){if(name==='home'){var store=el('storePage'),isHome=store&&!store.hidden;var other=['packagesPage','noticePage','faqPage','refundPage','ordersPage','searchPage','adminPage','storeRegionsPage','storeRegionItemsPage'].some(function(id){var n=el(id);return n&&!n.hidden});if(isHome&&!other){window.location.reload();return}if(typeof closeInfoPage==='function'){closeInfoPage();setActiveNav('home');window.scrollTo({top:0,behavior:'smooth'});return}}if(typeof oldNavGo==='function')return oldNavGo.apply(this,arguments)};
 var oldLoad=window.loadStore; if(typeof oldLoad==='function')window.loadStore=async function(){var r=await oldLoad.apply(this,arguments);loadJokerBanners();return r};
 var oldShowSection=window.showAdminSection;if(typeof oldShowSection==='function')window.showAdminSection=function(section){oldShowSection.apply(this,arguments);if(section==='banners')showJokerBannerAdmin()};
 function install(){addAdminBannerUI();loadJokerBanners();function sticky(){document.querySelectorAll('.service .add-cart-button').forEach(function(b){b.classList.add('joker-sticky-add')})}sticky();var target=el('sections');if(target&&window.MutationObserver)new MutationObserver(sticky).observe(target,{childList:true,subtree:true});if((typeof isAdminUser!=="undefined"&&isAdminUser))startRealtime()}
