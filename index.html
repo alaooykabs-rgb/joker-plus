@@ -1661,6 +1661,17 @@ if(input) input.value="";
 if(message) {message.textContent="تمت إزالة كود الخصم.";message.className="joker-coupon-message";}
 renderCart();
 }
+// تعريف عام صريح للدالة حتى لا يتوقف تأكيد الطلب بسبب مرجع مفقود.
+function showJokerPendingNotice(openCartPanel) {
+  const notice = document.getElementById("jokerOrderPendingNotice");
+  if (notice) {
+    notice.hidden = false;
+    notice.textContent = "جاري انتظار تأكيد طلبك من الإدارة";
+  }
+  if (openCartPanel && typeof openCart === "function") openCart();
+}
+window.showJokerPendingNotice = showJokerPendingNotice;
+
 let jokerReturnSplashActive = false;
 function showJokerReturnSplash() {
 if(jokerReturnSplashActive) return;
