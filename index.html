@@ -1775,24 +1775,36 @@ document.getElementById("noticePage").hidden = true;
 document.getElementById("storePage").hidden = false;
 window.scrollTo({top:0,behavior:"instant"});
 }
-function createPackageCard(pack) {
+function createPackageCard(pack, index) {
 const orderItem = {
 title:pack.name + " - تطبيقات بلس للآيفون",
 price:pack.price
 };
 return `
-<article class="package-card">
+<article class="package-card package-card-premium" style="--package-index:${index + 1}">
+<div class="package-card-topline">
+<span class="package-edition">JOKER PLUS · COLLECTION</span>
+<span class="package-number">${String(index + 1).padStart(2,"0")}</span>
+</div>
+<div class="package-card-heading">
 <div class="package-label">${escapeHTML(pack.label)}</div>
 <h3 class="package-name">${escapeHTML(pack.name)}</h3>
+<div class="package-card-caption">اختيارك المميز من عالم تطبيقات بلس</div>
+</div>
+<div class="package-price-panel">
+<span class="package-price-caption">سعر الباقة</span>
 <div class="package-price">
 ${escapeHTML(pack.price)}
 <small>د.ك</small>
 </div>
+<span class="package-price-footnote">اشتراك رقمي · للآيفون</span>
+</div>
+<div class="package-perks-heading"><span>ماذا تتضمن الباقة؟</span><i>PACKAGE BENEFITS</i></div>
 <ul class="package-perks">
 ${pack.perks.map(perk => `<li>${escapeHTML(perk)}</li>`).join("")}
 </ul>
 <details class="package-details">
-<summary>عرض جميع تفاصيل الباقة</summary>
+<summary>استكشف تفاصيل الباقة كاملة</summary>
 <div class="package-details-content">
 <h4>مميزات الاشتراك العامة</h4>
 <ul>
@@ -1821,7 +1833,7 @@ ${packageAppsDetails}
 <div class="package-buy">
 <div class="cart-add-row">
 <button class="add-cart-button" type="button"
-data-title="${escapeHTML(pack.name + " - تطبيقات بلس للآيفون")}"
+data-title="${escapeHTML(pack.name + " - تطبيقات بلس للآيفون") }"
 data-price="${escapeHTML(String(pack.price ?? ""))}"
 data-product-id="package-${escapeHTML(String(pack.id ?? pack.name))}"
 onclick="addToCartFromButton(this,event)">
@@ -1835,7 +1847,7 @@ onclick="addToCartFromButton(this,event)">
 </div>
 <button class="product-share-btn" type="button"
 data-product-id="package-${escapeHTML(String(pack.id ?? pack.name))}"
-data-product-title="${escapeHTML(pack.name + " - تطبيقات بلس للآيفون")}"
+data-product-title="${escapeHTML(pack.name + " - تطبيقات بلس للآيفون") }"
 onclick="shareProduct(this)">↗ مشاركة الباقة</button>
 </div>
 </article>
@@ -1844,7 +1856,7 @@ onclick="shareProduct(this)">↗ مشاركة الباقة</button>
 function loadPackages() {
 const container = document.getElementById("plusPackages");
 if(!container) return;
-container.innerHTML = packagesData.map(createPackageCard).join("");
+container.innerHTML = packagesData.map((pack,index) => createPackageCard(pack,index)).join("");
 }
 function applyStorePriceMarkup(item) {
 if (!item || item.section_key !== "store" || item.price === null || item.price === undefined || item.price === "") return item;
@@ -2960,5 +2972,47 @@ end $$;
 -->
 
 <div id="jokerTransitionCorridor" class="joker-transition-corridor" aria-hidden="true"></div>
+
+<style id="joker-premium-packages-redesign">
+/* JOKER PLUS — premium package presentation */
+#plusPackagesSection{position:relative;isolation:isolate}
+#plusPackagesSection::before{content:"";position:absolute;z-index:-1;inset:7% 8% auto;height:280px;pointer-events:none;background:radial-gradient(ellipse,#7b35a52b,transparent 70%);filter:blur(24px)}
+.packages-page-top{align-items:center}
+.packages-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:20px;align-items:stretch}
+.package-card.package-card-premium{position:relative;overflow:hidden;isolation:isolate;min-width:0;padding:0 19px 18px;border:1px solid #674785;border-radius:24px;background:linear-gradient(155deg,#1d1428 0%,#100c16 48%,#0b0910 100%);box-shadow:0 18px 42px #0008,inset 0 1px 0 #ffffff17;transition:transform .3s ease,border-color .3s ease,box-shadow .3s ease}
+.package-card-premium::before{content:"";position:absolute;z-index:-1;inset:0 0 auto;height:4px;background:linear-gradient(90deg,#a6192e,#c49be5 48%,#6b3192);box-shadow:0 0 22px #a77ad077}
+.package-card-premium::after{content:"";position:absolute;z-index:-1;top:-90px;right:-70px;width:210px;height:210px;border:1px solid #c49be51b;border-radius:50%;box-shadow:0 0 0 22px #c49be508,0 0 0 48px #c49be505;pointer-events:none}
+.package-card-premium:hover{transform:translateY(-5px);border-color:#b58bd4;box-shadow:0 22px 48px #000a,0 0 28px #8c4eb42b,inset 0 1px 0 #ffffff22}
+.package-card-topline{display:flex;direction:ltr;align-items:center;justify-content:space-between;padding:16px 0 12px;border-bottom:1px solid #ffffff12}
+.package-edition{font-size:8px;font-weight:900;letter-spacing:2px;color:#a88bbd}
+.package-number{display:grid;place-items:center;width:29px;height:29px;border:1px solid #a77ad055;border-radius:50%;color:#d7b8f1;font:800 10px Arial,sans-serif;background:#a77ad00c}
+.package-card-heading{text-align:center;padding:16px 0 12px}
+.package-card-premium .package-label{display:inline-flex;align-items:center;justify-content:center;padding:6px 12px;border:1px solid #a77ad044;border-radius:30px;background:#a77ad010;color:#d6b6f0;font-size:9px;letter-spacing:1.4px}
+.package-card-premium .package-name{font-size:clamp(20px,2.4vw,27px);line-height:1.5;margin:9px 0 3px;text-shadow:0 3px 18px #a77ad044}
+.package-card-caption{font-size:10px;color:#a99bb5;letter-spacing:.2px}
+.package-price-panel{position:relative;text-align:center;margin:3px 0 17px;padding:13px 12px 11px;border:1px solid #8c62aa66;border-radius:17px;background:linear-gradient(110deg,#31184299,#1a1025 55%,#28112c99);box-shadow:inset 0 1px 0 #ffffff12,0 8px 20px #0004}
+.package-price-caption{display:block;color:#b9a6c7;font-size:10px;font-weight:700}
+.package-card-premium .package-price{font-size:36px;line-height:1.25;margin:4px 0 2px;color:#f0d8ff;text-shadow:0 0 22px #a77ad077;font-variant-numeric:tabular-nums}
+.package-card-premium .package-price small{font-size:12px;color:#c7b2d7}
+.package-price-footnote{font-size:9px;color:#9988a7}
+.package-perks-heading{display:flex;align-items:center;justify-content:space-between;gap:8px;margin:0 0 11px;color:#eee2f7;font-size:12px;font-weight:900}
+.package-perks-heading i{font:800 8px Arial,sans-serif;letter-spacing:1.4px;color:#806b91;direction:ltr}
+.package-card-premium .package-perks{gap:8px;margin-bottom:15px}
+.package-card-premium .package-perks li{padding:8px 10px;border:1px solid #ffffff0c;border-radius:11px;background:linear-gradient(90deg,#ffffff06,#a77ad00b);font-size:11px;line-height:1.75;gap:9px}
+.package-card-premium .package-perks li::before{content:"✓";display:grid;place-items:center;width:17px;height:17px;margin-top:1px;border-radius:50%;background:#a77ad01c;color:#d7b8f1;font-size:10px;font-weight:900}
+.package-card-premium .package-details{border-top:1px solid #ffffff16;border-bottom:1px solid #ffffff16;padding:12px 0;margin:0 0 14px}
+.package-card-premium .package-details summary{font-size:11px;color:#d8b9f0}
+.package-card-premium .package-details[open]{padding-bottom:13px}
+.package-card-premium .package-details-content{padding:13px 11px 2px;border-radius:12px;background:#ffffff05;font-size:11px}
+.package-card-premium .package-buy{padding-top:0}
+.package-card-premium .cart-add-row{gap:8px}
+.package-card-premium .add-cart-button{min-height:46px;border-radius:13px;font-weight:900;letter-spacing:.1px;box-shadow:0 8px 22px #35105c77}
+.package-card-premium .product-share-btn{margin-top:9px;border-radius:12px;min-height:38px}
+.package-device-note{padding:13px 0 0;text-align:center;letter-spacing:.2px}
+@media(max-width:700px){.packages-grid{grid-template-columns:minmax(0,1fr);gap:15px}.package-card.package-card-premium{padding-inline:15px;border-radius:21px}.package-card-premium .package-name{font-size:22px}.package-card-premium .package-price{font-size:34px}.package-card-premium .package-perks li{font-size:12px}.package-card-topline{padding-top:14px}}
+@media(min-width:701px) and (max-width:920px){.packages-grid{gap:13px}.package-card.package-card-premium{padding-inline:14px}}
+@media(prefers-reduced-motion:reduce){.package-card-premium{transition:none!important}}
+</style>
+
 </body>
 </html>
