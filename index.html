@@ -1715,7 +1715,7 @@ const message = "السلام عليكم، أريد طلب المنتجات ال
 const url="https://wa.me/" + WHATSAPP_NUMBER + "?text=" + encodeURIComponent(message);
 // خزّن حالة الطلب قبل فتح واتساب حتى تظهر للعميل عند رجوعه للموقع
 try {sessionStorage.setItem("joker_order_pending","1");} catch(_) {}
-showJokerPendingNotice(false);
+// تم حفظ حالة الانتظار؛ شاشة العودة ستظهر تلقائياً عند الرجوع من واتساب.
 if(activeJokerCoupon) {activeJokerCoupon=null;const input=document.getElementById("jokerCouponInput");if(input) input.value="";}
 if(checkoutNode) {checkoutNode.disabled=false;checkoutNode.textContent="إتمام الطلب عبر واتساب";}
 renderCart();
