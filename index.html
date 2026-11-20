@@ -1353,7 +1353,8 @@ return;
 container.innerHTML = approvedOrders.map(order => {
 const number = order.order_number || order.id || "—";
 const total = order.total ?? order.total_amount ?? order.amount ?? "—";
-const statusText = order.status || "قيد المراجعة";
+const rawStatus = String(order.status || "بانتظار تأكيد الطلب");
+const statusText = rawStatus.trim() === "بانتظار تأكيد الطلب" ? "جاري انتظار تأكيد طلبك من الإدارة" : rawStatus;
 const date = order.created_at ? new Date(order.created_at).toLocaleDateString("ar-KW",{weekday:"long",day:"numeric",month:"long",year:"numeric"}) : "—";
 const totalNumber = Number(total);
 const totalText = isNaN(totalNumber) ? String(total) : totalNumber.toFixed(2) + " د.ك";
@@ -1660,18 +1661,30 @@ if(input) input.value="";
 if(message) {message.textContent="تمت إزالة كود الخصم.";message.className="joker-coupon-message";}
 renderCart();
 }
-function showJokerPendingNotice(openCartPanel) {
-const notice=document.getElementById("jokerOrderPendingNotice");
-if(notice) {notice.hidden=false;notice.textContent="جاري تأكيد الطلب من قبل الإدارة";}
-if(openCartPanel) openCart();
+function showJokerReturnWelcome() {
+const existing=document.getElementById("jokerReturnWelcome");
+if(existing) existing.remove();
+const overlay=document.createElement("div");
+overlay.id="jokerReturnWelcome";
+overlay.setAttribute("role","dialog");
+overlay.setAttribute("aria-modal","true");
+overlay.innerHTML='<button type="button" class="joker-return-skip" aria-label="تخطي والعودة للرئيسية">×</button><div class="joker-return-content"><div class="joker-return-mark">J+</div><div class="joker-return-title">JOKER PLUS</div><div class="joker-return-line"></div><p>شكراً لطلبك، جاري تأكيده من قبل الإدارة</p><small>نقدّر ثقتك بنا</small><div class="joker-return-progress"><span></span></div></div>';
+const style=document.createElement("style");
+style.id="jokerReturnWelcomeStyle";
+style.textContent='#jokerReturnWelcome{position:fixed;inset:0;z-index:999999;display:flex;align-items:center;justify-content:center;padding:24px;background:radial-gradient(ellipse at 50% 38%,#51256f 0%,#21102f 42%,#09080c 100%);color:#fff;text-align:center;direction:rtl;animation:jokerReturnFade .35s ease both}#jokerReturnWelcome .joker-return-skip{position:absolute;top:max(18px,env(safe-area-inset-top));right:20px;width:42px;height:42px;border:1px solid #c49be588;border-radius:50%;background:#ffffff12;color:#fff;font:400 30px/1 Arial;cursor:pointer;display:grid;place-items:center;box-shadow:0 0 18px #a77ad033}#jokerReturnWelcome .joker-return-content{width:min(440px,100%);display:flex;flex-direction:column;align-items:center}#jokerReturnWelcome .joker-return-mark{width:76px;height:76px;border:1px solid #c49be5;border-radius:24px;display:grid;place-items:center;background:linear-gradient(145deg,#51256f,#160d20);color:#f1ddff;font-size:29px;font-weight:950;box-shadow:0 0 35px #a77ad055,inset 0 0 18px #ffffff12}#jokerReturnWelcome .joker-return-title{margin-top:19px;font-size:22px;font-weight:950;letter-spacing:3px;text-shadow:0 0 18px #c49be5aa;direction:ltr}#jokerReturnWelcome .joker-return-line{width:72px;height:2px;margin:19px 0;background:linear-gradient(90deg,#a6192e,#c49be5,#63358c);box-shadow:0 0 12px #c49be5}#jokerReturnWelcome p{margin:0;color:#f2e8fb;font-size:18px;font-weight:900;line-height:1.9}#jokerReturnWelcome small{margin-top:8px;color:#c9b6d8;font-size:12px}#jokerReturnWelcome .joker-return-progress{width:min(190px,65%);height:3px;margin-top:34px;border-radius:9px;background:#ffffff22;overflow:hidden}#jokerReturnWelcome .joker-return-progress span{display:block;width:100%;height:100%;background:#c49be5;transform-origin:right;animation:jokerReturnCountdown 6s linear forwards}@keyframes jokerReturnCountdown{from{transform:scaleX(1)}to{transform:scaleX(0)}}@keyframes jokerReturnFade{from{opacity:0}to{opacity:1}}';
+document.head.appendChild(style);
+document.body.appendChild(overlay);
+document.body.style.overflow="hidden";
+let finished=false;
+function finish(){if(finished)return;finished=true;window.clearTimeout(timer);overlay.remove();style.remove();document.body.style.overflow="";try{sessionStorage.removeItem("joker_order_pending");}catch(_){}window.scrollTo({top:0,behavior:"smooth"});}
+overlay.querySelector(".joker-return-skip").addEventListener("click",finish);
+const timer=window.setTimeout(finish,6000);
 }
 
-// عند الرجوع من واتساب، أظهر حالة انتظار موافقة الإدارة
+// عند الرجوع من واتساب اعرض شاشة شكر قصيرة ثم أعد العميل للرئيسية
 window.addEventListener("pageshow",function(){
 try {
-if(sessionStorage.getItem("joker_order_pending") === "1") {
-showJokerPendingNotice(true);
-}
+if(sessionStorage.getItem("joker_order_pending") === "1") showJokerReturnWelcome();
 } catch(_) {}
 });
 
@@ -1692,9 +1705,12 @@ const discount=Number(data.discount_amount || 0);
 const lines = orderItems.map(item => "• " + item.title + " × " + item.quantity + (item.price ? " - " + item.price + " د.ك" : " - السعر عند الطلب"));
 const message = "السلام عليكم، أريد طلب المنتجات التالية من JOKER PLUS:\n\n" + lines.join("\n") + "\n\nسيتم ظهور رقم الطلب في الموقع عند تأكيد الطلب من قبل الإدارة." + (data.coupon_code ? "\nكود الخصم: " + data.coupon_code : "") + "\nالمجموع قبل الخصم: " + subtotal.toFixed(2) + " د.ك" + (discount > 0 ? "\nقيمة الخصم: " + discount.toFixed(2) + " د.ك" : "") + "\nالإجمالي بعد الخصم: " + finalTotal.toFixed(2) + " د.ك\nيرجى تأكيد توفر المنتجات.";
 const url="https://wa.me/" + WHATSAPP_NUMBER + "?text=" + encodeURIComponent(message);
-// خزّن حالة الطلب قبل فتح واتساب حتى تظهر للعميل عند رجوعه للموقع
+// بعد تسجيل الطلب بنجاح نفرّغ السلة ونحفظها فارغة قبل الانتقال لواتساب
+cartItems=[];
+saveCart();
+closeCart();
+// خزّن حالة الطلب قبل الانتقال حتى تظهر شاشة الشكر عند رجوع العميل
 try {sessionStorage.setItem("joker_order_pending","1");} catch(_) {}
-showJokerPendingNotice(false);
 if(activeJokerCoupon) {activeJokerCoupon=null;const input=document.getElementById("jokerCouponInput");if(input) input.value="";}
 if(checkoutNode) {checkoutNode.disabled=false;checkoutNode.textContent="إتمام الطلب عبر واتساب";}
 renderCart();
