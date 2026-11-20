@@ -99,6 +99,19 @@ body:before{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;opac
 @media(max-width:480px){.cart-backdrop{padding:0;align-items:flex-end}.cart-panel{width:100%;max-height:min(89dvh,780px);border-radius:24px 24px 0 0;padding-bottom:env(safe-area-inset-bottom,0)}.cart-head{padding:16px 14px 13px}.cart-foot{padding-left:14px;padding-right:14px}}
 @media(prefers-reduced-motion:reduce){.cart-panel,.cart-row{animation:none!important;transition:none!important}}
 </style>
+
+<style id="joker-plus-auth-methods">
+.joker-auth-separator{display:flex;align-items:center;gap:10px;margin:16px 0;color:#bba8ca;font-size:11px;font-weight:800}
+.joker-auth-separator:before,.joker-auth-separator:after{content:"";height:1px;flex:1;background:#76529366}
+.joker-auth-methods{display:grid;gap:9px;margin-bottom:12px}
+.joker-auth-btn{width:100%;min-height:45px;border:1px solid #765293;border-radius:12px;padding:11px 14px;background:linear-gradient(135deg,#251532,#120d19);color:#fff;font:800 13px Arial,sans-serif;cursor:pointer}
+.joker-auth-btn span{display:inline-flex;align-items:center;justify-content:center;width:22px;height:22px;margin-left:7px;border-radius:50%;background:#fff;color:#4285f4;font-size:15px;font-weight:1000;direction:ltr}
+.joker-auth-apple span{background:#fff;color:#000;font-size:12px}
+.joker-auth-phone{border-color:#a77ad0;background:linear-gradient(120deg,#57227d,#8b4cb5)}
+#jokerPhoneAuthPanel{margin-top:10px}
+.joker-auth-back{width:100%;margin-top:8px}
+#emailAuthFields[hidden],#jokerPhoneAuthPanel[hidden],#jokerPhoneOtpFields[hidden],.joker-auth-methods[hidden]{display:none!important}
+</style>
 </head>
 <body>
 <div class="splash-screen" id="splashScreen" aria-label="JOKER PLUS"><div class="splash-emblem" aria-hidden="true"><svg viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="splashJokerGradient" x1="20" y1="15" x2="100" y2="105" gradientUnits="userSpaceOnUse"><stop stop-color="#E2C5FF"/><stop offset=".55" stop-color="#A77AD0"/><stop offset="1" stop-color="#63358C"/></linearGradient></defs><path class="emblem-main" pathLength="260" d="M23 39L16 18L39 29L59 12L80 29L104 18L97 39L91 73C88 91 75 103 60 105C45 103 32 91 29 73L23 39Z" stroke="url(#splashJokerGradient)" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/><path d="M29 48C39 43 49 44 58 49C67 44 79 43 91 48" stroke="#F7F4FA" stroke-width="3.5" stroke-linecap="round"/><path d="M37 60L49 55L54 61L47 66L37 60Z" fill="#C49BE5"/><path d="M83 60L71 55L66 61L73 66L83 60Z" fill="#C49BE5"/><path d="M43 80C51 88 69 88 77 80" stroke="#F7F4FA" stroke-width="3.5" stroke-linecap="round"/><path d="M49 82L53 91L60 93L67 91L71 82" stroke="#A77AD0" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M16 18L10 11L22 13L16 18Z" fill="#A6192E"/><path d="M59 12L59 3L66 12L59 12Z" fill="#A6192E"/><path d="M104 18L110 11L98 13L104 18Z" fill="#A6192E"/><circle class="emblem-dot" cx="60" cy="105" r="3" fill="#A6192E"/></svg></div><div class="splash-name">JOKER <span>PLUS</span></div><div class="splash-caption">YOUR DIGITAL WORLD</div><div class="splash-loader"></div></div>
@@ -376,11 +389,30 @@ window.addEventListener("pageshow", attachAccountButtonToViewport);
 </div>
 </div>
 <form id="accountForm" onsubmit="submitAccount(event)">
+<div id="emailAuthFields">
 <input class="account-field" id="accountEmailInput" type="email" autocomplete="email" placeholder="البريد الإلكتروني" required>
 <input class="account-field" id="accountPasswordInput" type="password" autocomplete="current-password" placeholder="كلمة المرور (8 أحرف على الأقل)" minlength="8" required>
 <div class="account-actions">
-<button type="submit" data-auth-mode="signin">تسجيل الدخول</button>
-<button class="account-secondary" type="button" onclick="registerCustomer()">إنشاء حساب</button>
+<button type="submit" data-auth-mode="signin">تسجيل الدخول بالبريد</button>
+<button class="account-secondary" type="button" onclick="registerCustomer()">إنشاء حساب بالبريد</button>
+</div>
+</div>
+<div class="joker-auth-separator"><span>أو سجّل دخولك باستخدام</span></div>
+<div class="joker-auth-methods">
+<button class="joker-auth-btn joker-auth-google" type="button" onclick="signInWithProvider('google')"><span aria-hidden="true">G</span> المتابعة باستخدام Google</button>
+<button class="joker-auth-btn joker-auth-apple" type="button" onclick="signInWithProvider('apple')"><span aria-hidden="true">●</span> المتابعة باستخدام Apple</button>
+<button class="joker-auth-btn joker-auth-phone" type="button" onclick="togglePhoneAuth(true)">الدخول برقم الهاتف</button>
+</div>
+<div id="jokerPhoneAuthPanel" hidden>
+<input class="account-field" id="jokerLoginPhone" type="tel" inputmode="tel" autocomplete="tel" dir="ltr" style="text-align:left" placeholder="+965 XXXXXXXX">
+<button class="joker-auth-btn joker-auth-phone" type="button" onclick="sendPhoneLoginCode()">إرسال رمز التحقق</button>
+<div id="jokerPhoneOtpFields" hidden>
+<input class="account-field" id="jokerPhoneOtp" type="text" inputmode="numeric" autocomplete="one-time-code" maxlength="8" placeholder="رمز التحقق المرسل إلى هاتفك">
+<button class="joker-auth-btn joker-auth-phone" type="button" onclick="verifyPhoneLoginCode()">تأكيد الرمز وتسجيل الدخول</button>
+</div>
+<button class="account-secondary joker-auth-back" type="button" onclick="togglePhoneAuth(false)">رجوع لطرق الدخول</button>
+</div>
+<div class="account-actions">
 <button class="account-secondary" type="button" onclick="closeAccount()">إغلاق</button>
 </div>
 </form>
@@ -1431,6 +1463,64 @@ uploadCustomerAvatar(event.target.files?.[0]);
 event.target.value = "";
 }
 });
+function togglePhoneAuth(show) {
+const panel = document.getElementById("jokerPhoneAuthPanel");
+const emailFields = document.getElementById("emailAuthFields");
+const methods = document.querySelector(".joker-auth-methods");
+if(panel) panel.hidden = !show;
+if(emailFields) emailFields.hidden = !!show;
+if(methods) methods.hidden = !!show;
+const status = document.getElementById("accountStatus");
+if(status) status.textContent = "";
+}
+async function signInWithProvider(provider) {
+const status = document.getElementById("accountStatus");
+status.textContent = "جارٍ تحويلك إلى " + (provider === "google" ? "Google" : "Apple") + "...";
+try {
+const {error} = await supabaseClient.auth.signInWithOAuth({
+provider,
+options: {redirectTo: window.location.origin + window.location.pathname}
+});
+if(error) throw error;
+} catch(error) {
+status.textContent = error.message || "تعذر بدء تسجيل الدخول.";
+}
+}
+async function sendPhoneLoginCode() {
+const phone = document.getElementById("jokerLoginPhone").value.trim().replace(/[\\s()-]/g,"");
+const status = document.getElementById("accountStatus");
+if(!/^\\+[1-9]\\d{7,14}$/.test(phone)) {
+status.textContent = "أدخل رقم الهاتف مع مفتاح الدولة، مثال: +965XXXXXXXX.";
+return;
+}
+status.textContent = "جارٍ إرسال رمز التحقق...";
+try {
+const {error} = await supabaseClient.auth.signInWithOtp({phone});
+if(error) throw error;
+document.getElementById("jokerPhoneOtpFields").hidden = false;
+status.textContent = "تم إرسال رمز التحقق إلى هاتفك.";
+} catch(error) {
+status.textContent = error.message || "تعذر إرسال رمز التحقق.";
+}
+}
+async function verifyPhoneLoginCode() {
+const phone = document.getElementById("jokerLoginPhone").value.trim().replace(/[\\s()-]/g,"");
+const token = document.getElementById("jokerPhoneOtp").value.trim();
+const status = document.getElementById("accountStatus");
+if(!token) {
+status.textContent = "أدخل رمز التحقق أولاً.";
+return;
+}
+status.textContent = "جارٍ التحقق من الرمز...";
+try {
+const {error} = await supabaseClient.auth.verifyOtp({phone,token,type:"sms"});
+if(error) throw error;
+status.textContent = "تم تسجيل الدخول بنجاح.";
+await refreshAccountState();
+} catch(error) {
+status.textContent = error.message || "رمز التحقق غير صحيح أو انتهت صلاحيته.";
+}
+}
 async function submitAccount(event) {
 event.preventDefault();
 const email = document.getElementById("accountEmailInput").value.trim();
