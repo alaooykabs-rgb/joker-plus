@@ -105,6 +105,123 @@ body:before{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;opac
 @media(max-width:760px){#packagesPage .packages-grid{display:flex;flex-wrap:nowrap;gap:14px;overflow-x:auto;overflow-y:visible;padding:22px max(8vw,18px) 28px;scroll-snap-type:x mandatory;scrollbar-width:none;-webkit-overflow-scrolling:touch;overscroll-behavior-x:contain}#packagesPage .packages-grid::-webkit-scrollbar{display:none}#packagesPage .package-card{flex:0 0 min(78vw,320px);width:min(78vw,320px);order:initial;transform:none;padding:22px 17px;scroll-snap-align:center}#packagesPage .package-card-silver{order:1}#packagesPage .package-card-platinum{order:2;transform:none;box-shadow:0 18px 38px #000a,0 0 0 1px #c49be566,0 0 28px #9b5bc944}#packagesPage .package-card-gold{order:3}#packagesPage .package-card-platinum:hover{transform:translateY(-3px)}#packagesPage .package-perks{min-height:0}}
 @media(prefers-reduced-motion:reduce){#packagesPage .package-card{transition:none!important}}
 </style>
+
+<style id="joker-vip-iphone-fit">
+/* Compact three-card VIP layout for iPhone */
+@media (max-width:760px){
+  #packagesPage .plus-apps-showcase{padding-left:10px;padding-right:10px}
+  #packagesPage .packages-grid{
+    display:grid !important;
+    grid-template-columns:repeat(3,minmax(0,1fr)) !important;
+    gap:6px !important;
+    align-items:stretch !important;
+    overflow:visible !important;
+    padding:14px 0 22px !important;
+    direction:ltr !important;
+    scroll-snap-type:none !important;
+  }
+  #packagesPage .package-card{
+    box-sizing:border-box !important;
+    width:100% !important;
+    min-width:0 !important;
+    max-width:100% !important;
+    flex:none !important;
+    padding:12px 6px 10px !important;
+    border-radius:13px !important;
+    transform:none !important;
+    scroll-snap-align:none !important;
+    overflow:hidden !important;
+  }
+  #packagesPage .package-card:before{inset:4px !important;border-radius:9px !important}
+  #packagesPage .package-label{
+    max-width:100%;
+    padding:4px 3px !important;
+    margin:0 auto 7px !important;
+    font-size:7px !important;
+    letter-spacing:.4px !important;
+    white-space:nowrap;
+  }
+  #packagesPage .package-name{
+    font-size:clamp(9px,2.8vw,12px) !important;
+    line-height:1.45 !important;
+    margin:5px 0 8px !important;
+    overflow-wrap:anywhere;
+  }
+  #packagesPage .package-card-platinum .package-name{font-size:clamp(10px,3vw,13px) !important}
+  #packagesPage .package-price{
+    min-height:34px;
+    gap:2px !important;
+    padding:7px 2px !important;
+    margin:0 0 9px !important;
+    border-radius:8px !important;
+    font-size:clamp(11px,3.3vw,15px) !important;
+    white-space:nowrap;
+  }
+  #packagesPage .package-price small{font-size:7px !important}
+  #packagesPage .package-perks{
+    min-height:0 !important;
+    padding:0 9px 0 0 !important;
+    margin:0 !important;
+    font-size:clamp(7px,2vw,8.5px) !important;
+    line-height:1.45 !important;
+  }
+  #packagesPage .package-perks li{
+    padding:5px 0 !important;
+    line-height:1.45 !important;
+    overflow-wrap:anywhere;
+  }
+  #packagesPage .package-details{margin-top:8px !important;padding-top:7px !important}
+  #packagesPage .package-details summary{
+    font-size:7px !important;
+    line-height:1.5 !important;
+    overflow-wrap:anywhere;
+  }
+  #packagesPage .package-buy{margin-top:9px !important}
+  #packagesPage .package-card .cart-add-row{display:block !important}
+  #packagesPage .package-card .add-cart-button{
+    display:block !important;
+    width:100% !important;
+    min-width:0 !important;
+    padding:8px 2px !important;
+    border-radius:8px !important;
+    font-size:8px !important;
+    line-height:1.35 !important;
+    white-space:normal !important;
+  }
+  #packagesPage .package-card .card-qty-picker{
+    justify-content:center !important;
+    gap:5px !important;
+    margin-top:5px !important;
+  }
+  #packagesPage .package-card .card-qty-picker button{width:19px !important;height:19px !important}
+  #packagesPage .package-card .card-qty-value{font-size:9px !important}
+  #packagesPage .package-card .product-share-btn{
+    width:100% !important;
+    min-width:0 !important;
+    margin-top:5px !important;
+    padding:6px 2px !important;
+    font-size:7px !important;
+    white-space:normal !important;
+  }
+  #packagesPage .package-card-platinum{
+    transform:none !important;
+    border-width:1.5px !important;
+    box-shadow:0 10px 22px #000a,0 0 0 1px #c49be566,0 0 16px #9b5bc944 !important;
+  }
+  #packagesPage .package-card-platinum:hover,
+  #packagesPage .package-card-platinum:focus-within{transform:none !important}
+}
+@media (max-width:360px){
+  #packagesPage .packages-grid{gap:4px !important}
+  #packagesPage .package-card{padding:10px 4px 8px !important}
+  #packagesPage .package-label{font-size:6.5px !important}
+  #packagesPage .package-name{font-size:9px !important}
+  #packagesPage .package-price{font-size:10px !important}
+  #packagesPage .package-perks{font-size:6.5px !important;padding-right:7px !important}
+  #packagesPage .package-card .add-cart-button{font-size:7px !important}
+}
+</style>
+
 </head>
 <body>
 <div class="splash-screen" id="splashScreen" aria-label="JOKER PLUS"><div class="splash-emblem" aria-hidden="true"><svg viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="splashJokerGradient" x1="20" y1="15" x2="100" y2="105" gradientUnits="userSpaceOnUse"><stop stop-color="#E2C5FF"/><stop offset=".55" stop-color="#A77AD0"/><stop offset="1" stop-color="#63358C"/></linearGradient></defs><path class="emblem-main" pathLength="260" d="M23 39L16 18L39 29L59 12L80 29L104 18L97 39L91 73C88 91 75 103 60 105C45 103 32 91 29 73L23 39Z" stroke="url(#splashJokerGradient)" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/><path d="M29 48C39 43 49 44 58 49C67 44 79 43 91 48" stroke="#F7F4FA" stroke-width="3.5" stroke-linecap="round"/><path d="M37 60L49 55L54 61L47 66L37 60Z" fill="#C49BE5"/><path d="M83 60L71 55L66 61L73 66L83 60Z" fill="#C49BE5"/><path d="M43 80C51 88 69 88 77 80" stroke="#F7F4FA" stroke-width="3.5" stroke-linecap="round"/><path d="M49 82L53 91L60 93L67 91L71 82" stroke="#A77AD0" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M16 18L10 11L22 13L16 18Z" fill="#A6192E"/><path d="M59 12L59 3L66 12L59 12Z" fill="#A6192E"/><path d="M104 18L110 11L98 13L104 18Z" fill="#A6192E"/><circle class="emblem-dot" cx="60" cy="105" r="3" fill="#A6192E"/></svg></div><div class="splash-name">JOKER <span>PLUS</span></div><div class="splash-caption">YOUR DIGITAL WORLD</div><div class="splash-loader"></div></div>
