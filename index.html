@@ -101,16 +101,9 @@ body:before{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;opac
 </style>
 
 <style id="joker-plus-auth-methods">
-.joker-auth-separator{display:flex;align-items:center;gap:10px;margin:16px 0;color:#bba8ca;font-size:11px;font-weight:800}
-.joker-auth-separator:before,.joker-auth-separator:after{content:"";height:1px;flex:1;background:#76529366}
-.joker-auth-methods{display:grid;gap:9px;margin-bottom:12px}
-.joker-auth-btn{width:100%;min-height:45px;border:1px solid #765293;border-radius:12px;padding:11px 14px;background:linear-gradient(135deg,#251532,#120d19);color:#fff;font:800 13px Arial,sans-serif;cursor:pointer}
-.joker-auth-btn span{display:inline-flex;align-items:center;justify-content:center;width:22px;height:22px;margin-left:7px;border-radius:50%;background:#fff;color:#4285f4;font-size:15px;font-weight:1000;direction:ltr}
-.joker-auth-apple span{background:#fff;color:#000;font-size:12px}
-.joker-auth-phone{border-color:#a77ad0;background:linear-gradient(120deg,#57227d,#8b4cb5)}
-#jokerPhoneAuthPanel{margin-top:10px}
-.joker-auth-back{width:100%;margin-top:8px}
-#emailAuthFields[hidden],#jokerPhoneAuthPanel[hidden],#jokerPhoneOtpFields[hidden],.joker-auth-methods[hidden]{display:none!important}
+#accountModal .account-box{border:1px solid #8056a2;background:radial-gradient(ellipse at 50% 0%,#51266d55,transparent 58%),linear-gradient(155deg,#1b1324,#0b0910 72%);box-shadow:0 24px 80px #000c,0 0 35px #8e52b533,inset 0 1px 0 #ffffff16}
+.joker-login-form{padding-top:5px}.joker-login-heading{text-align:center;margin:4px 0 22px}.joker-login-mark{width:52px;height:52px;margin:0 auto 12px;display:grid;place-items:center;border:1px solid #a77ad0;border-radius:17px;background:linear-gradient(145deg,#48235f,#1a1024);color:#e7cffb;font-size:27px;box-shadow:0 0 24px #a77ad044}.joker-login-heading h2{margin:0;color:#fff;font-size:20px;font-weight:900}.joker-login-heading p{margin:8px 0 0;color:#bba9c8;font-size:12px;line-height:1.8}
+.joker-auth-separator{display:flex;align-items:center;gap:10px;margin:17px 0;color:#bba8ca;font-size:11px;font-weight:800}.joker-auth-separator:before,.joker-auth-separator:after{content:"";height:1px;flex:1;background:#76529366}.joker-auth-methods{display:grid;gap:9px;margin-bottom:12px}.joker-auth-btn{width:100%;min-height:50px;border:1px solid #d7dce2;border-radius:13px;padding:11px 14px;background:#fff;color:#24232a;font:800 13px Arial,sans-serif;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:11px;transition:transform .18s,box-shadow .18s}.joker-auth-btn:active,.joker-login-submit:active{transform:scale(.985)}.joker-google-logo{width:20px;height:20px;flex:none}.joker-login-form .account-field{width:100%;min-height:49px;margin:0 0 12px;padding:13px 14px;border:1px solid #624879;border-radius:13px;background:#100c16;color:#fff;font:14px Arial,sans-serif;outline:none;transition:border-color .2s,box-shadow .2s}.joker-login-form .account-field:focus{border-color:#b58bd4;box-shadow:0 0 0 3px #a77ad022}.joker-login-form .account-field::placeholder{color:#9888a5}.joker-login-submit{width:100%;min-height:49px;border:1px solid #c49be5;border-radius:13px;background:linear-gradient(110deg,#51216f,#8a4bb3 55%,#57247a);color:#fff;font:900 14px Arial,sans-serif;box-shadow:0 8px 22px #6d358744,inset 0 1px 0 #ffffff30;cursor:pointer;transition:transform .18s,filter .18s}.joker-login-hint{margin:12px 4px 0;color:#a99ab5;text-align:center;font-size:11px;line-height:1.8}.joker-login-form .account-actions{margin-top:17px}#emailAuthFields[hidden],.joker-auth-methods[hidden]{display:none!important}
 </style>
 </head>
 <body>
@@ -388,33 +381,25 @@ window.addEventListener("pageshow", attachAccountButtonToViewport);
 <button class="account-secondary" type="button" onclick="closeAccount()">إغلاق</button>
 </div>
 </div>
-<form id="accountForm" onsubmit="submitAccount(event)">
+<form id="accountForm" class="joker-login-form" onsubmit="submitAccount(event)">
+<div class="joker-login-heading">
+<div class="joker-login-mark" aria-hidden="true">♠</div>
+<h2>مرحباً بك في JOKER PLUS</h2>
+<p>سجّل دخولك أو أنشئ حسابك بخطوة واحدة</p>
+</div>
+<div class="joker-auth-methods">
+<button class="joker-auth-btn joker-auth-google" type="button" onclick="signInWithProvider('google')">
+<svg class="joker-google-logo" viewBox="0 0 48 48" aria-hidden="true"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5Z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.73 7.18l7.26 5.63c4.24-3.91 7.51-9.69 7.51-17.28Z"/><path fill="#FBBC05" d="M10.53 28.59A14.4 14.4 0 0 1 9.75 24c0-1.59.27-3.13.76-4.59l-7.98-6.19A23.9 23.9 0 0 0 0 24c0 3.88.93 7.55 2.56 10.78l7.97-6.19Z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.91-5.79l-7.26-5.63c-2.02 1.35-4.6 2.15-8.65 2.15-6.26 0-11.57-4.22-13.46-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48Z"/></svg>
+<span>المتابعة باستخدام Google</span></button>
+</div>
+<div class="joker-auth-separator"><span>أو باستخدام البريد الإلكتروني</span></div>
 <div id="emailAuthFields">
 <input class="account-field" id="accountEmailInput" type="email" autocomplete="email" placeholder="البريد الإلكتروني" required>
 <input class="account-field" id="accountPasswordInput" type="password" autocomplete="current-password" placeholder="كلمة المرور (8 أحرف على الأقل)" minlength="8" required>
-<div class="account-actions">
-<button type="submit" data-auth-mode="signin">تسجيل الدخول بالبريد</button>
-<button class="account-secondary" type="button" onclick="registerCustomer()">إنشاء حساب بالبريد</button>
+<button class="joker-login-submit" type="submit">متابعة</button>
+<p class="joker-login-hint">إذا كان لديك حساب، سيتم تسجيل دخولك. وإذا كنت جديداً، سننشئ لك حساباً تلقائياً.</p>
 </div>
-</div>
-<div class="joker-auth-separator"><span>أو سجّل دخولك باستخدام</span></div>
-<div class="joker-auth-methods">
-<button class="joker-auth-btn joker-auth-google" type="button" onclick="signInWithProvider('google')"><span aria-hidden="true">G</span> المتابعة باستخدام Google</button>
-<button class="joker-auth-btn joker-auth-apple" type="button" onclick="signInWithProvider('apple')"><span aria-hidden="true">●</span> المتابعة باستخدام Apple</button>
-<button class="joker-auth-btn joker-auth-phone" type="button" onclick="togglePhoneAuth(true)">الدخول برقم الهاتف</button>
-</div>
-<div id="jokerPhoneAuthPanel" hidden>
-<input class="account-field" id="jokerLoginPhone" type="tel" inputmode="tel" autocomplete="tel" dir="ltr" style="text-align:left" placeholder="+965 XXXXXXXX">
-<button class="joker-auth-btn joker-auth-phone" type="button" onclick="sendPhoneLoginCode()">إرسال رمز التحقق</button>
-<div id="jokerPhoneOtpFields" hidden>
-<input class="account-field" id="jokerPhoneOtp" type="text" inputmode="numeric" autocomplete="one-time-code" maxlength="8" placeholder="رمز التحقق المرسل إلى هاتفك">
-<button class="joker-auth-btn joker-auth-phone" type="button" onclick="verifyPhoneLoginCode()">تأكيد الرمز وتسجيل الدخول</button>
-</div>
-<button class="account-secondary joker-auth-back" type="button" onclick="togglePhoneAuth(false)">رجوع لطرق الدخول</button>
-</div>
-<div class="account-actions">
-<button class="account-secondary" type="button" onclick="closeAccount()">إغلاق</button>
-</div>
+<div class="account-actions"><button class="account-secondary" type="button" onclick="closeAccount()">إغلاق</button></div>
 </form>
 <p class="account-status" id="accountStatus" role="status" aria-live="polite"></p>
 </section>
@@ -1463,19 +1448,9 @@ uploadCustomerAvatar(event.target.files?.[0]);
 event.target.value = "";
 }
 });
-function togglePhoneAuth(show) {
-const panel = document.getElementById("jokerPhoneAuthPanel");
-const emailFields = document.getElementById("emailAuthFields");
-const methods = document.querySelector(".joker-auth-methods");
-if(panel) panel.hidden = !show;
-if(emailFields) emailFields.hidden = !!show;
-if(methods) methods.hidden = !!show;
-const status = document.getElementById("accountStatus");
-if(status) status.textContent = "";
-}
 async function signInWithProvider(provider) {
 const status = document.getElementById("accountStatus");
-status.textContent = "جارٍ تحويلك إلى " + (provider === "google" ? "Google" : "Apple") + "...";
+status.textContent = "جارٍ تحويلك إلى Google...";
 try {
 const {error} = await supabaseClient.auth.signInWithOAuth({
 provider,
@@ -1486,57 +1461,8 @@ if(error) throw error;
 status.textContent = error.message || "تعذر بدء تسجيل الدخول.";
 }
 }
-async function sendPhoneLoginCode() {
-const phone = document.getElementById("jokerLoginPhone").value.trim().replace(/[\\s()-]/g,"");
-const status = document.getElementById("accountStatus");
-if(!/^\\+[1-9]\\d{7,14}$/.test(phone)) {
-status.textContent = "أدخل رقم الهاتف مع مفتاح الدولة، مثال: +965XXXXXXXX.";
-return;
-}
-status.textContent = "جارٍ إرسال رمز التحقق...";
-try {
-const {error} = await supabaseClient.auth.signInWithOtp({phone});
-if(error) throw error;
-document.getElementById("jokerPhoneOtpFields").hidden = false;
-status.textContent = "تم إرسال رمز التحقق إلى هاتفك.";
-} catch(error) {
-status.textContent = error.message || "تعذر إرسال رمز التحقق.";
-}
-}
-async function verifyPhoneLoginCode() {
-const phone = document.getElementById("jokerLoginPhone").value.trim().replace(/[\\s()-]/g,"");
-const token = document.getElementById("jokerPhoneOtp").value.trim();
-const status = document.getElementById("accountStatus");
-if(!token) {
-status.textContent = "أدخل رمز التحقق أولاً.";
-return;
-}
-status.textContent = "جارٍ التحقق من الرمز...";
-try {
-const {error} = await supabaseClient.auth.verifyOtp({phone,token,type:"sms"});
-if(error) throw error;
-status.textContent = "تم تسجيل الدخول بنجاح.";
-await refreshAccountState();
-} catch(error) {
-status.textContent = error.message || "رمز التحقق غير صحيح أو انتهت صلاحيته.";
-}
-}
 async function submitAccount(event) {
 event.preventDefault();
-const email = document.getElementById("accountEmailInput").value.trim();
-const password = document.getElementById("accountPasswordInput").value;
-const status = document.getElementById("accountStatus");
-status.textContent = "جارٍ تسجيل الدخول...";
-try {
-const {error} = await supabaseClient.auth.signInWithPassword({email,password});
-if(error) throw error;
-status.textContent = "تم تسجيل الدخول بنجاح.";
-await refreshAccountState();
-} catch(error) {
-status.textContent = error.message || "تعذر تسجيل الدخول.";
-}
-}
-async function registerCustomer() {
 const email = document.getElementById("accountEmailInput").value.trim();
 const password = document.getElementById("accountPasswordInput").value;
 const status = document.getElementById("accountStatus");
@@ -1544,16 +1470,26 @@ if(!email || password.length < 8) {
 status.textContent = "أدخل بريدك الإلكتروني وكلمة مرور من 8 أحرف على الأقل.";
 return;
 }
-status.textContent = "جارٍ إنشاء الحساب...";
+status.textContent = "جارٍ التحقق من بياناتك...";
 try {
-const {data,error} = await supabaseClient.auth.signUp({email,password});
-if(error) throw error;
-status.textContent = data?.session
-? "تم إنشاء الحساب وتسجيل الدخول."
-: "تم إرسال رسالة تأكيد إلى بريدك الإلكتروني إذا كان تأكيد البريد مفعّلاً.";
+const login = await supabaseClient.auth.signInWithPassword({email,password});
+if(!login.error) {
+status.textContent = "تم تسجيل الدخول بنجاح.";
 await refreshAccountState();
+return;
+}
+if(!["invalid_credentials","email_not_confirmed"].includes(login.error.code) && !/invalid login credentials|email not confirmed/i.test(login.error.message || "")) throw login.error;
+status.textContent = "لم نجد جلسة دخول بهذه البيانات، جارٍ تجهيز حسابك...";
+const created = await supabaseClient.auth.signUp({email,password,options:{emailRedirectTo:window.location.origin + window.location.pathname}});
+if(created.error) throw created.error;
+if(created.data?.session) {
+status.textContent = "تم إنشاء حسابك وتسجيل الدخول تلقائياً.";
+await refreshAccountState();
+} else {
+status.textContent = "تم إرسال رسالة تأكيد إلى بريدك الإلكتروني. افتحها لتفعيل الحساب، ثم سجّل دخولك بنفس البيانات.";
+}
 } catch(error) {
-status.textContent = error.message || "تعذر إنشاء الحساب.";
+status.textContent = error.message || "تعذر إكمال تسجيل الدخول.";
 }
 }
 async function signOutCustomer() {
