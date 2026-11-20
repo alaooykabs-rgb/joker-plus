@@ -421,6 +421,7 @@ window.addEventListener("pageshow", attachBottomNav);
 <div class="cart-empty">السلة فارغة حالياً</div>
 </div>
 <div class="cart-foot">
+<div id="jokerOrderPendingNotice" class="joker-coupon-message" role="status" aria-live="polite" hidden style="min-height:0;margin:0 0 12px;padding:12px 14px;border:1px solid #9b75bb;border-radius:13px;background:linear-gradient(135deg,#241532,#130d1c);color:#ead8ff;text-align:center;font-size:13px;font-weight:800;line-height:1.8">جاري تأكيد الطلب من قبل الإدارة</div>
 <div class="joker-coupon-box">
 <label for="jokerCouponInput">🎟️ عندك كود خصم؟</label>
 <div class="joker-coupon-entry"><input id="jokerCouponInput" type="text" maxlength="40" autocomplete="off" placeholder="اكتب كود الخصم"><button type="button" id="jokerCouponApply" onclick="applyJokerCoupon()">تطبيق</button></div>
@@ -1659,6 +1660,21 @@ if(input) input.value="";
 if(message) {message.textContent="تمت إزالة كود الخصم.";message.className="joker-coupon-message";}
 renderCart();
 }
+function showJokerPendingNotice(openCartPanel) {
+const notice=document.getElementById("jokerOrderPendingNotice");
+if(notice) {notice.hidden=false;notice.textContent="جاري تأكيد الطلب من قبل الإدارة";}
+if(openCartPanel) openCart();
+}
+
+// عند الرجوع من واتساب، أظهر حالة انتظار موافقة الإدارة
+window.addEventListener("pageshow",function(){
+try {
+if(sessionStorage.getItem("joker_order_pending") === "1") {
+showJokerPendingNotice(true);
+}
+} catch(_) {}
+});
+
 async function checkoutCart() {
 if(!cartItems.length) return;
 if(!requireLoginToOrder()) return;
@@ -1666,8 +1682,7 @@ const orderItems = cartItems.map(item => ({title:item.title,quantity:Number(item
 const subtotal = Number(currentCartSubtotal().toFixed(2));
 const orderNumber = "JP-" + Date.now().toString();
 const checkoutNode=document.getElementById("cartCheckout");
-if(checkoutNode) {checkoutNode.disabled=true;checkoutNode.textContent="جارٍ تأكيد الطلب...";}
-const waWindow=window.open("about:blank","_blank");
+if(checkoutNode) {checkoutNode.disabled=true;checkoutNode.textContent="جارٍ تجهيز الطلب...";}
 try {
 const {data,error} = await supabaseClient.rpc("joker_create_order_with_coupon",{p_order_number:orderNumber,p_items:orderItems,p_subtotal:subtotal,p_coupon_code:activeJokerCoupon ? activeJokerCoupon.code : null});
 if(error) throw error;
@@ -1677,12 +1692,15 @@ const discount=Number(data.discount_amount || 0);
 const lines = orderItems.map(item => "• " + item.title + " × " + item.quantity + (item.price ? " - " + item.price + " د.ك" : " - السعر عند الطلب"));
 const message = "السلام عليكم، أريد طلب المنتجات التالية من JOKER PLUS:\n\n" + lines.join("\n") + "\n\nسيتم ظهور رقم الطلب في الموقع عند تأكيد الطلب من قبل الإدارة." + (data.coupon_code ? "\nكود الخصم: " + data.coupon_code : "") + "\nالمجموع قبل الخصم: " + subtotal.toFixed(2) + " د.ك" + (discount > 0 ? "\nقيمة الخصم: " + discount.toFixed(2) + " د.ك" : "") + "\nالإجمالي بعد الخصم: " + finalTotal.toFixed(2) + " د.ك\nيرجى تأكيد توفر المنتجات.";
 const url="https://wa.me/" + WHATSAPP_NUMBER + "?text=" + encodeURIComponent(message);
-if(waWindow) waWindow.location.href=url; else window.location.href=url;
+// خزّن حالة الطلب قبل فتح واتساب حتى تظهر للعميل عند رجوعه للموقع
+try {sessionStorage.setItem("joker_order_pending","1");} catch(_) {}
+showJokerPendingNotice(false);
 if(activeJokerCoupon) {activeJokerCoupon=null;const input=document.getElementById("jokerCouponInput");if(input) input.value="";}
-if(checkoutNode) checkoutNode.textContent="إتمام الطلب عبر واتساب";
+if(checkoutNode) {checkoutNode.disabled=false;checkoutNode.textContent="إتمام الطلب عبر واتساب";}
 renderCart();
+// الانتقال مباشرة إلى واتساب في نفس الصفحة؛ يمنع صفحة about:blank البيضاء في Safari/iPhone
+window.location.href=url;
 } catch(error) {
-if(waWindow) waWindow.close();
 console.error("JOKER PLUS checkout:",error);
 alert((error && error.message) || "تعذر إتمام الطلب. حاول مرة أخرى.");
 if(checkoutNode) {checkoutNode.disabled=false;checkoutNode.textContent="إتمام الطلب عبر واتساب";}
