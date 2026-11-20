@@ -1667,7 +1667,6 @@ const subtotal = Number(currentCartSubtotal().toFixed(2));
 const orderNumber = "JP-" + Date.now().toString();
 const checkoutNode=document.getElementById("cartCheckout");
 if(checkoutNode) {checkoutNode.disabled=true;checkoutNode.textContent="جارٍ تأكيد الطلب...";}
-const waWindow=window.open("about:blank","_blank");
 try {
 const {data,error} = await supabaseClient.rpc("joker_create_order_with_coupon",{p_order_number:orderNumber,p_items:orderItems,p_subtotal:subtotal,p_coupon_code:activeJokerCoupon ? activeJokerCoupon.code : null});
 if(error) throw error;
@@ -1677,12 +1676,11 @@ const discount=Number(data.discount_amount || 0);
 const lines = orderItems.map(item => "• " + item.title + " × " + item.quantity + (item.price ? " - " + item.price + " د.ك" : " - السعر عند الطلب"));
 const message = "السلام عليكم، أريد طلب المنتجات التالية من JOKER PLUS:\n\n" + lines.join("\n") + "\n\nرقم الطلب: " + orderNumber + (data.coupon_code ? "\nكود الخصم: " + data.coupon_code : "") + "\nالمجموع قبل الخصم: " + subtotal.toFixed(2) + " د.ك" + (discount > 0 ? "\nقيمة الخصم: " + discount.toFixed(2) + " د.ك" : "") + "\nالإجمالي بعد الخصم: " + finalTotal.toFixed(2) + " د.ك\nيرجى تأكيد توفر المنتجات.";
 const url="https://wa.me/" + WHATSAPP_NUMBER + "?text=" + encodeURIComponent(message);
-if(waWindow) waWindow.location.href=url; else window.location.href=url;
+window.location.assign(url);
 if(activeJokerCoupon) {activeJokerCoupon=null;const input=document.getElementById("jokerCouponInput");if(input) input.value="";}
 if(checkoutNode) checkoutNode.textContent="إتمام الطلب عبر واتساب";
 renderCart();
 } catch(error) {
-if(waWindow) waWindow.close();
 console.error("JOKER PLUS checkout:",error);
 alert((error && error.message) || "تعذر إتمام الطلب. حاول مرة أخرى.");
 if(checkoutNode) {checkoutNode.disabled=false;checkoutNode.textContent="إتمام الطلب عبر واتساب";}
