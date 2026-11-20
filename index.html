@@ -1353,8 +1353,8 @@ return;
 container.innerHTML = approvedOrders.map(order => {
 const number = order.order_number || order.id || "—";
 const total = order.total ?? order.total_amount ?? order.amount ?? "—";
-const rawStatus = String(order.status || "بانتظار تأكيد الطلب");
-const statusText = rawStatus.trim() === "بانتظار تأكيد الطلب" ? "جاري انتظار تأكيد طلبك من الإدارة" : rawStatus;
+const rawStatus = String(order.status || "");
+const statusText = (!rawStatus || /بانتظار تأكيد الطلب|قيد المراجعة|pending|awaiting|waiting/i.test(rawStatus)) ? "جاري انتظار تأكيد طلبك من الإدارة" : rawStatus;
 const date = order.created_at ? new Date(order.created_at).toLocaleDateString("ar-KW",{weekday:"long",day:"numeric",month:"long",year:"numeric"}) : "—";
 const totalNumber = Number(total);
 const totalText = isNaN(totalNumber) ? String(total) : totalNumber.toFixed(2) + " د.ك";
@@ -1661,32 +1661,37 @@ if(input) input.value="";
 if(message) {message.textContent="تمت إزالة كود الخصم.";message.className="joker-coupon-message";}
 renderCart();
 }
-function showJokerReturnWelcome() {
-const existing=document.getElementById("jokerReturnWelcome");
+let jokerReturnSplashActive = false;
+function showJokerReturnSplash() {
+if(jokerReturnSplashActive) return;
+jokerReturnSplashActive = true;
+const existing=document.getElementById("jokerReturnSplash");
 if(existing) existing.remove();
-const overlay=document.createElement("div");
-overlay.id="jokerReturnWelcome";
-overlay.setAttribute("role","dialog");
-overlay.setAttribute("aria-modal","true");
-overlay.innerHTML='<button type="button" class="joker-return-skip" aria-label="تخطي والعودة للرئيسية">×</button><div class="joker-return-content"><div class="joker-return-mark">J+</div><div class="joker-return-title">JOKER PLUS</div><div class="joker-return-line"></div><p>شكراً لطلبك، جاري تأكيده من قبل الإدارة</p><small>نقدّر ثقتك بنا</small><div class="joker-return-progress"><span></span></div></div>';
-const style=document.createElement("style");
-style.id="jokerReturnWelcomeStyle";
-style.textContent='#jokerReturnWelcome{position:fixed;inset:0;z-index:999999;display:flex;align-items:center;justify-content:center;padding:24px;background:radial-gradient(ellipse at 50% 38%,#51256f 0%,#21102f 42%,#09080c 100%);color:#fff;text-align:center;direction:rtl;animation:jokerReturnFade .35s ease both}#jokerReturnWelcome .joker-return-skip{position:absolute;top:max(18px,env(safe-area-inset-top));right:20px;width:42px;height:42px;border:1px solid #c49be588;border-radius:50%;background:#ffffff12;color:#fff;font:400 30px/1 Arial;cursor:pointer;display:grid;place-items:center;box-shadow:0 0 18px #a77ad033}#jokerReturnWelcome .joker-return-content{width:min(440px,100%);display:flex;flex-direction:column;align-items:center}#jokerReturnWelcome .joker-return-mark{width:76px;height:76px;border:1px solid #c49be5;border-radius:24px;display:grid;place-items:center;background:linear-gradient(145deg,#51256f,#160d20);color:#f1ddff;font-size:29px;font-weight:950;box-shadow:0 0 35px #a77ad055,inset 0 0 18px #ffffff12}#jokerReturnWelcome .joker-return-title{margin-top:19px;font-size:22px;font-weight:950;letter-spacing:3px;text-shadow:0 0 18px #c49be5aa;direction:ltr}#jokerReturnWelcome .joker-return-line{width:72px;height:2px;margin:19px 0;background:linear-gradient(90deg,#a6192e,#c49be5,#63358c);box-shadow:0 0 12px #c49be5}#jokerReturnWelcome p{margin:0;color:#f2e8fb;font-size:18px;font-weight:900;line-height:1.9}#jokerReturnWelcome small{margin-top:8px;color:#c9b6d8;font-size:12px}#jokerReturnWelcome .joker-return-progress{width:min(190px,65%);height:3px;margin-top:34px;border-radius:9px;background:#ffffff22;overflow:hidden}#jokerReturnWelcome .joker-return-progress span{display:block;width:100%;height:100%;background:#c49be5;transform-origin:right;animation:jokerReturnCountdown 6s linear forwards}@keyframes jokerReturnCountdown{from{transform:scaleX(1)}to{transform:scaleX(0)}}@keyframes jokerReturnFade{from{opacity:0}to{opacity:1}}';
-document.head.appendChild(style);
-document.body.appendChild(overlay);
-document.body.style.overflow="hidden";
+const splash=document.createElement("div");
+splash.id="jokerReturnSplash";
+splash.setAttribute("role","dialog");
+splash.setAttribute("aria-modal","true");
+splash.style.cssText="position:fixed;inset:0;z-index:999999;display:flex;align-items:center;justify-content:center;padding:24px;background:radial-gradient(ellipse at 50% 35%,#482365 0%,#1a1025 48%,#09080c 100%);color:#fff;text-align:center;direction:rtl";
+splash.innerHTML='<button type="button" aria-label="تخطي" id="jokerReturnSplashSkip" style="position:absolute;top:max(22px,env(safe-area-inset-top));right:22px;width:42px;height:42px;border-radius:50%;border:1px solid #c49be5aa;background:#241532;color:#fff;font-size:27px;line-height:1;display:flex;align-items:center;justify-content:center;box-shadow:0 0 18px #a77ad044">×</button><div style="max-width:340px"><div style="font-size:42px;margin-bottom:18px;filter:drop-shadow(0 0 16px #c49be5)">✦</div><div style="font-size:clamp(21px,5vw,27px);font-weight:900;line-height:1.9;text-shadow:0 0 20px #a77ad066">شكراً لطلبك<br>جاري تأكيده من قبل الإدارة</div><div style="width:70px;height:3px;border-radius:9px;background:linear-gradient(90deg,#35105c,#c49be5,#a6192e);margin:22px auto 0"></div></div>';
+document.body.appendChild(splash);
 let finished=false;
-function finish(){if(finished)return;finished=true;window.clearTimeout(timer);overlay.remove();style.remove();document.body.style.overflow="";try{sessionStorage.removeItem("joker_order_pending");}catch(_){}window.scrollTo({top:0,behavior:"smooth"});}
-overlay.querySelector(".joker-return-skip").addEventListener("click",finish);
-const timer=window.setTimeout(finish,6000);
+const finish=()=>{if(finished)return;finished=true;splash.remove();jokerReturnSplashActive=false;closeInfoPage();};
+const skip=document.getElementById("jokerReturnSplashSkip");
+if(skip) skip.addEventListener("click",finish,{once:true});
+window.setTimeout(finish,6000);
 }
-
-// عند الرجوع من واتساب اعرض شاشة شكر قصيرة ثم أعد العميل للرئيسية
-window.addEventListener("pageshow",function(){
+function handleJokerReturnFromWhatsApp() {
 try {
-if(sessionStorage.getItem("joker_order_pending") === "1") showJokerReturnWelcome();
+if(document.visibilityState === "hidden") return;
+if(sessionStorage.getItem("joker_order_pending") !== "1") return;
+sessionStorage.removeItem("joker_order_pending");
+showJokerReturnSplash();
 } catch(_) {}
-});
+}
+// اكتشاف الرجوع من واتساب تلقائياً، حتى عند العودة للتبويب دون إعادة تحميل الصفحة.
+window.addEventListener("pageshow",handleJokerReturnFromWhatsApp);
+window.addEventListener("focus",handleJokerReturnFromWhatsApp);
+document.addEventListener("visibilitychange",function(){if(document.visibilityState==="visible") handleJokerReturnFromWhatsApp();});
 
 async function checkoutCart() {
 if(!cartItems.length) return;
@@ -1700,17 +1705,17 @@ try {
 const {data,error} = await supabaseClient.rpc("joker_create_order_with_coupon",{p_order_number:orderNumber,p_items:orderItems,p_subtotal:subtotal,p_coupon_code:activeJokerCoupon ? activeJokerCoupon.code : null});
 if(error) throw error;
 if(!data || data.success !== true) throw new Error((data && data.message) || "تعذر تسجيل الطلب.");
+// تفريغ السلة بعد نجاح تسجيل الطلب فقط.
+cartItems = [];
+saveCart();
 const finalTotal=Number(data.total || 0);
 const discount=Number(data.discount_amount || 0);
 const lines = orderItems.map(item => "• " + item.title + " × " + item.quantity + (item.price ? " - " + item.price + " د.ك" : " - السعر عند الطلب"));
 const message = "السلام عليكم، أريد طلب المنتجات التالية من JOKER PLUS:\n\n" + lines.join("\n") + "\n\nسيتم ظهور رقم الطلب في الموقع عند تأكيد الطلب من قبل الإدارة." + (data.coupon_code ? "\nكود الخصم: " + data.coupon_code : "") + "\nالمجموع قبل الخصم: " + subtotal.toFixed(2) + " د.ك" + (discount > 0 ? "\nقيمة الخصم: " + discount.toFixed(2) + " د.ك" : "") + "\nالإجمالي بعد الخصم: " + finalTotal.toFixed(2) + " د.ك\nيرجى تأكيد توفر المنتجات.";
 const url="https://wa.me/" + WHATSAPP_NUMBER + "?text=" + encodeURIComponent(message);
-// بعد تسجيل الطلب بنجاح نفرّغ السلة ونحفظها فارغة قبل الانتقال لواتساب
-cartItems=[];
-saveCart();
-closeCart();
-// خزّن حالة الطلب قبل الانتقال حتى تظهر شاشة الشكر عند رجوع العميل
+// خزّن حالة الطلب قبل فتح واتساب حتى تظهر للعميل عند رجوعه للموقع
 try {sessionStorage.setItem("joker_order_pending","1");} catch(_) {}
+showJokerPendingNotice(false);
 if(activeJokerCoupon) {activeJokerCoupon=null;const input=document.getElementById("jokerCouponInput");if(input) input.value="";}
 if(checkoutNode) {checkoutNode.disabled=false;checkoutNode.textContent="إتمام الطلب عبر واتساب";}
 renderCart();
