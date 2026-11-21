@@ -3158,6 +3158,151 @@ end $$;
 4) زر الشراء الثابت يظهر أثناء التمرير داخل بطاقة المنتج، ويضيف المنتج إلى السلة باستخدام آلية المتجر الحالية.
 -->
 
+<style id="jk-four-touches">
+.jk-glow{position:fixed;left:0;top:0;width:104px;height:104px;margin:-52px 0 0 -52px;border-radius:50%;pointer-events:none;z-index:2147482000;background:radial-gradient(circle,rgba(228,197,255,.55) 0%,rgba(167,122,208,.28) 38%,rgba(53,16,92,0) 70%);mix-blend-mode:screen;opacity:0;transition:opacity .2s ease}
+.jk-glow.on{opacity:1}
+.jk-orb{position:fixed;left:0;top:0;width:44px;height:44px;z-index:2147483000;pointer-events:none;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-size:22px;background:radial-gradient(circle at 30% 25%,#8d45c9,#35105c 75%) center/cover no-repeat;border:2px solid #c49be5;box-shadow:0 0 18px #a77ad0aa,0 6px 16px #000a;will-change:transform,opacity}
+.joker-reorder-btn{position:relative;overflow:hidden;transition:background .3s,border-color .3s,box-shadow .3s,transform .16s}
+.joker-reorder-btn::after{content:"";position:absolute;top:0;bottom:0;left:0;width:55%;background:linear-gradient(110deg,transparent,rgba(255,255,255,.32),transparent);transform:translateX(-130%) skewX(-18deg);animation:jkShineIdle 4.8s ease-in-out 1.2s infinite;pointer-events:none}
+.joker-reorder-btn.jk-reorder-go{background:linear-gradient(110deg,#1d392b,#24583a);border-color:#4b9b6b;color:#e4ffed;box-shadow:0 0 18px #2f8a5a55}
+.joker-reorder-btn.jk-reorder-go::after{animation:jkShineGo .8s ease-out 1}
+@keyframes jkShineIdle{0%,70%,100%{transform:translateX(-130%) skewX(-18deg)}85%{transform:translateX(330%) skewX(-18deg)}}
+@keyframes jkShineGo{from{transform:translateX(-130%) skewX(-18deg)}to{transform:translateX(330%) skewX(-18deg)}}
+@media(prefers-reduced-motion:reduce){.jk-glow,.jk-orb{display:none!important}.joker-reorder-btn::after{animation:none!important;display:none}}
+</style>
+<script id="jk-four-touches-js">
+(function(){
+"use strict";
+var reduce=false;try{reduce=window.matchMedia("(prefers-reduced-motion: reduce)").matches}catch(_){}
+if(reduce)return;
+
+/* ===== 2) توهج يتبع الإصبع على الأزرار ===== */
+var GLOW_SEL='button:not([disabled]),.buy-button,.support-btn,.packages-back-button,.region-card,summary';
+var glow=null,glowActive=false;
+function ensureGlow(){if(!glow){glow=document.createElement("div");glow.className="jk-glow";glow.setAttribute("aria-hidden","true");document.body.appendChild(glow)}return glow}
+function moveGlow(x,y){glow.style.transform="translate3d("+x+"px,"+y+"px,0)"}
+document.addEventListener("pointerdown",function(e){
+var t=e.target&&e.target.closest?e.target.closest(GLOW_SEL):null;
+if(!t||t.tagName==="INPUT"||t.tagName==="TEXTAREA")return;
+ensureGlow();glowActive=true;moveGlow(e.clientX,e.clientY);
+void glow.offsetWidth;glow.classList.add("on");
+},{passive:true});
+document.addEventListener("pointermove",function(e){if(glowActive)moveGlow(e.clientX,e.clientY)},{passive:true});
+function endGlow(){if(!glowActive)return;glowActive=false;if(glow)glow.classList.remove("on")}
+document.addEventListener("pointerup",endGlow,{passive:true});
+document.addEventListener("pointercancel",endGlow,{passive:true});
+
+/* ===== 12) عدّ الأسعار من الصفر ===== */
+var PRICE_SEL=".service .price";
+var canObserve=("IntersectionObserver" in window);
+var io=canObserve?new IntersectionObserver(function(entries){
+entries.forEach(function(en){
+if(!en.isIntersecting)return;
+io.unobserve(en.target);runCount(en.target);
+});
+},{threshold:.35}):null;
+function parsePrice(text){
+var m=String(text).match(/^([^\d]*?)(\d+(?:\.\d+)?)([\s\S]*)$/);
+if(!m)return null;
+return{pre:m[1],num:parseFloat(m[2]),dec:(m[2].split(".")[1]||"").length,post:m[3]};
+}
+function fmt(p,v){return p.pre+v.toFixed(p.dec)+p.post}
+function prepPrice(el){
+if(el.dataset.jkCount||el.children.length)return;
+var final=el.textContent;var p=parsePrice(final);
+if(!p||!isFinite(p.num)||!io)return;
+el.dataset.jkCount="1";el.dataset.jkFinal=final;
+el.textContent=fmt(p,0);
+io.observe(el);
+}
+function runCount(el){
+var final=el.dataset.jkFinal;var p=parsePrice(final);
+if(!p){el.textContent=final;return}
+var start=null,dur=850;
+function step(ts){
+if(start===null)start=ts;
+var k=Math.min(1,(ts-start)/dur),eased=1-Math.pow(1-k,3);
+el.textContent=fmt(p,p.num*eased);
+if(k<1)requestAnimationFrame(step);else el.textContent=final;
+}
+requestAnimationFrame(step);
+}
+function scanPrices(root){
+if(!root||root.nodeType!==1)return;
+if(root.matches&&root.matches(PRICE_SEL))prepPrice(root);
+var list=root.querySelectorAll?root.querySelectorAll(PRICE_SEL):[];
+for(var i=0;i<list.length;i++)prepPrice(list[i]);
+}
+function startPriceWatch(){
+scanPrices(document.body);
+new MutationObserver(function(muts){
+muts.forEach(function(m){m.addedNodes.forEach(scanPrices)});
+}).observe(document.body,{childList:true,subtree:true});
+}
+if(document.body)startPriceWatch();else document.addEventListener("DOMContentLoaded",startPriceWatch);
+
+/* ===== 14) طيران المنتج إلى السلة + 43) إعادة الطلب ===== */
+function cartTarget(){return document.querySelector('#jokerBottomNav .nav-item[data-nav="cart"] svg')}
+function bump(el){
+if(!el||!el.animate)return;
+el.style.transformBox="fill-box";el.style.transformOrigin="center";
+el.animate([{transform:"scale(1) rotate(0)"},{transform:"scale(1.4) rotate(-10deg)"},{transform:"scale(.95) rotate(4deg)"},{transform:"scale(1) rotate(0)"}],{duration:480,easing:"ease-out"});
+var b=document.getElementById("navCartBadge");
+if(b&&b.animate)b.animate([{transform:"scale(1)"},{transform:"scale(1.5)"},{transform:"scale(1)"}],{duration:420,easing:"ease-out"});
+}
+function flyOrb(rect,imgSrc,delay){
+var target=cartTarget();
+if(!target||!document.body.animate)return;
+var tr=target.getBoundingClientRect();
+if(!tr.width)return;
+var size=44;
+var sx=rect.left+rect.width/2-size/2,sy=rect.top+rect.height/2-size/2;
+var ex=tr.left+tr.width/2-size/2,ey=tr.top+tr.height/2-size/2;
+var mx=(sx+ex)/2,my=Math.min(sy,ey)-90;
+var el=document.createElement("div");el.className="jk-orb";el.setAttribute("aria-hidden","true");
+if(imgSrc){el.style.backgroundImage='url("'+String(imgSrc).replace(/"/g,"%22")+'")'}else{el.textContent="♠"}
+el.style.opacity="0";
+document.body.appendChild(el);
+var anim=el.animate([
+{transform:"translate("+sx+"px,"+sy+"px) scale(.7)",opacity:0,offset:0},
+{transform:"translate("+sx+"px,"+sy+"px) scale(1)",opacity:1,offset:.12},
+{transform:"translate("+mx+"px,"+my+"px) scale(.9)",opacity:1,offset:.55},
+{transform:"translate("+ex+"px,"+ey+"px) scale(.25)",opacity:.3,offset:1}
+],{duration:780,delay:delay||0,easing:"cubic-bezier(.45,.05,.35,1)",fill:"both"});
+anim.onfinish=function(){el.remove();bump(target)};
+anim.oncancel=function(){el.remove()};
+}
+document.addEventListener("click",function(e){
+var t=e.target;if(!t||!t.closest)return;
+/* 14) إضافة منتج */
+var add=t.closest(".add-cart-button");
+if(add&&!add.disabled&&add.getAttribute("aria-disabled")!=="true"){
+var card=add.closest(".service");
+var img=card?card.querySelector(".product-gallery-main"):null;
+var from=(img&&img.getBoundingClientRect().width)?img.getBoundingClientRect():add.getBoundingClientRect();
+flyOrb(from,img?img.getAttribute("src"):null,0);
+return;
+}
+/* 43) إعادة الطلب */
+var re=t.closest(".joker-reorder-btn");
+if(re&&!re.classList.contains("jk-reorder-go")){
+var items=[];
+try{items=JSON.parse(decodeURIComponent(re.dataset.items||"%5B%5D"))}catch(_){}
+if(!Array.isArray(items)||!items.length)return;
+var old=re.textContent;
+re.classList.add("jk-reorder-go");
+re.textContent="✓ تمت إضافة المنتجات للسلة 💜";
+var rr=re.getBoundingClientRect();
+var n=Math.min(3,items.length);
+for(var i=0;i<n;i++)flyOrb(rr,null,i*120);
+setTimeout(function(){
+re.classList.remove("jk-reorder-go");
+if(re.isConnected)re.textContent=old;
+},1800);
+}
+},true);
+})();
+</script>
 <div id="jokerTransitionCorridor" class="joker-transition-corridor" aria-hidden="true"></div>
 </body>
 </html>
