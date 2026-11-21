@@ -188,6 +188,29 @@ body:before{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;opac
 .joker-google-logo{width:22px;height:22px;flex:none;display:block}
 .joker-auth-google span{line-height:1}
 #jokerSigninButton[disabled]{opacity:.65;pointer-events:none}
+.joker-phone-row{display:flex;gap:8px;margin:0 0 13px}
+.jk-country-btn{
+  flex:none;display:flex;align-items:center;gap:7px;min-height:54px;padding:0 12px;
+  border:1px solid #765293;border-radius:15px;cursor:pointer;color:#fff;
+  background:linear-gradient(120deg,#ffffff0f,#ffffff05);font:800 15px Arial,sans-serif;
+  box-shadow:inset 0 1px 0 #ffffff0c;transition:border-color .2s,box-shadow .2s;
+}
+.jk-country-btn:focus-visible,.jk-country-btn[aria-expanded="true"]{outline:none;border-color:#c49be5;box-shadow:0 0 0 3px #a855f72b}
+.jk-flag-slot{display:inline-flex}
+.jk-flag{width:27px;height:18px;border-radius:4px;display:block;flex:none;box-shadow:0 0 0 1px #ffffff2e}
+.jk-caret{color:#c49be5;font-size:12px}
+.joker-auth-phone-input{
+  flex:1;min-width:0;min-height:54px;margin:0;padding:13px 16px;border:1px solid #765293;border-radius:15px;outline:none;
+  background:linear-gradient(120deg,#ffffff0c,#ffffff04);color:#fff;font:700 17px Arial,sans-serif;letter-spacing:1px;
+  text-align:left;direction:ltr;box-shadow:inset 0 1px 0 #ffffff0c;transition:border-color .2s,box-shadow .2s;
+}
+.joker-auth-phone-input:focus{border-color:#c49be5;box-shadow:0 0 0 3px #a855f72b,0 0 22px #a855f733}
+.joker-auth-phone-input::placeholder{color:#887a96;font-size:14px;letter-spacing:2px}
+.jk-country-list{list-style:none;margin:-4px 0 13px;padding:6px;border:1px solid #765293;border-radius:15px;background:#150d20}
+.jk-country-list[hidden]{display:none}
+.jk-country-list li{display:flex;align-items:center;gap:11px;padding:10px;border-radius:11px;cursor:pointer;color:#fff;font:700 14px Tajawal,Arial,sans-serif;direction:rtl}
+.jk-country-list li:hover,.jk-country-list li.is-active{background:#a855f726}
+.jk-country-list .jc-dial{margin-inline-start:auto;direction:ltr;color:#c49be5;font:800 13px Arial,sans-serif}
 </style>
 </head>
 <body>
@@ -476,6 +499,12 @@ window.addEventListener("pageshow", attachAccountButtonToViewport);
   <input class="account-field" id="accountEmailInput" type="email" autocomplete="email" placeholder="البريد الإلكتروني" required>
   <label class="joker-auth-label" for="accountPasswordInput">كلمة المرور</label>
   <input class="account-field" id="accountPasswordInput" type="password" autocomplete="current-password" placeholder="كلمة المرور (8 أحرف على الأقل)" minlength="8" required>
+  <label class="joker-auth-label" for="jokerAuthPhone">رقم الهاتف للتواصل بخصوص الطلبات</label>
+  <div class="joker-phone-row" dir="ltr">
+    <button type="button" class="jk-country-btn" id="jokerCountryBtn" aria-haspopup="listbox" aria-expanded="false"><span id="jokerCountryFlag" class="jk-flag-slot"></span><span id="jokerCountryDial">+965</span><span class="jk-caret" aria-hidden="true">▾</span></button>
+    <input class="joker-auth-phone-input" id="jokerAuthPhone" type="tel" inputmode="numeric" autocomplete="tel-national" dir="ltr" maxlength="9" placeholder="XXXXXXXX">
+  </div>
+  <ul class="jk-country-list" id="jokerCountryList" role="listbox" hidden></ul>
   <div class="account-actions" id="jokerEmailAuthActions">
     <button type="submit" id="jokerSigninButton">تسجيل الدخول</button>
   </div>
@@ -484,7 +513,6 @@ window.addEventListener("pageshow", attachAccountButtonToViewport);
 <div class="joker-auth-methods">
   <button class="joker-auth-google" type="button" onclick="signInWithProvider('google')"><svg class="joker-google-logo" viewBox="0 0 48 48" aria-hidden="true"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/></svg><span>المتابعة باستخدام Google</span></button>
 </div>
-<div class="joker-auth-note"><b>✦</b><span>ما عندك حساب؟ لا تحتاج خطوة إضافية — سجّل بالبريد وكلمة المرور وسيتم إنشاء حسابك تلقائياً. بعد الدخول أضف رقم هاتفك في بيانات الحساب للتواصل معك بخصوص الطلبات.</span></div>
 <div class="account-actions"><button class="account-secondary" type="button" onclick="closeAccount()">إغلاق</button></div>
 </form>
 <p class="account-status" id="accountStatus" role="status" aria-live="polite"></p>
@@ -1545,6 +1573,78 @@ function setAuthMode() {
 const status = document.getElementById("accountStatus");
 if(status) status.textContent = "";
 }
+function jkFlag(inner){return '<svg class="jk-flag" viewBox="0 0 30 20" aria-hidden="true">'+inner+'</svg>';}
+const JOKER_GULF_COUNTRIES = [
+{id:"kw",name:"الكويت",dial:"965",len:8,flag:jkFlag('<rect width="30" height="7" fill="#007A3D"/><rect y="7" width="30" height="6.5" fill="#fff"/><rect y="13.5" width="30" height="6.5" fill="#CE1126"/><path d="M0 0L9 7V13.5L0 20Z" fill="#000"/>')},
+{id:"sa",name:"السعودية",dial:"966",len:9,flag:jkFlag('<rect width="30" height="20" fill="#006C35"/><rect x="7" y="5.5" width="16" height="2.4" rx="1.1" fill="#fff"/><rect x="8" y="13.5" width="14" height="1.6" rx=".8" fill="#fff"/>')},
+{id:"ae",name:"الإمارات",dial:"971",len:9,flag:jkFlag('<rect width="30" height="20" fill="#fff"/><rect width="30" height="6.67" fill="#00732F"/><rect y="13.33" width="30" height="6.67" fill="#000"/><rect width="8" height="20" fill="#FF0000"/>')},
+{id:"qa",name:"قطر",dial:"974",len:8,flag:jkFlag('<rect width="30" height="20" fill="#8A1538"/><path d="M0 0H9L6.5 2L9 4L6.5 6L9 8L6.5 10L9 12L6.5 14L9 16L6.5 18L9 20H0Z" fill="#fff"/>')},
+{id:"bh",name:"البحرين",dial:"973",len:8,flag:jkFlag('<rect width="30" height="20" fill="#CE1126"/><path d="M0 0H8L12 2L8 4L12 6L8 8L12 10L8 12L12 14L8 16L12 18L8 20H0Z" fill="#fff"/>')},
+{id:"om",name:"عُمان",dial:"968",len:8,flag:jkFlag('<rect width="30" height="20" fill="#fff"/><rect y="6.67" width="30" height="6.67" fill="#DB161B"/><rect y="13.33" width="30" height="6.67" fill="#008000"/><rect width="8" height="20" fill="#DB161B"/>')}
+];
+let jokerAuthCountry = JOKER_GULF_COUNTRIES[0];
+function renderAuthCountry() {
+const flag = document.getElementById("jokerCountryFlag");
+const dial = document.getElementById("jokerCountryDial");
+const input = document.getElementById("jokerAuthPhone");
+if(flag) flag.innerHTML = jokerAuthCountry.flag;
+if(dial) dial.textContent = "+" + jokerAuthCountry.dial;
+if(input) {
+  input.maxLength = jokerAuthCountry.len + 1;
+  input.placeholder = "X".repeat(jokerAuthCountry.len);
+}
+const list = document.getElementById("jokerCountryList");
+if(list) Array.prototype.forEach.call(list.children, function(li) {li.classList.toggle("is-active", li.dataset.id === jokerAuthCountry.id);});
+}
+function toggleCountryList(open) {
+const list = document.getElementById("jokerCountryList");
+const btn = document.getElementById("jokerCountryBtn");
+if(!list || !btn) return;
+const show = typeof open === "boolean" ? open : list.hidden;
+list.hidden = !show;
+btn.setAttribute("aria-expanded", show ? "true" : "false");
+}
+function initAuthCountries() {
+const list = document.getElementById("jokerCountryList");
+if(!list) return;
+list.innerHTML = JOKER_GULF_COUNTRIES.map(function(c) {
+  return '<li role="option" data-id="' + c.id + '">' + c.flag + '<span class="jc-name">' + c.name + '</span><span class="jc-dial">+' + c.dial + '</span></li>';
+}).join("");
+renderAuthCountry();
+}
+if(document.readyState === "loading") document.addEventListener("DOMContentLoaded", initAuthCountries);
+else initAuthCountries();
+document.addEventListener("click", function(event) {
+const t = event.target;
+if(!t || !t.closest) return;
+if(t.closest("#jokerCountryBtn")) {toggleCountryList(); return;}
+const li = t.closest("#jokerCountryList li");
+if(li) {
+  const found = JOKER_GULF_COUNTRIES.filter(function(c) {return c.id === li.dataset.id;})[0];
+  if(found) jokerAuthCountry = found;
+  renderAuthCountry();
+  toggleCountryList(false);
+  const input = document.getElementById("jokerAuthPhone");
+  if(input) input.focus();
+  return;
+}
+toggleCountryList(false);
+});
+document.addEventListener("input", function(event) {
+if(event.target && event.target.id === "jokerAuthPhone") {
+  event.target.value = event.target.value
+    .replace(/[٠-٩]/g, function(d) {return String(d.charCodeAt(0) - 1632);})
+    .replace(/[^0-9]/g, "");
+}
+});
+function readAuthPhone() {
+const input = document.getElementById("jokerAuthPhone");
+let digits = String(input && input.value || "").replace(/[^0-9]/g, "");
+const dial = jokerAuthCountry.dial;
+if(digits.indexOf(dial) === 0 && digits.length > jokerAuthCountry.len) digits = digits.slice(dial.length);
+digits = digits.replace(/^0+/, "");
+return {digits: digits, valid: digits.length === jokerAuthCountry.len, phone: "+" + dial + digits};
+}
 async function signInWithProvider(provider) {
 const status = document.getElementById("accountStatus");
 if(provider !== "google") return;
@@ -1565,21 +1665,39 @@ const email = document.getElementById("accountEmailInput").value.trim();
 const password = document.getElementById("accountPasswordInput").value;
 const status = document.getElementById("accountStatus");
 const btn = document.getElementById("jokerSigninButton");
+const phoneInput = document.getElementById("jokerAuthPhone");
 if(!email || password.length < 8) {
   status.textContent = "أدخل بريدك الإلكتروني وكلمة مرور من 8 أحرف على الأقل.";
   return;
 }
+const ph = readAuthPhone();
+if(ph.digits && !ph.valid) {
+  status.textContent = "رقم الهاتف غير صحيح. أدخل " + jokerAuthCountry.len + " أرقام لرقم " + jokerAuthCountry.name + ".";
+  if(phoneInput) phoneInput.focus();
+  return;
+}
 if(btn) btn.disabled = true;
 status.textContent = "جارٍ تسجيل الدخول...";
-function askPhoneIfMissing() {
-  if(!customerHasPhone) status.textContent += " أضف رقم هاتفك في بيانات الحساب حتى نتمكن من التواصل معك بخصوص الطلبات.";
+async function savePhoneIfNeeded() {
+  if(customerHasPhone || !ph.valid) return;
+  const res = await supabaseClient.auth.updateUser({data:{phone: ph.phone}});
+  if(!res.error) {
+    customerHasPhone = true;
+    await refreshAccountState();
+    if(pendingCheckoutAfterLogin) {
+      pendingCheckoutAfterLogin = false;
+      closeAccount();
+      openCart();
+    }
+  }
 }
 try {
   const {error} = await supabaseClient.auth.signInWithPassword({email,password});
   if(!error) {
     status.textContent = "تم تسجيل الدخول بنجاح.";
     await refreshAccountState();
-    askPhoneIfMissing();
+    await savePhoneIfNeeded();
+    if(!customerHasPhone) status.textContent += " أضف رقم هاتفك في بيانات الحساب حتى نتمكن من التواصل معك بخصوص الطلبات.";
     return;
   }
   const msg = String(error.message || "").toLowerCase();
@@ -1588,9 +1706,14 @@ try {
     return;
   }
   if(!(error.code === "invalid_credentials" || msg.includes("invalid login credentials"))) throw error;
-  // لا يوجد حساب بهذه البيانات: ننشئ حساباً جديداً تلقائياً
+  // لا يوجد حساب بهذه البيانات: ننشئ حساباً جديداً تلقائياً (الهاتف مطلوب هنا)
+  if(!ph.valid) {
+    status.textContent = "لا يوجد حساب بهذا البريد. أدخل رقم هاتفك لإنشاء حسابك وإكمال التسجيل.";
+    if(phoneInput) phoneInput.focus();
+    return;
+  }
   status.textContent = "جارٍ إنشاء حسابك...";
-  const res = await supabaseClient.auth.signUp({email,password});
+  const res = await supabaseClient.auth.signUp({email,password,options:{data:{phone: ph.phone}}});
   const wrongPassMsg = "كلمة المرور غير صحيحة لهذا البريد. إذا كنت سجّلت سابقاً عبر Google فاستخدم زر Google.";
   if(res.error) {
     if(/already registered|already been registered/i.test(String(res.error.message || ""))) {
@@ -1607,7 +1730,6 @@ try {
   if(res.data && res.data.session) {
     status.textContent = "تم إنشاء حسابك وتسجيل دخولك. أهلاً بك في JOKER PLUS.";
     await refreshAccountState();
-    askPhoneIfMissing();
   } else {
     status.textContent = "تم إنشاء حسابك. افتح رسالة التأكيد المرسلة إلى بريدك ثم سجّل الدخول.";
   }
