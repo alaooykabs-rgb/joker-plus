@@ -1403,7 +1403,8 @@ const number = order.order_number || order.id || "—";
 const total = order.total ?? order.total_amount ?? order.amount ?? "—";
 const rawStatus = String(order.status || "");
 const isRejected = /ملغ|رفض|فشل|cancel|reject|fail/i.test(rawStatus);
-const isApprovedOrProcessing = /قيد التنفيذ|مكتمل|تم التأكيد|تمت الموافقة|منفذ|approved|completed|processing|fulfilled|success/i.test(rawStatus);
+const isCompleted = /تم\s*التنفيذ|مكتمل|completed|fulfilled|success/i.test(rawStatus);
+const isApprovedOrProcessing = /قيد التنفيذ|تم التأكيد|تمت الموافقة|منفذ|approved|processing/i.test(rawStatus) || isCompleted;
 const isPending = !isRejected && !isApprovedOrProcessing;
 const statusText = isPending ? "جاري تأكيد طلبك من الإدارة" : rawStatus;
 const date = order.created_at ? new Date(order.created_at).toLocaleDateString("ar-KW",{weekday:"long",day:"numeric",month:"long",year:"numeric"}) : "—";
@@ -1411,7 +1412,7 @@ const totalNumber = Number(total);
 const totalText = isNaN(totalNumber) ? String(total) : totalNumber.toFixed(2) + " د.ك";
 const stateClass = /تم|مكتمل|منفذ|نجح/.test(String(statusText)) ? " done" : (/ملغ|رفض|فشل/.test(String(statusText)) ? " cancel" : "");
 return '<article class="joker-order-card">' +
-'<div class="joker-order-row" style="align-items:center;margin-bottom:8px"><span class="joker-order-label" style="font-weight:900;letter-spacing:.4px;color:#d9b8f4">JOKER PLUS · ' + (isPending ? 'طلبك محفوظ' : 'متابعة الطلب') + '</span><span class="joker-order-state' + stateClass + '" style="font-size:11px">' + (isPending ? 'بانتظار الاعتماد' : 'تحديث الطلب') + '</span></div>' +
+'<div class="joker-order-row" style="align-items:center;margin-bottom:8px"><span class="joker-order-label" style="font-weight:900;letter-spacing:.4px;color:#d9b8f4">JOKER PLUS · ' + (isPending ? 'طلبك محفوظ' : 'متابعة الطلب') + '</span><span class="joker-order-state' + stateClass + '" style="font-size:11px">' + (isCompleted ? 'طلبك تم وانتهى 💜' : (isPending ? 'بانتظار الاعتماد' : 'تحديث الطلب')) + '</span></div>' +
 '<div class="joker-order-row"><span class="joker-order-label">حالة الطلب:</span><span class="joker-order-state' + stateClass + '">' + escapeHTML(String(statusText)) + '</span></div>' +
 '<div class="joker-order-row"><span class="joker-order-label">المجموع:</span><span class="joker-order-value">' + escapeHTML(totalText) + '</span></div>' +
 '<div class="joker-order-row"><span class="joker-order-label">تاريخ الطلب:</span><span class="joker-order-value">' + escapeHTML(date) + '</span></div>' +
