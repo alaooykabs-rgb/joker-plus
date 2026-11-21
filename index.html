@@ -1413,7 +1413,7 @@ const totalNumber = Number(total);
 const totalText = isNaN(totalNumber) ? String(total) : totalNumber.toFixed(2) + " د.ك";
 const stateClass = isCompleted ? " done" : (isProcessing ? " processing" : (/ملغ|رفض|فشل/.test(String(statusText)) ? " cancel" : ""));
 return '<article class="joker-order-card">' +
-'<div class="joker-order-row" style="align-items:center;margin-bottom:8px"><span class="joker-order-label" style="font-weight:900;letter-spacing:.4px;color:#d9b8f4">JOKER PLUS · ' + (isPending ? 'طلبك محفوظ' : 'متابعة الطلب') + '</span><span class="joker-order-state' + stateClass + '" style="font-size:11px">' + (isCompleted ? 'طلبك تم وانتهى 💜' : (isPending ? 'بانتظار الاعتماد' : 'جاري العمل على طلبك 💛')) + '</span></div>' +
+'<div class="joker-order-row" style="align-items:center;margin-bottom:8px"><span class="joker-order-label" style="font-weight:900;letter-spacing:.4px;color:#d9b8f4">JOKER PLUS · ' + (isPending ? 'طلبك محفوظ' : 'متابعة الطلب') + '</span><span class="joker-order-state' + stateClass + '" style="font-size:11px;white-space:nowrap;flex:none">' + (isCompleted ? 'طلبك تم وانتهى 💜' : (isPending ? 'بانتظار الاعتماد' : 'جاري العمل على طلبك 💛')) + '</span></div>' +
 '<div class="joker-order-row"><span class="joker-order-label">حالة الطلب:</span><span class="joker-order-state' + stateClass + '">' + escapeHTML(String(statusText)) + '</span></div>' +
 '<div class="joker-order-row"><span class="joker-order-label">المجموع:</span><span class="joker-order-value">' + escapeHTML(totalText) + '</span></div>' +
 '<div class="joker-order-row"><span class="joker-order-label">تاريخ الطلب:</span><span class="joker-order-value">' + escapeHTML(date) + '</span></div>' +
