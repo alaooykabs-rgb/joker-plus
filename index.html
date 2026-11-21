@@ -579,6 +579,20 @@ window.addEventListener("pageshow", attachBottomNav);
 </div>
 </section>
 </div>
+<div id="snapArcProductPage" hidden>
+<div class="packages-page-top">
+<button class="packages-back-button" type="button" onclick="closeInfoPage()">→ رجوع للقسم</button>
+<div class="packages-page-brand">JOKER PLUS 🃏</div>
+</div>
+<section class="info-panel" style="max-width:760px;margin:18px auto;padding:18px">
+<div style="text-align:center;margin-bottom:18px">
+<div class="packages-page-brand" style="font-size:13px;opacity:.8">JOKER PLUS EXCLUSIVE</div>
+<h1 style="margin:8px 0">سناب آرك شهري</h1>
+<p style="margin:0;opacity:.75">تفاصيل الباقة ومميزاتها</p>
+</div>
+<div id="snapArcProductContent"></div>
+</section>
+</div>
 <div id="packagesPage" hidden>
 <div class="packages-page-top">
 <button class="packages-back-button" type="button" onclick="backToStore()">
@@ -1233,7 +1247,7 @@ function renderJokerCommandCenter(){
  if(activity){const rows=Array.isArray(adminOrdersCache)?adminOrdersCache:[];if(rows.length){const latest=rows.slice().sort((a,b)=>new Date(b.created_at||0)-new Date(a.created_at||0))[0];activity.textContent="آخر نشاط مسجل: الطلب "+String(latest.order_number||"—")+" · "+String(latest.status||"حالة غير محددة");}else{activity.textContent="لا توجد طلبات مسجلة لعرض نشاط حديث.";}}
 }
 function openInfoPage(pageId) {
-["storePage","packagesPage","noticePage","faqPage","refundPage","ordersPage","searchPage","adminPage","storeRegionsPage","storeRegionItemsPage","jokerPrivateShowroomPage"].forEach(id => {
+["storePage","packagesPage","noticePage","faqPage","refundPage","ordersPage","searchPage","adminPage","storeRegionsPage","storeRegionItemsPage","jokerPrivateShowroomPage","snapArcProductPage"].forEach(id => {
 const node = document.getElementById(id);
 if(node) node.hidden = id !== pageId;
 });
@@ -1244,7 +1258,7 @@ if(corridor){corridor.classList.remove("is-active");void corridor.offsetWidth;co
 window.scrollTo({top:0,behavior:"instant"});
 }
 function closeInfoPage() {
-["packagesPage","noticePage","faqPage","refundPage","ordersPage","searchPage","adminPage","storeRegionsPage","storeRegionItemsPage","jokerPrivateShowroomPage"].forEach(id => {
+["packagesPage","noticePage","faqPage","refundPage","ordersPage","searchPage","adminPage","storeRegionsPage","storeRegionItemsPage","jokerPrivateShowroomPage","snapArcProductPage"].forEach(id => {
 const node = document.getElementById(id);
 if(node) node.hidden = true;
 });
@@ -2058,12 +2072,24 @@ alert((error && error.message) || "تعذر إتمام الطلب. حاول مر
 if(checkoutNode) {checkoutNode.disabled=false;checkoutNode.textContent="إتمام الطلب عبر واتساب";}
 }
 }
+function openSnapArcProductPage(event) {
+if(event && event.target.closest("button,a,input,summary")) return;
+const product = (Array.isArray(storeItemsCache) ? storeItemsCache : []).find(item => String(item.id || "") === "joker-snaparc-monthly");
+if(!product) return;
+const content = document.getElementById("snapArcProductContent");
+if(content) content.innerHTML = createService(product,{detail:true});
+openInfoPage("snapArcProductPage");
+if(typeof syncCartAddButtons === "function") syncCartAddButtons();
+}
+
 function createService(item,opts) {
 const compact = !!(opts && opts.compact);
+const detail = !!(opts && opts.detail);
+const isSnapArc = String(item.id || "") === "joker-snaparc-monthly";
 const title = String(item.title || "منتج من JOKER PLUS");
 const price = String(item.price ?? "");
 return `
-<div class="service" id="product-${escapeHTML(String(item.id ?? title))}" data-product-id="${escapeHTML(String(item.id ?? ""))}">
+<div class="service" id="product-${escapeHTML(String(item.id ?? title))}" data-product-id="${escapeHTML(String(item.id ?? ""))}" ${isSnapArc && !detail ? 'role="button" tabindex="0" style="cursor:pointer" onclick="openSnapArcProductPage(event)"' : ""}>
 <div class="service-title">${escapeHTML(title)}</div>
 ${createProductGallery(item)}
 ${item.description ? `<div class="service-description">${escapeHTML(item.description)}</div>` : ""}
@@ -2106,6 +2132,14 @@ onclick="shareProduct(this)">↗ مشاركة المنتج</button>
 </div>
 `;
 }
+document.addEventListener("keydown",function(event){
+const card = event.target.closest('.service[data-product-id="joker-snaparc-monthly"][role="button"]');
+if(card && (event.key === "Enter" || event.key === " ")) {
+event.preventDefault();
+openSnapArcProductPage(event);
+}
+});
+
 function createSection(section,items,images) {
 const sectionImage = images.find(image => image.section === section.id);
 const sectionItems = items.filter(item => item.section_key === section.id);
