@@ -172,6 +172,22 @@ body:before{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;opac
 #jokerPhoneOtpFields[hidden]{display:none!important}
 #accountModal .account-status{position:relative;text-align:center;line-height:1.9}
 @media(max-width:420px){#accountModal .account-box{padding:24px 17px 19px;border-radius:25px}}
+.joker-auth-separator{position:relative;display:flex;align-items:center;gap:12px;margin:16px 0 14px;color:#9d8bb0;font-size:12px;font-weight:800}
+.joker-auth-separator:before,.joker-auth-separator:after{content:"";flex:1;height:1px;background:linear-gradient(90deg,transparent,#a77ad066,transparent)}
+.joker-auth-methods{position:relative}
+.joker-auth-google{
+  position:relative;overflow:hidden;width:100%;min-height:54px;display:flex;align-items:center;justify-content:center;gap:12px;
+  padding:12px 18px;border:1px solid #ffffffcc;border-radius:15px;cursor:pointer;
+  background:linear-gradient(180deg,#ffffff,#f1ecf6);color:#2a1a38;
+  font:800 14.5px Tajawal,Arial,sans-serif;
+  box-shadow:0 10px 26px #0006,0 0 0 4px #ffffff0d,inset 0 -2px 0 #0000000d;
+  transition:transform .2s,box-shadow .2s,filter .2s;
+}
+.joker-auth-google:hover{box-shadow:0 12px 30px #0007,0 0 24px #a855f744,0 0 0 4px #ffffff14}
+.joker-auth-google:active{transform:scale(.985);filter:brightness(.96)}
+.joker-google-logo{width:22px;height:22px;flex:none;display:block}
+.joker-auth-google span{line-height:1}
+#jokerSigninButton[disabled]{opacity:.65;pointer-events:none}
 </style>
 </head>
 <body>
@@ -430,7 +446,7 @@ window.addEventListener("pageshow", attachAccountButtonToViewport);
 <div class="account-modal" id="accountModal" hidden onclick="closeAccount(event)">
 <section class="account-box" role="dialog" aria-modal="true" aria-labelledby="accountTitle" onclick="event.stopPropagation()">
 <h2 id="accountTitle">حساب JOKER PLUS</h2>
-<p class="account-hint">تقدر تتصفح وتضيف للسلة بدون تسجيل، لكن تأكيد الطلب يتطلب تسجيل الدخول أو إنشاء حساب.</p>
+<p class="account-hint">تقدر تتصفح وتضيف للسلة بدون تسجيل، لكن تأكيد الطلب يتطلب تسجيل الدخول.</p>
 <div id="accountSignedIn" hidden>
 <div class="joker-profile-head">
 <img id="accountAvatarPreview" class="joker-account-avatar" alt="الصورة الشخصية" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='50' fill='%2335105c'/%3E%3Ctext x='50' y='64' font-size='48' text-anchor='middle' fill='white'%3E♛%3C/text%3E%3C/svg%3E">
@@ -460,25 +476,15 @@ window.addEventListener("pageshow", attachAccountButtonToViewport);
   <input class="account-field" id="accountEmailInput" type="email" autocomplete="email" placeholder="البريد الإلكتروني" required>
   <label class="joker-auth-label" for="accountPasswordInput">كلمة المرور</label>
   <input class="account-field" id="accountPasswordInput" type="password" autocomplete="current-password" placeholder="كلمة المرور (8 أحرف على الأقل)" minlength="8" required>
-  <div id="jokerSignupPhoneWrap" hidden>
-    <label class="joker-auth-label" for="jokerSignupPhone">رقم الهاتف للتواصل بخصوص الطلبات <span style="color:#d6aaff">*</span></label>
-    <input class="account-field" id="jokerSignupPhone" type="tel" inputmode="tel" autocomplete="tel" dir="ltr" maxlength="24" placeholder="+965 XXXXXXXX">
-    <div class="joker-auth-note"><b>✦</b><span>رقم الهاتف للتواصل معك بخصوص طلباتك فقط، ولا نرسل إليه رمز تحقق.</span></div>
-  </div>
   <div class="account-actions" id="jokerEmailAuthActions">
-    <button type="submit" id="jokerSigninButton">تسجيل الدخول بالبريد</button>
-    <button class="account-secondary" type="button" onclick="setAuthMode('signup')">إنشاء حساب جديد</button>
-  </div>
-  <div class="account-actions" id="jokerSignupActions" hidden>
-    <button type="button" onclick="registerCustomer()">إنشاء الحساب</button>
-    <button class="account-secondary" type="button" onclick="setAuthMode('signin')">رجوع لتسجيل الدخول</button>
+    <button type="submit" id="jokerSigninButton">تسجيل الدخول</button>
   </div>
 </div>
 <div class="joker-auth-separator"><span>أو</span></div>
 <div class="joker-auth-methods">
-  <button class="joker-auth-btn joker-auth-google" type="button" onclick="signInWithProvider('google')"><span aria-hidden="true">G</span> المتابعة باستخدام Google</button>
+  <button class="joker-auth-google" type="button" onclick="signInWithProvider('google')"><svg class="joker-google-logo" viewBox="0 0 48 48" aria-hidden="true"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/></svg><span>المتابعة باستخدام Google</span></button>
 </div>
-<div class="joker-auth-note"><b>✦</b><span>رقم الهاتف مطلوب عند إنشاء الحساب، حتى نتمكن من التواصل معك بخصوص الطلبات.</span></div>
+<div class="joker-auth-note"><b>✦</b><span>ما عندك حساب؟ لا تحتاج خطوة إضافية — سجّل بالبريد وكلمة المرور وسيتم إنشاء حسابك تلقائياً. بعد الدخول أضف رقم هاتفك في بيانات الحساب للتواصل معك بخصوص الطلبات.</span></div>
 <div class="account-actions"><button class="account-secondary" type="button" onclick="closeAccount()">إغلاق</button></div>
 </form>
 <p class="account-status" id="accountStatus" role="status" aria-live="polite"></p>
@@ -1357,7 +1363,7 @@ pendingCheckoutAfterLogin = true;
 if(typeof closeCart === "function") closeCart();
 openAccount();
 const status = document.getElementById("accountStatus");
-if(status) status.textContent = customerLoggedIn ? "أضف رقم هاتفك في بيانات الحساب أولاً حتى نتمكن من التواصل معك بخصوص الطلبات." : "لازم تسجّل دخول أو تنشئ حساب قبل تأكيد الطلب. سلتك محفوظة وتنتظرك.";
+if(status) status.textContent = customerLoggedIn ? "أضف رقم هاتفك في بيانات الحساب أولاً حتى نتمكن من التواصل معك بخصوص الطلبات." : "لازم تسجّل دخول قبل تأكيد الطلب. سلتك محفوظة وتنتظرك.";
 return false;
 }
 function orderLinkClick(event) {
@@ -1535,20 +1541,9 @@ uploadCustomerAvatar(event.target.files?.[0]);
 event.target.value = "";
 }
 });
-function setAuthMode(mode) {
-const signup = mode === "signup";
-const phoneWrap = document.getElementById("jokerSignupPhoneWrap");
-const signinActions = document.getElementById("jokerEmailAuthActions");
-const signupActions = document.getElementById("jokerSignupActions");
-const phoneInput = document.getElementById("jokerSignupPhone");
-if(phoneWrap) phoneWrap.hidden = !signup;
-if(signinActions) signinActions.hidden = signup;
-if(signupActions) signupActions.hidden = !signup;
-if(phoneInput) phoneInput.required = signup;
-const password = document.getElementById("accountPasswordInput");
-if(password) password.autocomplete = signup ? "new-password" : "current-password";
+function setAuthMode() {
 const status = document.getElementById("accountStatus");
-if(status) status.textContent = signup ? "أدخل بياناتك ورقم هاتفك لإنشاء حساب جديد." : "";
+if(status) status.textContent = "";
 }
 async function signInWithProvider(provider) {
 const status = document.getElementById("accountStatus");
@@ -1569,46 +1564,57 @@ event.preventDefault();
 const email = document.getElementById("accountEmailInput").value.trim();
 const password = document.getElementById("accountPasswordInput").value;
 const status = document.getElementById("accountStatus");
-status.textContent = "جارٍ تسجيل الدخول...";
-try {
-  const {error} = await supabaseClient.auth.signInWithPassword({email,password});
-  if(error) throw error;
-  status.textContent = "تم تسجيل الدخول بنجاح.";
-  await refreshAccountState();
-  if(!customerHasPhone) status.textContent = "أضف رقم هاتفك في بيانات الحساب حتى نتمكن من التواصل معك بخصوص الطلبات.";
-} catch(error) {
-  status.textContent = error.message || "تعذر تسجيل الدخول.";
-}
-}
-async function registerCustomer() {
-const email = document.getElementById("accountEmailInput").value.trim();
-const password = document.getElementById("accountPasswordInput").value;
-const phoneInput = document.getElementById("jokerSignupPhone");
-const phone = String(phoneInput?.value || "").trim().replace(/[\s()-]/g,"");
-const status = document.getElementById("accountStatus");
+const btn = document.getElementById("jokerSigninButton");
 if(!email || password.length < 8) {
   status.textContent = "أدخل بريدك الإلكتروني وكلمة مرور من 8 أحرف على الأقل.";
   return;
 }
-if(!/^\+[1-9]\d{7,14}$/.test(phone)) {
-  status.textContent = "رقم الهاتف مطلوب. أدخله مع مفتاح الدولة، مثال: +965XXXXXXXX.";
-  phoneInput?.focus();
-  return;
+if(btn) btn.disabled = true;
+status.textContent = "جارٍ تسجيل الدخول...";
+function askPhoneIfMissing() {
+  if(!customerHasPhone) status.textContent += " أضف رقم هاتفك في بيانات الحساب حتى نتمكن من التواصل معك بخصوص الطلبات.";
 }
-status.textContent = "جارٍ إنشاء الحساب...";
 try {
-  const {data,error} = await supabaseClient.auth.signUp({
-    email,
-    password,
-    options: {data: {phone}}
-  });
-  if(error) throw error;
-  status.textContent = data?.session
-    ? "تم إنشاء الحساب بنجاح. أهلاً بك في JOKER PLUS."
-    : "تم إنشاء الحساب. تحقق من بريدك الإلكتروني إذا كان تأكيد البريد مفعّلاً.";
-  await refreshAccountState();
+  const {error} = await supabaseClient.auth.signInWithPassword({email,password});
+  if(!error) {
+    status.textContent = "تم تسجيل الدخول بنجاح.";
+    await refreshAccountState();
+    askPhoneIfMissing();
+    return;
+  }
+  const msg = String(error.message || "").toLowerCase();
+  if(error.code === "email_not_confirmed" || msg.includes("email not confirmed")) {
+    status.textContent = "لم يتم تأكيد بريدك بعد. افتح رسالة التأكيد المرسلة إلى بريدك ثم سجّل الدخول.";
+    return;
+  }
+  if(!(error.code === "invalid_credentials" || msg.includes("invalid login credentials"))) throw error;
+  // لا يوجد حساب بهذه البيانات: ننشئ حساباً جديداً تلقائياً
+  status.textContent = "جارٍ إنشاء حسابك...";
+  const res = await supabaseClient.auth.signUp({email,password});
+  const wrongPassMsg = "كلمة المرور غير صحيحة لهذا البريد. إذا كنت سجّلت سابقاً عبر Google فاستخدم زر Google.";
+  if(res.error) {
+    if(/already registered|already been registered/i.test(String(res.error.message || ""))) {
+      status.textContent = wrongPassMsg;
+      return;
+    }
+    throw res.error;
+  }
+  const u = res.data && res.data.user;
+  if(u && Array.isArray(u.identities) && u.identities.length === 0) {
+    status.textContent = wrongPassMsg;
+    return;
+  }
+  if(res.data && res.data.session) {
+    status.textContent = "تم إنشاء حسابك وتسجيل دخولك. أهلاً بك في JOKER PLUS.";
+    await refreshAccountState();
+    askPhoneIfMissing();
+  } else {
+    status.textContent = "تم إنشاء حسابك. افتح رسالة التأكيد المرسلة إلى بريدك ثم سجّل الدخول.";
+  }
 } catch(error) {
-  status.textContent = error.message || "تعذر إنشاء الحساب.";
+  status.textContent = error.message || "تعذر تسجيل الدخول.";
+} finally {
+  if(btn) btn.disabled = false;
 }
 }
 async function signOutCustomer() {
