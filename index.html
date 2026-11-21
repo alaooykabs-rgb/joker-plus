@@ -1389,7 +1389,7 @@ return;
 const {data,error} = await supabaseClient.from("orders").select("*").eq("user_id",user.id).order("created_at",{ascending:false}).limit(30);
 if(error) throw error;
 const approvedOrders = data || [];
-try { const k="jokerPlusOrderStatuses_"+user.id, prev=JSON.parse(localStorage.getItem(k)||"{}"), now={}; approvedOrders.forEach(o=>{const n=String(o.order_number||o.id||""),st=String(o.status||"");now[n]=st;if(prev[n]&&prev[n]!==st&&"Notification" in window&&Notification.permission==="granted")new Notification("تحديث طلبك من JOKER PLUS",{body:st})});localStorage.setItem(k,JSON.stringify(now)); } catch(_) {}
+try { const k="jokerPlusOrderStatuses_"+user.id, prev=JSON.parse(localStorage.getItem(k)||"{}"), now={}; approvedOrders.forEach(o=>{const n=String(o.order_number||o.id||""),st=String(o.status||"");now[n]=st;if(prev[n]&&prev[n]!==st&&"Notification" in window&&Notification.permission==="granted")new Notification("تحديث طلبك من JOKER PLUS",{body:(/قيد\\s*التنفيذ/.test(st)?"جاري العمل على طلبك 💛":st)})});localStorage.setItem(k,JSON.stringify(now)); } catch(_) {}
 // مصدر «طلباتي» هو قاعدة البيانات فقط؛ لا نعرض نسخة محلية احتياطية
 // حتى لا يعود الطلب للظهور بعد أن تحذفه الإدارة من قاعدة البيانات.
 try { localStorage.removeItem("jokerPlusLocalPendingOrder_" + user.id); } catch(_) {}
@@ -1407,7 +1407,7 @@ const isCompleted = /تم\s*التنفيذ|مكتمل|completed|fulfilled|succes
 const isProcessing = /قيد\s*التنفيذ|تم التأكيد|تمت الموافقة|approved|processing/i.test(rawStatus) && !isCompleted;
 const isApprovedOrProcessing = isProcessing || /منفذ/i.test(rawStatus) || isCompleted;
 const isPending = !isRejected && !isApprovedOrProcessing;
-const statusText = isPending ? "جاري تأكيد طلبك من الإدارة" : rawStatus;
+const statusText = isPending ? "جاري تأكيد طلبك من الإدارة" : (/قيد\\s*التنفيذ/.test(rawStatus) && !isCompleted ? "جاري العمل على طلبك 💛" : rawStatus);
 const date = order.created_at ? new Date(order.created_at).toLocaleDateString("ar-KW",{weekday:"long",day:"numeric",month:"long",year:"numeric"}) : "—";
 const totalNumber = Number(total);
 const totalText = isNaN(totalNumber) ? String(total) : totalNumber.toFixed(2) + " د.ك";
