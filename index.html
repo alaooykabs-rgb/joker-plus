@@ -1612,24 +1612,35 @@ list.innerHTML = JOKER_GULF_COUNTRIES.map(function(c) {
 }).join("");
 renderAuthCountry();
 }
-if(document.readyState === "loading") document.addEventListener("DOMContentLoaded", initAuthCountries);
-else initAuthCountries();
-document.addEventListener("click", function(event) {
-const t = event.target;
-if(!t || !t.closest) return;
-if(t.closest("#jokerCountryBtn")) {toggleCountryList(); return;}
-const li = t.closest("#jokerCountryList li");
-if(li) {
+function bindAuthCountryEvents() {
+const btn = document.getElementById("jokerCountryBtn");
+const list = document.getElementById("jokerCountryList");
+const box = document.querySelector("#accountModal .account-box");
+if(btn) btn.addEventListener("click", function(event) {
+  event.preventDefault();
+  event.stopPropagation();
+  toggleCountryList();
+});
+if(list) list.addEventListener("click", function(event) {
+  event.stopPropagation();
+  const li = event.target.closest ? event.target.closest("li") : null;
+  if(!li) return;
   const found = JOKER_GULF_COUNTRIES.filter(function(c) {return c.id === li.dataset.id;})[0];
   if(found) jokerAuthCountry = found;
   renderAuthCountry();
   toggleCountryList(false);
   const input = document.getElementById("jokerAuthPhone");
   if(input) input.focus();
-  return;
-}
-toggleCountryList(false);
 });
+// النافذة توقف انتشار النقرات (stopPropagation) لذلك نربط الإغلاق على الصندوق نفسه
+if(box) box.addEventListener("click", function() {toggleCountryList(false);});
+}
+function startAuthCountries() {
+initAuthCountries();
+bindAuthCountryEvents();
+}
+if(document.readyState === "loading") document.addEventListener("DOMContentLoaded", startAuthCountries);
+else startAuthCountries();
 document.addEventListener("input", function(event) {
 if(event.target && event.target.id === "jokerAuthPhone") {
   event.target.value = event.target.value
