@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
@@ -54,14 +53,14 @@ var showJokerPendingNotice = window.showJokerPendingNotice = function(openCartPa
 
 /* Snap Plus: three independent package choices inside the section page */
 .snaparc-packages-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;align-items:stretch;direction:rtl}
-.snaparc-package-card{min-width:0;overflow:hidden;padding:7px;border:2px solid #527edb;border-radius:22px;background:linear-gradient(160deg,#142b55 0%,#0d1c3b 100%);box-shadow:0 9px 24px #0007,inset 0 1px 0 #ffffff18;display:flex;flex-direction:column;gap:0}
+.snaparc-package-card{min-width:0;overflow:hidden;padding:7px;border:2px solid #8b5bb0;border-radius:22px;background:radial-gradient(ellipse at 50% 0%,#63358c66,transparent 58%),linear-gradient(155deg,#281638 0%,#100b18 72%,#1b1026 100%);box-shadow:0 10px 26px #0008,0 0 18px #a77ad022,inset 0 1px 0 #ffffff20;display:flex;flex-direction:column;gap:0}
 .snaparc-package-card:last-child{grid-column:1/-1;width:calc(50% - 7px);justify-self:center}
-.snaparc-package-image{display:block;width:100%;aspect-ratio:1/1;object-fit:cover;border-radius:14px 14px 5px 5px;background:#07132d}
-.snaparc-package-heading{display:flex;align-items:center;justify-content:space-between;gap:8px;margin:10px 4px 8px;color:#f6f8ff;font-weight:900;font-size:13px}
-.snaparc-package-heading strong{font-size:10px;color:#fff;background:linear-gradient(135deg,#ed8a5c,#d96e48);padding:6px 9px;border-radius:12px;white-space:nowrap}
-.snaparc-package-name{margin:8px 4px 5px;min-height:24px;text-align:center;color:#fff;font-size:15px;font-weight:900;line-height:1.6}
-.snaparc-package-price{margin:0 4px 12px;text-align:center;color:#f5f7ff;font-size:16px;font-weight:900;min-height:25px}
-.snaparc-package-hint{color:#aebfe3;font-size:10px;font-weight:700}
+.snaparc-package-image{display:block;width:100%;aspect-ratio:1/1;object-fit:cover;border-radius:14px 14px 5px 5px;background:#09080c;border:1px solid #a77ad055}
+.snaparc-package-heading{display:flex;align-items:center;justify-content:space-between;gap:8px;margin:10px 4px 8px;color:#f7f4fa;font-weight:900;font-size:13px}
+.snaparc-package-heading strong{font-size:10px;color:#fff;background:linear-gradient(135deg,#35105c,#641d32);border:1px solid #c49be588;padding:6px 9px;border-radius:12px;white-space:nowrap;box-shadow:0 4px 12px #0006}
+.snaparc-package-name{margin:8px 4px 5px;min-height:24px;text-align:center;color:#fff;font-size:15px;font-weight:900;line-height:1.6;text-shadow:0 0 14px #a77ad055}
+.snaparc-package-price{margin:0 4px 12px;text-align:center;color:#d9c4ec;font-size:16px;font-weight:900;min-height:25px}
+.snaparc-package-hint{color:#c49be5;font-size:10px;font-weight:700}
 @media(max-width:520px){.snaparc-packages-grid{gap:9px}.snaparc-package-card{padding:6px;border-radius:19px}.snaparc-package-heading{font-size:11px;gap:5px}.snaparc-package-heading strong{font-size:9px;padding:5px 7px}.snaparc-package-name{font-size:13px}.snaparc-package-price{font-size:14px}}
 /* SnapArc: clean outer tile + three-slot inner gallery */
 .service[data-product-id="joker-snaparc-monthly"]:not([data-detail="true"]) .service-description,
