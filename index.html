@@ -3163,18 +3163,15 @@ end $$;
 .jk-glow.on{opacity:1}
 .jk-orb{position:fixed;left:0;top:0;width:44px;height:44px;z-index:2147483000;pointer-events:none;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-size:22px;background:radial-gradient(circle at 30% 25%,#8d45c9,#35105c 75%) center/cover no-repeat;border:2px solid #c49be5;box-shadow:0 0 18px #a77ad0aa,0 6px 16px #000a;will-change:transform,opacity}
 .joker-reorder-btn{position:relative;overflow:hidden;transition:background .3s,border-color .3s,box-shadow .3s,transform .16s}
-.joker-reorder-btn::after{content:"";position:absolute;top:0;bottom:0;left:0;width:55%;background:linear-gradient(110deg,transparent,rgba(255,255,255,.32),transparent);transform:translateX(-130%) skewX(-18deg);animation:jkShineIdle 4.8s ease-in-out 1.2s infinite;pointer-events:none}
+.joker-reorder-btn::after{content:"";position:absolute;top:0;bottom:0;left:0;width:55%;background:linear-gradient(110deg,transparent,rgba(255,255,255,.32),transparent);transform:translateX(-130%) skewX(-18deg);animation:jkShineIdle 4.8s ease-in-out 1.2s infinite!important;pointer-events:none}
 .joker-reorder-btn.jk-reorder-go{background:linear-gradient(110deg,#1d392b,#24583a);border-color:#4b9b6b;color:#e4ffed;box-shadow:0 0 18px #2f8a5a55}
-.joker-reorder-btn.jk-reorder-go::after{animation:jkShineGo .8s ease-out 1}
+.joker-reorder-btn.jk-reorder-go::after{animation:jkShineGo .8s ease-out 1!important}
 @keyframes jkShineIdle{0%,70%,100%{transform:translateX(-130%) skewX(-18deg)}85%{transform:translateX(330%) skewX(-18deg)}}
 @keyframes jkShineGo{from{transform:translateX(-130%) skewX(-18deg)}to{transform:translateX(330%) skewX(-18deg)}}
-@media(prefers-reduced-motion:reduce){.jk-glow,.jk-orb{display:none!important}.joker-reorder-btn::after{animation:none!important;display:none}}
 </style>
 <script id="jk-four-touches-js">
 (function(){
 "use strict";
-var reduce=false;try{reduce=window.matchMedia("(prefers-reduced-motion: reduce)").matches}catch(_){}
-if(reduce)return;
 
 /* ===== 2) توهج يتبع الإصبع على الأزرار ===== */
 var GLOW_SEL='button:not([disabled]),.buy-button,.support-btn,.packages-back-button,.region-card,summary';
