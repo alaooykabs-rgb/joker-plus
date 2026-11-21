@@ -140,17 +140,15 @@ body:before{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;opac
   content:"☎";position:absolute;left:15px;top:50%;transform:translateY(-50%);
   color:#c49be5;font-size:17px;pointer-events:none;
 }
-#jokerLoginPhone,#jokerPhoneOtp{
-  width:100%;min-height:54px;margin:0 0 13px;padding:13px 44px 13px 43px;
+#jokerSignupPhone{
+  width:100%;min-height:54px;margin:0 0 13px;padding:13px 16px;
   border:1px solid #765293;border-radius:15px;outline:none;
   background:linear-gradient(120deg,#ffffff0c,#ffffff04);
   color:#fff;font:700 16px Arial,sans-serif;text-align:left;direction:ltr;
   box-shadow:inset 0 1px 0 #ffffff0c;transition:border-color .2s,box-shadow .2s;
 }
-#jokerLoginPhone:focus,#jokerPhoneOtp:focus{
-  border-color:#c49be5;box-shadow:0 0 0 3px #a855f72b,0 0 22px #a855f733;
-}
-#jokerLoginPhone::placeholder,#jokerPhoneOtp::placeholder{color:#887a96;font-size:13px}
+#jokerSignupPhone:focus{border-color:#c49be5;box-shadow:0 0 0 3px #a855f72b,0 0 22px #a855f733}
+#jokerSignupPhone::placeholder{color:#887a96;font-size:13px}
 .joker-auth-btn{
   position:relative;overflow:hidden;width:100%;min-height:52px;border:1px solid #c49be5;
   border-radius:15px;padding:13px 16px;color:#fff;font:900 14px Arial,sans-serif;
@@ -441,7 +439,7 @@ window.addEventListener("pageshow", attachAccountButtonToViewport);
 <div class="joker-account-section">
 <h3>تعديل بيانات الحساب</h3>
 <input class="account-field" id="accountNameInput" type="text" maxlength="60" autocomplete="name" placeholder="الاسم الكامل">
-<input class="account-field" id="accountPhoneInput" type="tel" readonly dir="ltr" style="text-align:left" maxlength="24" autocomplete="tel" value="+" placeholder="+965 XXXXXXXX">
+<input class="account-field" id="accountPhoneInput" type="tel" dir="ltr" style="text-align:left" maxlength="24" autocomplete="tel" value="+" placeholder="+965 XXXXXXXX">
 <label class="joker-upload-label" for="accountAvatarInput">📷 تغيير الصورة الشخصية</label>
 <input id="accountAvatarInput" class="joker-avatar-file" type="file" accept="image/png,image/jpeg,image/webp">
 <div class="account-actions"><button type="button" onclick="saveCustomerProfile()">حفظ بياناتي</button></div>
@@ -451,25 +449,37 @@ window.addEventListener("pageshow", attachAccountButtonToViewport);
 <button class="account-secondary" type="button" onclick="closeAccount()">إغلاق</button>
 </div>
 </div>
-<form id="accountForm" onsubmit="return false">
+<form id="accountForm" onsubmit="submitAccount(event)">
 <div class="joker-auth-brand">
   <div class="joker-auth-mark" aria-hidden="true">♛</div>
   <div class="joker-auth-kicker">JOKER PLUS</div>
   <div class="joker-auth-subtitle">دخولك لعالم التميّز يبدأ هنا</div>
 </div>
-<label class="joker-auth-label" for="jokerLoginPhone">رقم الهاتف <span style="color:#d6aaff">*</span></label>
-<div class="joker-auth-phone-wrap">
-  <input class="account-field" id="jokerLoginPhone" type="tel" inputmode="tel" autocomplete="tel"
-    dir="ltr" maxlength="18" required aria-required="true" placeholder="+965 XXXXXXXX">
+<div id="emailAuthFields">
+  <label class="joker-auth-label" for="accountEmailInput">البريد الإلكتروني</label>
+  <input class="account-field" id="accountEmailInput" type="email" autocomplete="email" placeholder="البريد الإلكتروني" required>
+  <label class="joker-auth-label" for="accountPasswordInput">كلمة المرور</label>
+  <input class="account-field" id="accountPasswordInput" type="password" autocomplete="current-password" placeholder="كلمة المرور (8 أحرف على الأقل)" minlength="8" required>
+  <div id="jokerSignupPhoneWrap" hidden>
+    <label class="joker-auth-label" for="jokerSignupPhone">رقم الهاتف للتواصل بخصوص الطلبات <span style="color:#d6aaff">*</span></label>
+    <input class="account-field" id="jokerSignupPhone" type="tel" inputmode="tel" autocomplete="tel" dir="ltr" maxlength="24" placeholder="+965 XXXXXXXX">
+    <div class="joker-auth-note"><b>✦</b><span>رقم الهاتف للتواصل معك بخصوص طلباتك فقط، ولا نرسل إليه رمز تحقق.</span></div>
+  </div>
+  <div class="account-actions" id="jokerEmailAuthActions">
+    <button type="submit" id="jokerSigninButton">تسجيل الدخول بالبريد</button>
+    <button class="account-secondary" type="button" onclick="setAuthMode('signup')">إنشاء حساب جديد</button>
+  </div>
+  <div class="account-actions" id="jokerSignupActions" hidden>
+    <button type="button" onclick="registerCustomer()">إنشاء الحساب</button>
+    <button class="account-secondary" type="button" onclick="setAuthMode('signin')">رجوع لتسجيل الدخول</button>
+  </div>
 </div>
-<button class="joker-auth-btn" type="button" onclick="sendPhoneLoginCode()">متابعة والتحقق من رقم الهاتف</button>
-<div id="jokerPhoneOtpFields" hidden>
-  <label class="joker-auth-label" for="jokerPhoneOtp" style="margin-top:16px">رمز التحقق المرسل إليك</label>
-  <input class="account-field" id="jokerPhoneOtp" type="text" inputmode="numeric"
-    autocomplete="one-time-code" maxlength="8" required placeholder="أدخل رمز SMS">
-  <button class="joker-auth-btn" type="button" onclick="verifyPhoneLoginCode()">تأكيد الرمز والدخول إلى حسابي</button>
+<div class="joker-auth-separator"><span>أو</span></div>
+<div class="joker-auth-methods">
+  <button class="joker-auth-btn joker-auth-google" type="button" onclick="signInWithProvider('google')"><span aria-hidden="true">G</span> المتابعة باستخدام Google</button>
 </div>
-<div class="joker-auth-note"><b>✦</b><span>أول دخول برقم هاتفك ينشئ حسابك تلقائياً. في المرات القادمة استخدم الرقم نفسه لتسجيل الدخول.</span></div>
+<div class="joker-auth-note"><b>✦</b><span>رقم الهاتف مطلوب عند إنشاء الحساب، حتى نتمكن من التواصل معك بخصوص الطلبات.</span></div>
+<div class="account-actions"><button class="account-secondary" type="button" onclick="closeAccount()">إغلاق</button></div>
 </form>
 <p class="account-status" id="accountStatus" role="status" aria-live="polite"></p>
 </section>
@@ -1317,29 +1327,37 @@ const url = "https://wa.me/" + WHATSAPP_NUMBER + "?text=" + encodeURIComponent(m
 window.open(url,"_blank","noopener,noreferrer");
 }
 let customerLoggedIn = false;
+let customerHasPhone = false;
 let pendingCheckoutAfterLogin = false;
 supabaseClient.auth.getSession().then(function(result) {
-customerLoggedIn = !!(result && result.data && result.data.session);
+const user = result && result.data && result.data.session && result.data.session.user;
+customerLoggedIn = !!user;
+customerHasPhone = !!(user && (user.user_metadata?.phone || user.phone));
 }).catch(function() {});
 supabaseClient.auth.onAuthStateChange(function(event,session) {
 customerLoggedIn = !!session;
+customerHasPhone = !!(session && session.user && (session.user.user_metadata?.phone || session.user.phone));
 setToolAvatar(session && session.user && session.user.user_metadata ? session.user.user_metadata.avatar_url : "");
 const ordersPageNode = document.getElementById("ordersPage");
 if(ordersPageNode && !ordersPageNode.hidden) window.setTimeout(loadCustomerOrders,0);
 window.setTimeout(function() {checkAdminAccess(session);},0);
 if(event === "SIGNED_IN" && session && pendingCheckoutAfterLogin) {
-pendingCheckoutAfterLogin = false;
-closeAccount();
-openCart();
+if(customerHasPhone) {
+  pendingCheckoutAfterLogin = false;
+  closeAccount();
+  openCart();
+} else {
+  window.setTimeout(function(){ openAccount(); const st=document.getElementById("accountStatus"); if(st) st.textContent="أضف رقم هاتفك أولاً حتى نتمكن من التواصل معك بخصوص الطلبات."; },0);
+}
 }
 });
 function requireLoginToOrder() {
-if(customerLoggedIn) return true;
+if(customerLoggedIn && customerHasPhone) return true;
 pendingCheckoutAfterLogin = true;
 if(typeof closeCart === "function") closeCart();
 openAccount();
 const status = document.getElementById("accountStatus");
-if(status) status.textContent = "لازم تسجّل دخول أو تنشئ حساب قبل تأكيد الطلب. سلتك محفوظة وتنتظرك.";
+if(status) status.textContent = customerLoggedIn ? "أضف رقم هاتفك في بيانات الحساب أولاً حتى نتمكن من التواصل معك بخصوص الطلبات." : "لازم تسجّل دخول أو تنشئ حساب قبل تأكيد الطلب. سلتك محفوظة وتنتظرك.";
 return false;
 }
 function orderLinkClick(event) {
@@ -1352,6 +1370,7 @@ const modal = document.getElementById("accountModal");
 if(!modal) return;
 modal.hidden = false;
 document.getElementById("accountStatus").textContent = "";
+setAuthMode("signin");
 refreshAccountState();
 }
 function closeAccount(event) {
@@ -1365,10 +1384,12 @@ try {
 const {data,error} = await supabaseClient.auth.getSession();
 if(error) throw error;
 const user = data?.session?.user;
+customerLoggedIn = !!user;
+customerHasPhone = !!(user && (user.user_metadata?.phone || user.phone));
 document.getElementById("accountSignedIn").hidden = !user;
 document.getElementById("accountForm").hidden = !!user;
 if(user) {
-document.getElementById("accountEmail").textContent = user.phone || user.user_metadata?.phone || "حساب العميل";
+document.getElementById("accountEmail").textContent = user.email || "حساب العميل";
 document.getElementById("accountNameInput").value = user.user_metadata?.full_name || "";
 document.getElementById("accountPhoneInput").value = user.phone ? formatPhoneWithCode(user.phone) : (user.user_metadata?.phone ? formatPhoneWithCode(user.user_metadata.phone) : "+");
 const avatar = user.user_metadata?.avatar_url;
@@ -1383,14 +1404,20 @@ async function saveCustomerProfile() {
 const status = document.getElementById("accountStatus");
 const full_name = document.getElementById("accountNameInput").value.trim();
 let phone = document.getElementById("accountPhoneInput").value.trim();
-if(phone === "+") phone = "";
+phone = phone.replace(/[\s()-]/g,"");
+if(!/^\+[1-9]\d{7,14}$/.test(phone)) {
+  status.textContent = "أدخل رقم هاتف صحيحاً مع مفتاح الدولة، مثال: +965XXXXXXXX.";
+  document.getElementById("accountPhoneInput").focus();
+  return;
+}
 status.textContent = "جارٍ حفظ بياناتك...";
 try {
 const {data,error} = await supabaseClient.auth.updateUser({data:{full_name,phone}});
 if(error) throw error;
 status.textContent = "تم حفظ بيانات الحساب بنجاح.";
 if(data?.user) {
-document.getElementById("accountEmail").textContent = data.user.phone || "حساب العميل";
+document.getElementById("accountEmail").textContent = data.user.email || "حساب العميل";
+customerHasPhone = true;
 }
 } catch(error) {
 status.textContent = error.message || "تعذر حفظ البيانات حالياً.";
@@ -1498,7 +1525,7 @@ return "+" + code + (rest ? " " + rest : "");
 return "+" + digits;
 }
 document.addEventListener("input",function(event) {
-if(event.target && event.target.id === "accountPhoneInput") {
+if(event.target && (event.target.id === "accountPhoneInput" || event.target.id === "jokerSignupPhone")) {
 event.target.value = formatPhoneWithCode(event.target.value);
 }
 });
@@ -1508,53 +1535,80 @@ uploadCustomerAvatar(event.target.files?.[0]);
 event.target.value = "";
 }
 });
-async function sendPhoneLoginCode() {
-const phoneInput = document.getElementById("jokerLoginPhone");
+function setAuthMode(mode) {
+const signup = mode === "signup";
+const phoneWrap = document.getElementById("jokerSignupPhoneWrap");
+const signinActions = document.getElementById("jokerEmailAuthActions");
+const signupActions = document.getElementById("jokerSignupActions");
+const phoneInput = document.getElementById("jokerSignupPhone");
+if(phoneWrap) phoneWrap.hidden = !signup;
+if(signinActions) signinActions.hidden = signup;
+if(signupActions) signupActions.hidden = !signup;
+if(phoneInput) phoneInput.required = signup;
+const password = document.getElementById("accountPasswordInput");
+if(password) password.autocomplete = signup ? "new-password" : "current-password";
 const status = document.getElementById("accountStatus");
+if(status) status.textContent = signup ? "أدخل بياناتك ورقم هاتفك لإنشاء حساب جديد." : "";
+}
+async function signInWithProvider(provider) {
+const status = document.getElementById("accountStatus");
+if(provider !== "google") return;
+status.textContent = "جارٍ تحويلك إلى Google...";
+try {
+  const {error} = await supabaseClient.auth.signInWithOAuth({
+    provider: "google",
+    options: {redirectTo: window.location.origin + window.location.pathname}
+  });
+  if(error) throw error;
+} catch(error) {
+  status.textContent = error.message || "تعذر بدء تسجيل الدخول باستخدام Google.";
+}
+}
+async function submitAccount(event) {
+event.preventDefault();
+const email = document.getElementById("accountEmailInput").value.trim();
+const password = document.getElementById("accountPasswordInput").value;
+const status = document.getElementById("accountStatus");
+status.textContent = "جارٍ تسجيل الدخول...";
+try {
+  const {error} = await supabaseClient.auth.signInWithPassword({email,password});
+  if(error) throw error;
+  status.textContent = "تم تسجيل الدخول بنجاح.";
+  await refreshAccountState();
+  if(!customerHasPhone) status.textContent = "أضف رقم هاتفك في بيانات الحساب حتى نتمكن من التواصل معك بخصوص الطلبات.";
+} catch(error) {
+  status.textContent = error.message || "تعذر تسجيل الدخول.";
+}
+}
+async function registerCustomer() {
+const email = document.getElementById("accountEmailInput").value.trim();
+const password = document.getElementById("accountPasswordInput").value;
+const phoneInput = document.getElementById("jokerSignupPhone");
 const phone = String(phoneInput?.value || "").trim().replace(/[\s()-]/g,"");
+const status = document.getElementById("accountStatus");
+if(!email || password.length < 8) {
+  status.textContent = "أدخل بريدك الإلكتروني وكلمة مرور من 8 أحرف على الأقل.";
+  return;
+}
 if(!/^\+[1-9]\d{7,14}$/.test(phone)) {
-  status.textContent = "أدخل رقم هاتف صحيحاً مع مفتاح الدولة، مثال: +965XXXXXXXX.";
+  status.textContent = "رقم الهاتف مطلوب. أدخله مع مفتاح الدولة، مثال: +965XXXXXXXX.";
   phoneInput?.focus();
   return;
 }
-status.textContent = "جارٍ إرسال رمز التحقق إلى هاتفك...";
+status.textContent = "جارٍ إنشاء الحساب...";
 try {
-  const {error} = await supabaseClient.auth.signInWithOtp({
-    phone,
-    options: { shouldCreateUser: true }
+  const {data,error} = await supabaseClient.auth.signUp({
+    email,
+    password,
+    options: {data: {phone}}
   });
   if(error) throw error;
-  document.getElementById("jokerPhoneOtpFields").hidden = false;
-  status.textContent = "تم إرسال رمز التحقق. أدخله لإكمال تسجيل الدخول.";
-  document.getElementById("jokerPhoneOtp")?.focus();
-} catch(error) {
-  status.textContent = error.message || "تعذر إرسال رمز التحقق. تحقق من الرقم وحاول مرة أخرى.";
-}
-}
-async function verifyPhoneLoginCode() {
-const phone = String(document.getElementById("jokerLoginPhone")?.value || "").trim().replace(/[\s()-]/g,"");
-const token = String(document.getElementById("jokerPhoneOtp")?.value || "").trim();
-const status = document.getElementById("accountStatus");
-if(!/^\+[1-9]\d{7,14}$/.test(phone)) {
-  status.textContent = "رقم الهاتف غير صحيح. أدخل الرقم مع مفتاح الدولة.";
-  return;
-}
-if(!token) {
-  status.textContent = "أدخل رمز التحقق المرسل إلى هاتفك أولاً.";
-  document.getElementById("jokerPhoneOtp")?.focus();
-  return;
-}
-status.textContent = "جارٍ التحقق من الرمز...";
-try {
-  const {data,error} = await supabaseClient.auth.verifyOtp({phone,token,type:"sms"});
-  if(error) throw error;
-  if(data?.user) {
-    await supabaseClient.auth.updateUser({data:{phone}});
-  }
-  status.textContent = "تم التحقق بنجاح. أهلاً بك في JOKER PLUS.";
+  status.textContent = data?.session
+    ? "تم إنشاء الحساب بنجاح. أهلاً بك في JOKER PLUS."
+    : "تم إنشاء الحساب. تحقق من بريدك الإلكتروني إذا كان تأكيد البريد مفعّلاً.";
   await refreshAccountState();
 } catch(error) {
-  status.textContent = error.message || "رمز التحقق غير صحيح أو انتهت صلاحيته.";
+  status.textContent = error.message || "تعذر إنشاء الحساب.";
 }
 }
 async function signOutCustomer() {
