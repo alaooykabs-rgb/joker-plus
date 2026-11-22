@@ -4154,7 +4154,7 @@ async function rowAction(ev){
     if(act==="damage")r=await supabaseClient.from("snap_codes").update({status:"damaged"}).eq("id",id).eq("status","available");
     else if(act==="restore")r=await supabaseClient.from("snap_codes").update({status:"available"}).eq("id",id).eq("status","damaged");
     else if(act==="delete")r=await supabaseClient.from("snap_codes").delete().eq("id",id).neq("status","sold");
-    else if(act==="revoke")r=await supabaseClient.rpc("admin_revoke_snap_codes",{p_code_id:Number(id)});
+    else if(act==="revoke")r=await supabaseClient.rpc("admin_revoke_snap_codes",{p_code_id:String(id)});
     if(r&&r.error)throw r.error;
     await loadAll();
   }catch(e){b.disabled=false;if(msg)msg.textContent="تعذر التنفيذ: "+(e.message||e)}
