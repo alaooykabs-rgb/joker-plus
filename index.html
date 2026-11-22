@@ -4034,12 +4034,12 @@ async function loadStock(){
   var counts={},failed=false,low=[];
   for(var p in PKG){
     var r=await supabaseClient.from("snap_codes").select("id",{count:"exact",head:true}).eq("package",p).eq("status","available");
-    if(r.error){failed=true;break}
+    if(r.error){failed=true;window.__jkScErr=r.error;break}
     counts[p]=r.count||0;
   }
   if(failed){
     box.innerHTML="";
-    if(warn)warn.innerHTML='<div class="jk-sc-warn">تعذر قراءة جدول الأكواد. شغّل ملف snap_codes_setup.sql في Supabase أولاً.</div>';
+    if(warn)warn.innerHTML='<div class="jk-sc-warn">تعذر قراءة جدول الأكواد. شغّل ملف snap_codes_setup.sql في Supabase أولاً.<br><small dir="ltr">'+esc(window.__jkScErr?((window.__jkScErr.code||"")+" "+(window.__jkScErr.message||"")):"")+'</small></div>';
     return;
   }
   var sold=0;
