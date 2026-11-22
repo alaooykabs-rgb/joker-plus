@@ -4228,5 +4228,85 @@ else addUI();
 })();
 </script>
 <div id="jokerTransitionCorridor" class="joker-transition-corridor" aria-hidden="true"></div>
+<style id="joker-admin-purple-hybrid">
+/* JOKER PLUS — Purple Hybrid Admin Workspace (visual-only layer) */
+#adminPage{--admin-accent:#a77ad0;--admin-bright:#d7b5f2;--admin-line:rgba(167,122,208,.24);--admin-panel:rgba(24,16,34,.94);padding-bottom:34px}
+#adminPage[hidden],#adminPage [hidden]{display:none!important}
+#adminPage>.packages-page-top{max-width:1180px;margin:10px auto 18px;padding:12px 16px;border:1px solid var(--admin-line);border-radius:16px;background:linear-gradient(110deg,rgba(48,27,67,.92),rgba(15,11,21,.96));box-shadow:0 12px 30px #0005}
+#adminPage .packages-page-brand{color:#e5d1f5;letter-spacing:1.5px;font-weight:950;text-shadow:0 0 18px #a77ad055}
+#adminPage .packages-back-button{border-color:var(--admin-line);background:#ffffff08;color:#e8d9f4;border-radius:11px;padding:10px 13px}
+#adminPage .joker-command-center{position:relative;isolation:isolate;max-width:1180px;margin:0 auto 18px;padding:clamp(18px,3vw,28px);border:1px solid rgba(190,145,225,.32);border-radius:23px;background:radial-gradient(ellipse at 8% 100%,rgba(111,57,150,.22),transparent 42%),radial-gradient(ellipse at 100% 0%,rgba(142,84,183,.3),transparent 45%),linear-gradient(135deg,#21152d 0%,#120e19 58%,#1b1125 100%);box-shadow:0 22px 55px #0008,inset 0 1px 0 #ffffff12;overflow:hidden}
+#adminPage .joker-command-center:after{content:"J+";position:absolute;z-index:-1;left:4%;bottom:-46px;font-size:150px;font-weight:1000;letter-spacing:-12px;color:#ffffff05;pointer-events:none}
+#adminPage .joker-command-top{position:relative;z-index:1}
+#adminPage .joker-editorial-kicker{display:inline-flex;align-items:center;gap:8px;color:#cba8e8;font-size:9px;font-weight:900;letter-spacing:2.2px}
+#adminPage .joker-editorial-kicker:before{content:"";width:20px;height:1px;background:#c49be5;box-shadow:0 0 8px #c49be5}
+#adminPage .joker-command-top h2{font-size:clamp(21px,4vw,31px);letter-spacing:.5px}
+#adminPage .joker-command-top p{font-size:12px;line-height:1.9;color:#c4b5d0}
+#adminPage .joker-command-seal{width:62px;height:62px;border-color:#c49be577;background:linear-gradient(145deg,#ffffff0b,#a77ad015);box-shadow:0 0 30px #a77ad022,inset 0 0 18px #a77ad018}
+#adminPage .joker-command-metrics{position:relative;z-index:1;gap:11px;margin:22px 0 16px}
+#adminPage .joker-command-metrics article{position:relative;min-height:102px;padding:15px;border:1px solid rgba(196,155,229,.2);border-radius:16px;background:linear-gradient(145deg,#ffffff0c,#ffffff03);box-shadow:inset 0 1px 0 #ffffff0a;transition:transform .22s,border-color .22s,background .22s}
+#adminPage .joker-command-metrics article:hover{transform:translateY(-3px);border-color:#c49be566;background:#a77ad012}
+#adminPage .joker-command-metrics small{font-size:11px;color:#cbb9d8}
+#adminPage .joker-command-metrics strong{font-size:clamp(20px,3vw,29px);font-weight:950;color:#fff}
+#adminPage .joker-command-metrics span{font-size:9px;color:#c49be5;letter-spacing:1.7px}
+#adminPage .joker-command-actions{position:relative;z-index:1;gap:9px}
+#adminPage .joker-command-actions button{min-height:39px;padding:10px 15px;border:1px solid #a77ad044;border-radius:11px;background:linear-gradient(135deg,#39234b,#241632);font-size:11px;font-weight:800;transition:.2s}
+#adminPage .joker-command-actions button:hover{transform:translateY(-2px);border-color:#d7b5f2;background:linear-gradient(135deg,#503267,#2c1b3d);box-shadow:0 8px 20px #0005}
+#adminPage .joker-command-activity{position:relative;z-index:1;border-top-color:#c49be522;font-size:11px}
+#adminPage>.info-panel{max-width:1180px;margin:0 auto;padding:clamp(14px,2.5vw,24px);border:1px solid rgba(167,122,208,.22);border-radius:22px;background:linear-gradient(150deg,rgba(25,18,34,.97),rgba(13,10,18,.98));box-shadow:0 18px 45px #0006,inset 0 1px 0 #ffffff08}
+#adminPage .admin-dashboard-head{align-items:center;margin:0 0 18px;padding-bottom:17px;border-bottom:1px solid rgba(167,122,208,.17)}
+#adminPage .admin-dashboard-head h1{font-size:clamp(19px,3vw,24px);font-weight:950;letter-spacing:-.3px}
+#adminPage .admin-dashboard-head p{font-size:12px;color:#b9a8c6;line-height:1.8}
+#adminPage .joker-orders-refresh{border:1px solid #a77ad044;border-radius:11px;background:linear-gradient(135deg,#342044,#21142e);color:#eadcf5;padding:10px 14px;font-size:11px;font-weight:850;transition:.2s}
+#adminPage .joker-orders-refresh:hover{border-color:#c49be5;background:#422957;transform:translateY(-1px)}
+#adminPage .admin-stats-grid{grid-template-columns:repeat(4,minmax(0,1fr));gap:11px;margin-bottom:16px}
+#adminPage .admin-stat-card{position:relative;overflow:hidden;padding:15px;border:1px solid rgba(167,122,208,.23);border-radius:16px;background:linear-gradient(145deg,#251832,#15101d 78%);box-shadow:0 8px 22px #0004,inset 0 1px 0 #ffffff0a;transition:transform .22s,border-color .22s}
+#adminPage .admin-stat-card:after{content:"";position:absolute;inset:auto 0 0;height:2px;background:linear-gradient(90deg,transparent,#a77ad0,transparent);opacity:.6}
+#adminPage .admin-stat-card:hover{transform:translateY(-3px);border-color:#c49be577}
+#adminPage .admin-stat-card span{font-size:11px;color:#d4c1e2}
+#adminPage .admin-stat-card strong{font-size:clamp(20px,2.8vw,28px);color:#fff;text-shadow:0 0 18px #a77ad022}
+#adminPage .admin-stat-card small{font-size:10px;color:#a99ab4}
+#adminPage #adminStatsMsg{margin:8px 0 14px}
+/* Hybrid navigation: dashboard cards above, compact section switcher below */
+#adminPage .admin-section-tabs{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:9px;margin:18px 0 17px;padding:9px;border:1px solid rgba(167,122,208,.18);border-radius:17px;background:linear-gradient(135deg,#1b1325,#100c16);box-shadow:inset 0 1px 0 #ffffff08}
+#adminPage .admin-section-tab{position:relative;display:flex;align-items:center;justify-content:center;gap:8px;min-width:0;min-height:48px;padding:10px 9px;border:1px solid transparent;border-radius:12px;background:#ffffff05;color:#bfb0ca;font-size:11px;font-weight:850;line-height:1.5;white-space:normal;cursor:pointer;transition:transform .2s,border-color .2s,background .2s,color .2s}
+#adminPage .admin-section-tab:before{content:"✦";color:#9870b8;font-size:12px;flex:none}
+#adminPage .admin-section-tab:hover{border-color:#a77ad044;background:#a77ad010;color:#f4eafa;transform:translateY(-1px)}
+#adminPage .admin-section-tab.active{border-color:#b98cdb77;background:linear-gradient(135deg,#593875,#30203e);color:#fff;box-shadow:0 6px 18px #0005,inset 0 1px 0 #ffffff18}
+#adminPage .admin-section-tab.active:before{color:#f0d9ff;text-shadow:0 0 10px #d7b5f2}
+#adminPage [role="tabpanel"]{min-width:0;padding:clamp(13px,2vw,20px);border:1px solid rgba(167,122,208,.18);border-radius:17px;background:linear-gradient(145deg,#ffffff05,#ffffff02);animation:jkAdminPanelIn .25s ease both}
+@keyframes jkAdminPanelIn{from{opacity:.55;transform:translateY(5px)}to{opacity:1;transform:none}}
+#adminPage .joker-orders-heading{align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:15px}
+#adminPage .joker-orders-heading h1{font-size:clamp(17px,2.7vw,21px);font-weight:950}
+#adminPage .admin-filters{display:flex;gap:7px;flex-wrap:wrap;margin:0 0 14px;padding:8px;border:1px solid rgba(167,122,208,.15);border-radius:13px;background:#09070d66}
+#adminPage .admin-filters button{border:1px solid #a77ad033;border-radius:9px;background:#ffffff06;color:#cbbbd7;padding:8px 12px;font-size:10px;font-weight:800}
+#adminPage .admin-filters button.active{border-color:#c49be5;background:#593875;color:#fff}
+#adminPage .joker-orders-list,#adminPage .joker-product-admin-list,#adminPage .joker-coupon-admin-list{gap:11px}
+#adminPage .account-field{border:1px solid rgba(167,122,208,.28);border-radius:11px;background:#0e0a14;color:#f6effb;accent-color:#a77ad0}
+#adminPage .account-field:focus{outline:none;border-color:#c49be5;box-shadow:0 0 0 3px #a77ad022}
+#adminPage label{color:#ddcce9;font-size:11px;font-weight:800}
+#adminPage .joker-coupon-admin-form,#adminPage .joker-product-admin-form,#adminPage .jk-sc-form{padding:16px;border:1px solid rgba(167,122,208,.2);border-radius:15px;background:linear-gradient(145deg,#21162c,#120e18);box-shadow:0 8px 22px #0003}
+#adminPage .joker-coupon-save{border:1px solid #c49be566;border-radius:11px;background:linear-gradient(135deg,#68428a,#3a2450);color:white;padding:11px 16px;font-weight:900}
+#adminPage .joker-coupon-save:hover{filter:brightness(1.13)}
+#adminPage .joker-coupon-check,#adminPage .joker-product-active{display:flex;align-items:center;gap:9px;padding:10px 0;color:#d9c8e5}
+#adminPage input[type="checkbox"]{accent-color:#a77ad0}
+#adminPage .joker-order-card,#adminPage .joker-product-admin-row,#adminPage .joker-coupon-admin-row{border-color:#a77ad044!important;background:linear-gradient(145deg,#21172a,#120e18)!important;border-radius:15px!important}
+#adminPage button:focus-visible,#adminPage input:focus-visible,#adminPage select:focus-visible,#adminPage textarea:focus-visible{outline:2px solid #c49be5;outline-offset:2px}
+@media(max-width:760px){
+ #adminPage>.packages-page-top{margin:8px 12px 14px}
+ #adminPage .joker-command-center{margin:0 12px 14px;padding:17px}
+ #adminPage>.info-panel{margin:0 12px;padding:14px;border-radius:18px}
+ #adminPage .joker-command-metrics{grid-template-columns:repeat(2,minmax(0,1fr))}
+ #adminPage .admin-stats-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+ #adminPage .admin-section-tabs{grid-template-columns:repeat(2,minmax(0,1fr));gap:7px;padding:7px}
+ #adminPage .admin-section-tab{min-height:45px;padding:9px 6px;font-size:10px}
+ #adminPage [role="tabpanel"]{padding:12px}
+ #adminPage .joker-orders-heading>div{display:flex;gap:7px;flex-wrap:wrap;width:100%}
+ #adminPage .joker-orders-heading>div button{flex:1}
+}
+@media(max-width:390px){#adminPage .joker-command-seal{width:42px;height:42px;font-size:20px}#adminPage .joker-command-top p{max-width:220px}#adminPage .admin-stat-card{padding:12px}#adminPage .admin-section-tab{font-size:9px}}
+@media(prefers-reduced-motion:reduce){#adminPage [role="tabpanel"],#adminPage .admin-stat-card,#adminPage .admin-section-tab{animation:none!important;transition:none!important}}
+
+</style>
 </body>
 </html>
