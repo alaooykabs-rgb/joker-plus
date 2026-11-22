@@ -671,6 +671,7 @@ window.addEventListener("pageshow", attachAccountButtonToViewport);
 </button>
 <button type="button" class="nav-item" data-nav="orders" onclick="navGo('orders')">
 <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="3.5" width="16" height="17" rx="3"/><path d="M12 7.5v6.5M9 11.3l3 3 3-3M8 17h8"/></svg>
+<b class="nav-badge" id="navOrdersBadge" hidden>0</b>
 <span>الطلبات</span>
 </button>
 <button type="button" class="nav-item" data-nav="search" onclick="navGo('search')">
@@ -1674,6 +1675,7 @@ if(!appCodesResult.error) (appCodesResult.data || []).forEach(c => { const k=Str
 }
 } catch(_) {}
 try { const k="jokerPlusOrderStatuses_"+user.id, prev=JSON.parse(localStorage.getItem(k)||"{}"), now={}; approvedOrders.forEach(o=>{const n=String(o.order_number||o.id||""),st=String(o.status||"");now[n]=st;if(prev[n]&&prev[n]!==st&&"Notification" in window&&Notification.permission==="granted")new Notification("تحديث طلبك من JOKER PLUS",{body:st})});localStorage.setItem(k,JSON.stringify(now)); } catch(_) {}
+try { if(typeof window.jokerMarkOrdersSeen==="function") window.jokerMarkOrdersSeen(user.id,approvedOrders); } catch(_) {}
 // مصدر «طلباتي» هو قاعدة البيانات فقط؛ لا نعرض نسخة محلية احتياطية
 // حتى لا يعود الطلب للظهور بعد أن تحذفه الإدارة من قاعدة البيانات.
 try { localStorage.removeItem("jokerPlusLocalPendingOrder_" + user.id); } catch(_) {}
@@ -1702,7 +1704,7 @@ return '<article class="joker-order-card">' +
 '<div class="joker-order-row"><span class="joker-order-label">المجموع:</span><span class="joker-order-value">' + escapeHTML(totalText) + '</span></div>' +
 '<div class="joker-order-row"><span class="joker-order-label">تاريخ الطلب:</span><span class="joker-order-value">' + escapeHTML(date) + '</span></div>' +
 (typeof jokerSnapCodesHTML === "function" ? jokerSnapCodesHTML(codesByOrder[String(number)]) : '') +
-(appCodesByOrder[String(number)] && appCodesByOrder[String(number)].length ? '<div class="jk-codes-box"><div class="jk-codes-title">🔑 أكواد تطبيقات بلس الخاصة بطلبك</div>'+appCodesByOrder[String(number)].map(c=>'<div class="jk-code-item"><span class="jk-code-pkg">'+(c.app_name==='عام'?'كود عام':'باقة '+escapeHTML(String(c.app_name||'')))+'</span><code class="jk-code-value" dir="ltr">'+escapeHTML(String(c.code||''))+'</code><button type="button" class="jk-code-copy" data-code="'+escapeHTML(String(c.code||''))+'" onclick="copySnapCode(this)">نسخ الكود</button></div>').join('')+'</div>' : '') +
+(appCodesByOrder[String(number)] && appCodesByOrder[String(number)].length ? '<div class="jk-codes-box"><div class="jk-codes-title">🔑 أكواد تطبيقات بلس الخاصة بطلبك</div>'+appCodesByOrder[String(number)].map((c,ci)=>'<div class="jk-code-item"><span class="jk-code-pkg">'+escapeHTML(jokerAppCodeLabels(order,appCodesByOrder[String(number)])[ci]||'')+'</span><code class="jk-code-value" dir="ltr">'+escapeHTML(String(c.code||''))+'</code><button type="button" class="jk-code-copy" data-code="'+escapeHTML(String(c.code||''))+'" onclick="copySnapCode(this)">نسخ الكود</button></div>').join('')+'</div>' : '') +
 (isCompleted ? '<button type="button" class="joker-reorder-btn" data-items="' + encodeURIComponent(JSON.stringify(Array.isArray(order.items) ? order.items : (Array.isArray(order.order_items) ? order.order_items : []))) + '" onclick="reorderCustomerOrder(this)">إعادة طلب المنتجات</button>' : '') +
 '</article>';
 }).join("");
@@ -4552,5 +4554,71 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
 })();
 </script>
 
+
+<script id="joker-order-done-badge">
+(function(){
+'use strict';
+var DONE=/تم\s*التنفيذ|مكتمل|completed|fulfilled|success/i;
+var TIERS=[{k:'فضية',re:/فضي|silver/i,label:'الباقة الفضية'},{k:'ذهبية',re:/ذهبي|gold/i,label:'الباقة الذهبية'},{k:'بلاتينيوم',re:/بلاتين|platinum/i,label:'باقة البلاتينيوم'}];
+function tierOf(t){t=String(t||'');for(var i=0;i<TIERS.length;i++)if(TIERS[i].re.test(t))return TIERS[i];return null}
+function labelOfKey(k){for(var i=0;i<TIERS.length;i++)if(TIERS[i].k===k)return TIERS[i].label;return null}
+
+/* اسم الباقة فوق كل كود: حسب اللي طلبه العميل، حتى لو الكود من المخزون العام */
+window.jokerAppCodeLabels=function(order,codes){
+  codes=codes||[];
+  var items=Array.isArray(order&&order.items)?order.items:(Array.isArray(order&&order.order_items)?order.order_items:[]);
+  var needs=[],pos={};
+  items.forEach(function(it){var t=tierOf(it.title||it.name||it.product_name);if(!t)return;var q=Math.max(1,Number(it.quantity||it.qty||1)||1);if(pos[t.k]==null){pos[t.k]=needs.length;needs.push({k:t.k,label:t.label,qty:0})}needs[pos[t.k]].qty+=q});
+  var out=new Array(codes.length),own={};
+  codes.forEach(function(c,i){var l=labelOfKey(c.app_name);if(l){out[i]=l;own[c.app_name]=(own[c.app_name]||0)+1}});
+  var gens=[];codes.forEach(function(c,i){if(!labelOfKey(c.app_name))gens.push(i)});
+  gens.sort(function(a,b){return String(codes[a].code).localeCompare(String(codes[b].code))});
+  var left=needs.map(function(n){return Math.max(0,n.qty-(own[n.k]||0))}),gi=0;
+  needs.forEach(function(n,ni){while(left[ni]>0&&gi<gens.length){out[gens[gi++]]=n.label;left[ni]--}});
+  var fallback=needs.length?needs[0].label:'كود التطبيق';
+  while(gi<gens.length)out[gens[gi++]]=fallback;
+  return out;
+};
+
+/* علامة الإشعار على زر الطلبات */
+function key(uid){return 'jokerPlusSeenDone_'+uid}
+function readSeen(uid){try{var v=localStorage.getItem(key(uid));return v===null?null:JSON.parse(v)}catch(_){return null}}
+function writeSeen(uid,arr){try{localStorage.setItem(key(uid),JSON.stringify(arr.slice(-200)))}catch(_){}}
+function setBadge(n){var b=document.getElementById('navOrdersBadge');if(!b)return;if(n>0){b.textContent=n>9?'9+':String(n);b.hidden=false}else b.hidden=true}
+function doneNumbers(rows){return (rows||[]).filter(function(o){return DONE.test(String(o.status||''))}).map(function(o){return String(o.order_number||o.id||'')}).filter(Boolean)}
+
+window.jokerMarkOrdersSeen=function(uid,rows){
+  var seen=readSeen(uid)||[];doneNumbers(rows).forEach(function(n){if(seen.indexOf(n)<0)seen.push(n)});
+  writeSeen(uid,seen);setBadge(0);
+};
+var busy=false;
+async function check(){
+  if(busy||typeof supabaseClient==='undefined')return;busy=true;
+  try{
+    var sd=await supabaseClient.auth.getSession(),user=sd&&sd.data&&sd.data.session&&sd.data.session.user;
+    if(!user){setBadge(0);return}
+    var r=await supabaseClient.from('orders').select('order_number,status,created_at').eq('user_id',user.id).order('created_at',{ascending:false}).limit(30);
+    if(r.error)return;
+    var rows=r.data||[],seen=readSeen(user.id);
+    if(seen===null){ /* أول مرة: الطلبات القديمة المنفذة (أكثر من 3 أيام) تعتبر مقروءة */
+      var cut=Date.now()-3*864e5;
+      seen=rows.filter(function(o){return DONE.test(String(o.status||''))&&new Date(o.created_at).getTime()<cut}).map(function(o){return String(o.order_number||'')});
+      writeSeen(user.id,seen);
+    }
+    var ordersPage=document.getElementById('ordersPage');
+    if(ordersPage&&!ordersPage.hidden){window.jokerMarkOrdersSeen(user.id,rows);return}
+    setBadge(doneNumbers(rows).filter(function(n){return seen.indexOf(n)<0}).length);
+  }catch(_){}finally{busy=false}
+}
+window.jokerCheckOrdersBadge=check;
+function start(){
+  check();setInterval(function(){if(document.visibilityState!=='hidden')check()},45000);
+  document.addEventListener('visibilitychange',function(){if(document.visibilityState==='visible')check()});
+  window.addEventListener('focus',check);
+  try{supabaseClient.auth.onAuthStateChange(function(){setTimeout(check,400)})}catch(_){}
+}
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',start);else start();
+})();
+</script>
 </body>
 </html>
