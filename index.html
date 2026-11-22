@@ -4426,7 +4426,7 @@ function addUI(){
     '<label class="jk-sc-file">أو ارفع ملف نصي (.txt / .csv)<input type="file" id="jkApFile" accept=".txt,.csv,text/plain,text/csv"></label>'+ 
     '<div class="joker-product-admin-actions"><button class="joker-coupon-save" type="submit" id="jkApSave">＋ إضافة الأكواد للمخزون</button></div><p id="jkApMsg" class="account-status" role="status"></p></form>'+ 
     '<div class="jk-ap-section-head"><strong>سجل الأكواد</strong><small>تابع حالة كل كود والطلب المرتبط به</small></div>'+ 
-    '<div class="jk-sc-tools"><input id="jkApSearch" class="account-field" type="search" placeholder="ابحث برقم الطلب أو الفئة أو الكود"><select id="jkApFilter" class="account-field"><option value="all">كل الحالات</option><option value="available">متوفر</option><option value="sold">تم التسليم</option><option value="damaged">تالف</option></select><select id="jkApNameFilter" class="account-field"><option value="all">كل القوائم</option><option value="فضية">فضية</option><option value="ذهبية">ذهبية</option><option value="بلاتينيوم">بلاتينيوم</option><option value="عام">أكواد عامة</option></select></div><div class="jk-ap-bulk"><div><strong>النقل الجماعي</strong><small>انقل كل الأكواد المتاحة من قائمة إلى أخرى بضغطة واحدة</small></div><select id="jkApBulkSource" class="account-field"><option value="عام">المصدر: عامة</option><option value="فضية">المصدر: فضية · Ag</option><option value="ذهبية">المصدر: ذهبية · Au</option><option value="بلاتينيوم">المصدر: بلاتينيوم · C</option></select><button type="button" id="jkApBulkOpen" class="joker-coupon-save">نقل جماعي للأكواد</button></div><div id="jkApList" class="joker-orders-list"></div>';
+    '<div class="jk-sc-tools"><input id="jkApSearch" class="account-field" type="search" placeholder="ابحث برقم الطلب أو الفئة أو الكود"><select id="jkApFilter" class="account-field"><option value="all">كل الحالات</option><option value="available">متوفر</option><option value="sold">تم التسليم</option><option value="damaged">تالف</option></select><select id="jkApNameFilter" class="account-field"><option value="all">كل القوائم</option><option value="فضية">فضية</option><option value="ذهبية">ذهبية</option><option value="بلاتينيوم">بلاتينيوم</option><option value="عام">أكواد عامة</option></select></div><div class="jk-ap-bulk"><div><strong>النقل الجماعي</strong><small>انقل كل الأكواد المتاحة من قائمة إلى أخرى بضغطة واحدة</small></div><select id="jkApBulkSource" class="account-field"><option value="عام">المصدر: عامة</option><option value="فضية">المصدر: فضية · Ag</option><option value="ذهبية">المصدر: ذهبية · Au</option><option value="بلاتينيوم">المصدر: بلاتينيوم · C</option></select><button type="button" id="jkApBulkOpen" class="joker-coupon-save">نقل جماعي للأكواد</button></div><div class="jk-ap-section-head"><strong>سجل حركات النقل</strong><small>كل عملية نقل تظهر هنا: من ← إلى</small></div><div id="jkApMoves" class="joker-orders-list"></div><div class="jk-ap-section-head"><strong>الأكواد</strong></div><div id="jkApList" class="joker-orders-list"></div>';
   tabs.parentNode.insertBefore(sec,tabs.nextSibling);
   var style=document.createElement('style');style.textContent='#snapArcProductPage #snapArcHeader .packages-back-button{border-color:#b94b62!important;background:linear-gradient(115deg,#4b1728,#842c43)!important;color:#fff!important;box-shadow:0 5px 18px #8f263b66!important}#snapArcProductPage #snapArcHeader .packages-back-button:hover{background:linear-gradient(115deg,#842c43,#4b1728)!important;box-shadow:0 7px 22px #b52e4f77!important}'+ '#adminAppPlusCodesSection .jk-ap-delivery{margin:14px 0 18px;padding:16px;border:1px solid #a77ad044;border-radius:17px;background:linear-gradient(145deg,#251832,#110d17);box-shadow:0 10px 25px #0004}#adminAppPlusCodesSection .jk-ap-section-head{display:flex;flex-direction:column;gap:5px;margin:12px 0;color:#f0e5f8}#adminAppPlusCodesSection .jk-ap-section-head strong{font-size:15px;font-weight:900}#adminAppPlusCodesSection .jk-ap-section-head small{font-size:11px;color:#bba9ca}#adminAppPlusCodesSection .jk-ap-lookup{display:flex;gap:8px;align-items:center}#adminAppPlusCodesSection .jk-ap-lookup input{min-width:0;flex:1;direction:ltr;text-align:left}#adminAppPlusCodesSection .jk-ap-preview{margin-top:12px}#adminAppPlusCodesSection .jk-ap-order-card{padding:13px;border:1px solid #a77ad044;border-radius:13px;background:#100b17}#adminAppPlusCodesSection .jk-ap-tier{display:inline-flex;margin:5px 4px 5px 0;padding:6px 10px;border-radius:20px;background:#3a2850;color:#f0dcff;font-size:11px;font-weight:900}#adminAppPlusCodesSection .jk-ap-line{display:flex;justify-content:space-between;gap:10px;padding:9px 0;border-bottom:1px solid #ffffff12;font-size:12px}#adminAppPlusCodesSection .jk-ap-line:last-child{border-bottom:0}#adminAppPlusCodesSection .jk-ap-success{color:#9be6b3}#adminAppPlusCodesSection .jk-ap-error{color:#ff9da9}#adminAppPlusCodesSection .jk-ap-deliver{width:100%;margin-top:12px;padding:12px;border:1px solid #c49be5;border-radius:11px;background:linear-gradient(120deg,#57227d,#8b4cb5);color:#fff;font-weight:900}#adminAppPlusCodesSection .jk-ap-deliver:disabled{opacity:.5}#adminAppPlusCodesSection .jk-sc-row{align-items:center;gap:8px;flex-wrap:wrap}#adminAppPlusCodesSection .jk-sc-row small{overflow-wrap:anywhere}#adminAppPlusCodesSection .jk-ap-order-ref{color:#cdb4e2;font-size:10px}@media(max-width:560px){#adminAppPlusCodesSection .jk-ap-lookup{align-items:stretch;flex-direction:column}#adminAppPlusCodesSection .jk-ap-lookup button{width:100%}}#adminAppPlusCodesSection .jk-ap-bulk{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin:12px 0;padding:13px;border:1px solid #a77ad044;border-radius:15px;background:linear-gradient(135deg,#21152d,#120d19)}#adminAppPlusCodesSection .jk-ap-bulk>div{display:flex;flex:1;min-width:180px;flex-direction:column;gap:4px}#adminAppPlusCodesSection .jk-ap-bulk strong{color:#f3e8ff;font-size:13px}#adminAppPlusCodesSection .jk-ap-bulk small{color:#bba9ca;font-size:10px}#adminAppPlusCodesSection .jk-ap-bulk select{max-width:210px;min-width:160px}#adminAppPlusCodesSection .jk-ap-bulk button{white-space:nowrap}#jkApMoveModal{position:fixed;inset:0;z-index:99999;display:flex;align-items:center;justify-content:center;padding:18px;background:#08050dcc;backdrop-filter:blur(8px)}#jkApMoveModal .jk-ap-modal-card{width:min(100%,390px);padding:19px;border:1px solid #a77ad077;border-radius:20px;background:linear-gradient(145deg,#291b36,#100b17);box-shadow:0 22px 70px #0009;color:#fff}#jkApMoveModal h3{margin:0 0 7px;font-size:17px}#jkApMoveModal p{margin:0 0 15px;color:#c7b5d5;font-size:12px;line-height:1.7}#jkApMoveModal .jk-ap-targets{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}#jkApMoveModal button{padding:12px 9px;border:1px solid #a77ad066;border-radius:12px;background:#352344;color:#f5eaff;font-weight:900}#jkApMoveModal button:active{transform:scale(.98)}#jkApMoveModal .jk-ap-cancel{width:100%;margin-top:10px;background:#17111d;color:#cbbbd7}@media(max-width:560px){#adminAppPlusCodesSection .jk-ap-bulk{align-items:stretch;flex-direction:column}#adminAppPlusCodesSection .jk-ap-bulk select,#adminAppPlusCodesSection .jk-ap-bulk button{width:100%;max-width:none}}';document.head.appendChild(style);
   $('jkApRefresh').onclick=loadAll;$('jkApBulkOpen').addEventListener('click',bulkMoveOpen);$('jkApForm').addEventListener('submit',saveCodes);$('jkApFile').addEventListener('change',readFile);$('jkApLookup').onclick=lookupOrder;
@@ -4436,7 +4436,98 @@ function addUI(){
 window.showAppPlusCodes=function(){if(!isAdmin())return;var ids=['adminOrdersSection','adminCouponsSection','adminReviewsSection','adminProductsSection','adminBannersSection','adminCodesSection','adminAppPlusCodesSection'];ids.forEach(function(id){var n=$(id);if(n)n.hidden=id!=='adminAppPlusCodesSection'});var tabs=['adminOrdersTab','adminCouponsTab','adminReviewsTab','adminProductsTab','adminBannersTab','adminCodesTab','adminAppPlusCodesTab'];tabs.forEach(function(id){var n=$(id);if(n){var on=id==='adminAppPlusCodesTab';n.classList.toggle('active',on);n.setAttribute('aria-selected',on?'true':'false')}});loadAll()};
 async function loadStock(){var box=$('jkApStock'),warn=$('jkApWarn');if(!box)return;var r=await supabaseClient.from(TABLE).select('app_name,status');if(r.error){box.innerHTML='';warn.innerHTML='<div class="jk-sc-warn">تعذر قراءة جدول أكواد تطبيقات بلس. تحقق من إعدادات SQL والصلاحيات.<br><small dir="ltr">'+esc(r.error.message||r.error.code)+'</small></div>';return}var rows=r.data||[];box.innerHTML=TIERS.map(function(t){var available=rows.filter(x=>x.app_name===t.key&&x.status==='available').length,sold=rows.filter(x=>x.app_name===t.key&&x.status==='sold').length;return '<div class="jk-sc-card"><span>'+esc(t.label)+'</span><strong>'+available+'</strong><small>متوفر · '+sold+' تم تسليمه</small></div>'}).join('');warn.innerHTML=''}
 async function loadList(){var box=$('jkApList');if(!box)return;var q=($('jkApSearch').value||'').replace(/[%,()*\\]/g,'').trim(),st=$('jkApFilter').value,nf=$('jkApNameFilter').value;var query=supabaseClient.from(TABLE).select('id,app_name,code,status,order_number,created_at,assigned_at').order('created_at',{ascending:false}).limit(500);if(st!=='all')query=query.eq('status',st);if(nf!=='all')query=query.eq('app_name',nf);if(q)query=query.or('app_name.ilike.%'+q+'%,code.ilike.%'+q+'%,order_number.ilike.%'+q+'%');var r=await query;if(r.error){box.innerHTML='<p class="account-hint">تعذر تحميل الأكواد: '+esc(r.error.message||r.error.code)+'</p>';return}var rows=r.data||[];if(!rows.length){box.innerHTML='<p class="account-hint">لا توجد أكواد مطابقة.</p>';return}box.innerHTML=rows.map(function(c){var acts='';if(c.status==='available')acts='<button type="button" data-act="move" data-id="'+esc(c.id)+'" data-category="'+esc(c.app_name)+'">نقل الفئة</button><button type="button" data-act="damage" data-id="'+esc(c.id)+'">تالف</button><button type="button" class="danger" data-act="delete" data-id="'+esc(c.id)+'">حذف</button>';else if(c.status==='sold')acts='<button type="button" class="jk-sc-row-revoke" data-act="revoke" data-id="'+esc(c.id)+'">إلغاء التسليم</button>';else if(c.status==='damaged')acts='<button type="button" data-act="restore" data-id="'+esc(c.id)+'">إرجاع للمخزون</button><button type="button" class="danger" data-act="delete" data-id="'+esc(c.id)+'">حذف</button>';return '<div class="jk-sc-row"><code>'+esc(c.code)+'</code><span class="jk-sc-badge '+esc(c.status)+'">'+esc(({available:'متوفر',sold:'تم التسليم',damaged:'تالف'}[c.status]||c.status))+'</span><small>'+esc(c.app_name)+'</small>'+(c.order_number?'<small class="jk-ap-order-ref">طلب #'+esc(c.order_number)+'</small>':'')+'<button type="button" data-act="copy" data-code="'+esc(c.code)+'">نسخ</button>'+acts+'</div>'}).join('')}
-async function loadAll(){if(!isAdmin())return;await loadStock();await loadList()}
+async function loadAll(){if(!isAdmin())return;await loadStock();await loadList();await loadMoves()}
+
+/* ===== النقل الفردي / الجماعي + سجل الحركات (مضافة داخل نفس الموديول) ===== */
+var LABELS={'فضية':'الباقة الفضية','ذهبية':'الباقة الذهبية','بلاتينيوم':'باقة البلاتينيوم','عام':'أكواد عامة'};
+var MOVES_TABLE='app_plus_code_moves',MOVES_LOCAL='jkApMovesLocal';
+function labelOf(k){return LABELS[k]||k}
+function allowedTargets(source){return source==='عام'?['ذهبية','فضية','بلاتينيوم']:['عام']}
+function targetMeta(key){return ({'ذهبية':{code:'Au',label:'ذهبية'},'فضية':{code:'Ag',label:'فضية'},'بلاتينيوم':{code:'C',label:'بلاتينيوم'},'عام':{code:'All',label:'عامة'}})[key]}
+async function recordMove(e){
+  var row={move_type:e.type,from_app:e.from,to_app:e.to,moved_count:e.count,codes:e.codes||''};
+  try{var r=await supabaseClient.from(MOVES_TABLE).insert(row);if(r.error)throw r.error;return true}
+  catch(err){
+    try{var arr=JSON.parse(localStorage.getItem(MOVES_LOCAL)||'[]');row.created_at=new Date().toISOString();arr.unshift(row);localStorage.setItem(MOVES_LOCAL,JSON.stringify(arr.slice(0,100)))}catch(_){}
+    return false;
+  }
+}
+async function loadMoves(){
+  var box=$('jkApMoves');if(!box)return;
+  var rows=[],note='';
+  try{
+    var r=await supabaseClient.from(MOVES_TABLE).select('id,created_at,move_type,from_app,to_app,moved_count,codes').order('created_at',{ascending:false}).limit(30);
+    if(r.error)throw r.error;rows=r.data||[];
+  }catch(err){note='جدول سجل الحركات غير مفعّل في Supabase، الحركات محفوظة على هذا الجهاز فقط.'}
+  var local=[];try{local=JSON.parse(localStorage.getItem(MOVES_LOCAL)||'[]')}catch(_){}
+  if(local.length){rows=local.concat(rows);note=note||'فيه حركات محفوظة على هذا الجهاز فقط (جدول السجل غير متاح وقت النقل).'}
+  rows.sort(function(a,b){return String(b.created_at).localeCompare(String(a.created_at))});rows=rows.slice(0,30);
+  if(!rows.length){box.innerHTML='<p class="account-hint">ما فيه حركات نقل بعد.</p>';return}
+  box.innerHTML=(note?'<p class="account-hint">'+esc(note)+'</p>':'')+rows.map(function(m){
+    var d='';try{d=new Date(m.created_at).toLocaleString('ar')}catch(_){}
+    return '<div class="jk-sc-row"><span><b>من '+esc(labelOf(m.from_app))+'</b> ← <b>إلى '+esc(labelOf(m.to_app))+'</b></span>'+
+      '<small>'+esc(m.moved_count)+' كود · '+(m.move_type==='bulk'?'نقل جماعي':'نقل فردي')+(d?' · '+esc(d):'')+'</small>'+
+      (m.codes?'<small dir="ltr" style="flex-basis:100%">'+esc(m.codes)+'</small>':'')+'</div>';
+  }).join('');
+}
+function openMoveModal(opts){
+  var old=$('jkApMoveModal');if(old)old.remove();
+  var targets=allowedTargets(opts.source),overlay=document.createElement('div');overlay.id='jkApMoveModal';
+  overlay.innerHTML='<div class="jk-ap-modal-card"><h3>'+(opts.mode==='bulk'?'اختر وجهة النقل':'نقل الكود')+'</h3><p>'+
+    (opts.mode==='bulk'?'سيتم نقل جميع الأكواد المتاحة المطابقة للصيغة.':'الكود: '+esc(opts.code))+
+    '<br><b>من '+esc(labelOf(opts.source))+' ← إلى (اختر الوجهة)</b></p><div class="jk-ap-targets">'+
+    targets.map(function(k){var m=targetMeta(k);return '<button type="button" data-target="'+k+'"><span style="display:block;font-size:17px;letter-spacing:1px">'+m.code+'</span><span style="font-size:11px">'+m.label+'</span></button>'}).join('')+
+    '</div><button type="button" class="jk-ap-cancel" data-cancel>إلغاء</button></div>';
+  document.body.appendChild(overlay);
+  overlay.querySelector('[data-cancel]').onclick=function(){overlay.remove()};
+  overlay.onclick=function(ev){if(ev.target===overlay)overlay.remove()};
+  Array.prototype.forEach.call(overlay.querySelectorAll('[data-target]'),function(btn){
+    btn.onclick=async function(){
+      var choice=btn.getAttribute('data-target'),tier=TIERS.find(function(t){return t.key===choice});
+      if(opts.mode==='single'){
+        if(tier&&tier.pattern&&!tier.pattern.test(opts.code)){alert('صيغة الكود غير مطابقة. المطلوب '+tier.prefix+' ثم 12 رقمًا.');return}
+        if(!confirm('تأكيد نقل الكود من '+labelOf(opts.source)+' إلى '+labelOf(choice)+'؟'))return;
+        btn.disabled=true;
+        try{
+          var r=await supabaseClient.from(TABLE).update({app_name:choice}).eq('id',opts.id).eq('status','available').eq('app_name',opts.source).select('id');
+          if(r.error)throw r.error;
+          if(!r.data||!r.data.length)throw new Error('لم يتم تحديث الكود. تأكد أنه ما زال متاحاً وأن صلاحيات الأدمن مفعّلة.');
+          await recordMove({type:'single',from:opts.source,to:choice,count:1,codes:opts.code});
+          overlay.remove();await loadAll();
+        }catch(e){alert('تعذر النقل: '+(e.message||e));btn.disabled=false}
+      }else{overlay.remove();await bulkMove(opts.source,choice)}
+    };
+  });
+}
+async function bulkMoveOpen(){
+  if(!isAdmin()){alert('يلزم الدخول بحساب الأدمن لتنفيذ النقل.');return}
+  openMoveModal({mode:'bulk',source:$('jkApBulkSource').value});
+}
+async function bulkMove(source,target){
+  var tier=TIERS.find(function(t){return t.key===target});
+  if(!confirm('سيتم نقل الأكواد المتاحة المطابقة من '+labelOf(source)+' إلى '+labelOf(target)+'. هل تريد المتابعة؟'))return;
+  var btn=$('jkApBulkOpen');btn.disabled=true;btn.textContent='جارٍ النقل...';
+  try{
+    var q=await supabaseClient.from(TABLE).select('id,code').eq('app_name',source).eq('status','available').limit(10000);if(q.error)throw q.error;
+    var rows=q.data||[],valid=rows.filter(function(x){return !tier.pattern||tier.pattern.test(String(x.code||''))}),skipped=rows.length-valid.length;
+    if(!valid.length){alert('ما فيه أكواد متاحة مطابقة للنقل إلى '+labelOf(target)+'.'+(skipped?' الأكواد غير المطابقة: '+skipped:''));return}
+    var moved=0,movedIds={};
+    for(var i=0;i<valid.length;i+=200){
+      var ids=valid.slice(i,i+200).map(function(x){return x.id});
+      var r=await supabaseClient.from(TABLE).update({app_name:target}).in('id',ids).eq('status','available').eq('app_name',source).select('id');
+      if(r.error)throw r.error;
+      (r.data||[]).forEach(function(x){movedIds[x.id]=1});moved+=(r.data||[]).length;
+    }
+    var movedCodes=valid.filter(function(x){return movedIds[x.id]}).map(function(x){return x.code});
+    var sample=movedCodes.slice(0,20).join(', ')+(movedCodes.length>20?' …':'');
+    if(moved)await recordMove({type:'bulk',from:source,to:target,count:moved,codes:sample});
+    alert('تم نقل '+moved+' كود من '+labelOf(source)+' إلى '+labelOf(target)+'.'+(skipped?'\nتم إبقاء '+skipped+' كود لأن صيغتها لا تطابق الفئة الجديدة.':'')+(rows.length===10000?'\nتنبيه: تم فحص أول 10000 كود فقط.':''));
+    await loadAll();
+  }catch(e){alert('تعذر النقل الجماعي: '+(e.message||e))}
+  finally{btn.disabled=false;btn.textContent='نقل جماعي للأكواد'}
+}
+/* ===== نهاية النقل ===== */
+
 async function rowAction(ev){var b=ev.target.closest('button[data-act]');if(!b||!isAdmin())return;var a=b.dataset.act,id=b.dataset.id;if(a==='move'){openMoveModal({mode:'single',id:id,source:b.dataset.category,code:b.parentNode.querySelector('code')?.textContent.trim()||''});return}if(a==='copy'){if(navigator.clipboard&&navigator.clipboard.writeText)navigator.clipboard.writeText(b.dataset.code||'');else if(window.copySnapCode)window.copySnapCode(b);return}if(a==='delete'&&!confirm('حذف هذا الكود نهائياً؟'))return;if(a==='revoke'&&!confirm('إلغاء تسليم هذا الكود؟ سيعود للمخزون ويختفي من حساب العميل.'))return;b.disabled=true;try{var r;if(a==='damage')r=await supabaseClient.from(TABLE).update({status:'damaged'}).eq('id',id).eq('status','available');else if(a==='restore')r=await supabaseClient.from(TABLE).update({status:'available'}).eq('id',id).eq('status','damaged');else if(a==='revoke')r=await supabaseClient.from(TABLE).update({status:'available',order_number:null,assigned_at:null}).eq('id',id).eq('status','sold');else if(a==='delete')r=await supabaseClient.from(TABLE).delete().eq('id',id).neq('status','sold');if(r&&r.error)throw r.error;await loadAll()}catch(e){b.disabled=false;$('jkApMsg').textContent='تعذر التنفيذ: '+(e.message||e)}}
 function readFile(ev){var f=ev.target.files&&ev.target.files[0];if(!f)return;var rd=new FileReader();rd.onload=function(){$('jkApText').value=($('jkApText').value?$('jkApText').value.replace(/\s+$/,'')+'\n':'')+String(rd.result||'');ev.target.value=''};rd.readAsText(f)}
 async function saveCodes(ev){ev.preventDefault();if(!isAdmin())return;var name=$('jkApName').value,raw=$('jkApText').value,seen={},codes=raw.split(/[\n\r,;\t]+/).map(x=>x.trim()).filter(x=>x.length>=3).filter(x=>{if(seen[x])return false;seen[x]=1;return true});var msg=$('jkApMsg'),btn=$('jkApSave'),tier=TIERS.find(t=>t.key===name);if(!tier){msg.textContent='اختر قائمة الأكواد أولاً.';return}if(!codes.length){msg.textContent='أضف الأكواد أولاً.';return}if(tier.pattern){var invalid=codes.filter(c=>!tier.pattern.test(c));if(invalid.length){msg.textContent='تنسيق '+tier.key+' غير صحيح. يجب أن يبدأ بـ '+tier.prefix+' ويتبعه 12 رقمًا بالضبط. مثال: '+tier.prefix+'123456789012. الأكواد المخالفة: '+invalid.slice(0,3).join('، ');return}}btn.disabled=true;msg.textContent='جارٍ إضافة الأكواد...';try{var added=0;for(var i=0;i<codes.length;i+=500){var rows=codes.slice(i,i+500).map(c=>({app_name:name,code:c,status:'available'}));var r=await supabaseClient.from(TABLE).upsert(rows,{onConflict:'code',ignoreDuplicates:true}).select('id');if(r.error)throw r.error;added+=(r.data||[]).length}msg.textContent='تمت إضافة '+added+' كود إلى مخزون '+name+(added<codes.length?' — تم تجاهل '+(codes.length-added)+' كود مكرر.':'');$('jkApText').value='';await loadAll()}catch(e){msg.textContent='تعذر إضافة الأكواد: '+(e.message||e)+' — تحقق من إعدادات app_plus_codes.'}finally{btn.disabled=false}}
