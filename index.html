@@ -3552,6 +3552,10 @@ window.exportAdminReport=function(){
 .snaparc-package-card .snaparc-cart-row .card-qty-picker{width:100%;min-width:0;justify-content:space-between;margin:0}
 .snaparc-detail-wrap .snaparc-cart-row{display:flex;flex-direction:column;gap:8px;margin:12px 0}
 .snaparc-detail-wrap .snaparc-cart-row .add-cart-button,.snaparc-detail-wrap .snaparc-cart-row .card-qty-picker{width:100%;margin:0}
+.snaparc-packages-grid{align-items:start!important}
+.snaparc-packages-grid .snaparc-package-card{align-self:start}
+.jk-sc-revoke{border:1px solid #b5453f!important;background:#3a1517!important}
+.jk-sc-row-revoke{border-color:#b5453f!important;color:#ffb3ad!important}
 </style>
 <style id="joker-dark-store-refresh">
 /* JOKER DARK STORE — visual-only refresh */
@@ -3952,7 +3956,8 @@ window.openSnapDeliver=async function(btn){
     if(r.error)throw r.error;
     var d=r.data||{};
     if(d.delivered){
-      setBody(head+'<p class="jk-sc-ok">تم تسليم الكود لهذا الطلب مسبقاً:</p>'+codesHTML(d.codes)+'<div class="jk-sc-actions"><button type="button" class="jk-sc-cancel" onclick="closeSnapDeliver()">إغلاق</button></div>');
+      setBody(head+'<p class="jk-sc-ok">تم تسليم الكود لهذا الطلب مسبقاً:</p>'+codesHTML(d.codes)+deliveredActions());
+      bindRevoke(order,head);
       return;
     }
     var items=Array.isArray(d.items)?d.items:[];
@@ -3977,6 +3982,27 @@ window.openSnapDeliver=async function(btn){
     setBody(head+'<div class="jk-sc-warn">'+esc(fnError(e))+'</div><div class="jk-sc-actions"><button type="button" class="jk-sc-cancel" onclick="closeSnapDeliver()">إغلاق</button></div>');
   }
 };
+function deliveredActions(){
+  return '<div class="jk-sc-actions"><button type="button" class="jk-sc-revoke" id="jkScRevoke">↩️ تراجع — رجّع الكود للمخزون</button><button type="button" class="jk-sc-cancel" onclick="closeSnapDeliver()">إغلاق</button></div>';
+}
+function bindRevoke(order,head){
+  var b=$("jkScRevoke");
+  if(b)b.onclick=function(){revokeDelivery(order,head)};
+}
+async function revokeDelivery(order,head){
+  if(!confirm("تراجع عن تسليم الكود للطلب #"+order+"؟\nيرجع الكود للمخزون ويختفي من طلب العميل.\n\nانتبه: لا ترجعه إذا العميل استلمه أو استخدمه، لأنه يتباع مرة ثانية."))return;
+  var b=$("jkScRevoke");
+  if(b){b.disabled=true;b.textContent="جارٍ التراجع..."}
+  try{
+    var r=await supabaseClient.rpc("admin_revoke_snap_codes",{p_order_number:order});
+    if(r.error)throw r.error;
+    var n=(r.data&&r.data.restored)||0;
+    setBody(head+'<p class="jk-sc-ok">↩️ تم التراجع: رجع '+esc(n)+' كود للمخزون واختفى من طلب العميل.</p><div class="jk-sc-actions"><button type="button" class="jk-sc-cancel" onclick="closeSnapDeliver()">إغلاق</button></div>');
+    if($("adminCodesSection")&&!$("adminCodesSection").hidden)loadAll();
+  }catch(e){
+    setBody(head+'<div class="jk-sc-warn">تعذر التراجع: '+esc(fnError(e))+'</div><div class="jk-sc-actions"><button type="button" class="jk-sc-cancel" onclick="closeSnapDeliver()">إغلاق</button></div>');
+  }
+}
 async function approveDelivery(order,head){
   var ap=$("jkScApprove");
   if(ap){ap.disabled=true;ap.textContent="جارٍ التسليم..."}
@@ -3984,7 +4010,8 @@ async function approveDelivery(order,head){
     var r=await supabaseClient.rpc("admin_assign_snap_codes",{p_order_number:order});
     if(r.error)throw r.error;
     var codes=(r.data&&r.data.codes)||[];
-    setBody(head+'<p class="jk-sc-ok">✅ تم تسليم الكود، وظهر للعميل داخل طلبه.</p>'+codesHTML(codes)+'<div class="jk-sc-actions"><button type="button" class="jk-sc-cancel" onclick="closeSnapDeliver()">إغلاق</button></div>');
+    setBody(head+'<p class="jk-sc-ok">✅ تم تسليم الكود، وظهر للعميل داخل طلبه.</p>'+codesHTML(codes)+deliveredActions());
+    bindRevoke(order,head);
     if($("adminCodesSection")&&!$("adminCodesSection").hidden)loadAll();
   }catch(e){
     setBody(head+'<div class="jk-sc-warn">تعذر التسليم: '+esc(fnError(e))+'</div><div class="jk-sc-actions"><button type="button" class="jk-sc-cancel" onclick="closeSnapDeliver()">إغلاق</button></div>');
@@ -4099,6 +4126,7 @@ async function loadList(){
   box.innerHTML=rows.map(function(c){
     var acts="";
     if(c.status==="available")acts='<button type="button" data-act="damage" data-id="'+esc(c.id)+'">تالف</button><button type="button" class="danger" data-act="delete" data-id="'+esc(c.id)+'">حذف</button>';
+    else if(c.status==="sold")acts='<button type="button" class="jk-sc-row-revoke" data-act="revoke" data-id="'+esc(c.id)+'">تراجع</button>';
     else if(c.status==="damaged")acts='<button type="button" data-act="restore" data-id="'+esc(c.id)+'">إرجاع للمخزون</button><button type="button" class="danger" data-act="delete" data-id="'+esc(c.id)+'">حذف</button>';
     return '<div class="jk-sc-row"><code>'+esc(c.code)+'</code>'+
       '<span class="jk-sc-badge '+esc(c.status)+'">'+esc(STATUS[c.status]||c.status)+'</span>'+
@@ -4119,12 +4147,14 @@ async function rowAction(ev){
   var act=b.dataset.act,id=b.dataset.id,msg=$("jkScMsg");
   if(act==="copy"){window.copySnapCode(b);return}
   if(act==="delete"&&!confirm("حذف هذا الكود نهائياً؟"))return;
+  if(act==="revoke"&&!confirm("تراجع عن تسليم هذا الكود؟ يرجع للمخزون ويختفي من طلب العميل. لا ترجعه إذا العميل استلمه أو استخدمه."))return;
   b.disabled=true;
   try{
     var r;
     if(act==="damage")r=await supabaseClient.from("snap_codes").update({status:"damaged"}).eq("id",id).eq("status","available");
     else if(act==="restore")r=await supabaseClient.from("snap_codes").update({status:"available"}).eq("id",id).eq("status","damaged");
     else if(act==="delete")r=await supabaseClient.from("snap_codes").delete().eq("id",id).neq("status","sold");
+    else if(act==="revoke")r=await supabaseClient.rpc("admin_revoke_snap_codes",{p_code_id:Number(id)});
     if(r&&r.error)throw r.error;
     await loadAll();
   }catch(e){b.disabled=false;if(msg)msg.textContent="تعذر التنفيذ: "+(e.message||e)}
