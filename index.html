@@ -2239,6 +2239,7 @@ ${packages.map((pack,index) => `
     <div class="snaparc-package-heading"><span>سناب آرك</span><strong>${pack.duration}</strong></div>
     <div class="snaparc-package-name">${pack.kind}</div>
     <div class="snaparc-package-price">${pack.price}</div>
+    <div class="snaparc-package-hint">اضغط لعرض تفاصيل الباقة</div>
     <div class="cart-add-row snaparc-cart-row" onclick="event.stopPropagation()" onkeydown="event.stopPropagation()">
       <button class="add-cart-button" type="button"
         data-title="${pack.kind}"
@@ -2253,7 +2254,6 @@ ${packages.map((pack,index) => `
         <button type="button" aria-label="تنقيص منتج" onclick="changeProductCardQuantity(this,-1)">−</button>
       </div>
     </div>
-    <div class="snaparc-package-hint">اضغط لعرض تفاصيل الباقة</div>
   </article>
 `).join("")}
 </div>`;
