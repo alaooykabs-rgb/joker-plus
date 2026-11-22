@@ -3990,9 +3990,10 @@ function addUI(){
    '<div id="jkScWarn"></div><div id="jkScStock" class="jk-sc-stock"></div>'+
    '<form id="jkScForm" class="jk-sc-form">'+
      '<label for="jkScPkg">الباقة</label>'+
-     '<select id="jkScPkg" class="account-field"><option value="daily">'+PKG.daily+'</option><option value="weekly">'+PKG.weekly+'</option><option value="monthly">'+PKG.monthly+'</option></select>'+
+     '<select id="jkScPkg" class="account-field"><option value="auto">كل الباقات (مقسّمة بعناوين)</option><option value="daily">'+PKG.daily+'</option><option value="weekly">'+PKG.weekly+'</option><option value="monthly">'+PKG.monthly+'</option></select>'+
      '<label for="jkScText">الأكواد (كود في كل سطر)</label>'+
-     '<textarea id="jkScText" class="account-field" rows="6" dir="ltr" placeholder="CODE-1&#10;CODE-2&#10;CODE-3"></textarea>'+
+    '<p class="account-hint">لو اخترت «كل الباقات»: اكتب سطر عنوان قبل كل قسم (شهري / أسبوعي / يومي) وتحته أكواده.</p>'+
+     '<textarea id="jkScText" class="account-field" rows="6" dir="ltr" placeholder="شهري&#10;CODE-1&#10;CODE-2&#10;أسبوعي&#10;CODE-3&#10;يومي&#10;CODE-4"></textarea>'+
      '<label class="jk-sc-file">أو ارفع ملف نصي (.txt / .csv)<input type="file" id="jkScFile" accept=".txt,.csv,text/plain,text/csv"></label>'+
      '<div class="joker-product-admin-actions"><button class="joker-coupon-save" type="submit" id="jkScSave">إضافة الأكواد</button></div>'+
      '<p id="jkScMsg" class="account-status" role="status"></p>'+
@@ -4115,29 +4116,56 @@ function readFile(ev){
   rd.readAsText(f);
 }
 
+var HDR_MAP={"يومي":"daily","اسبوعي":"weekly","أسبوعي":"weekly","شهري":"monthly","daily":"daily","weekly":"weekly","monthly":"monthly"};
+function headerPkg(line){
+  var t=String(line).replace(/[^A-Za-z\u0600-\u06FF ]/g," ").replace(/\s+/g," ").trim().toLowerCase();
+  var m=t.match(/^(?:سناب ?[آا]رك |snap ?arc )?(يومي|اسبوعي|أسبوعي|شهري|daily|weekly|monthly)(?: (?:يوم|ساعة|ساعه|ايام|أيام|ساعات))*$/);
+  return m?HDR_MAP[m[1]]:null;
+}
+function parseCodes(text,pkg){
+  var groups={daily:[],weekly:[],monthly:[]},seen={},cur=(pkg&&pkg!=="auto")?pkg:null,orphan=0;
+  String(text||"").split(/[\n\r,;\t]+/).forEach(function(raw){
+    var x=raw.trim();if(!x)return;
+    var h=headerPkg(x);
+    if(h){cur=h;return}
+    if(x.length<3)return;
+    if(!cur){orphan++;return}
+    if(seen[x])return;
+    seen[x]=1;groups[cur].push(x);
+  });
+  return {groups:groups,orphan:orphan};
+}
 async function saveCodes(ev){
   ev.preventDefault();
   if(!admin())return;
   var msg=$("jkScMsg"),btn=$("jkScSave"),pkg=$("jkScPkg").value;
-  var codes=Array.from(new Set(String($("jkScText").value||"").split(/[\n\r,;\t]+/).map(function(x){return x.trim()}).filter(function(x){return x.length>=3})));
-  if(!codes.length){if(msg)msg.textContent="الصق الأكواد أولاً (كود في كل سطر).";return}
+  var parsed=parseCodes($("jkScText").value,pkg),groups=parsed.groups;
+  var total=groups.daily.length+groups.weekly.length+groups.monthly.length;
+  if(parsed.orphan){if(msg)msg.textContent="فيه "+parsed.orphan+" كود قبل أي عنوان باقة. حط سطر عنوان (شهري / أسبوعي / يومي) قبل أول كود.";return}
+  if(!total){if(msg)msg.textContent="الصق الأكواد أولاً.";return}
   btn.disabled=true;if(msg)msg.textContent="جارٍ الإضافة...";
-  var added=0;
+  var report=[],dupTotal=0;
   try{
-    for(var i=0;i<codes.length;i+=500){
-      var rows=codes.slice(i,i+500).map(function(c){return {code:c,package:pkg,status:"available"}});
-      var r=await supabaseClient.from("snap_codes").upsert(rows,{onConflict:"code",ignoreDuplicates:true}).select("id");
-      if(r.error)throw r.error;
-      added+=(r.data||[]).length;
+    for(var p in groups){
+      var codes=groups[p];if(!codes.length)continue;
+      var added=0;
+      for(var i=0;i<codes.length;i+=500){
+        var rows=codes.slice(i,i+500).map(function(c){return {code:c,package:p,status:"available"}});
+        var r=await supabaseClient.from("snap_codes").upsert(rows,{onConflict:"code",ignoreDuplicates:true}).select("id");
+        if(r.error)throw r.error;
+        added+=(r.data||[]).length;
+      }
+      dupTotal+=codes.length-added;
+      report.push(PKG[p]+": "+added);
     }
-    var dup=codes.length-added;
-    if(msg)msg.textContent="تمت إضافة "+added+" كود إلى "+PKG[pkg]+(dup>0?" — تم تجاهل "+dup+" كود مكرر.":".");
+    if(msg)msg.textContent="تمت الإضافة — "+report.join(" | ")+(dupTotal>0?" — تم تجاهل "+dupTotal+" كود مكرر.":"");
     $("jkScText").value="";
     await loadAll();
   }catch(e){
     if(msg)msg.textContent="تعذر الإضافة: "+(e.message||e)+" — تأكد من تشغيل snap_codes_setup.sql.";
   }finally{btn.disabled=false}
 }
+window.__jkParseCodes=parseCodes;
 
 if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",addUI);
 else addUI();
