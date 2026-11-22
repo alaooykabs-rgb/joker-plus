@@ -2239,10 +2239,25 @@ ${packages.map((pack,index) => `
     <div class="snaparc-package-heading"><span>سناب آرك</span><strong>${pack.duration}</strong></div>
     <div class="snaparc-package-name">${pack.kind}</div>
     <div class="snaparc-package-price">${pack.price}</div>
+    <div class="cart-add-row snaparc-cart-row" onclick="event.stopPropagation()" onkeydown="event.stopPropagation()">
+      <button class="add-cart-button" type="button"
+        data-title="${pack.kind}"
+        data-price="${pack.amount}"
+        data-product-id=""
+        onclick="addToCartFromButton(this,event)">
+        ＋ أضف إلى السلة
+      </button>
+      <div class="card-qty-picker" aria-label="تعديل كمية المنتج">
+        <button type="button" aria-label="زيادة منتج" onclick="changeProductCardQuantity(this,1)">+</button>
+        <span class="card-qty-value">1</span>
+        <button type="button" aria-label="تنقيص منتج" onclick="changeProductCardQuantity(this,-1)">−</button>
+      </div>
+    </div>
     <div class="snaparc-package-hint">اضغط لعرض تفاصيل الباقة</div>
   </article>
 `).join("")}
 </div>`;
+if(typeof syncCartAddButtons==="function") syncCartAddButtons();
 openInfoPage("snapArcProductPage");
 }
 
@@ -3531,6 +3546,13 @@ window.exportAdminReport=function(){
 .joker-realtime-status{font-size:11px;color:#cbb9dc;margin:8px 0}
 @media(max-width:600px){.joker-banner-card{min-height:125px}.joker-banner-row{align-items:flex-start;flex-wrap:wrap}}
 </style>
+<style id="jk-snaparc-cart-row">
+.snaparc-package-card .snaparc-cart-row{display:flex!important;flex-direction:column;align-items:stretch;gap:8px;width:100%;margin:10px 0 6px;min-width:0}
+.snaparc-package-card .snaparc-cart-row .add-cart-button{width:100%;min-width:0;margin:0}
+.snaparc-package-card .snaparc-cart-row .card-qty-picker{width:100%;min-width:0;justify-content:space-between;margin:0}
+.snaparc-detail-wrap .snaparc-cart-row{display:flex;flex-direction:column;gap:8px;margin:12px 0}
+.snaparc-detail-wrap .snaparc-cart-row .add-cart-button,.snaparc-detail-wrap .snaparc-cart-row .card-qty-picker{width:100%;margin:0}
+</style>
 <style id="joker-dark-store-refresh">
 /* JOKER DARK STORE — visual-only refresh */
 #storePage .store-stage{height:180px!important;border:1px solid #70468f;border-radius:22px;background:radial-gradient(ellipse at 50% 48%,#672c8b66 0,transparent 48%),radial-gradient(circle at 15% 85%,#a6192e22,transparent 38%),linear-gradient(145deg,#1a1022,#08070c 72%);box-shadow:inset 0 1px 0 #ffffff18,0 16px 34px #0008;isolation:isolate}
@@ -3999,7 +4021,8 @@ function addUI(){
      '<p id="jkScMsg" class="account-status" role="status"></p>'+
    '</form>'+
    '<div class="jk-sc-tools"><input id="jkScSearch" class="account-field" type="search" placeholder="ابحث بالكود أو برقم الطلب">'+
-   '<select id="jkScFilter" class="account-field"><option value="all">كل الحالات</option><option value="available">متوفر</option><option value="sold">مباع</option><option value="damaged">تالف</option></select></div>'+
+   '<select id="jkScFilter" class="account-field"><option value="all">كل الحالات</option><option value="available">متوفر</option><option value="sold">مباع</option><option value="damaged">تالف</option></select>'+
+    '<select id="jkScPkgFilter" class="account-field"><option value="all">كل الباقات</option><option value="monthly">'+PKG.monthly+'</option><option value="weekly">'+PKG.weekly+'</option><option value="daily">'+PKG.daily+'</option></select></div>'+
    '<div id="jkScList" class="joker-orders-list"></div>';
   tabs.parentNode.insertBefore(sec,tabs.nextSibling);
 
@@ -4009,6 +4032,7 @@ function addUI(){
   var t;
   $("jkScSearch").addEventListener("input",function(){clearTimeout(t);t=setTimeout(loadList,350)});
   $("jkScFilter").addEventListener("change",loadList);
+  $("jkScPkgFilter").addEventListener("change",loadList);
   $("jkScList").addEventListener("click",rowAction);
 }
 
@@ -4063,8 +4087,10 @@ async function loadList(){
   if(!box)return;
   var q=($("jkScSearch").value||"").replace(/[%,()*\\]/g,"").trim();
   var st=$("jkScFilter").value;
-  var query=supabaseClient.from("snap_codes").select("id,code,package,status,order_number,created_at,assigned_at").order("created_at",{ascending:false}).limit(100);
+  var query=supabaseClient.from("snap_codes").select("id,code,package,status,order_number,created_at,assigned_at").order("created_at",{ascending:false}).limit(300);
   if(st!=="all")query=query.eq("status",st);
+  var pf=$("jkScPkgFilter")?$("jkScPkgFilter").value:"all";
+  if(pf!=="all")query=query.eq("package",pf);
   if(q)query=query.or("code.ilike.%"+q+"%,order_number.ilike.%"+q+"%");
   var r=await query;
   if(r.error){box.innerHTML='<p class="account-hint">تعذر تحميل الأكواد.<br><small dir="ltr">'+esc(r.error.message||r.error.code)+'</small></p>';return}
