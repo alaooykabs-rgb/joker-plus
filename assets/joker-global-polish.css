@@ -1,0 +1,116 @@
+:root{
+  --jp-bg:#09080c;
+  --jp-surface:#15101b;
+  --jp-surface-2:#201728;
+  --jp-purple:#35105c;
+  --jp-purple-light:#a77ad0;
+  --jp-red:#a6192e;
+  --jp-text:#f7f4fa;
+  --jp-muted:#aaa3b3;
+  --jp-border:rgba(167,122,208,.24);
+  --jp-radius:18px;
+  --jp-shadow:0 18px 50px rgba(0,0,0,.28);
+}
+
+html{scroll-behavior:smooth}
+body{
+  background:
+    radial-gradient(ellipse at 50% -18%,rgba(167,122,208,.12),transparent 38%),
+    var(--jp-bg);
+}
+
+header{
+  min-height:84px;
+  padding:18px max(18px,calc((100vw - 1180px)/2)) 14px!important;
+  border-bottom:1px solid var(--jp-border);
+  background:rgba(9,8,12,.86);
+  backdrop-filter:blur(16px);
+  -webkit-backdrop-filter:blur(16px);
+  box-shadow:0 10px 40px rgba(0,0,0,.22);
+}
+.header-brand-row{max-width:1180px;margin:auto}
+.header-brand-name{letter-spacing:.3px}
+.header-emblem{filter:drop-shadow(0 8px 18px rgba(167,122,208,.18))}
+
+.hero-banner{
+  max-width:1180px;
+  margin:20px auto 32px;
+  border:1px solid var(--jp-border);
+  border-radius:24px;
+  overflow:hidden;
+  background:
+    radial-gradient(ellipse at 78% 42%,rgba(167,122,208,.16),transparent 38%),
+    linear-gradient(135deg,#17101f,#09080c 68%,#160c1d);
+  box-shadow:var(--jp-shadow);
+}
+
+.why-us,main,.plus-apps-showcase,.info-panel,.store-search-results,.joker-coming-soon,.joker-reviews,.support-banner{max-width:1180px}
+
+.why-us-title,.section-heading h2,.plus-apps-title,.joker-reviews-title{letter-spacing:-.5px}
+.section-heading{max-width:1180px;margin:34px auto 14px}
+.section-heading span,.plus-apps-title span{opacity:.68}
+
+.sections,.services,.region-grid,.packages-grid,.store-search-results,.gamezone-product-grid{align-items:stretch}
+.section-card,.service,.package-card,.region-card,.info-panel,.support-banner,.joker-coming-soon,.joker-reviews,.joker-upcoming-card,.joker-review-card{
+  border:1px solid var(--jp-border)!important;
+  border-radius:var(--jp-radius)!important;
+  background:linear-gradient(145deg,rgba(32,23,40,.94),rgba(16,13,21,.96))!important;
+  box-shadow:0 14px 36px rgba(0,0,0,.24)!important;
+}
+.section-card,.service,.package-card,.region-card,.joker-upcoming-card{transition:transform .22s ease,border-color .22s ease,box-shadow .22s ease!important}
+.section-card:hover,.service:hover,.package-card:hover,.region-card:hover,.joker-upcoming-card:hover{
+  transform:translateY(-5px);
+  border-color:rgba(167,122,208,.48)!important;
+  box-shadow:0 20px 44px rgba(0,0,0,.36),0 0 24px rgba(167,122,208,.08)!important;
+}
+.section-card img,.service img,.package-card img,.region-card img{border-radius:12px}
+
+button,input,textarea,select{font-family:inherit}
+button{transition:transform .16s ease,filter .16s ease,box-shadow .16s ease,border-color .16s ease!important}
+button:active{transform:scale(.98)}
+
+.hero-banner,.support-banner,.joker-coming-soon,.joker-reviews,.section-card,.service,.package-card,.region-card,.info-panel{position:relative}
+.support-banner{margin:18px auto;overflow:hidden}
+.support-banner:after{
+  content:"";position:absolute;inset:auto 18% -90px auto;width:180px;height:180px;border-radius:50%;
+  background:rgba(167,122,208,.09);filter:blur(10px);pointer-events:none;
+}
+
+.joker-bottom-nav{
+  left:50%!important;right:auto!important;transform:translateX(-50%);
+  width:min(calc(100% - 24px),560px)!important;
+  bottom:max(12px,env(safe-area-inset-bottom))!important;
+  border:1px solid rgba(167,122,208,.34);border-radius:22px;
+  background:rgba(16,12,21,.94);box-shadow:0 16px 45px rgba(0,0,0,.48)!important;
+  backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);
+}
+.cart-panel{box-shadow:0 28px 90px rgba(0,0,0,.62)!important}
+.cart-row{border-radius:14px!important}
+
+footer{
+  margin-top:54px;padding:38px 20px!important;
+  border-top:1px solid var(--jp-border);
+  background:linear-gradient(180deg,transparent,rgba(53,16,92,.08));
+}
+.footer-logo{font-size:20px;font-weight:900}
+.footer-links{display:flex;justify-content:center;flex-wrap:wrap;gap:10px}
+.footer-links a,.footer-links button{
+  min-height:38px;display:inline-flex;align-items:center;padding:8px 12px;
+  border:1px solid rgba(167,122,208,.18);border-radius:10px;background:rgba(255,255,255,.025);
+}
+:focus-visible{outline:2px solid var(--jp-purple-light);outline-offset:3px}
+
+@media(max-width:760px){
+  header{min-height:70px;padding:12px 14px 10px!important}
+  .hero-banner{margin:12px 12px 22px;border-radius:18px}
+  .why-us,.section-heading,main,.plus-apps-showcase,.joker-coming-soon,.joker-reviews{margin-left:12px!important;margin-right:12px!important}
+  .section-heading{margin-top:26px!important}
+  .why-us-grid{gap:8px}.why-card{border-radius:14px!important}
+  .support-banner{margin:14px 12px!important;border-radius:16px!important}
+  .section-card,.service,.package-card,.region-card,.joker-upcoming-card,.joker-review-card{border-radius:15px!important}
+  footer{margin-top:38px}
+}
+@media(prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  .section-card,.service,.package-card,.region-card,.joker-upcoming-card{transition:none!important}
+}
