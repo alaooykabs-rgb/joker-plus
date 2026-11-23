@@ -387,6 +387,23 @@ html{scroll-behavior:smooth}
 }
 </style>
 
+
+<style id="joker-gta6-description-layout-fix">
+.gta6-description-layout{display:flex;flex-direction:column;gap:18px;width:100%;direction:rtl;text-align:right;margin:18px 0;}
+.gta6-intro-card{padding:17px 18px;border:1px solid rgba(166,25,46,.28);border-radius:17px;background:linear-gradient(145deg,rgba(53,16,92,.22),rgba(18,15,25,.82));color:#f7f2fb;line-height:1.95;overflow-wrap:anywhere;}
+.gta6-intro-card p{margin:0 0 8px;}.gta6-intro-card p:last-child{margin-bottom:0;}
+.gta6-features{display:flex;flex-direction:column;gap:12px;}.gta6-features>h3{margin:0;font-size:1.08rem;font-weight:800;color:#fff;}
+.gta6-feature-list{display:flex;flex-direction:column;gap:10px;width:100%;}
+.gta6-feature-card{display:flex;align-items:flex-start;gap:12px;width:100%;box-sizing:border-box;padding:14px 15px;border:1px solid rgba(255,255,255,.1);border-right:3px solid #A6192E;border-radius:14px;background:rgba(255,255,255,.045);color:#f8f5fa;}
+.gta6-feature-icon{flex:0 0 34px;width:34px;height:34px;display:grid;place-items:center;border-radius:10px;background:rgba(166,25,46,.16);font-size:18px;}
+.gta6-feature-copy{min-width:0;flex:1;}.gta6-feature-copy strong{display:block;margin:0 0 5px;font-size:.98rem;font-weight:800;color:#fff;}.gta6-feature-copy p{margin:0;line-height:1.8;color:rgba(255,255,255,.82);overflow-wrap:anywhere;}
+.gta6-warranty{padding:17px;border:1px solid rgba(166,25,46,.38);border-radius:17px;background:linear-gradient(145deg,rgba(166,25,46,.12),rgba(20,16,24,.94));color:#f8f5fa;}
+.gta6-warranty-heading{display:flex;align-items:center;gap:11px;margin-bottom:14px;}.gta6-warranty-mark{flex:0 0 34px;width:34px;height:34px;display:grid;place-items:center;border-radius:50%;background:#A6192E;color:#fff;font-weight:900;font-size:19px;}.gta6-warranty-heading h3{margin:0 0 4px;font-size:1.05rem;color:#fff;}.gta6-warranty-heading p{margin:0;font-size:.84rem;line-height:1.6;color:rgba(255,255,255,.7);}
+.gta6-warranty ol{margin:0;padding:0 22px 0 0;display:flex;flex-direction:column;gap:11px;}.gta6-warranty li{padding-right:4px;line-height:1.85;color:rgba(255,255,255,.88);overflow-wrap:anywhere;}.gta6-warranty li::marker{color:#e58b9a;font-weight:800;}
+.gta6-warranty-note{margin-top:15px;padding:12px 13px;border-radius:11px;background:rgba(166,25,46,.17);border:1px solid rgba(166,25,46,.28);line-height:1.8;color:#ffe9ed;overflow-wrap:anywhere;}.gta6-standalone-note{margin-top:0;}
+@media(max-width:480px){.gta6-description-layout{gap:14px;margin:14px 0;}.gta6-intro-card,.gta6-warranty{padding:14px;border-radius:14px;}.gta6-feature-card{padding:12px;gap:10px;}.gta6-feature-copy p,.gta6-warranty li,.gta6-intro-card{font-size:.92rem;line-height:1.8;}}
+</style>
+
 </head>
 <body>
 <div class="splash-screen" id="splashScreen" aria-label="JOKER PLUS"><div class="splash-emblem" aria-hidden="true"><svg viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="splashJokerGradient" x1="20" y1="15" x2="100" y2="105" gradientUnits="userSpaceOnUse"><stop stop-color="#E2C5FF"/><stop offset=".55" stop-color="#A77AD0"/><stop offset="1" stop-color="#63358C"/></linearGradient></defs><path class="emblem-main" pathLength="260" d="M23 39L16 18L39 29L59 12L80 29L104 18L97 39L91 73C88 91 75 103 60 105C45 103 32 91 29 73L23 39Z" stroke="url(#splashJokerGradient)" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/><path d="M29 48C39 43 49 44 58 49C67 44 79 43 91 48" stroke="#F7F4FA" stroke-width="3.5" stroke-linecap="round"/><path d="M37 60L49 55L54 61L47 66L37 60Z" fill="#C49BE5"/><path d="M83 60L71 55L66 61L73 66L83 60Z" fill="#C49BE5"/><path d="M43 80C51 88 69 88 77 80" stroke="#F7F4FA" stroke-width="3.5" stroke-linecap="round"/><path d="M49 82L53 91L60 93L67 91L71 82" stroke="#A77AD0" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M16 18L10 11L22 13L16 18Z" fill="#A6192E"/><path d="M59 12L59 3L66 12L59 12Z" fill="#A6192E"/><path d="M104 18L110 11L98 13L104 18Z" fill="#A6192E"/><circle class="emblem-dot" cx="60" cy="105" r="3" fill="#A6192E"/></svg></div><div class="splash-name">JOKER <span>PLUS</span></div><div class="splash-caption">YOUR DIGITAL WORLD</div><div class="splash-loader"></div></div>
@@ -2443,28 +2460,47 @@ function openSnapArcPackageDetail(index) {
 
 
 function renderGameZoneDescription(raw) {
-  const lines = String(raw || "").split(/\r?\n/).map(line => line.trim()).filter(Boolean);
+  // The product description is stored with escaped newlines (\\n) in the source data.
+  // Normalize both escaped and real line breaks before building the layout.
+  const normalized = String(raw || "")
+    .replace(/\\r\\n/g, "\n")
+    .replace(/\\n/g, "\n")
+    .replace(/\\r/g, "\n")
+    .replace(/\r\n?/g, "\n");
+  const lines = normalized.split("\n").map(line => line.trim()).filter(Boolean);
   const features = [];
   const warranty = [];
-  let intro = [];
+  const intro = [];
   let inWarranty = false;
   let note = "";
+
   lines.forEach(line => {
-    if (/شروط وأحكام الضمان/.test(line)) { inWarranty = true; return; }
-    if (/ملاحظة:/.test(line)) { note = line.replace(/^\(?ملاحظة:\s*/, "").replace(/\)?$/, ""); return; }
-    if (inWarranty) warranty.push(line.replace(/^\d+[.)]\s*/, ""));
-    else if (/^[⚡🔒🎮]/.test(line)) {
-      const parts = line.replace(/^[⚡🔒🎮]\s*/, "").split(/:\s*/);
-      features.push({ title: parts.shift() || "ميزة", text: parts.join(": ") });
-    } else intro.push(line);
+    if (/شروط وأحكام الضمان|شروط الضمان/.test(line)) {
+      inWarranty = true;
+      return;
+    }
+    if (/ملاحظة:/.test(line)) {
+      note = line.replace(/^\(?ملاحظة:\s*/, "").replace(/\)?$/, "");
+      return;
+    }
+    if (inWarranty) {
+      warranty.push(line.replace(/^\d+[.)]\s*/, ""));
+      return;
+    }
+    const featureMatch = line.match(/^([⚡🔒🎮])\s*([^:：]+)[:：]\s*(.*)$/);
+    if (featureMatch) {
+      features.push({ icon: featureMatch[1], title: featureMatch[2].trim(), text: featureMatch[3].trim() });
+    } else {
+      intro.push(line);
+    }
   });
+
   return `<div class="gta6-description-layout">
     ${intro.length ? `<div class="gta6-intro-card">${intro.map(line => `<p>${escapeHTML(line)}</p>`).join("")}</div>` : ""}
-    ${features.length ? `<section class="gta6-features" aria-label="مميزات اللعبة"><h3>مميزات العرض</h3><div class="gta6-feature-list">${features.map((item,index) => `<div class="gta6-feature-card"><span class="gta6-feature-number">${index + 1}</span><div><strong>${escapeHTML(item.title)}</strong><p>${escapeHTML(item.text)}</p></div></div>`).join("")}</div></section>` : ""}
-    ${warranty.length ? `<section class="gta6-warranty"><div class="gta6-warranty-heading"><span>!</span><div><h3>شروط الضمان</h3><p>يرجى قراءة الشروط والالتزام بها للمحافظة على الضمان</p></div></div><ol>${warranty.map(line => `<li>${escapeHTML(line)}</li>`).join("")}</ol>${note ? `<div class="gta6-warranty-note">${escapeHTML(note)}</div>` : ""}</section>` : ""}
+    ${features.length ? `<section class="gta6-features" aria-label="مميزات اللعبة"><h3>مميزات العرض</h3><div class="gta6-feature-list">${features.map((item,index) => `<article class="gta6-feature-card"><span class="gta6-feature-icon">${item.icon}</span><div class="gta6-feature-copy"><strong>${escapeHTML(item.title)}</strong><p>${escapeHTML(item.text)}</p></div></article>`).join("")}</div></section>` : ""}
+    ${warranty.length ? `<section class="gta6-warranty"><div class="gta6-warranty-heading"><span class="gta6-warranty-mark">!</span><div><h3>شروط وأحكام الضمان</h3><p>اقرأ الشروط التالية بعناية للمحافظة على الضمان</p></div></div><ol>${warranty.map(line => `<li>${escapeHTML(line)}</li>`).join("")}</ol>${note ? `<div class="gta6-warranty-note"><strong>تنبيه:</strong> ${escapeHTML(note)}</div>` : ""}</section>` : (note ? `<div class="gta6-warranty-note gta6-standalone-note">${escapeHTML(note)}</div>` : "")}
   </div>`;
 }
-
 function createService(item,opts) {
 const compact = !!(opts && opts.compact);
 const detail = !!(opts && opts.detail);
