@@ -714,7 +714,7 @@ window.addEventListener("pageshow", attachBottomNav);
 <div class="cart-total"><span>المجموع قبل الخصم</span><strong id="cartSubtotal">0.00 د.ك</strong></div>
 <div class="cart-total joker-discount-line" id="jokerDiscountLine" hidden><span>الخصم</span><strong id="jokerDiscountAmount">−0.00 د.ك</strong></div>
 <div class="cart-total joker-grand-total"><span>الإجمالي النهائي</span><strong id="cartTotal">0.00 د.ك</strong></div>
-<button class="cart-checkout" id="cartCheckout" type="button" onclick="checkoutCart()" disabled>إتمام الطلب عبر واتساب</button>
+<button class="cart-checkout" id="cartCheckout" type="button" onclick="checkoutCart()" disabled>تأكيد الطلب بالموقع وإرساله عبر واتساب</button>
 </div>
 </section>
 </div>
@@ -898,7 +898,7 @@ window.addEventListener("pageshow", attachBottomNav);
 <section class="info-panel">
 <h1>الأسئلة الشائعة</h1>
 <details><summary>كيف أضيف منتجاً إلى السلة؟</summary><p>اضغط على زر «أضف إلى السلة» في بطاقة المنتج، وستظهر رسالة تأكيد الإضافة.</p></details>
-<details><summary>كيف أرسل طلبي؟</summary><p>افتح السلة وراجع المنتجات والكميات والإجمالي، ثم اضغط «إتمام الطلب عبر واتساب» لإرسال تفاصيل الطلب.</p></details>
+<details><summary>كيف أرسل طلبي؟</summary><p>افتح السلة وراجع المنتجات والكميات والإجمالي، ثم اضغط «تأكيد الطلب بالموقع وإرساله عبر واتساب». سيُسجَّل الطلب أولاً في الموقع، وبعد نجاح التسجيل يفتح واتساب تلقائياً لإرسال تفاصيل الطلب برسالة جاهزة.</p></details>
 <details><summary>هل يمكن حذف منتج من السلة؟</summary><p>نعم، يمكنك استخدام زر الحذف داخل السلة، أو تقليل الكمية حتى تصل إلى صفر.</p></details>
 <details><summary>هل المنتجات الرقمية قابلة للاسترجاع؟</summary><p>يرجى فتح «عرض جميع تفاصيل الباقة» والاطلاع على الشروط والأحكام الموجودة في نهاية التفاصيل قبل الشراء.</p></details>
 <details><summary>هل الاشتراكات رسمية وآمنة؟</summary><p>نعم، آمنة 100% ومصرّحة بشهادة من شركة أبل، ولا تضر جهازك ولا تخرجه من الضمان ولا تكسر حمايته.</p></details>
@@ -2219,14 +2219,14 @@ const url="https://wa.me/" + WHATSAPP_NUMBER + "?text=" + encodeURIComponent(mes
 try {sessionStorage.setItem("joker_order_pending","1");} catch(_) {}
 // تم حفظ حالة الانتظار؛ شاشة العودة ستظهر تلقائياً عند الرجوع من واتساب.
 if(activeJokerCoupon) {activeJokerCoupon=null;const input=document.getElementById("jokerCouponInput");if(input) input.value="";}
-if(checkoutNode) {checkoutNode.disabled=false;checkoutNode.textContent="إتمام الطلب عبر واتساب";}
+if(checkoutNode) {checkoutNode.disabled=false;checkoutNode.textContent="تأكيد الطلب بالموقع وإرساله عبر واتساب";}
 renderCart();
 // الانتقال مباشرة إلى واتساب في نفس الصفحة؛ يمنع صفحة about:blank البيضاء في Safari/iPhone
 window.location.href=url;
 } catch(error) {
 console.error("JOKER PLUS checkout:",error);
 alert((error && error.message) || "تعذر إتمام الطلب. حاول مرة أخرى.");
-if(checkoutNode) {checkoutNode.disabled=false;checkoutNode.textContent="إتمام الطلب عبر واتساب";}
+if(checkoutNode) {checkoutNode.disabled=false;checkoutNode.textContent="تأكيد الطلب بالموقع وإرساله عبر واتساب";}
 }
 }
 function openSnapArcProductPage(event) {
