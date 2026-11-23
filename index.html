@@ -2201,8 +2201,8 @@ try {
 const {data,error} = await supabaseClient.rpc("joker_create_order_with_coupon",{p_order_number:orderNumber,p_items:orderItems,p_subtotal:subtotal,p_coupon_code:activeJokerCoupon ? activeJokerCoupon.code : null});
 if(error) throw error;
 if(!data || data.success !== true) throw new Error((data && data.message) || "تعذر تسجيل الطلب.");
-// حفظ بيانات الحساب داخل سجل الطلب حتى تظهر في الفاتورة ولوحة الإدارة.
-// لا نرسل أو نحفظ user_id ضمن بيانات الفاتورة؛ نستخدم جلسة الدخول فقط لجلب بيانات الحساب.
+// حفظ اسم العميل والبريد والهاتف في سجل الطلب عبر RPC آمن.
+// user_id يُستخدم للتحقق من ملكية الطلب داخل قاعدة البيانات فقط ولا يظهر في الفاتورة.
 let customerProfile = {full_name:"",email:"",phone:""};
 let customerStorageKey = "";
 try {
@@ -2215,12 +2215,14 @@ try {
       phone: String((customerUser.user_metadata && customerUser.user_metadata.phone) || customerUser.phone || "").trim()
     };
     customerStorageKey = customerUser.id ? "jokerPlusLocalPendingOrder_" + customerUser.id : "";
-    const profileUpdate = await supabaseClient.from("orders").update({
-      full_name: customerProfile.full_name || null,
-      email: customerProfile.email || null,
-      phone: customerProfile.phone || null
-    }).eq("order_number", orderNumber);
-    if(profileUpdate.error) console.warn("JOKER PLUS: تعذر حفظ بيانات العميل داخل الطلب:", profileUpdate.error.message || profileUpdate.error);
+    const profileUpdate = await supabaseClient.rpc("joker_save_order_customer_details", {
+      p_order_number: orderNumber,
+      p_full_name: customerProfile.full_name || null,
+      p_email: customerProfile.email || null,
+      p_phone: customerProfile.phone || null
+    });
+    if(profileUpdate.error) throw profileUpdate.error;
+    if(profileUpdate.data !== true) throw new Error("لم يتم العثور على الطلب المرتبط بحسابك لحفظ بيانات الفاتورة.");
   }
 } catch(profileError) {
   console.warn("JOKER PLUS: تعذر قراءة بيانات حساب العميل:", profileError && (profileError.message || profileError));
