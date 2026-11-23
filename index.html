@@ -2201,11 +2201,33 @@ try {
 const {data,error} = await supabaseClient.rpc("joker_create_order_with_coupon",{p_order_number:orderNumber,p_items:orderItems,p_subtotal:subtotal,p_coupon_code:activeJokerCoupon ? activeJokerCoupon.code : null});
 if(error) throw error;
 if(!data || data.success !== true) throw new Error((data && data.message) || "تعذر تسجيل الطلب.");
-// نسخة احتياطية للعرض في «طلباتي» إذا تأخر ظهور السجل من قاعدة البيانات.
+// حفظ بيانات الحساب داخل سجل الطلب حتى تظهر في الفاتورة ولوحة الإدارة.
+// لا نرسل أو نحفظ user_id ضمن بيانات الفاتورة؛ نستخدم جلسة الدخول فقط لجلب بيانات الحساب.
+let customerProfile = {full_name:"",email:"",phone:""};
+let customerStorageKey = "";
 try {
   const sessionResult = await supabaseClient.auth.getSession();
-  const customerId = sessionResult && sessionResult.data && sessionResult.data.session && sessionResult.data.session.user && sessionResult.data.session.user.id;
-  if(customerId) localStorage.setItem("jokerPlusLocalPendingOrder_" + customerId, JSON.stringify({status:"pending",total:Number(data.total || 0),items:orderItems,created_at:new Date().toISOString(),local_pending:true}));
+  const customerUser = sessionResult && sessionResult.data && sessionResult.data.session && sessionResult.data.session.user;
+  if(customerUser) {
+    customerProfile = {
+      full_name: String((customerUser.user_metadata && (customerUser.user_metadata.full_name || customerUser.user_metadata.name)) || "").trim(),
+      email: String(customerUser.email || "").trim(),
+      phone: String((customerUser.user_metadata && customerUser.user_metadata.phone) || customerUser.phone || "").trim()
+    };
+    customerStorageKey = customerUser.id ? "jokerPlusLocalPendingOrder_" + customerUser.id : "";
+    const profileUpdate = await supabaseClient.from("orders").update({
+      full_name: customerProfile.full_name || null,
+      email: customerProfile.email || null,
+      phone: customerProfile.phone || null
+    }).eq("order_number", orderNumber);
+    if(profileUpdate.error) console.warn("JOKER PLUS: تعذر حفظ بيانات العميل داخل الطلب:", profileUpdate.error.message || profileUpdate.error);
+  }
+} catch(profileError) {
+  console.warn("JOKER PLUS: تعذر قراءة بيانات حساب العميل:", profileError && (profileError.message || profileError));
+}
+// نسخة احتياطية للعرض في «طلباتي» إذا تأخر ظهور السجل من قاعدة البيانات.
+try {
+  if(customerStorageKey) localStorage.setItem(customerStorageKey, JSON.stringify({status:"pending",total:Number(data.total || 0),items:orderItems,created_at:new Date().toISOString(),full_name:customerProfile.full_name,email:customerProfile.email,phone:customerProfile.phone,local_pending:true}));
 } catch(_) {}
 // تفريغ السلة بعد نجاح تسجيل الطلب فقط.
 cartItems = [];
