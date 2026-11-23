@@ -2975,11 +2975,41 @@ function renderAdminDashboardStats(){
 }
 async function refreshAdminDashboard(){
  if(!isAdminUser)return;
- renderAdminDashboardStats();
- const v=document.getElementById("statVisitors"),note=document.getElementById("statVisitorsNote"),msg=document.getElementById("adminStatsMsg");
+ const msg=document.getElementById("adminStatsMsg");
+ const setStat=(id,value)=>{const node=document.getElementById(id);if(node)node.textContent=value;};
+ const fmt=(value)=>Number(value||0).toLocaleString("ar-KW",{minimumFractionDigits:0,maximumFractionDigits:3});
+ try{
+  const {data,error}=await supabaseClient.rpc("admin_dashboard_stats");
+  if(error)throw error;
+  const stats=data&&typeof data==="object"?data:{};
+  const total=Number(stats.total_orders)||0;
+  const completed=Number(stats.completed_orders)||0;
+  const pending=Number(stats.pending_orders)||0;
+  const revenue=Number(stats.revenue)||0;
+  const gross=Number(stats.gross)||0;
+  const customers=Number(stats.customers)||0;
+  setStat("statOrders",fmt(total));
+  setStat("statRevenue",formatAdminKwd(revenue));
+  setStat("statPending",fmt(pending));
+  setStat("statCompleted",fmt(completed));
+  setStat("statAverage",formatAdminKwd(completed?revenue/completed:0));
+  setStat("statCustomers",fmt(customers));
+  setStat("statGross",formatAdminKwd(gross));
+  const activeProducts=Number(stats.active_products);
+  if(Number.isFinite(activeProducts)){
+   const grid=document.getElementById("adminStatsGrid");
+   let card=document.getElementById("statActiveProducts");
+   if(grid&&!card){card=document.createElement("div");card.className="admin-stat-card";card.innerHTML='<span>المنتجات النشطة</span><strong id="statActiveProducts">—</strong><small>منتجات ظاهرة في المتجر</small>';grid.appendChild(card);}
+   setStat("statActiveProducts",fmt(activeProducts));
+  }
+  if(msg)msg.textContent="تم جلب مؤشرات لوحة التحكم مباشرة من قاعدة البيانات.";
+ }catch(e){
+  renderAdminDashboardStats();
+  if(msg)msg.textContent="تعذر جلب المؤشرات المباشرة: "+String((e&&(e.message||e.code))||e)+". يتم عرض ملخص الطلبات المحمّلة مؤقتاً.";
+ }
+ const v=document.getElementById("statVisitors"),note=document.getElementById("statVisitorsNote");
  try{const {data,error}=await supabaseClient.rpc("joker_admin_visit_count");if(error)throw error;const count=typeof data==="number"?data:Number(data&&data.visitors);if(v&&Number.isFinite(count))v.textContent=count.toLocaleString("ar-KW");if(note)note.textContent="زوار فريدون حسب اليوم";}
- catch(e){if(v)v.textContent="—";if(note)note.textContent="يتطلب تشغيل ملف SQL المرفق مرة واحدة";}
- if(msg)msg.textContent="تم تحديث الإحصائيات من بيانات الطلبات الحالية.";
+ catch(e){if(v)v.textContent="—";if(note)note.textContent="عداد الزيارات غير متاح حالياً";}
  renderJokerCommandCenter();
 }
 async function loadAdminOrders() {
