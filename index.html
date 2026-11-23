@@ -920,6 +920,20 @@ window.addEventListener("pageshow", attachBottomNav);
 <div class="services gamezone-product-grid" id="gameZoneProducts"></div>
 </section>
 </div>
+<div id="gta6DetailsPage" class="info-page" hidden>
+<div class="packages-page-top">
+<button class="packages-back-button" type="button" onclick="openGameZoneProductsPage()">→ رجوع لعالم الألعاب</button>
+<div class="packages-page-brand">JOKER PLUS 🃏</div>
+</div>
+<section class="info-panel" style="max-width:760px;margin:18px auto;padding:18px">
+<div style="text-align:center;margin-bottom:18px">
+<div class="packages-page-brand" style="font-size:13px;opacity:.8">JOKER PLUS EXCLUSIVE</div>
+<h1 id="gta6DetailsTitle" style="margin:8px 0">GTA VI</h1>
+<p style="margin:0;opacity:.75">تفاصيل المنتج والشروط</p>
+</div>
+<div id="gta6DetailsContent"></div>
+</section>
+</div>
 <div id="faqPage" class="info-page" hidden>
 <div class="packages-page-top">
 <button class="packages-back-button" type="button" onclick="closeInfoPage()">→ رجوع للمتجر</button>
@@ -1431,7 +1445,7 @@ function renderJokerCommandCenter(){
  if(activity){const rows=Array.isArray(adminOrdersCache)?adminOrdersCache:[];if(rows.length){const latest=rows.slice().sort((a,b)=>new Date(b.created_at||0)-new Date(a.created_at||0))[0];activity.textContent="آخر نشاط مسجل: الطلب #"+String(latest.order_number||"—")+" · "+String(latest.status||"حالة غير محددة");}else{activity.textContent="لا توجد طلبات مسجلة لعرض نشاط حديث.";}}
 }
 function openInfoPage(pageId) {
-["storePage","packagesPage","noticePage","faqPage","refundPage","ordersPage","searchPage","adminPage","storeRegionsPage","storeRegionItemsPage","jokerPrivateShowroomPage","snapArcProductPage","gameZoneProductsPage"].forEach(id => {
+["storePage","packagesPage","noticePage","faqPage","refundPage","ordersPage","searchPage","adminPage","storeRegionsPage","storeRegionItemsPage","jokerPrivateShowroomPage","snapArcProductPage","gameZoneProductsPage","gta6DetailsPage"].forEach(id => {
 const node = document.getElementById(id);
 if(node) node.hidden = id !== pageId;
 });
@@ -1442,7 +1456,7 @@ if(corridor){corridor.classList.remove("is-active");void corridor.offsetWidth;co
 window.scrollTo({top:0,behavior:"instant"});
 }
 function closeInfoPage() {
-["packagesPage","noticePage","faqPage","refundPage","ordersPage","searchPage","adminPage","storeRegionsPage","storeRegionItemsPage","jokerPrivateShowroomPage","snapArcProductPage","gameZoneProductsPage"].forEach(id => {
+["packagesPage","noticePage","faqPage","refundPage","ordersPage","searchPage","adminPage","storeRegionsPage","storeRegionItemsPage","jokerPrivateShowroomPage","snapArcProductPage","gameZoneProductsPage","gta6DetailsPage"].forEach(id => {
 const node = document.getElementById(id);
 if(node) node.hidden = true;
 });
@@ -2412,8 +2426,8 @@ const detail = !!(opts && opts.detail);
 const isSnapArc = String(item.id || "") === "joker-snaparc-monthly";
 const title = String(item.title || "منتج من JOKER PLUS");
 const price = String(item.price ?? "");
-const descriptionMarkup = item.description ? (item.description_on_click
-? `<button class="product-description-toggle" type="button" onclick="openGameZoneDetails('${escapeHTML(String(item.id ?? ""))}',event)">عرض تفاصيل الباقة</button>`
+const descriptionMarkup = item.description ? (item.description_on_click && !detail
+? `<button class="product-description-toggle" type="button" onclick="openGameZoneProductDetails('${escapeHTML(String(item.id ?? ""))}',event)">عرض تفاصيل الباقة</button>`
 : (detail || !isSnapArc ? `<div class="service-description">${escapeHTML(item.description)}</div>` : "")) : "";
 if(isSnapArc && !detail) return "";
 return `
@@ -3177,6 +3191,8 @@ box.innerHTML = products.length
 : '<p class="account-hint">لا توجد منتجات في عالم الألعاب حالياً.</p>';
 optimizeStoreImages(box);
 openInfoPage("gameZoneProductsPage");
+const gtaCard=document.getElementById("product-joker-gta6-primary-account");
+if(gtaCard){gtaCard.style.cursor="pointer";gtaCard.addEventListener("click",function(e){if(e.target.closest("button,a,input,select,textarea"))return;openGameZoneProductDetails("joker-gta6-primary-account",e);});}
 if(typeof syncCartAddButtons === "function") syncCartAddButtons();
 }
 function openStoreRegions(event) {
@@ -4828,36 +4844,22 @@ function start(){
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',start);else start();
 })();
 </script>
-<div id="gameZoneDetailsModal" class="gamezone-details-modal" hidden role="dialog" aria-modal="true" aria-labelledby="gameZoneDetailsModalTitle">
-<div class="gamezone-details-backdrop" onclick="closeGameZoneDetails()"></div>
-<section class="gamezone-details-dialog">
-<button class="gamezone-details-close" type="button" aria-label="إغلاق" onclick="closeGameZoneDetails()">×</button>
-<h2 id="gameZoneDetailsModalTitle">تفاصيل الباقة والشروط</h2>
-<div id="gameZoneDetailsModalBody" class="gamezone-details-body"></div>
-</section>
-</div>
-<script id="joker-gamezone-details-modal">
-function openGameZoneDetails(productId,event){
+
+<script id="joker-gamezone-fullpage-details">
+function openGameZoneDetails(productId,event){return openGameZoneProductDetails(productId,event);}
+function openGameZoneProductDetails(productId,event){
 if(event){event.preventDefault();event.stopPropagation();}
 const product=(storeItemsCache||[]).find(item=>String(item.id||"")===String(productId));
 if(!product)return;
-const modal=document.getElementById("gameZoneDetailsModal");
-const title=document.getElementById("gameZoneDetailsModalTitle");
-const body=document.getElementById("gameZoneDetailsModalBody");
-if(!modal||!body||!title)return;
-title.textContent=String(product.title||"تفاصيل الباقة");
-body.innerHTML=String(product.description||"لا توجد تفاصيل متاحة.").split(/\\n/).map(line=>line.trim()?'<p>'+escapeHTML(line)+'</p>':'<div class="gamezone-details-spacer"></div>').join("");
-modal.hidden=false;
-document.body.classList.add("gamezone-details-open");
+const title=document.getElementById("gta6DetailsTitle");
+const content=document.getElementById("gta6DetailsContent");
+if(!title||!content)return;
+title.textContent=String(product.title||"GTA VI");
+content.innerHTML=createService(product,{compact:false,detail:true});
+content.querySelectorAll(".service").forEach(card=>{card.style.maxWidth="100%";card.style.width="100%";card.style.margin="0 auto";});
+openInfoPage("gta6DetailsPage");
+if(typeof syncCartAddButtons==="function")syncCartAddButtons();
 }
-function closeGameZoneDetails(){
-const modal=document.getElementById("gameZoneDetailsModal");
-if(modal)modal.hidden=true;
-document.body.classList.remove("gamezone-details-open");
-}
-document.addEventListener("keydown",function(event){
-if(event.key==="Escape")closeGameZoneDetails();
-});
 </script>
 </body>
 </html>
