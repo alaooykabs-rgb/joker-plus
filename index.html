@@ -731,6 +731,7 @@ window.addEventListener("pageshow", attachAccountButtonToViewport);
 <b class="nav-badge" id="navOrdersBadge" hidden>0</b>
 <span>الطلبات</span>
 </button>
+<button type="button" class="nav-item" data-nav="favorites" onclick="navGo('favorites')" aria-label="المفضلة"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20s-7.5-4.6-7.5-10.2A4.3 4.3 0 0112 7a4.3 4.3 0 017.5 2.8C19.5 15.4 12 20 12 20z"/></svg><b class="nav-badge" id="navFavoritesBadge" hidden>0</b><span>المفضلة</span></button>
 <button type="button" class="nav-item" data-nav="search" onclick="navGo('search')">
 <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.3"/><path d="M15.3 15.3L20.5 20.5"/></svg>
 <span>بحث</span>
@@ -832,7 +833,7 @@ window.addEventListener("pageshow", attachBottomNav);
 <div class="packages-page-brand">JOKER PLUS 🃏</div>
 </div>
 <section class="info-panel">
-<div class="joker-orders-heading"><h1>الطلبات</h1><div><button type="button" class="joker-orders-refresh" onclick="requestJokerOrderNotifications()">تفعيل التنبيهات</button> <button type="button" class="joker-orders-refresh" onclick="loadCustomerOrders()">تحديث</button></div></div>
+<div class="joker-orders-heading"><h1>الطلبات</h1><div><button type="button" class="joker-orders-refresh" onclick="openJokerNotifications()">مركز الإشعارات</button> <button type="button" class="joker-orders-refresh" onclick="requestJokerOrderNotifications()">تفعيل التنبيهات</button> <button type="button" class="joker-orders-refresh" onclick="loadCustomerOrders()">تحديث</button></div></div>
 <div id="customerOrders" class="joker-orders-list"><p class="account-hint">سجّل الدخول لعرض طلباتك.</p></div>
 </section>
 </div>
@@ -848,6 +849,14 @@ window.addEventListener("pageshow", attachBottomNav);
 </section>
 </div>
 </div></div>
+<div id="favoritesPage" class="info-page" hidden>
+<div class="packages-page-top"><button class="packages-back-button" type="button" onclick="closeInfoPage()">→ رجوع للمتجر</button><div class="packages-page-brand">JOKER PLUS 🃏</div></div>
+<section class="info-panel"><div class="joker-orders-heading"><div><h1>قائمة المفضلة</h1><p class="account-hint">منتجاتك المحفوظة للرجوع إليها لاحقاً</p></div><span class="joker-favorites-count" id="jokerFavoritesCount">0</span></div><div id="jokerFavoritesList" class="joker-favorites-list"><p class="account-hint">ما أضفت أي منتج للمفضلة حتى الآن.</p></div></section>
+</div>
+<div id="notificationsPage" class="info-page" hidden>
+<div class="packages-page-top"><button class="packages-back-button" type="button" onclick="closeInfoPage()">→ رجوع للمتجر</button><div class="packages-page-brand">JOKER PLUS 🃏</div></div>
+<section class="info-panel"><div class="joker-orders-heading"><div><h1>مركز الإشعارات</h1><p class="account-hint">آخر التحديثات المتعلقة بطلباتك</p></div><button type="button" class="joker-orders-refresh" onclick="requestJokerOrderNotifications()">تفعيل إشعارات الجهاز</button></div><div id="jokerNotificationsList" class="joker-notifications-list"><p class="account-hint">سجّل الدخول وحدّث طلباتك لعرض آخر الإشعارات.</p></div></section>
+</div>
 <div id="adminPage" class="info-page" hidden>
 <div class="packages-page-top">
 <button class="packages-back-button" type="button" onclick="closeInfoPage()">→ رجوع للمتجر</button>
@@ -1475,7 +1484,7 @@ function renderJokerCommandCenter(){
  if(activity){const rows=Array.isArray(adminOrdersCache)?adminOrdersCache:[];if(rows.length){const latest=rows.slice().sort((a,b)=>new Date(b.created_at||0)-new Date(a.created_at||0))[0];activity.textContent="آخر نشاط مسجل: الطلب #"+String(latest.order_number||"—")+" · "+String(latest.status||"حالة غير محددة");}else{activity.textContent="لا توجد طلبات مسجلة لعرض نشاط حديث.";}}
 }
 function openInfoPage(pageId) {
-["storePage","packagesPage","noticePage","faqPage","refundPage","ordersPage","searchPage","adminPage","storeRegionsPage","storeRegionItemsPage","jokerPrivateShowroomPage","snapArcProductPage","gameZoneProductsPage","gta6DetailsPage"].forEach(id => {
+["storePage","packagesPage","noticePage","faqPage","refundPage","ordersPage","searchPage","favoritesPage","notificationsPage","adminPage","storeRegionsPage","storeRegionItemsPage","jokerPrivateShowroomPage","snapArcProductPage","gameZoneProductsPage","gta6DetailsPage"].forEach(id => {
 const node = document.getElementById(id);
 if(node) node.hidden = id !== pageId;
 });
@@ -1486,7 +1495,7 @@ if(corridor){corridor.classList.remove("is-active");void corridor.offsetWidth;co
 window.scrollTo({top:0,behavior:"instant"});
 }
 function closeInfoPage() {
-["packagesPage","noticePage","faqPage","refundPage","ordersPage","searchPage","adminPage","storeRegionsPage","storeRegionItemsPage","jokerPrivateShowroomPage","snapArcProductPage","gameZoneProductsPage","gta6DetailsPage"].forEach(id => {
+["packagesPage","noticePage","faqPage","refundPage","ordersPage","searchPage","favoritesPage","notificationsPage","adminPage","storeRegionsPage","storeRegionItemsPage","jokerPrivateShowroomPage","snapArcProductPage","gameZoneProductsPage","gta6DetailsPage"].forEach(id => {
 const node = document.getElementById(id);
 if(node) node.hidden = true;
 });
@@ -1762,7 +1771,7 @@ const appCodesResult = await supabaseClient.from("app_plus_codes").select("code,
 if(!appCodesResult.error) (appCodesResult.data || []).forEach(c => { const k=String(c.order_number||""); (appCodesByOrder[k]=appCodesByOrder[k]||[]).push(c); });
 }
 } catch(_) {}
-try { const k="jokerPlusOrderStatuses_"+user.id, prev=JSON.parse(localStorage.getItem(k)||"{}"), now={}; approvedOrders.forEach(o=>{const n=String(o.order_number||o.id||""),st=String(o.status||"");now[n]=st;if(prev[n]&&prev[n]!==st&&"Notification" in window&&Notification.permission==="granted")new Notification("تحديث طلبك من JOKER PLUS",{body:st})});localStorage.setItem(k,JSON.stringify(now)); } catch(_) {}
+try { const k="jokerPlusOrderStatuses_"+user.id, prev=JSON.parse(localStorage.getItem(k)||"{}"), now={}; approvedOrders.forEach(o=>{const n=String(o.order_number||o.id||""),st=String(o.status||"");now[n]=st;if(prev[n]&&prev[n]!==st){try{window.jokerStoreNotification({title:"تحديث حالة الطلب #"+n,body:st,created_at:new Date().toISOString(),order_number:n});}catch(_){}if("Notification" in window&&Notification.permission==="granted")new Notification("تحديث طلبك من JOKER PLUS",{body:st})}});localStorage.setItem(k,JSON.stringify(now)); } catch(_) {}
 try { if(typeof window.jokerMarkOrdersSeen==="function") window.jokerMarkOrdersSeen(user.id,approvedOrders); } catch(_) {}
 // مصدر «طلباتي» هو قاعدة البيانات فقط؛ لا نعرض نسخة محلية احتياطية
 // حتى لا يعود الطلب للظهور بعد أن تحذفه الإدارة من قاعدة البيانات.
@@ -2505,7 +2514,7 @@ const descriptionMarkup = item.description ? (item.description_on_click && !deta
 if(isSnapArc && !detail) return "";
 return `
 <div class="service" id="product-${escapeHTML(String(item.id ?? title))}" data-product-id="${escapeHTML(String(item.id ?? ""))}" ${isSnapArc && detail ? 'data-detail="true"' : ""}>
-<div class="service-title">${escapeHTML(title)}</div>
+<div class="service-title-row"><div class="service-title">${escapeHTML(title)}</div><button class="joker-favorite-btn" type="button" data-favorite-id="${escapeHTML(String(item.id ?? title))}" aria-label="إضافة إلى المفضلة" aria-pressed="false" onclick="toggleJokerFavorite(this,event)">♡</button></div>
 ${createProductGallery(item)}
 ${descriptionMarkup}
 ${item.price ? `<div class="price ${String(item.id || "").startsWith("joker-gta6-") ? "gamezone-gta6-price" : ""}">${escapeHTML(item.price)}${String(item.id || "").startsWith("joker-gta6-") ? " د.ك" : ""}</div>` : ""}
@@ -2810,6 +2819,9 @@ openInfoPage("searchPage");
 setActiveNav("search");
 const input = document.getElementById("storeSearchInput");
 if(input) window.setTimeout(function() {input.focus();},60);
+} else if(name === "favorites") {
+openJokerFavorites();
+setActiveNav("favorites");
 }
 }
 function copyOrderNumber(button) {
@@ -4948,5 +4960,41 @@ openInfoPage("gta6DetailsPage");
 if(typeof syncCartAddButtons==="function")syncCartAddButtons();
 }
 </script>
+
+<style id="joker-selected-features-style">
+.service-title-row{display:flex;align-items:center;justify-content:space-between;gap:10px;width:100%}
+.service-title-row .service-title{flex:1;min-width:0}
+.joker-favorite-btn{width:38px;height:38px;flex:0 0 38px;border:1px solid rgba(198,155,232,.32);border-radius:13px;background:rgba(53,16,92,.18);color:#d9b8f4;font-size:23px;line-height:1;display:grid;place-items:center;cursor:pointer;transition:transform .2s ease,background .2s ease,color .2s ease,border-color .2s ease}
+.joker-favorite-btn.is-favorite{background:rgba(166,25,46,.18);color:#ff7b91;border-color:rgba(166,25,46,.65)}
+.joker-favorite-btn:active{transform:scale(.9)}
+.joker-favorites-count{min-width:34px;height:34px;border-radius:12px;display:grid;place-items:center;background:rgba(166,25,46,.16);color:#f2c5ce;font-weight:900;padding:0 9px}
+.joker-favorites-list,.joker-notifications-list{display:grid;gap:12px;margin-top:16px}
+.joker-notification-card{padding:14px;border:1px solid rgba(183,145,214,.2);border-radius:16px;background:linear-gradient(135deg,rgba(53,16,92,.2),rgba(166,25,46,.08));display:grid;gap:6px}
+.joker-notification-card strong{color:#f0ddff}.joker-notification-card p{margin:0;color:rgba(255,255,255,.76);line-height:1.7}.joker-notification-card small{color:rgba(255,255,255,.48)}
+#jokerBottomNav .nav-item{min-width:0;flex:1;padding-inline:3px}
+#jokerBottomNav .nav-item span{font-size:10px;white-space:nowrap}
+@media(max-width:380px){#jokerBottomNav .nav-item span{font-size:9px}.joker-favorite-btn{width:34px;height:34px;flex-basis:34px}}
+@media(prefers-reduced-motion:no-preference){.hero-banner{animation:jokerHeroBreathe 8s ease-in-out infinite alternate}.service,.package-card{transition:transform .24s ease,box-shadow .24s ease,border-color .24s ease}.service:active,.package-card:active{transform:translateY(-2px)}@keyframes jokerHeroBreathe{from{filter:saturate(.96)}to{filter:saturate(1.12)}}}
+</style>
+<script id="joker-selected-features-script">
+(function(){
+"use strict";
+var FAV_KEY="jokerStoreFavorites_v1",NOTE_KEY="jokerStoreNotifications_v1";
+function read(key){try{var v=JSON.parse(localStorage.getItem(key)||"[]");return Array.isArray(v)?v:[]}catch(_){return []}}
+function write(key,value){try{localStorage.setItem(key,JSON.stringify(value))}catch(_){}}
+function itemById(id){var source=(typeof storeItemsCache!=="undefined"&&Array.isArray(storeItemsCache))?storeItemsCache:(Array.isArray(window.storeItemsCache)?window.storeItemsCache:[]);return source.find(function(x){return String(x.id??x.title)===String(id)})}
+function syncFavorites(){var ids=read(FAV_KEY),count=ids.length,badge=document.getElementById("navFavoritesBadge"),counter=document.getElementById("jokerFavoritesCount");if(badge){badge.textContent=String(count);badge.hidden=!count}if(counter)counter.textContent=String(count);document.querySelectorAll(".joker-favorite-btn[data-favorite-id]").forEach(function(btn){var yes=ids.indexOf(String(btn.dataset.favoriteId))!==-1;btn.classList.toggle("is-favorite",yes);btn.textContent=yes?"♥":"♡";btn.setAttribute("aria-pressed",yes?"true":"false");btn.setAttribute("aria-label",yes?"إزالة من المفضلة":"إضافة إلى المفضلة")})}
+window.toggleJokerFavorite=function(btn,event){if(event){event.preventDefault();event.stopPropagation()}if(!btn)return;var id=String(btn.dataset.favoriteId||"");if(!id)return;var ids=read(FAV_KEY),at=ids.indexOf(id);if(at===-1)ids.unshift(id);else ids.splice(at,1);write(FAV_KEY,ids);syncFavorites();if(document.getElementById("favoritesPage")&&!document.getElementById("favoritesPage").hidden)window.openJokerFavorites()};
+window.openJokerFavorites=function(){var box=document.getElementById("jokerFavoritesList");if(!box)return;var ids=read(FAV_KEY),items=ids.map(itemById).filter(Boolean);if(!items.length){box.innerHTML='<p class="account-hint">ما أضفت أي منتج للمفضلة حتى الآن. اضغط ♡ على أي منتج لحفظه هنا.</p>'}else{box.innerHTML=items.map(function(item){return window.createService(item,{compact:true})}).join("");if(typeof window.optimizeStoreImages==="function")window.optimizeStoreImages(box)}if(typeof window.openInfoPage==="function")window.openInfoPage("favoritesPage");syncFavorites()};
+window.jokerStoreNotification=function(entry){var list=read(NOTE_KEY);list.unshift({title:String(entry.title||"إشعار من JOKER STORE"),body:String(entry.body||""),created_at:entry.created_at||new Date().toISOString(),order_number:String(entry.order_number||"")});write(NOTE_KEY,list.slice(0,30));renderNotifications()};
+function renderNotifications(){var box=document.getElementById("jokerNotificationsList");if(!box)return;var list=read(NOTE_KEY);if(!list.length){box.innerHTML='<p class="account-hint">ما عندك إشعارات جديدة حالياً. تظهر هنا تحديثات حالة طلباتك بعد تسجيل الدخول وتحديث الطلبات.</p>';return}box.innerHTML=list.map(function(n){var date=n.created_at?new Date(n.created_at).toLocaleString("ar-KW"):"";return '<article class="joker-notification-card"><strong>'+escapeHTML(n.title)+'</strong><p>'+escapeHTML(n.body)+'</p><small>'+escapeHTML(date)+'</small></article>'}).join("")}
+window.openJokerNotifications=function(){if(typeof window.openInfoPage==="function")window.openInfoPage("notificationsPage");renderNotifications()};
+window.addEventListener("storage",function(e){if(e.key===FAV_KEY)syncFavorites();if(e.key===NOTE_KEY)renderNotifications()});
+if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",syncFavorites,{once:true});else syncFavorites();
+var originalLoad=window.loadStore;if(typeof originalLoad==="function"){window.loadStore=function(){var result=originalLoad.apply(this,arguments);Promise.resolve(result).finally(function(){syncFavorites()});return result}}
+renderNotifications();
+})();
+</script>
+
 </body>
 </html>
