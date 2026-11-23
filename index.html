@@ -714,7 +714,7 @@ window.addEventListener("pageshow", attachBottomNav);
 <div class="cart-total"><span>المجموع قبل الخصم</span><strong id="cartSubtotal">0.00 د.ك</strong></div>
 <div class="cart-total joker-discount-line" id="jokerDiscountLine" hidden><span>الخصم</span><strong id="jokerDiscountAmount">−0.00 د.ك</strong></div>
 <div class="cart-total joker-grand-total"><span>الإجمالي النهائي</span><strong id="cartTotal">0.00 د.ك</strong></div>
-<button class="cart-checkout" id="cartCheckout" type="button" onclick="checkoutCart()" disabled>تأكيد الطلب بالموقع وإرساله عبر واتساب</button>
+<button class="cart-checkout" id="cartCheckout" type="button" onclick="checkoutCart()" disabled>تأكيد الطلب</button>
 </div>
 </section>
 </div>
@@ -898,7 +898,7 @@ window.addEventListener("pageshow", attachBottomNav);
 <section class="info-panel">
 <h1>الأسئلة الشائعة</h1>
 <details><summary>كيف أضيف منتجاً إلى السلة؟</summary><p>اضغط على زر «أضف إلى السلة» في بطاقة المنتج، وستظهر رسالة تأكيد الإضافة.</p></details>
-<details><summary>كيف أرسل طلبي؟</summary><p>افتح السلة وراجع المنتجات والكميات والإجمالي، ثم اضغط «تأكيد الطلب بالموقع وإرساله عبر واتساب». سيُسجَّل الطلب أولاً في الموقع، وبعد نجاح التسجيل يفتح واتساب تلقائياً لإرسال تفاصيل الطلب برسالة جاهزة.</p></details>
+<details><summary>كيف أرسل طلبي؟</summary><p>افتح السلة وراجع المنتجات والكميات والإجمالي، ثم اضغط «تأكيد الطلب». سيُسجَّل الطلب أولاً في الموقع، وبعد نجاح التسجيل يفتح واتساب تلقائياً لإرسال تفاصيل الطلب برسالة جاهزة.</p></details>
 <details><summary>هل يمكن حذف منتج من السلة؟</summary><p>نعم، يمكنك استخدام زر الحذف داخل السلة، أو تقليل الكمية حتى تصل إلى صفر.</p></details>
 <details><summary>هل المنتجات الرقمية قابلة للاسترجاع؟</summary><p>يرجى فتح «عرض جميع تفاصيل الباقة» والاطلاع على الشروط والأحكام الموجودة في نهاية التفاصيل قبل الشراء.</p></details>
 <details><summary>هل الاشتراكات رسمية وآمنة؟</summary><p>نعم، آمنة 100% ومصرّحة بشهادة من شركة أبل، ولا تضر جهازك ولا تخرجه من الضمان ولا تكسر حمايته.</p></details>
@@ -2192,61 +2192,38 @@ document.addEventListener("visibilitychange",function(){if(document.visibilitySt
 async function checkoutCart() {
 if(!cartItems.length) return;
 if(!requireLoginToOrder()) return;
-// افتح نافذة واتساب فور ضغطة المستخدم؛ Safari قد يمنع فتح نافذة جديدة بعد await.
-var jokerWhatsAppTab=null;
-try { jokerWhatsAppTab=window.open("about:blank","_blank"); } catch(_) {}
 const orderItems = cartItems.map(item => ({title:item.title,quantity:Number(item.quantity || 0),price:item.price || ""}));
 const subtotal = Number(currentCartSubtotal().toFixed(2));
 const orderNumber = (function(){var map=[["Ag",/فضي|silver/i],["Au",/ذهبي|gold/i],["C",/بلاتين|platinum/i]],pre="";cartItems.some(function(it){var t=String(it.title||"");for(var k=0;k<map.length;k++)if(map[k][1].test(t)){pre=map[k][0];return true}return false});var ts=Date.now().toString();return pre?pre+ts.slice(-12):"JP-"+ts})();
 const checkoutNode=document.getElementById("cartCheckout");
-if(checkoutNode) {checkoutNode.disabled=true;checkoutNode.textContent="جارٍ تجهيز الطلب...";}
+if(checkoutNode) {checkoutNode.disabled=true;checkoutNode.textContent="جارٍ تسجيل الطلب...";}
 try {
 const sessionResult = await supabaseClient.auth.getSession();
 const customerUser = sessionResult && sessionResult.data && sessionResult.data.session && sessionResult.data.session.user;
 const customerId = customerUser && customerUser.id;
-const customerName = String((customerUser && customerUser.user_metadata && (customerUser.user_metadata.full_name || customerUser.user_metadata.name)) || "").trim();
+const customerName = String((customerUser && customerUser.user_metadata && (customerUser.user_metadata.full_name || customerUser.user_metadata.name || customerUser.user_metadata.display_name)) || "").trim();
 const customerEmail = String((customerUser && customerUser.email) || "").trim();
 const customerPhone = String((customerUser && (customerUser.phone || (customerUser.user_metadata && customerUser.user_metadata.phone))) || "").trim();
 const {data,error} = await supabaseClient.rpc("joker_create_order_with_coupon",{p_order_number:orderNumber,p_items:orderItems,p_subtotal:subtotal,p_coupon_code:activeJokerCoupon ? activeJokerCoupon.code : null});
 if(error) throw error;
 if(!data || data.success !== true) throw new Error((data && data.message) || "تعذر تسجيل الطلب.");
-// حفظ بيانات العميل داخل سجل الطلب لتظهر في فاتورة العميل ولوحة الإدارة.
+// حفظ بيانات العميل على سجل الطلب ليستخدمها العميل والإدارة عند عرض الفاتورة أو إرسال إشعار التسليم.
 if(customerId) {
-  try {
-    const profileUpdate = await supabaseClient.from("orders").update({full_name:customerName,email:customerEmail,phone:customerPhone}).eq("order_number",orderNumber).eq("user_id",customerId);
-    if(profileUpdate.error) console.warn("JOKER PLUS customer details:",profileUpdate.error.message);
-  } catch(profileError) { console.warn("JOKER PLUS customer details:",profileError); }
+  const profileUpdate = await supabaseClient.from("orders").update({full_name:customerName,email:customerEmail,phone:customerPhone}).eq("order_number",orderNumber).eq("user_id",customerId);
+  if(profileUpdate.error) console.warn("JOKER PLUS customer details:",profileUpdate.error.message);
+  try { localStorage.setItem("jokerPlusLocalPendingOrder_" + customerId, JSON.stringify({status:"pending",total:Number(data.total || 0),items:orderItems,full_name:customerName,email:customerEmail,phone:customerPhone,created_at:new Date().toISOString(),local_pending:true})); } catch(_) {}
 }
-// نسخة احتياطية للعرض في «طلباتي» إذا تأخر ظهور السجل من قاعدة البيانات.
-try {
-  
-  if(customerId) localStorage.setItem("jokerPlusLocalPendingOrder_" + customerId, JSON.stringify({status:"pending",total:Number(data.total || 0),items:orderItems,full_name:customerName,email:customerEmail,phone:customerPhone,created_at:new Date().toISOString(),local_pending:true}));
-} catch(_) {}
-// تفريغ السلة بعد نجاح تسجيل الطلب فقط.
 cartItems = [];
 saveCart();
-const finalTotal=Number(data.total || 0);
-const discount=Number(data.discount_amount || 0);
-const lines = orderItems.map(item => "• " + item.title + " × " + item.quantity + (item.price ? " - " + item.price + " د.ك" : " - السعر عند الطلب"));
-const message = "السلام عليكم، أريد طلب المنتجات التالية من JOKER PLUS:\n\n" + lines.join("\n") + "\n\nرقم الطلب: " + orderNumber + "\nاسم العميل: " + (customerName || "غير مضاف") + "\nالبريد الإلكتروني: " + (customerEmail || "غير مضاف") + "\nرقم الهاتف: " + (customerPhone || "غير مضاف") + "\n\nسيتم ظهور رقم الطلب في الموقع عند تأكيد الطلب من قبل الإدارة." + (data.coupon_code ? "\nكود الخصم: " + data.coupon_code : "") + "\nالمجموع قبل الخصم: " + subtotal.toFixed(2) + " د.ك" + (discount > 0 ? "\nقيمة الخصم: " + discount.toFixed(2) + " د.ك" : "") + "\nالإجمالي بعد الخصم: " + finalTotal.toFixed(2) + " د.ك\nيرجى تأكيد توفر المنتجات.";
-const url="https://wa.me/" + WHATSAPP_NUMBER + "?text=" + encodeURIComponent(message);
-// خزّن حالة الطلب قبل فتح واتساب حتى تظهر للعميل عند رجوعه للموقع
-try {sessionStorage.setItem("joker_order_pending","1");} catch(_) {}
-// تم حفظ حالة الانتظار؛ شاشة العودة ستظهر تلقائياً عند الرجوع من واتساب.
 if(activeJokerCoupon) {activeJokerCoupon=null;const input=document.getElementById("jokerCouponInput");if(input) input.value="";}
-if(checkoutNode) {checkoutNode.disabled=false;checkoutNode.textContent="تأكيد الطلب بالموقع وإرساله عبر واتساب";}
+if(checkoutNode) {checkoutNode.disabled=false;checkoutNode.textContent="تأكيد الطلب";}
 renderCart();
-// استخدم النافذة التي فُتحت مع ضغطة الزر، مع تحويل احتياطي في نفس الصفحة إذا منع Safari النوافذ المنبثقة.
-if(jokerWhatsAppTab && !jokerWhatsAppTab.closed) {
-  try { jokerWhatsAppTab.location.href=url; } catch(_) { window.location.href=url; }
-} else {
-  window.location.href=url;
-}
+showActionToast("✓ تم تسجيل طلبك بنجاح. ستصلك الأكواد بعد تأكيد التسليم من الإدارة.");
+try { if(typeof loadCustomerOrders === "function") await loadCustomerOrders(); } catch(_) {}
 } catch(error) {
-if(jokerWhatsAppTab && !jokerWhatsAppTab.closed) { try { jokerWhatsAppTab.close(); } catch(_) {} }
 console.error("JOKER PLUS checkout:",error);
 alert((error && error.message) || "تعذر إتمام الطلب. حاول مرة أخرى.");
-if(checkoutNode) {checkoutNode.disabled=false;checkoutNode.textContent="تأكيد الطلب بالموقع وإرساله عبر واتساب";}
+if(checkoutNode) {checkoutNode.disabled=false;checkoutNode.textContent="تأكيد الطلب";}
 }
 }
 function openSnapArcProductPage(event) {
@@ -2804,6 +2781,14 @@ try {
 const {data,error} = await supabaseClient.rpc("admin_list_orders");
 if(error) throw error;
 adminOrdersCache = data || [];
+// بعض إصدارات دالة الإدارة لا تعيد بيانات التواصل؛ ندمجها من سجل الطلب مباشرة.
+try {
+ const details = await supabaseClient.from("orders").select("*").order("created_at",{ascending:false}).limit(200);
+ if(!details.error && Array.isArray(details.data)) {
+  const byNo = new Map(details.data.map(function(o){return [String(o.order_number||""),o]}));
+  adminOrdersCache = adminOrdersCache.map(function(o){var d=byNo.get(String(o.order_number||""));return d?Object.assign({},o,d,{status:o.status||d.status}):o});
+ }
+} catch(_) {}
 renderAdminOrders();
 renderAdminDashboardStats();
 } catch(error) {
@@ -4598,8 +4583,57 @@ function readFile(ev){var f=ev.target.files&&ev.target.files[0];if(!f)return;var
 async function saveCodes(ev){ev.preventDefault();if(!isAdmin())return;var name=$('jkApName').value,raw=$('jkApText').value,seen={},codes=raw.split(/[\n\r,;\t]+/).map(x=>x.trim()).filter(x=>x.length>=3).filter(x=>{if(seen[x])return false;seen[x]=1;return true});var msg=$('jkApMsg'),btn=$('jkApSave'),tier=TIERS.find(t=>t.key===name);if(!tier){msg.textContent='اختر قائمة الأكواد أولاً.';return}if(!codes.length){msg.textContent='أضف الأكواد أولاً.';return}if(tier.pattern){var invalid=codes.filter(c=>!tier.pattern.test(c));if(invalid.length){msg.textContent='تنسيق '+tier.key+' غير صحيح. يجب أن يبدأ بـ '+tier.prefix+' ويتبعه 12 رقمًا بالضبط. مثال: '+tier.prefix+'123456789012. الأكواد المخالفة: '+invalid.slice(0,3).join('، ');return}}btn.disabled=true;msg.textContent='جارٍ إضافة الأكواد...';try{var added=0;for(var i=0;i<codes.length;i+=500){var rows=codes.slice(i,i+500).map(c=>({app_name:name,code:c,status:'available'}));var r=await supabaseClient.from(TABLE).upsert(rows,{onConflict:'code',ignoreDuplicates:true}).select('id');if(r.error)throw r.error;added+=(r.data||[]).length}msg.textContent='تمت إضافة '+added+' كود إلى مخزون '+name+(added<codes.length?' — تم تجاهل '+(codes.length-added)+' كود مكرر.':'');$('jkApText').value='';await loadAll()}catch(e){msg.textContent='تعذر إضافة الأكواد: '+(e.message||e)+' — تحقق من إعدادات app_plus_codes.'}finally{btn.disabled=false}}
 async function lookupOrder(){if(!isAdmin())return;var orderNo=$('jkApOrder').value.trim(),box=$('jkApPreview'),btn=$('jkApLookup');if(!orderNo){box.innerHTML='<p class="jk-ap-error">اكتب رقم الطلب أولاً.</p>';return}btn.disabled=true;btn.textContent='جارٍ البحث...';box.innerHTML='<p class="account-hint">جارٍ البحث عن الطلب وفحص الباقات والمخزون...</p>';try{var r=await supabaseClient.rpc('admin_list_orders');if(r.error)throw r.error;var order=(r.data||[]).find(function(o){return String(o.order_number||'').trim().toLowerCase()===orderNo.toLowerCase()});if(!order){box.innerHTML='<div class="jk-ap-order-card"><p class="jk-ap-error">لم يتم العثور على طلب بهذا الرقم.</p></div>';return}orderNo=String(order.order_number||orderNo).trim();var items=Array.isArray(order.items)?order.items:(Array.isArray(order.order_items)?order.order_items:[]),needs={};items.forEach(function(it){var tier=tierFromTitle(it.title||it.name||it.product_name||'');if(tier){needs[tier]=(needs[tier]||0)+Math.max(1,Number(it.quantity||it.qty||1)||1)}});var tiers=Object.keys(needs);if(!tiers.length){box.innerHTML='<div class="jk-ap-order-card"><strong>تم العثور على الطلب #'+esc(orderNo)+'</strong><p class="jk-ap-error">لم أستطع تحديد الفضية أو الذهبية أو البلاتينيوم من أسماء المنتجات في هذا الطلب.</p><small>المنتجات المسجلة: '+esc(items.map(x=>x.title||x.name||x.product_name||'').join('، ')||'لا توجد تفاصيل منتجات')+'</small></div>';return}var already=await supabaseClient.from(TABLE).select('id,app_name,code,status,order_number').eq('order_number',orderNo).eq('status','sold');if(already.error)throw already.error;var delivered=already.data||[];var lines=[],can=true,alloc={},genPool=null,genUsed={},genCredit=delivered.filter(function(x){return x.app_name==='عام'}).length;for(var i=0;i<tiers.length;i++){var tier=tiers[i],qty=needs[tier],done=delivered.filter(x=>x.app_name===tier).length,credit=Math.min(genCredit,Math.max(0,qty-done));genCredit-=credit;done+=credit;var remaining=Math.max(0,qty-done),stock=remaining?await supabaseClient.from(TABLE).select('id,code,app_name').eq('app_name',tier).eq('status','available').order('created_at',{ascending:true}).limit(remaining):{data:[],error:null};if(stock.error)throw stock.error;var own=(stock.data||[]).slice(0,remaining),short=remaining-own.length,extra=[];if(short>0){if(genPool===null){var g=await supabaseClient.from(TABLE).select('id,code,app_name').eq('app_name','عام').eq('status','available').order('created_at',{ascending:true}).limit(2000);if(g.error)throw g.error;genPool=g.data||[]}extra=genPool.filter(function(x){return !genUsed[x.id]}).slice(0,short);extra.forEach(function(x){genUsed[x.id]=1})}alloc[tier]=own.concat(extra);var enough=done>=qty||alloc[tier].length>=remaining;if(!enough)can=false;lines.push('<div class="jk-ap-line"><span>'+esc(tier)+' × '+qty+'</span><strong class="'+(enough?'jk-ap-success':'jk-ap-error')+'">'+(done>=qty?'تم تسليمها':own.length+' من '+esc(tier)+(extra.length?' + '+extra.length+' من العامة':'')+(enough?'':' · ناقص '+(remaining-alloc[tier].length)))+'</strong></div>')}var customer=order.full_name||order.email||'عميل';var html='<div class="jk-ap-order-card"><div><strong>الطلب #'+esc(orderNo)+'</strong><span class="jk-ap-tier">'+esc(customer)+'</span></div>'+lines.join('')+'<p class="account-hint">سيتم تسليم أكواد فئة كل منتج، وإذا نقص المخزون يُكمَّل من الأكواد العامة. وستظهر داخل «طلباتي» للعميل.</p>';if(delivered.length)html+='<div class="jk-ap-success">تم تسليم '+delivered.length+' كود لهذا الطلب مسبقاً.</div>';if(can&&tiers.some(t=>alloc[t].length>0))html+='<button type="button" class="jk-ap-deliver" id="jkApConfirm">تأكيد تسليم الأكواد المتبقية</button>';else if(!can)html+='<p class="jk-ap-error">المخزون غير كافٍ لإكمال التسليم. أضف الأكواد الناقصة أولاً.</p>';else html+='<p class="jk-ap-success">تم تسليم جميع الأكواد المطلوبة لهذا الطلب.</p>';html+='</div>';box.innerHTML=html;var confirmBtn=$('jkApConfirm');if(confirmBtn)confirmBtn.onclick=function(){deliverOrder(orderNo,alloc,confirmBtn)};
 }catch(e){box.innerHTML='<div class="jk-ap-order-card"><p class="jk-ap-error">تعذر فحص الطلب: '+esc(e.message||e)+'</p><small>تأكد من صلاحية دالة admin_list_orders.</small></div>'}finally{btn.disabled=false;btn.textContent='فحص الطلب'}}
-async function deliverOrder(orderNo,alloc,btn){if(!isAdmin())return;var ids=[];Object.keys(alloc).forEach(function(k){(alloc[k]||[]).forEach(function(x){ids.push(x.id)})});if(!ids.length)return;if(!confirm('تأكيد تسليم '+ids.length+' كود للطلب #'+orderNo+'؟'))return;btn.disabled=true;btn.textContent='جارٍ التسليم...';try{var r=await supabaseClient.from(TABLE).update({status:'sold',order_number:orderNo,assigned_at:new Date().toISOString()}).in('id',ids).eq('status','available').select('id');if(r.error)throw r.error;if((r.data||[]).length!==ids.length)throw new Error('تغير المخزون أثناء التسليم. حدّث البيانات وافحص الطلب مرة أخرى.');var note='';try{var st=await supabaseClient.rpc('admin_set_order_status',{p_order_number:orderNo,p_status:'تم التنفيذ'});if(st.error)throw st.error;var chk=await supabaseClient.rpc('admin_list_orders');if(chk.error)throw chk.error;var cur=(chk.data||[]).find(function(o){return String(o.order_number)===String(orderNo)});if(!cur||String(cur.status||'').trim()!=='تم التنفيذ')throw new Error('الحالة ما تغيرت في قاعدة البيانات، تأكد من دالة admin_set_order_status');if(typeof adminOrdersCache!=='undefined')adminOrdersCache.forEach(function(o){if(String(o.order_number)===String(orderNo))o.status='تم التنفيذ'});if(typeof renderAdminOrders==='function')renderAdminOrders();if(typeof renderAdminDashboardStats==='function')renderAdminDashboardStats();note=' وتم تحويل حالة الطلب إلى «تم التنفيذ» تلقائياً.'}catch(e2){note=' لكن تعذر تحويل الحالة تلقائياً ('+esc(e2.message||e2)+')، غيّرها يدوياً.'}$('jkApPreview').innerHTML='<div class="jk-ap-order-card"><p class="jk-ap-success">تم تسليم '+ids.length+' كود بنجاح للطلب #'+esc(orderNo)+'، وأصبحت الأكواد مرتبطة بالطلب.'+note+'</p></div>';await loadAll()}catch(e){$('jkApPreview').innerHTML='<div class="jk-ap-order-card"><p class="jk-ap-error">تعذر إكمال التسليم: '+esc(e.message||e)+'</p></div>'} }
-if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',addUI);else addUI();
+async function deliverOrder(orderNo,alloc,btn){
+if(!isAdmin())return;
+var ids=[],newCodes=[];
+Object.keys(alloc).forEach(function(k){(alloc[k]||[]).forEach(function(x){ids.push(x.id);if(x.code)newCodes.push({app_name:x.app_name||k,code:x.code})})});
+if(!ids.length)return;
+if(!confirm('تأكيد تسليم '+ids.length+' كود للطلب #'+orderNo+'؟\nبعد التأكيد ستظهر الأكواد للعميل وسيتم تجهيز رسالة واتساب له.'))return;
+// فتح النافذة مباشرة من ضغطة المدير لتفادي حظر Safari بعد انتهاء عمليات قاعدة البيانات.
+var waTab=null;try{waTab=window.open('about:blank','_blank');if(waTab&&waTab.document){waTab.document.write('<!doctype html><html lang="ar" dir="rtl"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>JOKER PLUS</title><body style="margin:0;min-height:100vh;display:grid;place-items:center;background:#100b18;color:#f5eaff;font:700 18px Arial;text-align:center"><div>🃏<br><br>JOKER PLUS<br><small style="font-size:13px;color:#c49be5">جارٍ تجهيز رسالة واتساب للعميل...</small></div></body></html>');waTab.document.close()}}catch(_){}
+btn.disabled=true;btn.textContent='جارٍ تسليم الأكواد...';
+try{
+ var r=await supabaseClient.from(TABLE).update({status:'sold',order_number:orderNo,assigned_at:new Date().toISOString()}).in('id',ids).eq('status','available').select('id');
+ if(r.error)throw r.error;
+ if((r.data||[]).length!==ids.length)throw new Error('تغير المخزون أثناء التسليم. حدّث البيانات وافحص الطلب مرة أخرى.');
+ var note='',orderData=(typeof adminOrdersCache!=='undefined'?adminOrdersCache:[]).find(function(o){return String(o.order_number)===String(orderNo)})||{};
+ try{
+   var st=await supabaseClient.rpc('admin_set_order_status',{p_order_number:orderNo,p_status:'تم التنفيذ'});
+   if(st.error)throw st.error;
+   var chk=await supabaseClient.rpc('admin_list_orders');if(chk.error)throw chk.error;
+   var cur=(chk.data||[]).find(function(o){return String(o.order_number)===String(orderNo)});
+   if(!cur||String(cur.status||'').trim()!=='تم التنفيذ')throw new Error('الحالة ما تغيرت في قاعدة البيانات، تأكد من دالة admin_set_order_status');
+   orderData=cur;
+   if(typeof adminOrdersCache!=='undefined')adminOrdersCache.forEach(function(o){if(String(o.order_number)===String(orderNo))Object.assign(o,cur,{status:'تم التنفيذ'})});
+   if(typeof renderAdminOrders==='function')renderAdminOrders();
+   if(typeof renderAdminDashboardStats==='function')renderAdminDashboardStats();
+   note=' وتم تحديث حالة الطلب إلى «تم التنفيذ».';
+ }catch(e2){note=' لكن تعذر تحديث حالة الطلب تلقائياً ('+esc(e2.message||e2)+').';}
+ // جلب بيانات العميل مباشرة من سجل الطلب، لأن بعض نسخ RPC لا تعيد حقول الاتصال.
+ try{var od=await supabaseClient.from('orders').select('order_number,full_name,email,phone,total,items,user_id').eq('order_number',orderNo).maybeSingle();if(!od.error&&od.data)orderData=Object.assign({},orderData,od.data)}catch(_){}
+ // تحديث نسخة الطلبات الإدارية محلياً حتى تظهر معلومات العميل في الفاتورة فوراً.
+ if(typeof adminOrdersCache!=='undefined')adminOrdersCache.forEach(function(o){if(String(o.order_number)===String(orderNo))Object.assign(o,orderData,{status:'تم التنفيذ'})});
+ if(typeof renderAdminOrders==='function')renderAdminOrders();
+ var phoneRaw=String(orderData.phone||orderData.customer_phone||'').trim();
+ var phone=phoneRaw.replace(/[^0-9]/g,'');
+ if(phone.length===8)phone='965'+phone;
+ if(phone.indexOf('00')===0)phone=phone.slice(2);
+ var customerName=String(orderData.full_name||orderData.customer_name||orderData.name||'عميلنا العزيز');
+ var customerEmail=String(orderData.email||orderData.customer_email||'غير مسجل');
+ var customerPhone=phoneRaw||'غير مسجل';
+ var itemRows=Array.isArray(orderData.items)?orderData.items:(Array.isArray(orderData.order_items)?orderData.order_items:[]);
+ var itemText=itemRows.map(function(it){return '• '+(it.title||it.name||it.product_name||'منتج')+' × '+(it.quantity||it.qty||1)}).join('\n')||'حسب الطلب المسجل';
+ var codeText=newCodes.map(function(c){return '• '+(c.app_name||'الكود')+': '+c.code}).join('\n');
+ var total=Number(orderData.total||orderData.total_amount||0);
+ var message='السلام عليكم '+customerName+' 🌟\n\nتم تأكيد تسليم طلبك من متجر JOKER PLUS بنجاح!\n\nرقم الطلب: #'+orderNo+'\nاسم العميل: '+customerName+'\nالبريد الإلكتروني: '+customerEmail+'\nرقم الهاتف: '+customerPhone+'\n\nتفاصيل الطلب:\n'+itemText+'\n\nالأكواد التي تم تسليمها الآن:\n'+(codeText||'تم ربط الأكواد بحسابك في الموقع. يرجى الدخول إلى «طلباتي» لعرضها.')+'\n\n'+(Number.isFinite(total)&&total>0?'إجمالي الطلب: '+total.toFixed(3)+' د.ك\n':'')+'حالة الطلب: تم التنفيذ ✅\n\nشكراً لثقتك بـ JOKER PLUS 🃏';
+ var waUrl=phone.length>=8?'https://wa.me/'+phone+'?text='+encodeURIComponent(message):'';
+ var waButton=waUrl?'<a class="jk-ap-deliver" style="display:inline-flex;text-decoration:none;align-items:center;justify-content:center;margin-top:10px" href="'+esc(waUrl)+'" target="_blank" rel="noopener noreferrer">فتح واتساب وإرسال تفاصيل الطلب للعميل</a>':'<p class="jk-ap-error">تم التسليم، لكن رقم هاتف العميل غير محفوظ في الطلب؛ حدّث رقم العميل ثم أعد إرسال رسالة واتساب.</p>';
+ if(waUrl&&waTab&&!waTab.closed){try{waTab.location.replace(waUrl)}catch(_){waTab.close();}}
+ else if(waTab&&!waUrl){try{waTab.close()}catch(_){}}
+ $('jkApPreview').innerHTML='<div class="jk-ap-order-card"><p class="jk-ap-success">✅ تم تسليم '+ids.length+' كود بنجاح للطلب #'+esc(orderNo)+'، والأكواد أصبحت مرتبطة بالطلب وتظهر للعميل في «طلباتي».'+note+'</p>'+waButton+'<p class="account-hint">إذا لم يفتح واتساب تلقائياً، اضغط الزر أعلاه. بعد فتح المحادثة اضغط «إرسال» داخل واتساب.</p></div>';
+ await loadAll();
+}catch(e){if(waTab&&!waTab.closed){try{waTab.close()}catch(_){}}$('jkApPreview').innerHTML='<div class="jk-ap-order-card"><p class="jk-ap-error">تعذر إكمال التسليم: '+esc(e.message||e)+'</p></div>'}
+}
 })();
 </script>
 
