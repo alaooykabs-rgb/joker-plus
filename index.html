@@ -4469,7 +4469,20 @@ function addUI(){
   $('jkApOrder').addEventListener('keydown',function(e){if(e.key==='Enter'){e.preventDefault();lookupOrder()}});
   var timer;$('jkApSearch').addEventListener('input',function(){clearTimeout(timer);timer=setTimeout(loadList,300)});$('jkApFilter').addEventListener('change',loadList);$('jkApNameFilter').addEventListener('change',loadList);$('jkApList').addEventListener('click',rowAction);
 }
-window.showAppPlusCodes=function(){if(!isAdmin())return;var ids=['adminOrdersSection','adminCouponsSection','adminReviewsSection','adminProductsSection','adminBannersSection','adminCodesSection','adminAppPlusCodesSection'];ids.forEach(function(id){var n=$(id);if(n)n.hidden=id!=='adminAppPlusCodesSection'});var tabs=['adminOrdersTab','adminCouponsTab','adminReviewsTab','adminProductsTab','adminBannersTab','adminCodesTab','adminAppPlusCodesTab'];tabs.forEach(function(id){var n=$(id);if(n){var on=id==='adminAppPlusCodesTab';n.classList.toggle('active',on);n.setAttribute('aria-selected',on?'true':'false')}});loadAll()};
+/* إنشاء قسم أكواد تطبيقات بلس عند تحميل لوحة الإدارة */
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',addUI);
+else addUI();
+window.showAppPlusCodes=function(){
+  if(!isAdmin())return;
+  if(!$('adminAppPlusCodesSection'))addUI();
+  var section=$('adminAppPlusCodesSection');
+  if(!section)return;
+  var ids=['adminOrdersSection','adminCouponsSection','adminReviewsSection','adminProductsSection','adminBannersSection','adminCodesSection','adminAppPlusCodesSection'];
+  ids.forEach(function(id){var n=$(id);if(n)n.hidden=id!=='adminAppPlusCodesSection'});
+  var tabs=['adminOrdersTab','adminCouponsTab','adminReviewsTab','adminProductsTab','adminBannersTab','adminCodesTab','adminAppPlusCodesTab'];
+  tabs.forEach(function(id){var n=$(id);if(n){var on=id==='adminAppPlusCodesTab';n.classList.toggle('active',on);n.setAttribute('aria-selected',on?'true':'false')}});
+  loadAll();
+};
 async function loadStock(){var box=$('jkApStock'),warn=$('jkApWarn');if(!box)return;var r=await supabaseClient.from(TABLE).select('app_name,status');if(r.error){box.innerHTML='';warn.innerHTML='<div class="jk-sc-warn">تعذر قراءة جدول أكواد تطبيقات بلس. تحقق من إعدادات SQL والصلاحيات.<br><small dir="ltr">'+esc(r.error.message||r.error.code)+'</small></div>';return}var rows=r.data||[];box.innerHTML=TIERS.map(function(t){var available=rows.filter(x=>x.app_name===t.key&&x.status==='available').length,sold=rows.filter(x=>x.app_name===t.key&&x.status==='sold').length;return '<div class="jk-sc-card"><span>'+esc(t.label)+'</span><strong>'+available+'</strong><small>متوفر · '+sold+' تم تسليمه</small></div>'}).join('');warn.innerHTML=''}
 async function loadList(){var box=$('jkApList');if(!box)return;var q=($('jkApSearch').value||'').replace(/[%,()*\\]/g,'').trim(),st=$('jkApFilter').value,nf=$('jkApNameFilter').value;var query=supabaseClient.from(TABLE).select('id,app_name,code,status,order_number,created_at,assigned_at').order('created_at',{ascending:false}).limit(500);if(st!=='all')query=query.eq('status',st);if(nf!=='all')query=query.eq('app_name',nf);if(q)query=query.or('app_name.ilike.%'+q+'%,code.ilike.%'+q+'%,order_number.ilike.%'+q+'%');var r=await query;if(r.error){box.innerHTML='<p class="account-hint">تعذر تحميل الأكواد: '+esc(r.error.message||r.error.code)+'</p>';return}var rows=r.data||[];if(!rows.length){box.innerHTML='<p class="account-hint">لا توجد أكواد مطابقة.</p>';return}box.innerHTML=rows.map(function(c){var acts='';if(c.status==='available')acts='<button type="button" data-act="move" data-id="'+esc(c.id)+'" data-category="'+esc(c.app_name)+'">نقل الفئة</button><button type="button" data-act="damage" data-id="'+esc(c.id)+'">تالف</button><button type="button" class="danger" data-act="delete" data-id="'+esc(c.id)+'">حذف</button>';else if(c.status==='sold')acts='<button type="button" class="jk-sc-row-revoke" data-act="revoke" data-id="'+esc(c.id)+'">إلغاء التسليم</button>';else if(c.status==='damaged')acts='<button type="button" data-act="restore" data-id="'+esc(c.id)+'">إرجاع للمخزون</button><button type="button" class="danger" data-act="delete" data-id="'+esc(c.id)+'">حذف</button>';return '<div class="jk-sc-row"><code>'+esc(c.code)+'</code><span class="jk-sc-badge '+esc(c.status)+'">'+esc(({available:'متوفر',sold:'تم التسليم',damaged:'تالف'}[c.status]||c.status))+'</span><small>'+esc(c.app_name)+'</small>'+(c.order_number?'<small class="jk-ap-order-ref">طلب #'+esc(c.order_number)+'</small>':'')+'<button type="button" data-act="copy" data-code="'+esc(c.code)+'">نسخ</button>'+acts+'</div>'}).join('')}
 async function loadAll(){if(!isAdmin())return;await loadStock();await loadList();await loadMoves()}
@@ -4570,11 +4583,14 @@ window.jkApOrderHasPackage=function(o){
 };
 window.jkApDeliverFromOrder=function(no){
   if(!isAdmin())return;
+  if(!$('adminAppPlusCodesSection'))addUI();
   showAppPlusCodes();
-  var inp=$('jkApOrder');if(!inp)return;
+  var inp=$('jkApOrder');
+  if(!inp)return;
   inp.value=String(no||'');
+  var section=$('adminAppPlusCodesSection');
+  if(section&&section.scrollIntoView)section.scrollIntoView({behavior:'smooth',block:'start'});
   lookupOrder();
-  var box=$('jkApPreview');if(box&&box.scrollIntoView)box.scrollIntoView({behavior:'smooth',block:'center'});
 };
 /* ===== نهاية النقل ===== */
 
