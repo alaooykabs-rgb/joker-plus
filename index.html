@@ -1452,18 +1452,10 @@ function jokerScrollToCollection(sectionId){
  if(target){target.scrollIntoView({behavior:"smooth",block:"start"});target.classList.remove("joker-cinematic-focus");void target.offsetWidth;target.classList.add("joker-cinematic-focus");window.setTimeout(()=>target.classList.remove("joker-cinematic-focus"),1500);}
 }
 
-function openJokerGameWorld(){
-  const target=document.querySelector(".section-gamezone");
-  if(!target){
-    const main=document.querySelector("main");
-    if(main) main.scrollIntoView({behavior:"smooth",block:"start"});
-    return;
-  }
-  target.scrollIntoView({behavior:"smooth",block:"center"});
-  target.classList.remove("joker-cinematic-focus");
-  void target.offsetWidth;
-  target.classList.add("joker-cinematic-focus");
-  window.setTimeout(()=>target.classList.remove("joker-cinematic-focus"),1500);
+function openJokerGameWorld(event){
+  // زر "ادخل إلى عالم الألعاب" يفتح صفحة المنتجات مباشرة بدلاً من
+  // الاكتفاء بالتمرير إلى بطاقة القسم في الصفحة الرئيسية.
+  openGameZoneProductsPage(event);
 }
 function openJokerPrivateShowroom(){
  renderJokerShowroom();
