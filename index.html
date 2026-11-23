@@ -112,6 +112,27 @@ var showJokerPendingNotice = window.showJokerPendingNotice = function(openCartPa
 .joker-game-banner-hint b{font-size:17px;color:#e3c2ff}
 .joker-game-banner:active{filter:brightness(1.12);transform:scale(.995)}
 @media(max-width:520px){.joker-game-banner{margin:10px 0 14px}.joker-game-banner-hint{padding:6px 10px;gap:6px;font-size:10px}}
+
+/* GTA 6: readable feature cards and a separate warranty panel */
+.gta6-description-layout{display:flex;flex-direction:column;gap:14px;margin:10px 0 14px;text-align:right}
+.gta6-intro-card{padding:13px 14px;border:1px solid #674080;border-radius:13px;background:linear-gradient(145deg,#241431,#15101d)}
+.gta6-intro-card p{margin:0;color:#eee1f7;font-size:13px;line-height:1.9}
+.gta6-features h3,.gta6-warranty h3{margin:0;color:#f1d9ff;font-size:15px;font-weight:900}
+.gta6-feature-list{display:flex;flex-direction:column;gap:9px;margin-top:9px}
+.gta6-feature-card{display:flex;align-items:flex-start;gap:11px;padding:12px;border:1px solid #57336f;border-radius:12px;background:linear-gradient(120deg,#21132e,#15101b);min-width:0}
+.gta6-feature-number{display:flex;flex:0 0 27px;width:27px;height:27px;align-items:center;justify-content:center;border-radius:9px;background:#35105c;border:1px solid #9868b8;color:#f5dcff;font-size:12px;font-weight:900}
+.gta6-feature-card strong{display:block;margin:0 0 3px;color:#f3dfff;font-size:13px}
+.gta6-feature-card p{margin:0;color:#d5c5df;font-size:12px;line-height:1.75;overflow-wrap:anywhere}
+.gta6-warranty{padding:14px;border:1px solid #9b465d;border-radius:14px;background:linear-gradient(145deg,#29131f,#171018);box-shadow:inset 0 1px 0 #ffffff0b}
+.gta6-warranty-heading{display:flex;align-items:center;gap:10px;padding-bottom:11px;border-bottom:1px solid #ffffff18}
+.gta6-warranty-heading>span{display:flex;flex:0 0 30px;width:30px;height:30px;align-items:center;justify-content:center;border-radius:50%;background:#6b2035;color:#fff;font-weight:900}
+.gta6-warranty-heading p{margin:3px 0 0;color:#cdb7c3;font-size:11px;line-height:1.6}
+.gta6-warranty ol{display:flex;flex-direction:column;gap:8px;margin:12px 0 0;padding:0 22px 0 0;color:#f0dfe6;font-size:12px;line-height:1.8}
+.gta6-warranty li{padding-right:3px}
+.gta6-warranty li::marker{color:#e49aaf;font-weight:900}
+.gta6-warranty-note{margin-top:12px;padding:10px 11px;border-right:3px solid #d45b77;border-radius:8px;background:#6b203522;color:#ffdce5;font-size:11px;line-height:1.8;font-weight:700}
+@media(max-width:380px){.gta6-intro-card,.gta6-warranty{padding:11px}.gta6-feature-card{padding:10px;gap:9px}.gta6-feature-card p,.gta6-warranty ol{font-size:11px}}
+
 </style>
 <style id="joker-iphone-safe-enhancements">html{min-height: 100%;-webkit-text-size-adjust: 100%;text-size-adjust: 100%;scroll-padding-top: calc(env(safe-area-inset-top,0px) + 16px);scroll-padding-bottom: calc(env(safe-area-inset-bottom,0px) + 16px)}body{min-height: 100vh;min-height: 100svh;padding-top: env(safe-area-inset-top,0px);padding-bottom: calc(100px + env(safe-area-inset-bottom,0px));-webkit-overflow-scrolling: touch}.joker-tools{top: calc(env(safe-area-inset-top,0px) + 12px)!important}.joker-bottom-nav{bottom: calc(env(safe-area-inset-bottom,0px) + 8px)!important}.joker-float-support{bottom: calc(82px + env(safe-area-inset-bottom,0px))!important}img,video,canvas,svg{max-width: 100%}.product-gallery,.product-gallery-main,.product-gallery-thumbs,.product-gallery-thumb,.region-img{min-width: 0}.product-gallery-main{width: 100%;max-width: 100%;height: clamp(120px,34vw,220px);object-fit: contain;object-position: center}.product-gallery-thumb img,.app-icon img,.region-img img{max-width: 100%}.package-card{position: relative;isolation: isolate;border-color: #68458a;box-shadow: 0 12px 28px #0007,0 0 0 1px #a77ad018,0 0 20px #35105c35,inset 0 1px 0 #ffffff12}.package-card::after{content: "";position: absolute;inset: 0;border-radius: inherit;pointer-events: none;z-index: -1;opacity: .55;box-shadow: inset 0 0 24px #a77ad014,0 0 24px #a77ad018}.package-card:hover,.package-card:focus-within{border-color: #a77ad0;box-shadow: 0 16px 35px #0008,0 0 0 1px #a77ad044,0 0 26px #a77ad044,inset 0 1px 0 #ffffff18}@media (max-width: 360px){.packages-grid{grid-template-columns: minmax(0,1fr)}.package-card{padding-inline: 13px}.joker-bottom-nav{left: 6px!important;right: 6px!important}.joker-bottom-nav .nav-item{min-width: 0;font-size: 10px}.joker-tools{max-width: calc(100vw - 20px)}.product-gallery-main{height: 118px}}button,a,input,select,textarea,summary{-webkit-tap-highlight-color: transparent}input,select,textarea{max-width: 100%;scroll-margin-top: calc(env(safe-area-inset-top,0px) + 16px)}@media (prefers-reduced-motion: reduce){.package-card,.package-card::after{transition: none!important;animation: none!important}}</style>
 <style id="joker-signature-touches">.header-emblem{position: relative;overflow: visible;isolation: isolate}.header-emblem::before{content: "";position: absolute;z-index: 5;width: 5px;height: max(260px,calc(100vh + 30px));left: 50%;top: max(-260px,-100vh);transform: translateX(-50%);border-radius: 0 0 4px 4px;background: linear-gradient(90deg,#650000,#e00000 45%,#8b0000);box-shadow: 0 0 5px #e0000066;pointer-events: none}body{background-image: radial-gradient(ellipse at 18% 22%,#54247a30 0%,transparent 42%),radial-gradient(ellipse at 84% 58%,#a6192e16 0%,transparent 38%),radial-gradient(ellipse at 50% -15%,#28113d 0,transparent 48%),linear-gradient(#09080c,#09080c);background-size: 155% 155%,160% 160%,100% 100%,100% 100%;background-position: 0% 15%,100% 70%,center top,center;background-repeat: no-repeat;animation: jokerRoyalAtmosphere 20s ease-in-out infinite alternate}@keyframes jokerRoyalAtmosphere{0%{background-position: 0% 15%,100% 70%,center top,center}50%{background-position: 45% 55%,55% 30%,center top,center}100%{background-position: 100% 35%,0% 80%,center top,center}}.joker-reveal{opacity: 1;transform: none}body.joker-motion-ready .joker-reveal{opacity: 0;transform: translateY(16px);transition: opacity .65s ease,transform .65s cubic-bezier(.2,.7,.2,1);will-change: opacity,transform}body.joker-motion-ready .joker-reveal.joker-revealed{opacity: 1;transform: translateY(0);will-change: auto}.joker-touch-flash{position: fixed;z-index: 2147483000;width: 34px;height: 34px;margin: -17px 0 0 -17px;border-radius: 50%;pointer-events: none;background: radial-gradient(circle,#f3e5ffb8 0%,#a77ad066 34%,#35105c00 74%);box-shadow: 0 0 18px #a77ad066;animation: jokerTouchFlash .48s ease-out forwards}@keyframes jokerTouchFlash{0%{opacity: .9;transform: scale(.35)}65%{opacity: .45;transform: scale(2.1)}100%{opacity: 0;transform: scale(2.8)}}@media (prefers-reduced-motion: reduce){body{animation: none!important}body.joker-motion-ready .joker-reveal{opacity: 1;transform: none;transition: none}.joker-touch-flash{display: none!important}}</style>
@@ -2420,6 +2441,30 @@ function openSnapArcPackageDetail(index) {
   if(page) window.scrollTo({top:0,behavior:"smooth"});
 }
 
+
+function renderGameZoneDescription(raw) {
+  const lines = String(raw || "").split(/\r?\n/).map(line => line.trim()).filter(Boolean);
+  const features = [];
+  const warranty = [];
+  let intro = [];
+  let inWarranty = false;
+  let note = "";
+  lines.forEach(line => {
+    if (/شروط وأحكام الضمان/.test(line)) { inWarranty = true; return; }
+    if (/ملاحظة:/.test(line)) { note = line.replace(/^\(?ملاحظة:\s*/, "").replace(/\)?$/, ""); return; }
+    if (inWarranty) warranty.push(line.replace(/^\d+[.)]\s*/, ""));
+    else if (/^[⚡🔒🎮]/.test(line)) {
+      const parts = line.replace(/^[⚡🔒🎮]\s*/, "").split(/:\s*/);
+      features.push({ title: parts.shift() || "ميزة", text: parts.join(": ") });
+    } else intro.push(line);
+  });
+  return `<div class="gta6-description-layout">
+    ${intro.length ? `<div class="gta6-intro-card">${intro.map(line => `<p>${escapeHTML(line)}</p>`).join("")}</div>` : ""}
+    ${features.length ? `<section class="gta6-features" aria-label="مميزات اللعبة"><h3>مميزات العرض</h3><div class="gta6-feature-list">${features.map((item,index) => `<div class="gta6-feature-card"><span class="gta6-feature-number">${index + 1}</span><div><strong>${escapeHTML(item.title)}</strong><p>${escapeHTML(item.text)}</p></div></div>`).join("")}</div></section>` : ""}
+    ${warranty.length ? `<section class="gta6-warranty"><div class="gta6-warranty-heading"><span>!</span><div><h3>شروط الضمان</h3><p>يرجى قراءة الشروط والالتزام بها للمحافظة على الضمان</p></div></div><ol>${warranty.map(line => `<li>${escapeHTML(line)}</li>`).join("")}</ol>${note ? `<div class="gta6-warranty-note">${escapeHTML(note)}</div>` : ""}</section>` : ""}
+  </div>`;
+}
+
 function createService(item,opts) {
 const compact = !!(opts && opts.compact);
 const detail = !!(opts && opts.detail);
@@ -2428,7 +2473,7 @@ const title = String(item.title || "منتج من JOKER PLUS");
 const price = String(item.price ?? "");
 const descriptionMarkup = item.description ? (item.description_on_click && !detail
 ? `<button class="product-description-toggle" type="button" onclick="openGameZoneProductDetails('${escapeHTML(String(item.id ?? ""))}',event)">عرض تفاصيل الباقة</button>`
-: (detail || !isSnapArc ? `<div class="service-description">${escapeHTML(item.description)}</div>` : "")) : "";
+: (detail || !isSnapArc ? (String(item.id || "") === "joker-gta6-primary-account" ? renderGameZoneDescription(item.description) : `<div class="service-description">${escapeHTML(item.description)}</div>`) : "")) : "";
 if(isSnapArc && !detail) return "";
 return `
 <div class="service" id="product-${escapeHTML(String(item.id ?? title))}" data-product-id="${escapeHTML(String(item.id ?? ""))}" ${isSnapArc && detail ? 'data-detail="true"' : ""}>
