@@ -909,6 +909,17 @@ window.addEventListener("pageshow", attachBottomNav);
 <div class="services" id="regionItems"></div>
 </section>
 </div>
+<div id="gameZoneProductsPage" class="info-page" hidden>
+<div class="packages-page-top">
+<button class="packages-back-button" type="button" onclick="closeInfoPage()">→ رجوع للمتجر</button>
+<div class="packages-page-brand">JOKER PLUS 🃏</div>
+</div>
+<section class="info-panel">
+<h1 id="gameZoneProductsTitle">عالم الألعاب</h1>
+<p class="section-description">اختر اللعبة والباقة المناسبة لك</p>
+<div class="services gamezone-product-grid" id="gameZoneProducts"></div>
+</section>
+</div>
 <div id="faqPage" class="info-page" hidden>
 <div class="packages-page-top">
 <button class="packages-back-button" type="button" onclick="closeInfoPage()">→ رجوع للمتجر</button>
@@ -1420,7 +1431,7 @@ function renderJokerCommandCenter(){
  if(activity){const rows=Array.isArray(adminOrdersCache)?adminOrdersCache:[];if(rows.length){const latest=rows.slice().sort((a,b)=>new Date(b.created_at||0)-new Date(a.created_at||0))[0];activity.textContent="آخر نشاط مسجل: الطلب #"+String(latest.order_number||"—")+" · "+String(latest.status||"حالة غير محددة");}else{activity.textContent="لا توجد طلبات مسجلة لعرض نشاط حديث.";}}
 }
 function openInfoPage(pageId) {
-["storePage","packagesPage","noticePage","faqPage","refundPage","ordersPage","searchPage","adminPage","storeRegionsPage","storeRegionItemsPage","jokerPrivateShowroomPage","snapArcProductPage"].forEach(id => {
+["storePage","packagesPage","noticePage","faqPage","refundPage","ordersPage","searchPage","adminPage","storeRegionsPage","storeRegionItemsPage","jokerPrivateShowroomPage","snapArcProductPage","gameZoneProductsPage"].forEach(id => {
 const node = document.getElementById(id);
 if(node) node.hidden = id !== pageId;
 });
@@ -1431,7 +1442,7 @@ if(corridor){corridor.classList.remove("is-active");void corridor.offsetWidth;co
 window.scrollTo({top:0,behavior:"instant"});
 }
 function closeInfoPage() {
-["packagesPage","noticePage","faqPage","refundPage","ordersPage","searchPage","adminPage","storeRegionsPage","storeRegionItemsPage","jokerPrivateShowroomPage","snapArcProductPage"].forEach(id => {
+["packagesPage","noticePage","faqPage","refundPage","ordersPage","searchPage","adminPage","storeRegionsPage","storeRegionItemsPage","jokerPrivateShowroomPage","snapArcProductPage","gameZoneProductsPage"].forEach(id => {
 const node = document.getElementById(id);
 if(node) node.hidden = true;
 });
@@ -2439,13 +2450,7 @@ onclick="addToCartFromButton(this,event)">
 <button type="button" aria-label="تنقيص منتج" onclick="changeProductCardQuantity(this,-1)">−</button>
 </div>
 </div>
-<a class="buy-button" style="margin-top:8px" href="${whatsappLink(item)}" target="_blank" rel="noopener noreferrer" onclick="return orderLinkClick(event)">
-اطلب الآن عبر واتساب
-</a>`)}
-<button class="product-share-btn" type="button"
-data-product-id="${escapeHTML(String(item.id ?? ""))}"
-data-product-title="${escapeHTML(title)}"
-onclick="shareProduct(this)">↗ مشاركة المنتج</button>
+`)}
 </div>
 `;
 }
@@ -2454,6 +2459,11 @@ const card = event.target && event.target.closest ? event.target.closest('.secti
 if(card && (event.key === "Enter" || event.key === " ")) {
 event.preventDefault();
 openSnapArcProductPage(event);
+}
+const gameZoneCard = event.target && event.target.closest ? event.target.closest('.section-card.section-gamezone[role="button"]') : null;
+if(gameZoneCard && (event.key === "Enter" || event.key === " ")) {
+event.preventDefault();
+openGameZoneProductsPage(event);
 }
 });
 
@@ -2466,6 +2476,8 @@ ${section.id === "apps"
 ? 'onclick="openPlusPackages(event)"'
 : section.id === "store"
 ? 'onclick="openStoreRegions(event)"'
+: section.id === "gamezone"
+? 'role="button" tabindex="0" aria-label="فتح منتجات عالم الألعاب" onclick="openGameZoneProductsPage(event)"'
 : section.id === "games"
 ? 'role="button" tabindex="0" aria-label="فتح قسم سناب بلس" onclick="openSnapArcProductPage(event)"'
 : (!sectionItems.length ? 'onclick="openUnavailableSection(event)"' : '')}>
@@ -2474,7 +2486,7 @@ ${createPhone(section,sectionImage?.image_url)}
 <p class="section-description">${escapeHTML(section.id === "games" ? "الباقات اليومية والأسبوعية والشهرية" : section.description)}</p>
 <div class="services">
 ${
-sectionItems.length && section.id !== "store" && section.id !== "games"
+sectionItems.length && section.id !== "store" && section.id !== "games" && section.id !== "gamezone"
 ? sectionItems.map(createService).join("")
 : ""
 }
@@ -2630,6 +2642,13 @@ if(!items.some(item => String(item.id) === gta6PrimaryOffer.id)) items.push(gta6
 
 const images = imagesResult.data || [];
 storeItemsCache = items.concat(typeof PSN_USA_PRODUCTS !== "undefined" ? PSN_USA_PRODUCTS : []).concat(typeof PSN_KUWAIT_PRODUCTS !== "undefined" ? PSN_KUWAIT_PRODUCTS : []);
+const gameZoneBox = document.getElementById("gameZoneProducts");
+if(gameZoneBox) {
+const gameZoneProducts = storeItemsCache.filter(item => String(item.section_key || "") === "gamezone" && item.active !== false);
+gameZoneBox.innerHTML = gameZoneProducts.length
+? gameZoneProducts.map(item => createService(item,{compact:true})).join("")
+: '<p class="account-hint">لا توجد منتجات في عالم الألعاب حالياً.</p>';
+}
 container.innerHTML = sectionsData.map(section =>
 createSection(section,items,images)
 ).join("");
@@ -3147,6 +3166,18 @@ const key = normalizeSearchText(k);
 if(/^[a-z]+$/.test(key)) return new RegExp("(^|[^a-z])" + key + "([^a-z]|$)").test(text);
 return text.indexOf(key) !== -1;
 });
+}
+function openGameZoneProductsPage(event) {
+if(event) { event.preventDefault(); event.stopPropagation(); }
+const box = document.getElementById("gameZoneProducts");
+if(!box) return;
+const products = storeItemsCache.filter(item => String(item.section_key || "") === "gamezone" && item.active !== false);
+box.innerHTML = products.length
+? products.map(item => createService(item,{compact:true})).join("")
+: '<p class="account-hint">لا توجد منتجات في عالم الألعاب حالياً.</p>';
+optimizeStoreImages(box);
+openInfoPage("gameZoneProductsPage");
+if(typeof syncCartAddButtons === "function") syncCartAddButtons();
 }
 function openStoreRegions(event) {
 if(event && event.target.closest("a,button,summary,details")) return;
@@ -4681,22 +4712,22 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
 
 
 <style id="joker-order-done-style">#jokerDoneToast{position:fixed;top:max(14px,env(safe-area-inset-top));left:50%;transform:translateX(-50%);z-index:100000;max-width:92vw;padding:12px 18px;border:1px solid #c49be5;border-radius:16px;background:linear-gradient(120deg,#57227d,#8b4cb5);color:#fff;font:800 13px/1.6 Arial,sans-serif;text-align:center;box-shadow:0 12px 35px #000a;cursor:pointer}#jokerDoneToast[hidden]{display:none}.admin-order-done{opacity:.55;filter:grayscale(1);border-color:#555!important}.admin-order-done:hover{opacity:.85}.admin-order-donetag{display:inline-block;margin:6px 0;padding:3px 10px;border-radius:999px;background:#3a3a3a;color:#d6d6d6;font-size:11px;font-weight:800}
-/* GTA VI game-zone two-up square offer cards */
-.section-gamezone .services{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;align-items:start}
-.section-gamezone .service{min-width:0;padding:10px 0 0;border-top:1px solid #3a244b}
-.section-gamezone .product-gallery{margin:8px 0;padding:5px;border-color:#5a2d78;border-radius:12px}
-.section-gamezone .product-gallery-main{height:auto;aspect-ratio:1/1;object-fit:cover;border-radius:8px}
-.section-gamezone .service-title{font-size:12px;line-height:1.6;min-height:38px}
-.section-gamezone .price{font-size:13px;color:#f2a9ff}
-.section-gamezone .add-cart-button{background:linear-gradient(135deg,#8c18d8,#e72e9b);border:1px solid #f58bff;color:#fff;box-shadow:0 0 14px #c52cff33}
-.section-gamezone .cart-add-row{display:flex;flex-direction:column;gap:7px}
-.section-gamezone .cart-add-row .add-cart-button{width:100%;font-size:11px;padding:10px 5px}
-.section-gamezone .card-qty-picker{justify-content:center}
+/* Game Zone product page: two square cards side by side */
+#gameZoneProductsPage .gamezone-product-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;align-items:start}
+#gameZoneProductsPage .service{min-width:0;padding:10px 0 0;border-top:1px solid #3a244b}
+#gameZoneProductsPage .product-gallery{margin:8px 0;padding:5px;border-color:#5a2d78;border-radius:12px}
+#gameZoneProductsPage .product-gallery-main{height:auto;aspect-ratio:1/1;object-fit:cover;border-radius:8px}
+#gameZoneProductsPage .service-title{font-size:12px;line-height:1.6;min-height:38px}
+#gameZoneProductsPage .price{font-size:13px;color:#f2a9ff}
+#gameZoneProductsPage .add-cart-button{background:linear-gradient(135deg,#8c18d8,#e72e9b);border:1px solid #f58bff;color:#fff;box-shadow:0 0 14px #c52cff33}
+#gameZoneProductsPage .cart-add-row{display:flex;flex-direction:column;gap:7px}
+#gameZoneProductsPage .cart-add-row .add-cart-button{width:100%;font-size:11px;padding:10px 5px}
+#gameZoneProductsPage .card-qty-picker{display:none!important}
 .product-description-toggle{margin:8px 0;color:#e7c7ff;font-size:11px}
 .product-description-toggle summary{cursor:pointer;display:block;padding:8px 10px;border:1px solid #5b2b78;border-radius:9px;background:#21102e;text-align:center;font-weight:800}
 .product-description-toggle[open] summary{border-color:#c49be5;background:#35105c}
 .product-description-toggle .service-description{white-space:normal;line-height:1.8;padding:8px 3px}
-@media(max-width:350px){.section-gamezone .services{gap:8px}.section-gamezone .service-title{font-size:11px}.section-gamezone .cart-add-row .add-cart-button{font-size:10px}}
+@media(max-width:350px){#gameZoneProductsPage .gamezone-product-grid{gap:8px}#gameZoneProductsPage .service-title{font-size:11px}#gameZoneProductsPage .cart-add-row .add-cart-button{font-size:10px}}
 
 </style>
 <script id="joker-order-done-badge">
