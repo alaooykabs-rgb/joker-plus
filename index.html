@@ -477,6 +477,8 @@ button:focus-visible,a:focus-visible,summary:focus-visible{outline:2px solid #c4
 /* توحيد مقاسات بطاقات الألعاب والصور والأزرار */
 #gameZoneProductsPage .gamezone-product-grid{align-items:stretch;grid-auto-rows:1fr}
 #gameZoneProductsPage .service.gamezone-game-card{height:100%;min-height:0;display:flex;flex-direction:column;align-items:stretch;box-sizing:border-box}
+#gameZoneProductsPage .service.gamezone-game-card[role="button"]{cursor:pointer}
+#gameZoneProductsPage .service.gamezone-game-card[role="button"]:focus-visible{outline:2px solid #b34cff;outline-offset:3px}
 #gameZoneProductsPage .service.gamezone-game-card .product-gallery{width:100%;height:auto;aspect-ratio:1/1;flex:0 0 auto;box-sizing:border-box;display:flex;align-items:center;justify-content:center;overflow:hidden}
 #gameZoneProductsPage .service.gamezone-game-card .product-gallery-main{display:block;width:100%;height:100%;aspect-ratio:1/1;object-fit:contain;object-position:center}
 #gameZoneProductsPage .service.gamezone-game-card .gamezone-game-name{width:100%;min-height:44px;box-sizing:border-box;display:flex;align-items:center;justify-content:center;margin:7px 0 9px;padding:6px 8px;line-height:1.45}
@@ -2636,17 +2638,18 @@ const price = String(item.price ?? "");
 const isFc27 = String(item.id || "") === "joker-game-fc27";
 const isGtaV = String(item.id || "") === "joker-game-gtavi";
 const descriptionMarkup = isNewGameCard
-? `<div class="gamezone-game-name">${escapeHTML(title)}</div>${(isFc27 || isGtaV || String(item.id || "") === "joker-game-cod-mw4" || String(item.id || "") === "joker-game-beamng") && !detail ? `<button class="product-description-toggle fc27-details-button" type="button" onclick="openGameZoneProductDetails('${escapeHTML(String(item.id ?? ""))}',event)">عرض التفاصيل</button>` : ""}`
+? `<div class="gamezone-game-name">${escapeHTML(title)}</div>`
 : (item.description ? (item.description_on_click && !detail
 ? `<button class="product-description-toggle" type="button" onclick="openGameZoneProductDetails('${escapeHTML(String(item.id ?? ""))}',event)">عرض تفاصيل الباقة</button>`
 : (detail || !isSnapArc ? (String(item.id || "").startsWith("joker-gta6-") ? renderGameZoneDescription(item.description) : `<div class="service-description">${escapeHTML(item.description)}</div>`) : "")) : "");
 if(isSnapArc && !detail) return "";
 return `
-<div class="service${isNewGameCard ? " gamezone-game-card" : ""}" id="product-${escapeHTML(String(item.id ?? title))}" data-product-id="${escapeHTML(String(item.id ?? ""))}" ${isSnapArc && detail ? 'data-detail="true"' : ""}>
+<div class="service${isNewGameCard ? " gamezone-game-card" : ""}" id="product-${escapeHTML(String(item.id ?? title))}" data-product-id="${escapeHTML(String(item.id ?? ""))}" ${isSnapArc && detail ? 'data-detail="true"' : ""} ${isNewGameCard && (isFc27 || isGtaV || String(item.id || "") === "joker-game-cod-mw4" || String(item.id || "") === "joker-game-beamng") && !detail ? `role="button" tabindex="0" onclick="if(!event.target.closest('button,a,select,input,.card-qty-picker'))openGameZoneProductDetails('${escapeHTML(String(item.id ?? ""))}',event)" onkeydown="if((event.key==='Enter'||event.key===' ')&&!event.target.closest('button,a,select,input,.card-qty-picker'))openGameZoneProductDetails('${escapeHTML(String(item.id ?? ""))}',event)"` : ""}>
 ${isNewGameCard ? "" : `<div class="service-title-row"><div class="service-title">${escapeHTML(title)}</div></div>`}
 ${createProductGallery(item)}
 ${descriptionMarkup}
 ${item.price ? `<div class="price ${String(item.id || "").startsWith("joker-gta6-") ? "gamezone-gta6-price" : ""}">${escapeHTML(item.price)}${String(item.id || "").startsWith("joker-gta6-") ? " د.ك" : ""}</div>` : ""}
+${isNewGameCard && (isFc27 || isGtaV || String(item.id || "") === "joker-game-cod-mw4" || String(item.id || "") === "joker-game-beamng") && !detail ? `<button class="product-description-toggle fc27-details-button" type="button" onclick="openGameZoneProductDetails('${escapeHTML(String(item.id ?? ""))}',event)">عرض التفاصيل</button>` : ""}
 ${item.available === false ? `<div class="cart-add-row"><button class="add-cart-button unavailable-btn" type="button" disabled>غير متوفر حالياً</button></div>` : (compact ? `
 <div class="cart-add-row">
 <div class="card-qty-picker" aria-label="تعديل كمية المنتج">
