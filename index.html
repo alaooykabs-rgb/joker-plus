@@ -2619,8 +2619,9 @@ const isSnapArc = String(item.id || "") === "joker-snaparc-monthly";
 const isNewGameCard = String(item.id || "").startsWith("joker-game-") && String(item.section_key || "") === "gamezone";
 const title = String(item.title || "منتج من JOKER PLUS");
 const price = String(item.price ?? "");
+const isFc27 = String(item.id || "") === "joker-game-fc27";
 const descriptionMarkup = isNewGameCard
-? `<div class="gamezone-game-name">${escapeHTML(title)}</div>`
+? `<div class="gamezone-game-name">${escapeHTML(title)}</div>${isFc27 && !detail ? `<button class="product-description-toggle fc27-details-button" type="button" onclick="openGameZoneProductDetails('${escapeHTML(String(item.id ?? ""))}',event)">عرض التفاصيل</button>` : ""}`
 : (item.description ? (item.description_on_click && !detail
 ? `<button class="product-description-toggle" type="button" onclick="openGameZoneProductDetails('${escapeHTML(String(item.id ?? ""))}',event)">عرض تفاصيل الباقة</button>`
 : (detail || !isSnapArc ? (String(item.id || "").startsWith("joker-gta6-") ? renderGameZoneDescription(item.description) : `<div class="service-description">${escapeHTML(item.description)}</div>`) : "")) : "");
@@ -5171,16 +5172,37 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
 function openGameZoneDetails(productId,event){return openGameZoneProductDetails(productId,event);}
 function openGameZoneProductDetails(productId,event){
 if(event){event.preventDefault();event.stopPropagation();}
-const product=(storeItemsCache||[]).find(item=>String(item.id||"")===String(productId));
+const product=(storeItemsCache||[]).find(item=>String(item.id||"")===String(productId)) || (typeof JOKER_GAMEZONE_FEATURED!=="undefined" ? JOKER_GAMEZONE_FEATURED.find(item=>String(item.id||"")===String(productId)) : null);
 if(!product)return;
 const title=document.getElementById("gta6DetailsTitle");
 const content=document.getElementById("gta6DetailsContent");
 if(!title||!content)return;
-title.textContent=String(product.title||"GTA VI");
+title.textContent=String(product.title||"تفاصيل المنتج");
+if(String(product.id||"")==="joker-game-fc27"){
+content.innerHTML = `<div class="fc27-details-wrap">
+<div class="fc27-device-box"><label for="fc27Device">اختر جهازك <b>*</b></label><select id="fc27Device"><option value="">اختر الجهاز</option><option value="PS5">PS5</option><option value="PS4">PS4</option></select></div>
+<div class="fc27-copy"><p>استمتع بأحدث إصدار من فيفا 27 بأفضل سعر مع دعم اللغة العربية.</p><p><strong>اللعبة كاملة الأصلية</strong></p>
+<h3>طريقة التسليم:</h3><p>سيتم تزويدك بحساب يحتوي على اللعبة، ويمكنك تسجيل الدخول إليه على جهازك واللعب باستخدام نفس الحساب فقط، دون تفعيل الحساب على جهازك أو تغيير أي من معلوماته.</p><p>الحساب مشترك ومخصص للاستخدام وفق الطريقة الموضحة، وأنت الوحيد الذي ستلعب عليه في نفس الوقت، ولن يتسبب استخدام الآخرين للحساب في إزعاجك أثناء اللعب.</p>
+<h3>الشروط:</h3><ol><li>يمنع تغيير معلومات الحساب.</li><li>يمنع نسخ الحساب أو مشاركته مع أي شخص، ويسمح باستخدامه على جهاز واحد فقط (الجهاز الذي تحدده عند الطلب).</li><li>يمنع استخدام الحساب على أكثر من جهاز أو نقله إلى جهاز آخر.</li><li>يمنع تفعيل الحساب على جهازك.</li></ol><div class="fc27-warning"><strong>تنبيه:</strong><p>مخالفة هذه الشروط ستؤدي إلى إلغاء الطلب دون أي تعويض.</p></div>
+<p><strong>ملاحظة:</strong> قد يكون حساب EA مرتبطًا مسبقًا، وتقدر تلعب عليه بشكل طبيعي. إذا كان غير مرتبط، تقدر تربط حساب EA الخاص بك.</p>
+<h3>هام – الضمان</h3><p>ضمان مدى الحياة في حال تم تطبيق شروط المنتج كاملة من جميع الأطراف الآخرين (100%) على PS5 وPS4.</p><p>والمتجر يقدملك ضمان 6 أشهر من أي مشاكل تواجهك من الأطراف الأخرى.</p><p>الضمان لا يشمل تغييرات سياسة بلايستيشن بالمستقبل بخصوص النسخ، سواء كان إلغاء ميزة النسخ أو تشديد بحملات باند على الحسابات.</p>
+<h3>معلومات الحساب</h3><p>بعد استلام الحساب، يجب على العميل حفظ بيانات الدخول (الإيميل) مع رقم الطلب.</p><p>في حال فقدان العميل لتلك البيانات، لا يحق له المطالبة بالتعويض أو الدعم.</p></div>
+<button type="button" class="add-cart-button fc27-add-button" data-title="FC27" data-price="0.00" onclick="addFc27ToCart(this,event)">＋ أضف إلى السلة</button></div>`;
+}else{
 content.innerHTML=createService(product,{compact:false,detail:true});
 content.querySelectorAll(".service").forEach(card=>{card.style.maxWidth="100%";card.style.width="100%";card.style.margin="0 auto";});
+}
 openInfoPage("gta6DetailsPage");
 if(typeof syncCartAddButtons==="function")syncCartAddButtons();
+}
+function addFc27ToCart(button,event){
+if(event){event.preventDefault();event.stopPropagation();}
+const device=document.getElementById("fc27Device");
+if(!device||!device.value){if(device){device.focus();device.style.borderColor="#ff5268";}alert("يرجى اختيار جهازك أولاً: PS5 أو PS4.");return;}
+const title="FC27 - "+device.value, key="joker-game-fc27-"+device.value;
+if(cartItems.some(item=>item.key===key)){showCartToast();return;}
+cartItems.push({key,title,price:"0.00",quantity:1});saveCart();showCartToast();
+button.textContent="✓ تمت الإضافة";button.classList.add("is-added");
 }
 </script>
 
@@ -5778,6 +5800,22 @@ html{scroll-behavior:smooth;scroll-padding-top:88px}
 .package-detail-group li{display:flex;align-items:flex-start;gap:2px}
 .package-detail-group li .detail-list-icon{margin-top:1px}
 @media(max-width:390px){#jokerBottomNav .nav-item svg{width:21px;height:21px}.detail-list-icon{width:27px;height:27px;flex-basis:27px}}
+</style>
+
+<style id="joker-gamezone-red-finish">
+.section-card.section-gamezone{border-color:rgba(205,48,72,.62)!important;box-shadow:0 0 0 1px rgba(205,48,72,.12),0 10px 28px rgba(145,20,43,.14)!important}
+.section-card.section-gamezone:before,.section-card.section-gamezone:after{border-color:rgba(229,66,87,.5)!important}
+#gameZoneProductsPage .packages-page-brand{ text-shadow:0 0 14px rgba(211,43,68,.28)}
+.fc27-details-wrap{display:grid;gap:15px;color:#f4eafa}
+.fc27-device-box{padding:14px;border:1px solid rgba(222,65,89,.55);border-radius:13px;background:linear-gradient(135deg,rgba(112,18,42,.22),rgba(53,16,92,.22));display:grid;gap:9px}
+.fc27-device-box label{font-weight:900;color:#ffdce2}.fc27-device-box label b{color:#ff657c}
+.fc27-device-box select{width:100%;padding:12px;border-radius:10px;border:1px solid #9d3c57;background:#171025;color:#fff;font:inherit}
+.fc27-copy{padding:15px;border:1px solid rgba(165,113,194,.28);border-radius:14px;background:linear-gradient(155deg,rgba(53,16,92,.22),rgba(14,10,22,.8));font-size:13px;line-height:1.95}
+.fc27-copy p{margin:0 0 10px}.fc27-copy h3{margin:17px 0 8px;padding-right:10px;border-right:3px solid #d63d59;color:#ffdce2;font-size:14px}
+.fc27-copy ol{padding-right:22px;margin:5px 0 12px}.fc27-copy li{padding:3px 0}
+.fc27-warning{padding:12px;border:1px solid rgba(239,71,94,.5);border-radius:11px;background:rgba(139,24,45,.17);color:#ffe0e5}.fc27-warning p{margin:4px 0 0}
+.fc27-add-button{width:100%;margin-top:2px;background:linear-gradient(135deg,#8c18d8,#c52c53)!important;border:1px solid #f08091!important;color:#fff!important}
+.fc27-details-button{border-color:rgba(222,65,89,.65)!important;background:linear-gradient(135deg,#35105c,#541b32)!important;color:#ffe5e9!important}
 </style>
 </body>
 </html>
