@@ -2753,7 +2753,20 @@ title:pack.name + " - تطبيقات بلس للآيفون",
 price:pack.price
 };
 return `
-<article class="package-card">
+<article class="package-card package-tier-${escapeHTML(pack.id)}">
+<div class="package-device-visual" aria-hidden="true">
+  <div class="package-phone-side package-phone-side-left"></div>
+  <div class="package-phone-body">
+    <div class="package-phone-screen">
+      <span class="package-phone-island"></span>
+      <span class="package-phone-brand">JOKER <b>PLUS</b></span>
+      <span class="package-phone-apps"><i>👻</i><i>◎</i><i>♪</i><i>▶</i></span>
+      <span class="package-phone-caption">PLUS APPS</span>
+    </div>
+  </div>
+  <div class="package-phone-side package-phone-side-right"></div>
+  <span class="package-phone-glow"></span>
+</div>
 <div class="package-label">${escapeHTML(pack.label)}</div>
 <h3 class="package-name">${escapeHTML(pack.name)}</h3>
 <div class="package-price">
@@ -2813,7 +2826,12 @@ onclick="addToCartFromButton(this,event)">
 function loadPackages() {
 const container = document.getElementById("plusPackages");
 if(!container) return;
-container.innerHTML = packagesData.map(createPackageCard).join("");
+const packageOrder = ["platinum","gold","silver"];
+container.innerHTML = packageOrder
+  .map(id => packagesData.find(pack => pack.id === id))
+  .filter(Boolean)
+  .map(createPackageCard)
+  .join("");
 }
 function applyStorePriceMarkup(item) {
 if (!item || item.section_key !== "store" || item.price === null || item.price === undefined || item.price === "") return item;
@@ -5219,6 +5237,242 @@ html{scroll-behavior:smooth;scroll-padding-top:88px}
 @media (max-width: 380px) {
   .sections { gap: 5px !important; }
   .joker-image-category { border-radius: 8px; }
+}
+
+
+/* JOKER PLUS iPhone package showcase */
+#plusPackagesSection {
+  max-width: 900px;
+  margin-inline: auto;
+  padding: 18px 12px 30px;
+  border: 1px solid rgba(177,119,255,.25);
+  border-radius: 26px;
+  background:
+    radial-gradient(ellipse at 50% 0%, rgba(143,54,220,.2), transparent 55%),
+    linear-gradient(155deg,#0b0920,#10091d 55%,#080817);
+  box-shadow: 0 18px 45px #0008, inset 0 1px 0 #ffffff12;
+}
+#plusPackagesSection .plus-apps-title {
+  color: #fff;
+  text-shadow: 0 0 18px #a855f7aa;
+}
+#plusPackagesSection .plus-apps-title span {
+  display:block;
+  margin-top:5px;
+  color:#c084fc;
+  letter-spacing:2px;
+}
+#plusPackagesSection .packages-intro {
+  color:#d9c8ef;
+}
+#plusPackages {
+  display:grid !important;
+  grid-template-columns:repeat(2,minmax(0,1fr)) !important;
+  gap:14px !important;
+  direction:rtl;
+  align-items:stretch;
+}
+#plusPackages .package-card {
+  position:relative;
+  min-width:0;
+  padding:13px 12px 15px;
+  overflow:hidden;
+  border-radius:22px;
+  border:1.5px solid var(--tier-edge,#9b5de5);
+  background:
+    radial-gradient(ellipse at 50% 0%,var(--tier-glow,#a855f7) 0%,transparent 52%),
+    linear-gradient(155deg,#1a1230 0%,#0c0a1b 62%,#17102a 100%);
+  box-shadow:0 13px 30px #0009,0 0 20px var(--tier-shadow,#7c3aed33),inset 0 1px 0 #ffffff24;
+  text-align:center;
+}
+#plusPackages .package-card:before {
+  content:"";
+  position:absolute;
+  inset:5px;
+  border:1px solid #ffffff17;
+  border-radius:17px;
+  pointer-events:none;
+}
+#plusPackages .package-tier-platinum {
+  grid-column:1;
+  grid-row:1;
+  --tier-edge:#d9c6ff;
+  --tier-glow:#a78bfa66;
+  --tier-shadow:#c4b5fd55;
+}
+#plusPackages .package-tier-gold {
+  grid-column:2;
+  grid-row:1;
+  --tier-edge:#e8bb55;
+  --tier-glow:#c58a2866;
+  --tier-shadow:#fbbf2455;
+}
+#plusPackages .package-tier-silver {
+  grid-column:1;
+  grid-row:2;
+  --tier-edge:#bfc9da;
+  --tier-glow:#94a3b866;
+  --tier-shadow:#cbd5e155;
+}
+.package-device-visual {
+  position:relative;
+  height:170px;
+  width:100%;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  perspective:900px;
+  margin:0 auto 9px;
+  isolation:isolate;
+}
+.package-phone-glow {
+  position:absolute;
+  width:125px;
+  height:130px;
+  border-radius:50%;
+  background:var(--tier-glow,#a855f7);
+  filter:blur(34px);
+  opacity:.7;
+  z-index:-1;
+}
+.package-phone-body {
+  position:relative;
+  width:91px;
+  height:155px;
+  padding:5px;
+  border-radius:21px;
+  transform:rotateY(-17deg) rotateZ(-5deg);
+  background:linear-gradient(90deg,#343044 0%,#d8d4e2 8%,#5e5870 16%,#171523 28%,#b9b2c7 52%,#282333 72%,#c6c0d0 94%,#343044 100%);
+  box-shadow:0 13px 24px #000b,0 0 0 1px #ffffff88,0 0 18px var(--tier-shadow,#7c3aed55);
+}
+.package-phone-screen {
+  position:relative;
+  width:100%;
+  height:100%;
+  overflow:hidden;
+  border-radius:17px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap:9px;
+  background:
+    radial-gradient(circle at 50% 30%,var(--tier-glow,#a855f7),transparent 65%),
+    linear-gradient(145deg,#100c20,#05050e 75%);
+  border:1px solid #ffffff55;
+}
+.package-phone-island {
+  position:absolute;
+  top:5px;
+  left:50%;
+  transform:translateX(-50%);
+  width:34px;
+  height:8px;
+  border-radius:10px;
+  background:#020207;
+  box-shadow:0 1px 3px #fff3;
+}
+.package-phone-brand {
+  margin-top:9px;
+  color:#fff;
+  font-size:10px;
+  font-weight:1000;
+  letter-spacing:.5px;
+  text-shadow:0 0 12px var(--tier-glow,#a855f7);
+}
+.package-phone-brand b {color:#d8b4fe}
+.package-phone-apps {
+  display:grid;
+  grid-template-columns:repeat(2,26px);
+  gap:6px;
+}
+.package-phone-apps i {
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  width:26px;
+  height:26px;
+  border-radius:8px;
+  background:linear-gradient(145deg,#34204c,#100b1b);
+  border:1px solid #ffffff40;
+  font-size:15px;
+  font-style:normal;
+  box-shadow:0 3px 8px #0009;
+}
+.package-phone-caption {
+  color:#e9d5ff;
+  font-size:7px;
+  font-weight:900;
+  letter-spacing:1.3px;
+}
+.package-phone-side {
+  position:absolute;
+  top:28px;
+  width:5px;
+  height:110px;
+  border-radius:5px;
+  background:linear-gradient(90deg,#eee8f7,#625a70,#bcb3ca);
+  box-shadow:0 0 7px #0009;
+  z-index:2;
+}
+.package-phone-side-left {left:calc(50% - 50px);transform:rotate(-5deg)}
+.package-phone-side-right {right:calc(50% - 50px);transform:rotate(-5deg)}
+#plusPackages .package-label {
+  margin:0 auto 8px;
+  color:#fff;
+  border-color:var(--tier-edge,#a855f7);
+  background:#ffffff10;
+}
+#plusPackages .package-name {
+  color:#fff;
+  font-size:17px;
+  margin:5px 0 8px;
+}
+#plusPackages .package-price {
+  color:#fff;
+  font-size:25px;
+  font-weight:1000;
+  margin:7px 0 10px;
+  text-shadow:0 0 16px var(--tier-glow,#a855f7);
+}
+#plusPackages .package-price small {font-size:12px;color:#e9d5ff}
+#plusPackages .package-perks {
+  padding:0 17px;
+  color:#eee7f8;
+  font-size:12px;
+  line-height:1.9;
+}
+#plusPackages .package-details,
+#plusPackages .package-buy {position:relative;z-index:1}
+#plusPackages .add-cart-button {
+  width:100%;
+  border:1px solid var(--tier-edge,#a855f7);
+  border-radius:13px;
+  background:linear-gradient(135deg,#7e22ce,#4c1d95);
+  color:white;
+  font-weight:900;
+}
+#plusPackages .package-tier-gold .add-cart-button {
+  background:linear-gradient(135deg,#b7791f,#765018);
+}
+#plusPackages .package-tier-silver .add-cart-button {
+  background:linear-gradient(135deg,#64748b,#334155);
+}
+@media(max-width:390px) {
+  #plusPackages {gap:9px !important}
+  #plusPackages .package-card {padding:10px 8px 12px;border-radius:17px}
+  .package-device-visual {height:145px}
+  .package-phone-body {transform:scale(.88) rotateY(-17deg) rotateZ(-5deg)}
+  .package-phone-side {top:25px;height:96px}
+  #plusPackages .package-name {font-size:14px}
+  #plusPackages .package-price {font-size:21px}
+  #plusPackages .package-perks {font-size:10px;padding-inline:10px}
+}
+@media(max-width:320px) {
+  #plusPackages {grid-template-columns:minmax(0,1fr) !important}
+  #plusPackages .package-tier-platinum,
+  #plusPackages .package-tier-gold,
+  #plusPackages .package-tier-silver {grid-column:1;grid-row:auto}
 }
 
 </style>
