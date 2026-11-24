@@ -1574,7 +1574,9 @@ function renderJokerCommandCenter(){
  const activity=document.getElementById("jokerCommandActivity");
  if(activity){const rows=Array.isArray(adminOrdersCache)?adminOrdersCache:[];if(rows.length){const latest=rows.slice().sort((a,b)=>new Date(b.created_at||0)-new Date(a.created_at||0))[0];activity.textContent="آخر نشاط مسجل: الطلب #"+String(latest.order_number||"—")+" · "+String(latest.status||"حالة غير محددة");}else{activity.textContent="لا توجد طلبات مسجلة لعرض نشاط حديث.";}}
 }
+const jokerPreviousScroll = Object.create(null);
 function openInfoPage(pageId) {
+  if(pageId === "ordersPage" || pageId === "searchPage") jokerPreviousScroll[pageId] = window.pageYOffset || 0;
 ["storePage","packagesPage","noticePage","faqPage","refundPage","ordersPage","searchPage","notificationsPage","adminPage","storeRegionsPage","storeRegionItemsPage","jokerPrivateShowroomPage","snapArcProductPage","gameZoneProductsPage","jokerVisualCategoryPage","gta6DetailsPage"].forEach(id => {
 const node = document.getElementById(id);
 if(node) node.hidden = id !== pageId;
@@ -1586,6 +1588,9 @@ if(corridor){corridor.classList.remove("is-active");void corridor.offsetWidth;co
 window.scrollTo({top:0,behavior:"instant"});
 }
 function returnToStoreSections() {
+  const returningPage = ["ordersPage","searchPage"].find(id => { const node=document.getElementById(id); return node && !node.hidden; });
+  const restorePreviousScroll = returningPage && Number.isFinite(jokerPreviousScroll[returningPage]);
+  const previousScroll = restorePreviousScroll ? jokerPreviousScroll[returningPage] : null;
   ["packagesPage","noticePage","faqPage","refundPage","ordersPage","searchPage","notificationsPage","adminPage","storeRegionsPage","storeRegionItemsPage","jokerPrivateShowroomPage","snapArcProductPage","gameZoneProductsPage","jokerVisualCategoryPage","gta6DetailsPage"].forEach(id => {
     const node = document.getElementById(id);
     if(node) node.hidden = true;
@@ -1595,6 +1600,7 @@ function returnToStoreSections() {
   setActiveNav("store");
   requestAnimationFrame(function(){
     requestAnimationFrame(function(){
+      if(restorePreviousScroll){ window.scrollTo({top:previousScroll,behavior:"smooth"}); return; }
       const sectionsGrid = document.getElementById("sections");
       if(sectionsGrid){
         const top = sectionsGrid.getBoundingClientRect().top + window.pageYOffset - 96;
@@ -2289,7 +2295,9 @@ function removeCartItem(index) {
 cartItems.splice(index,1);
 saveCart();
 }
+let jokerCartPreviousScroll = 0;
 function openCart() {
+jokerCartPreviousScroll = window.pageYOffset || 0;
 const backdrop = document.getElementById("cartBackdrop");
 if(backdrop) {
 renderCart();
@@ -2304,6 +2312,7 @@ if(event && event.target !== event.currentTarget) return;
 const backdrop = document.getElementById("cartBackdrop");
 if(backdrop) backdrop.hidden = true;
 document.body.style.overflow = "";
+window.scrollTo({top:jokerCartPreviousScroll,behavior:"smooth"});
 }
 let activeJokerCoupon = null;
 function currentCartSubtotal() {
