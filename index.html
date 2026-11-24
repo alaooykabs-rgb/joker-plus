@@ -865,7 +865,7 @@ window.addEventListener("pageshow", attachBottomNav);
 </div>
 <div id="packagesPage" hidden>
 <div class="packages-page-top">
-<button class="packages-back-button" type="button" onclick="backToStore()">
+<button id="plusPackagesBackButton" class="packages-back-button" type="button" onclick="backToStore()">
 <span>→</span>
 رجوع للمتجر
 </button>
@@ -2842,6 +2842,11 @@ detail.innerHTML = `
 </div>`;
 showcase.hidden = true;
 detail.hidden = false;
+const backButton = document.getElementById("plusPackagesBackButton");
+if (backButton) {
+  backButton.innerHTML = '<span>→</span>رجوع للباقات';
+  backButton.onclick = closePlusPackageDetails;
+}
 window.scrollTo({top:0,behavior:"instant"});
 }
 function closePlusPackageDetails() {
@@ -2849,6 +2854,11 @@ const detail = document.getElementById("plusPackageDetailPage");
 const showcase = document.getElementById("plusPackagesSection");
 if (detail) detail.hidden = true;
 if (showcase) showcase.hidden = false;
+const backButton = document.getElementById("plusPackagesBackButton");
+if (backButton) {
+  backButton.innerHTML = '<span>→</span>رجوع للمتجر';
+  backButton.onclick = backToStore;
+}
 window.scrollTo({top:0,behavior:"instant"});
 }
 function loadPackages() {
