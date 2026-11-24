@@ -889,6 +889,7 @@ window.addEventListener("pageshow", attachBottomNav);
 </div>
 <p class="package-device-note">جميع الباقات مخصصة لأجهزة الآيفون 🃏</p>
 </section>
+<section id="plusPackageDetailPage" class="plus-package-detail-page" hidden aria-live="polite"></section>
 </div>
 <div id="noticePage" hidden>
 <div class="packages-page-top">
@@ -2748,80 +2749,133 @@ document.getElementById("storePage").hidden = false;
 window.scrollTo({top:0,behavior:"instant"});
 }
 function createPackageCard(pack) {
-const orderItem = {
-title:pack.name + " - تطبيقات بلس للآيفون",
-price:pack.price
-};
 return `
-<article class="package-card package-tier-${escapeHTML(pack.id)}">
-<div class="package-device-visual" aria-hidden="true">
-  <div class="package-phone-side package-phone-side-left"></div>
-  <div class="package-phone-body">
-    <div class="package-phone-screen">
-      <span class="package-phone-island"></span>
-      <span class="package-phone-brand">JOKER <b>PLUS</b></span>
-      <span class="package-phone-apps"><i>👻</i><i>◎</i><i>♪</i><i>▶</i></span>
-      <span class="package-phone-caption">PLUS APPS</span>
+<article class="package-card package-tier-${escapeHTML(pack.id)}"
+  role="button" tabindex="0"
+  aria-label="عرض تفاصيل ${escapeHTML(pack.name)}"
+  onclick="openPlusPackageDetails('${escapeHTML(pack.id)}')"
+  onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openPlusPackageDetails('${escapeHTML(pack.id)}')}">
+  <div class="package-device-visual" aria-hidden="true">
+    <div class="package-phone-side package-phone-side-left"></div>
+    <div class="package-phone-body">
+      <div class="package-phone-screen">
+        <span class="package-phone-island"></span>
+        <span class="package-phone-brand">JOKER <b>PLUS</b></span>
+        <span class="package-phone-apps"><i>👻</i><i>◎</i><i>♪</i><i>▶</i></span>
+        <span class="package-phone-caption">PLUS APPS</span>
+      </div>
     </div>
+    <div class="package-phone-side package-phone-side-right"></div>
+    <span class="package-phone-glow"></span>
   </div>
-  <div class="package-phone-side package-phone-side-right"></div>
-  <span class="package-phone-glow"></span>
-</div>
-<div class="package-label">${escapeHTML(pack.label)}</div>
-<h3 class="package-name">${escapeHTML(pack.name)}</h3>
-<div class="package-price">
-${escapeHTML(pack.price)}
-<small>د.ك</small>
-</div>
-<ul class="package-perks">
-${pack.perks.map(perk => `<li>${escapeHTML(perk)}</li>`).join("")}
-</ul>
-<details class="package-details">
-<summary>عرض جميع تفاصيل الباقة</summary>
-<div class="package-details-content">
-<h4>مميزات الاشتراك العامة</h4>
-<ul>
-${commonPackageFeatures.map(feature => `<li>${escapeHTML(feature)}</li>`).join("")}
-</ul>
-${pack.extra.length ? `
-<h4>مميزات إضافية لهذه الباقة</h4>
-<ul>
-${pack.extra.map(feature => `<li>${escapeHTML(feature)} 🃏</li>`).join("")}
-</ul>
-` : ""}
-${packageAppsDetails}
-<p class="package-note">${escapeHTML(pack.note)}</p>
-<section class="package-policies" aria-label="الشروط والأحكام">
-<h3>الشروط والأحكام ⚠️</h3>
-<ul>
-<li>ضمان السناب ضمان تشغيلي فقط رغم ان الحماية عاليه الا ان يوجد نسبة للحظر و المتجر غير مسؤول عن تعرضك للحظر و استخدامك للأداة على مسؤوليتك الشخصية ⚠️.</li>
-<li>لا نضمن استمرارية اي تطبيق داخل المتجر بحكم سياسات ابل في اقفال بعض النسخ المعدله ❌.</li>
-<li>عند تعطل تطبيق معين داخل المتجر لانملك اي صلاحيات بتعديله او اصلاحه دعمنا الفني مخصص فقط لتطبيق المتجر ⚠️.</li>
-<li>لايمكن استرداد المبلغ المدفوع في هذا المنتج بسبب طبيعته وهو منتج رقمي لايمكن استرداده او استبداله ❌.</li>
-<li>عند شرائك للمنتج انت تقر انك اطلعت على السياسات ✅.</li>
-</ul>
-</section>
-</div>
-</details>
-<div class="package-buy">
-<div class="cart-add-row">
-<button class="add-cart-button" type="button"
-data-title="${escapeHTML(pack.name + " - تطبيقات بلس للآيفون")}"
-data-price="${escapeHTML(String(pack.price ?? ""))}"
-data-product-id="package-${escapeHTML(String(pack.id ?? pack.name))}"
-onclick="addToCartFromButton(this,event)">
-＋ أضف إلى السلة
-</button>
-<div class="card-qty-picker" aria-label="تعديل كمية المنتج">
-<button type="button" aria-label="زيادة منتج" onclick="changeProductCardQuantity(this,1)">+</button>
-<span class="card-qty-value">1</span>
-<button type="button" aria-label="تنقيص منتج" onclick="changeProductCardQuantity(this,-1)">−</button>
-</div>
-</div>
-
-</div>
+  <div class="package-label">${escapeHTML(pack.label)}</div>
+  <h3 class="package-name">${escapeHTML(pack.name)}</h3>
+  <div class="package-price">${escapeHTML(pack.price)} <small>د.ك</small></div>
+  <span class="package-open-hint">اضغط لعرض المميزات <span aria-hidden="true">←</span></span>
 </article>
 `;
+}
+function plusFeatureIcon(text) {
+const value = String(text || "");
+if (/ضمان/.test(value)) return "🛡️";
+if (/تحديث/.test(value)) return "🔄";
+if (/سناب/.test(value)) return "👻";
+if (/دعم فني/.test(value)) return "🎧";
+if (/قناة/.test(value)) return "📢";
+if (/تفعيل/.test(value)) return "⚡";
+if (/سنة|اشتراك/.test(value)) return "📅";
+if (/تطبيق|App Store/.test(value)) return "📱";
+if (/إنستغرام|انستغرام/.test(value)) return "📸";
+if (/تيك توك/.test(value)) return "🎵";
+if (/يوتيوب/.test(value)) return "▶️";
+if (/واتساب/.test(value)) return "💬";
+if (/سناب شات/.test(value)) return "👻";
+if (/ألعاب|الألعاب/.test(value)) return "🎮";
+if (/تصميم|تصوير/.test(value)) return "🎨";
+if (/فيلم|أنمي|رياضة/.test(value)) return "🎬";
+if (/خصوصية|إخفاء|حذف/.test(value)) return "🔒";
+if (/تنزيل|حفظ/.test(value)) return "⬇️";
+return "✨";
+}
+function openPlusPackageDetails(packId) {
+const pack = packagesData.find(item => item.id === packId);
+const detail = document.getElementById("plusPackageDetailPage");
+const showcase = document.getElementById("plusPackagesSection");
+if (!pack || !detail || !showcase) return;
+const appDetails = String(packageAppsDetails || "")
+  .replace(/<h4>(.*?)<\/h4>/g, function(_, title) {
+    return `<h4><span class="detail-heading-icon">${plusFeatureIcon(title)}</span>${title}</h4>`;
+  })
+  .replace(/<li>(.*?)<\/li>/g, function(_, item) {
+    return `<li><span class="detail-list-icon">${plusFeatureIcon(item)}</span><span>${item}</span></li>`;
+  });
+const common = commonPackageFeatures.map(feature =>
+  `<li><span class="detail-list-icon">${plusFeatureIcon(feature)}</span><span>${escapeHTML(feature)}</span></li>`
+).join("");
+const extras = (pack.extra || []).map(feature =>
+  `<li><span class="detail-list-icon">♛</span><span>${escapeHTML(feature)}</span></li>`
+).join("");
+const policies = `
+<section class="package-detail-group package-detail-policies">
+<h3><span>⚠️</span> الشروط والأحكام</h3>
+<ul>
+<li><span class="detail-list-icon">🛡️</span><span>ضمان السناب ضمان تشغيلي فقط رغم أن الحماية عالية، إلا أن هناك نسبة للحظر، والمتجر غير مسؤول عن تعرضك للحظر، واستخدامك للأداة على مسؤوليتك الشخصية.</span></li>
+<li><span class="detail-list-icon">📌</span><span>لا نضمن استمرارية أي تطبيق داخل المتجر بحكم سياسات Apple في إقفال بعض النسخ المعدلة.</span></li>
+<li><span class="detail-list-icon">🎧</span><span>عند تعطل تطبيق معين داخل المتجر لا نملك صلاحيات تعديله أو إصلاحه؛ دعمنا الفني مخصص لتطبيق المتجر فقط.</span></li>
+<li><span class="detail-list-icon">🚫</span><span>لا يمكن استرداد المبلغ المدفوع بسبب طبيعة المنتج الرقمي الذي لا يمكن استرجاعه أو استبداله بعد التسليم.</span></li>
+<li><span class="detail-list-icon">✅</span><span>عند شرائك للمنتج أنت تقر بأنك اطلعت على السياسات.</span></li>
+</ul>
+</section>`;
+detail.innerHTML = `
+<div class="plus-detail-top">
+<button class="packages-back-button" type="button" onclick="closePlusPackageDetails()">→ رجوع للباقات</button>
+<div class="packages-page-brand">JOKER PLUS 🃏</div>
+</div>
+<header class="plus-detail-hero package-tier-${escapeHTML(pack.id)}">
+  <div class="package-device-visual" aria-hidden="true">
+    <div class="package-phone-side package-phone-side-left"></div>
+    <div class="package-phone-body"><div class="package-phone-screen">
+      <span class="package-phone-island"></span><span class="package-phone-brand">JOKER <b>PLUS</b></span>
+      <span class="package-phone-apps"><i>👻</i><i>◎</i><i>♪</i><i>▶</i></span><span class="package-phone-caption">PLUS APPS</span>
+    </div></div>
+    <div class="package-phone-side package-phone-side-right"></div><span class="package-phone-glow"></span>
+  </div>
+  <div class="package-label">${escapeHTML(pack.label)}</div>
+  <h1>${escapeHTML(pack.name)}</h1>
+  <div class="package-price">${escapeHTML(pack.price)} <small>د.ك</small></div>
+  <p>اشتراك تطبيقات بلس للآيفون</p>
+</header>
+<div class="plus-detail-content">
+  <section class="package-detail-group">
+    <h3><span>✨</span> مميزات الباقة</h3>
+    <ul>${(pack.perks || []).map(feature => `<li><span class="detail-list-icon">${plusFeatureIcon(feature)}</span><span>${escapeHTML(feature)}</span></li>`).join("")}</ul>
+  </section>
+  <section class="package-detail-group">
+    <h3><span>📱</span> مميزات الاشتراك العامة</h3>
+    <ul>${common}</ul>
+  </section>
+  ${extras ? `<section class="package-detail-group"><h3><span>♛</span> المميزات الإضافية</h3><ul>${extras}</ul></section>` : ""}
+  <section class="package-detail-group package-detail-apps">${appDetails}</section>
+  <p class="package-note">${escapeHTML(pack.note || "")}</p>
+  ${policies}
+  <div class="plus-detail-buy">
+    <button class="add-cart-button" type="button"
+      data-title="${escapeHTML(pack.name + " - تطبيقات بلس للآيفون")}"
+      data-price="${escapeHTML(String(pack.price ?? ""))}"
+      data-product-id="package-${escapeHTML(String(pack.id ?? pack.name))}"
+      onclick="addToCartFromButton(this,event)">＋ أضف إلى السلة</button>
+  </div>
+</div>`;
+showcase.hidden = true;
+detail.hidden = false;
+window.scrollTo({top:0,behavior:"instant"});
+}
+function closePlusPackageDetails() {
+const detail = document.getElementById("plusPackageDetailPage");
+const showcase = document.getElementById("plusPackagesSection");
+if (detail) detail.hidden = true;
+if (showcase) showcase.hidden = false;
+window.scrollTo({top:0,behavior:"instant"});
 }
 function loadPackages() {
 const container = document.getElementById("plusPackages");
@@ -5473,6 +5527,151 @@ html{scroll-behavior:smooth;scroll-padding-top:88px}
   #plusPackages .package-tier-platinum,
   #plusPackages .package-tier-gold,
   #plusPackages .package-tier-silver {grid-column:1;grid-row:auto}
+}
+
+
+/* Compact PLUS APPS cards; features are shown only on the detail page */
+#plusPackages .package-card {
+  min-height:0 !important;
+  height:auto !important;
+  padding:10px 9px 12px !important;
+  cursor:pointer;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:flex-start;
+  gap:4px;
+}
+#plusPackages .package-device-visual {
+  height:112px !important;
+  margin:0 auto 3px !important;
+}
+#plusPackages .package-phone-body {
+  transform:scale(.68) rotateY(-17deg) rotateZ(-5deg) !important;
+}
+#plusPackages .package-phone-side {
+  top:20px !important;
+  height:76px !important;
+}
+#plusPackages .package-label {margin:0 auto 3px !important;font-size:10px}
+#plusPackages .package-name {font-size:14px !important;line-height:1.4;margin:2px 0 !important}
+#plusPackages .package-price {font-size:21px !important;margin:2px 0 4px !important}
+#plusPackages .package-perks,
+#plusPackages .package-details,
+#plusPackages .package-buy {display:none !important}
+.package-open-hint {
+  display:inline-flex;
+  align-items:center;
+  gap:7px;
+  margin-top:4px;
+  padding:6px 10px;
+  border:1px solid var(--tier-edge,#a855f7);
+  border-radius:20px;
+  color:#f1e7ff;
+  background:#ffffff0d;
+  font-size:10px;
+  font-weight:800;
+}
+#plusPackages .package-card:active {transform:scale(.98)}
+#plusPackageDetailPage[hidden] {display:none !important}
+.plus-package-detail-page {
+  max-width:820px;
+  margin:0 auto;
+  padding:18px 14px 42px;
+  color:#fff;
+}
+.plus-detail-top {
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+  margin-bottom:18px;
+}
+.plus-detail-hero {
+  position:relative;
+  overflow:hidden;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  text-align:center;
+  padding:14px 15px 20px;
+  border-radius:24px;
+  border:1px solid var(--tier-edge,#a855f7);
+  background:radial-gradient(ellipse at 50% 0%,var(--tier-glow,#a855f7) 0%,transparent 58%),linear-gradient(145deg,#211331,#0a0918 75%);
+  box-shadow:0 15px 40px #0008,0 0 22px var(--tier-shadow,#7c3aed33);
+}
+.plus-detail-hero .package-device-visual {height:145px;width:180px;margin:0 auto 7px}
+.plus-detail-hero .package-phone-body {transform:scale(.83) rotateY(-17deg) rotateZ(-5deg)}
+.plus-detail-hero .package-phone-side {top:25px;height:98px}
+.plus-detail-hero h1 {font-size:22px;margin:5px 0;color:#fff}
+.plus-detail-hero .package-price {font-size:29px;margin:4px 0}
+.plus-detail-hero p {margin:3px 0 0;color:#d8c8e9;font-size:12px}
+.plus-detail-content {display:grid;gap:13px;margin-top:15px}
+.package-detail-group {
+  padding:16px 15px;
+  border:1px solid #9b68c044;
+  border-radius:17px;
+  background:linear-gradient(145deg,#171026,#0b0a17);
+  box-shadow:0 8px 22px #0005;
+}
+.package-detail-group h3,
+.package-detail-group h4 {
+  display:flex;
+  align-items:center;
+  gap:9px;
+  margin:0 0 12px;
+  color:#e9d5ff;
+  font-size:15px;
+}
+.package-detail-group h4 {font-size:13px;margin-top:18px}
+.package-detail-group h4:first-child {margin-top:0}
+.package-detail-group h3>span,.detail-heading-icon {font-size:19px}
+.package-detail-group ul {list-style:none;margin:0;padding:0;display:grid;gap:9px}
+.package-detail-group li {
+  display:flex;
+  align-items:flex-start;
+  gap:10px;
+  color:#e8e0ef;
+  font-size:12px;
+  line-height:1.85;
+}
+.detail-list-icon {
+  flex:0 0 27px;
+  width:27px;
+  height:27px;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  border-radius:9px;
+  background:linear-gradient(145deg,#7133a5,#32174f);
+  border:1px solid #d8b4fe33;
+  font-size:14px;
+}
+.package-detail-apps h4 {padding-bottom:8px;border-bottom:1px solid #ffffff16}
+.package-detail-apps p {color:#cbb8df;font-size:11px;line-height:1.9}
+.package-detail-policies {border-color:#eab30844}
+.package-detail-policies h3 {color:#fcd34d}
+.plus-detail-buy {position:sticky;bottom:10px;z-index:5;padding-top:4px}
+.plus-detail-buy .add-cart-button {
+  width:100%;
+  min-height:48px;
+  border:1px solid #d8b4fe;
+  border-radius:14px;
+  background:linear-gradient(110deg,#7e22ce,#4c1d95);
+  color:#fff;
+  font-size:15px;
+  font-weight:900;
+  box-shadow:0 8px 24px #0009,0 0 16px #a855f744;
+}
+@media(max-width:390px) {
+  #plusPackages .package-card {padding:8px 6px 10px !important}
+  #plusPackages .package-device-visual {height:98px !important}
+  #plusPackages .package-phone-body {transform:scale(.59) rotateY(-17deg) rotateZ(-5deg) !important}
+  #plusPackages .package-phone-side {top:16px !important;height:67px !important}
+  #plusPackages .package-name {font-size:12px !important}
+  #plusPackages .package-price {font-size:19px !important}
+  .plus-package-detail-page {padding:12px 10px 35px}
+  .package-detail-group {padding:13px 11px}
 }
 
 </style>
