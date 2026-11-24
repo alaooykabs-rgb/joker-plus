@@ -5206,8 +5206,8 @@ content.innerHTML = `<div class="fc27-details-wrap">
 <button type="button" class="add-cart-button fc27-add-button" data-title="FC27" data-price="0.00" onclick="addFc27ToCart(this,event)">＋ أضف إلى السلة</button></div>`;
 }else if(String(product.id||"")==="joker-game-cod-mw4"){
 content.innerHTML = `<div class="fc27-details-wrap mw4-details-wrap">
-<div class="fc27-device-box"><label for="mw4Caption">اختر طريقة اللعب <b>*</b></label><select id="mw4Caption" onchange="updateMW4Caption()"><option value="">اختر من الخيارات</option><option value="store">PS5 ( تلعبها بحساب المتجر )</option><option value="private">PS5 ( تلعبها بحسابك الخاص )</option></select></div>
-<div id="mw4StoreCaption" class="fc27-copy mw4-caption" hidden>
+<div class="fc27-device-box"><label for="mw4Caption">اختر طريقة اللعب <b>*</b></label><select id="mw4Caption" onchange="updateMW4Caption()"><option value="store" selected>PS5 ( تلعبها بحساب المتجر )</option><option value="private">PS5 ( تلعبها بحسابك الخاص )</option></select></div>
+<div id="mw4StoreCaption" class="fc27-copy mw4-caption">
 <h2>PS5 ( تلعبها بحساب المتجر )</h2>
 <h3>طريقة التسليم:</h3><p>سيتم تزويدك بحساب يحتوي على اللعبة، ويمكنك تسجيل الدخول إليه على جهازك واللعب باستخدام نفس الحساب فقط، دون تفعيل الحساب على جهازك أو تغيير أي من معلوماته.</p><p>الحساب مشترك ومخصص للاستخدام وفق الطريقة الموضحة، وأنت الوحيد الذي ستلعب عليه في نفس الوقت، ولن يتسبب استخدام الآخرين للحساب في إزعاجك أثناء اللعب.</p>
 <h3>الشروط:</h3><ol><li>يمنع تغيير معلومات الحساب.</li><li>يمنع نسخ الحساب أو مشاركته مع أي شخص، ويسمح باستخدامه على جهاز واحد فقط (الجهاز الذي تحدده عند الطلب).</li><li>يمنع استخدام الحساب على أكثر من جهاز أو نقله إلى جهاز آخر.</li><li>يمنع تفعيل الحساب على جهازك.</li></ol>
@@ -5228,6 +5228,21 @@ content.innerHTML = `<div class="fc27-details-wrap mw4-details-wrap">
 <h3>طريقة تفعيل الحساب على جهازك PS5</h3><p>الإعدادات &gt; المستخدمون والحسابات &gt; أخرى &gt; مشاركة الجهاز واللعب بدون اتصال &gt; تمكين.</p>
 </div>
 <button type="button" class="add-cart-button fc27-add-button" onclick="addMW4ToCart(this,event)">＋ أضف إلى السلة</button></div>`;
+}else if(String(product.id||"")==="joker-game-beamng"){
+content.innerHTML = `<div class="fc27-details-wrap beamng-details-wrap">
+<div class="fc27-device-box"><label for="beamngMode">اختر طريقة اللعب <b>*</b></label><select id="beamngMode"><option value="">اختر من الخيارات</option><option value="store">PS5 ( تلعبها بحساب المتجر )</option><option value="private">PS5 ( تلعبها بحسابك الخاص )</option></select></div>
+<div class="fc27-copy"><h2>محاكي الحوادث</h2><p>عِش أقوى الحوادث الواقعية وجرّب التصادمات والتدمير بتفاصيل مذهلة، اطلبها الآن واستمتع بتجربة قيادة مختلفة تمامًا!</p>
+<p><strong>اختيار جهازك مهم من خانة الخيارات</strong></p><p>⏳ متوسط التنفيذ 30–60 دقيقة، وقد يمتد حتى 24 ساعة كحد أقصى حسب ضغط الطلبات.</p>
+<h3>معلومات الحساب</h3><p>بعد استلام الحساب، يجب على العميل حفظ بيانات الدخول (الإيميل) مع رقم الطلب.</p><p>في حال فقدان العميل لتلك البيانات، لا يحق له المطالبة بالتعويض أو الدعم.</p>
+<h3>طريقة التسليم</h3><p>راح أعطيك حساب تنسخ اللعبة منه وتفعل الحساب عندك وتلعب بحسابك الرئيسي فقط بدون ما تغير معلومات الحساب لأن الحساب راح يكون مشترك بينك وبين شخص آخر.</p>
+<h3>معلومة مهمة</h3><p>لا تدخل كضيف. سجل دخول كامل عشان الحساب يبقى على جهازك وما يختفي.</p><p>يُمنع استخدام الحساب لأكثر من جهاز أو نقله.</p>
+<ol><li>ممنوع تغير معلومات الحساب.</li><li>ممنوع تسجل خروج من الحساب لأي سبب كان سواء بقصد أو غير قصد.</li><li>ممنوع تنسخ لغيرك؛ المسموح لك نسخة واحدة فقط (الجهاز اللي حددته بطلبك).</li><li>لا يحق لك نقل الحساب من جهاز إلى جهاز مختلف مثل PS4 إلى PS5 أو العكس.</li></ol>
+<p><strong>(بكل بساطة خش الحساب وفعل وروح العب بحسابك الأساسي طبيعي).</strong></p><div class="fc27-warning"><strong>تنبيه:</strong><p>مخالفة هذه الشروط ستعرض طلبك للإلغاء وعدم التعويض.</p></div>
+<h3>هام – الضمان</h3><p>ضمان مدى الحياة في حال تم تطبيق شروط المنتج كاملة من جميع الأطراف الآخرين (100%) على PS5 وPS4.</p><p>والمتجر يقدملك ضمان 6 أشهر من أي مشاكل تواجهك من الأطراف الأخرى.</p><p>الضمان لا يشمل تغييرات سياسة بلايستيشن بالمستقبل بخصوص النسخ، سواء كان إلغاء ميزة النسخ أو تشديد بحملات باند على الحسابات.</p>
+<h3>⚠️ تنبيه هام قبل الشراء</h3><p>المتجر مسؤول فقط عن تسليم الحساب، معلوماته، وضمان تفعيله على جهازك بالشكل الصحيح. أما أي مشاكل داخل اللعبة نفسها (مثل الأعطال، فقدان العناصر، أو أخطاء اللعب) فهي خارج نطاق مسؤوليتنا، وتُعد من اختصاص الشركة المُصنّعة للعبة.</p><p>لا يتم قبول أي طلب استرجاع أو تعويض يتعلق بهذه المشاكل، كونها لا تتعلق بالخدمة المقدمة من المتجر.</p>
+<h3>تعليمات للنسخ</h3><p>طريقة تسجيل دخول الحساب على جهازك PS5: إضافة مستخدم &gt; ابدأ. سجل معلومات الحساب اللي راح نعطيك، بعده انتقل إلى مكتبة الألعاب &gt; باقتك ثم قم بتنزيل اللعبة.</p>
+<h3>طريقة تفعيل الحساب على جهازك PS5</h3><p>الإعدادات &gt; المستخدمون والحسابات &gt; أخرى &gt; مشاركة الجهاز واللعب بدون اتصال &gt; تمكين.</p></div>
+<button type="button" class="add-cart-button fc27-add-button" onclick="addBeamngToCart(this,event)">＋ أضف إلى السلة</button></div>`;
 }else{
 content.innerHTML=createService(product,{compact:false,detail:true});
 content.querySelectorAll(".service").forEach(card=>{card.style.maxWidth="100%";card.style.width="100%";card.style.margin="0 auto";});
@@ -5259,6 +5274,16 @@ const label=select.value==="store"?"PS5 ( تلعبها بحساب المتجر )
 const key="joker-game-cod-mw4-"+select.value;
 if(cartItems.some(item=>item.key===key)){showCartToast();return;}
 cartItems.push({key,title:"Call of Duty: Modern Warfare 4 - "+label,price:"0.00",quantity:1});
+saveCart();showCartToast();button.textContent="✓ تمت الإضافة";button.classList.add("is-added");
+}
+function addBeamngToCart(button,event){
+if(event){event.preventDefault();event.stopPropagation();}
+const select=document.getElementById("beamngMode");
+if(!select||!select.value){if(select){select.focus();select.style.borderColor="#ff5268";}alert("يرجى اختيار طريقة اللعب أولاً.");return;}
+const label=select.value==="store"?"PS5 ( تلعبها بحساب المتجر )":"PS5 ( تلعبها بحسابك الخاص )";
+const key="joker-game-beamng-"+select.value;
+if(cartItems.some(item=>item.key===key)){showCartToast();return;}
+cartItems.push({key,title:"محاكي الحوادث - "+label,price:"0.00",quantity:1});
 saveCart();showCartToast();button.textContent="✓ تمت الإضافة";button.classList.add("is-added");
 }
 </script>
