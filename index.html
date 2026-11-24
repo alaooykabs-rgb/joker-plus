@@ -2723,11 +2723,15 @@ packagesPage.hidden = true;
 storePage.hidden = false;
 setActiveNav("store");
 requestAnimationFrame(function(){
-  const sections = document.querySelector("#storePage .section-store") || document.querySelector("#storePage .section-apps") || document.querySelector("#storePage .hero-banner");
-  if (sections) {
-    const top = sections.getBoundingClientRect().top + window.pageYOffset - 92;
-    window.scrollTo({top:Math.max(0,top),behavior:"smooth"});
-  }
+  requestAnimationFrame(function(){
+    const heading = document.querySelector("#storePage main .section-heading");
+    const sectionsGrid = document.getElementById("sections");
+    const target = heading || sectionsGrid;
+    if (target) {
+      const top = target.getBoundingClientRect().top + window.pageYOffset - 88;
+      window.scrollTo({top:Math.max(0,top),behavior:"smooth"});
+    }
+  });
 });
 }
 function openUnavailableSection(event) {
@@ -3601,7 +3605,7 @@ window.setTimeout(function(){card.classList.remove("joker-product-glow")},950);
 }
 function initializeJokerTouches() {
 setupJokerReveals();
-setupJokerTouchFlash();
+
 setupJokerProductGlow();
 }
 if (document.readyState === "loading") {
@@ -5781,3 +5785,5 @@ html{scroll-behavior:smooth;scroll-padding-top:88px}
 </style>
 </body>
 </html>
+
+<style id="joker-disable-all-flash-final">.joker-touch-flash{display:none!important;opacity:0!important;visibility:hidden!important;animation:none!important}#intro,.intro,.intro-screen,.intro-overlay,.intro-flash,.flash-overlay{animation:none!important;filter:none!important}#intro::before,#intro::after,.intro::before,.intro::after,.intro-screen::before,.intro-screen::after,.intro-overlay::before,.intro-overlay::after{animation:none!important;opacity:0!important;filter:none!important}</style>
