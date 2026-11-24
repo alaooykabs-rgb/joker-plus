@@ -2623,7 +2623,7 @@ const price = String(item.price ?? "");
 const isFc27 = String(item.id || "") === "joker-game-fc27";
 const isGtaV = String(item.id || "") === "joker-game-gtavi";
 const descriptionMarkup = isNewGameCard
-? `<div class="gamezone-game-name">${escapeHTML(title)}</div>${(isFc27 || isGtaV || String(item.id || "") === "joker-game-cod-mw4") && !detail ? `<button class="product-description-toggle fc27-details-button" type="button" onclick="openGameZoneProductDetails('${escapeHTML(String(item.id ?? ""))}',event)">عرض التفاصيل</button>` : ""}`
+? `<div class="gamezone-game-name">${escapeHTML(title)}</div>${(isFc27 || isGtaV || String(item.id || "") === "joker-game-cod-mw4" || String(item.id || "") === "joker-game-beamng") && !detail ? `<button class="product-description-toggle fc27-details-button" type="button" onclick="openGameZoneProductDetails('${escapeHTML(String(item.id ?? ""))}',event)">عرض التفاصيل</button>` : ""}`
 : (item.description ? (item.description_on_click && !detail
 ? `<button class="product-description-toggle" type="button" onclick="openGameZoneProductDetails('${escapeHTML(String(item.id ?? ""))}',event)">عرض تفاصيل الباقة</button>`
 : (detail || !isSnapArc ? (String(item.id || "").startsWith("joker-gta6-") ? renderGameZoneDescription(item.description) : `<div class="service-description">${escapeHTML(item.description)}</div>`) : "")) : "");
@@ -5230,7 +5230,7 @@ content.innerHTML = `<div class="fc27-details-wrap mw4-details-wrap">
 <button type="button" class="add-cart-button fc27-add-button" onclick="addMW4ToCart(this,event)">＋ أضف إلى السلة</button></div>`;
 }else if(String(product.id||"")==="joker-game-beamng"){
 content.innerHTML = `<div class="fc27-details-wrap beamng-details-wrap">
-<div class="fc27-device-box"><label for="beamngMode">اختر طريقة اللعب <b>*</b></label><select id="beamngMode"><option value="">اختر من الخيارات</option><option value="store">PS5 ( تلعبها بحساب المتجر )</option><option value="private">PS5 ( تلعبها بحسابك الخاص )</option></select></div>
+<div class="fc27-device-box"><label for="beamngMode">اختر طريقة اللعب <b>*</b></label><select id="beamngMode"><option value="store" selected>PS5 ( تلعبها بحساب المتجر )</option><option value="private">PS5 ( تلعبها بحسابك الخاص )</option></select></div>
 <div class="fc27-copy"><h2>محاكي الحوادث</h2><p>عِش أقوى الحوادث الواقعية وجرّب التصادمات والتدمير بتفاصيل مذهلة، اطلبها الآن واستمتع بتجربة قيادة مختلفة تمامًا!</p>
 <p><strong>اختيار جهازك مهم من خانة الخيارات</strong></p><p>⏳ متوسط التنفيذ 30–60 دقيقة، وقد يمتد حتى 24 ساعة كحد أقصى حسب ضغط الطلبات.</p>
 <h3>معلومات الحساب</h3><p>بعد استلام الحساب، يجب على العميل حفظ بيانات الدخول (الإيميل) مع رقم الطلب.</p><p>في حال فقدان العميل لتلك البيانات، لا يحق له المطالبة بالتعويض أو الدعم.</p>
