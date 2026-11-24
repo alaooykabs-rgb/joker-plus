@@ -804,6 +804,10 @@ window.addEventListener("pageshow", attachAccountButtonToViewport);
 <b class="nav-badge" id="navOrdersBadge" hidden>0</b>
 <span>الطلبات</span>
 </button>
+<button type="button" class="nav-item" data-nav="search" onclick="navGo('search')" aria-label="البحث">
+<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.8" cy="10.8" r="6.6"/><path d="m16 16 4.2 4.2"/></svg>
+<span>البحث</span>
+</button>
 </nav>
 <script>
 (function () {
@@ -4108,7 +4112,7 @@ if(typeof window.renderAdminOrders==='function'){var oldRender=window.renderAdmi
 if(typeof window.loadCustomerOrders==='function'){var oldCustomer=window.loadCustomerOrders;window.loadCustomerOrders=async function(){await oldCustomer.apply(this,arguments);try{var s=await supabaseClient.auth.getSession(),u=s.data&&s.data.session&&s.data.session.user;if(u){var r=await supabaseClient.from('orders').select('*').eq('user_id',u.id).order('created_at',{ascending:false}).limit(30);window.jokerCustomerOrdersCache=r.data||[]}}catch(_){}wireInvoiceButtons()}}
 function startRealtime(){if(!(typeof isAdminUser!=="undefined"&&isAdminUser)||window.jokerOrdersRealtime)return;try{window.jokerOrdersRealtime=supabaseClient.channel('joker-admin-new-orders').on('postgres_changes',{event:'INSERT',schema:'public',table:'orders'},function(payload){var o=payload.new||{},n=o.order_number||o.id||'جديد';if('Notification'in window&&Notification.permission==='granted'){new Notification('طلب جديد - JOKER PLUS',{body:'وصل طلب جديد رقم #'+n})}if(typeof showActionToast==='function')showActionToast('🔔 وصل طلب جديد #'+n);if(typeof loadAdminOrders==='function'&&el('adminPage')&&!el('adminPage').hidden)loadAdminOrders()}).subscribe() }catch(e){console.warn('Realtime orders:',e)}}
 var oldOpenAdmin=window.openAdmin; if(typeof oldOpenAdmin==='function')window.openAdmin=function(){oldOpenAdmin.apply(this,arguments);addAdminBannerUI();installJokerAdminEnglishDigits();startRealtime()};
-var oldNavGo=window.navGo;window.navGo=function(name){if(name==='home'){var store=el('storePage'),isHome=store&&!store.hidden;var other=['packagesPage','noticePage','faqPage','refundPage','ordersPage','searchPage','adminPage','storeRegionsPage','storeRegionItemsPage'].some(function(id){var n=el(id);return n&&!n.hidden});if(isHome&&!other){window.location.reload();return}if(typeof closeInfoPage==='function'){closeInfoPage();setActiveNav('home');window.scrollTo({top:0,behavior:'smooth'});return}}if(typeof oldNavGo==='function')return oldNavGo.apply(this,arguments)};
+var oldNavGo=window.navGo;window.navGo=function(name){if(name==='home'){var detail=el('plusPackageDetailPage');if(detail&&!detail.hidden&&typeof closePlusPackageDetails==='function'){closePlusPackageDetails();}if(typeof closeInfoPage==='function'){closeInfoPage();setActiveNav('home');window.scrollTo({top:0,behavior:'smooth'});return}}if(typeof oldNavGo==='function')return oldNavGo.apply(this,arguments)};
 var oldLoad=window.loadStore; if(typeof oldLoad==='function')window.loadStore=async function(){var r=await oldLoad.apply(this,arguments);loadJokerBanners();return r};
 var oldShowSection=window.showAdminSection;if(typeof oldShowSection==='function')window.showAdminSection=function(section){oldShowSection.apply(this,arguments);if(section==='banners')showJokerBannerAdmin()};
 function install(){addAdminBannerUI();installJokerAdminEnglishDigits();loadJokerBanners();function sticky(){document.querySelectorAll('.service .add-cart-button').forEach(function(b){b.classList.add('joker-sticky-add')})}sticky();var target=el('sections');if(target&&window.MutationObserver)new MutationObserver(sticky).observe(target,{childList:true,subtree:true});if((typeof isAdminUser!=="undefined"&&isAdminUser))startRealtime()}
@@ -5747,5 +5751,19 @@ html{scroll-behavior:smooth;scroll-padding-top:88px}
 })();
 </script>
 
+
+<style id="joker-plus-icon-refinement">
+/* توحيد شكل الأيقونات وتقليل الزحمة البصرية */
+#jokerBottomNav .nav-item{position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px}
+#jokerBottomNav .nav-item svg{width:23px;height:23px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;opacity:.94}
+#jokerBottomNav .nav-item.active svg{color:#e4c5ff;filter:drop-shadow(0 0 5px #a77ad066)}
+#jokerBottomNav .nav-item span{font-weight:700;letter-spacing:0}
+#jokerBottomNav .nav-item[data-nav="search"] svg{stroke-width:2}
+.detail-list-icon,.detail-heading-icon{display:inline-flex!important;align-items:center;justify-content:center;flex:0 0 30px;width:30px;height:30px;margin-inline-end:8px;border:1px solid #8e63b455;border-radius:10px;background:linear-gradient(145deg,#321847,#17101f);box-shadow:inset 0 1px 0 #ffffff12;color:#e2c4ff;font-size:15px;line-height:1}
+.package-detail-group h3 .detail-heading-icon{width:32px;height:32px;flex-basis:32px;font-size:16px}
+.package-detail-group li{display:flex;align-items:flex-start;gap:2px}
+.package-detail-group li .detail-list-icon{margin-top:1px}
+@media(max-width:390px){#jokerBottomNav .nav-item svg{width:21px;height:21px}.detail-list-icon{width:27px;height:27px;flex-basis:27px}}
+</style>
 </body>
 </html>
