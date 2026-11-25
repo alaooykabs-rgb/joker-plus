@@ -1674,7 +1674,7 @@ const fallbackAmount = amount || 0;
 return `
 <div class="product-gallery">
 <img class="product-gallery-main" src="${safeImages[0]}" alt="${escapeHTML(item.title || "صورة المنتج")}" loading="lazy" decoding="async" fetchpriority="low" onerror="productImageFallback(this,${fallbackAmount})">
-${String(item && item.id || "") === "joker-game-gtavi" ? `<div class="joker-gta-soldout-stamp" aria-label="نفدت الكمية">SOLD OUT</div>` : ""}
+
 ${safeImages.length > 1 ? `<div class="product-gallery-thumbs">
 ${safeImages.map((url,index) => `<button class="product-gallery-thumb ${index === 0 ? "active" : ""}" type="button" data-image="${url}" aria-label="عرض الصورة ${index+1}" onclick="selectProductGalleryImage(this)"><img src="${url}" alt="" loading="lazy" decoding="async" fetchpriority="low" onerror="productImageFallback(this,${fallbackAmount})"></button>`).join("")}
 </div>` : ""}
