@@ -5273,20 +5273,20 @@ const device=document.getElementById("fc27Device");
 if(!device||!device.value){if(device){device.focus();device.style.borderColor="#ff5268";}alert("يرجى اختيار طريقة اللعب أولاً.");return;}
 const mode=device.value, label=mode==="store"?"PS5 (تلعبها بحساب المتجر)":"PS5 (تلعبها بحسابك الأساسي)", key="joker-game-fc27-"+mode;
 if(cartItems.some(item=>item.key===key)){showCartToast();return;}
-cartItems.push({key,title:"FC27 - "+label,price:mode==="store"?"6.00":"7.80",quantity:1});saveCart();showCartToast();
+cartItems.push({key,title:"FC27 - "+label,price:(window.jokerGetManagedPrice?window.jokerGetManagedPrice("fc27."+mode,mode==="store"?"6.00":"7.80"):(mode==="store"?"6.00":"7.80")),quantity:1});saveCart();showCartToast();
 button.textContent="✓ تمت الإضافة";button.classList.add("is-added");
 }
 function setGameOptionPrice(id,price){const node=document.getElementById(id);if(node)node.textContent=price?"السعر: "+price+" د.ك":"اختر طريقة اللعب لعرض السعر";}
-function updateFC27Price(){const el=document.getElementById("fc27Device");setGameOptionPrice("fc27OptionPrice",el&&el.value?(el.value==="store"?"6.00":"7.80"):"");}
-function updateGtaVPrice(){const el=document.getElementById("gtaVMode");setGameOptionPrice("gtaVOptionPrice",el&&el.value?(el.value==="store"?"10.00":"16.00"):"");}
-function updateBeamngPrice(){const el=document.getElementById("beamngMode");setGameOptionPrice("beamngOptionPrice",el&&el.value?(el.value==="store"?"4.00":"6.00"):"");}
+function updateFC27Price(){const el=document.getElementById("fc27Device");const p=window.jokerGetManagedPrice;if(el&&el.options.length>2&&p){el.options[1].textContent="PS5 (تلعبها بحساب المتجر) — "+p("fc27.store","6.00")+" د.ك";el.options[2].textContent="PS5 (تلعبها بحسابك الأساسي) — "+p("fc27.main","7.80")+" د.ك";}setGameOptionPrice("fc27OptionPrice",el&&el.value?(p?p("fc27."+el.value,el.value==="store"?"6.00":"7.80"):(el.value==="store"?"6.00":"7.80")):"");}
+function updateGtaVPrice(){const el=document.getElementById("gtaVMode");const p=window.jokerGetManagedPrice;if(el&&el.options.length>2&&p){el.options[1].textContent="PS5 (تلعبها بحسابك الأساسي) — "+p("gtav.main","16.00")+" د.ك";el.options[2].textContent="PS5 (تلعبها بحساب المتجر) — "+p("gtav.store","10.00")+" د.ك";}setGameOptionPrice("gtaVOptionPrice",el&&el.value?(p?p("gtav."+el.value,el.value==="store"?"10.00":"16.00"):(el.value==="store"?"10.00":"16.00")):"");}
+function updateBeamngPrice(){const el=document.getElementById("beamngMode");const p=window.jokerGetManagedPrice;if(el&&el.options.length>1&&p){el.options[0].textContent="PS5 (تلعبها بحساب المتجر) — "+p("beamng.store","4.00")+" د.ك";el.options[1].textContent="PS5 (تلعبها بحسابك الأساسي) — "+p("beamng.private","6.00")+" د.ك";}setGameOptionPrice("beamngOptionPrice",el&&el.value?(p?p("beamng."+el.value,el.value==="store"?"4.00":"6.00"):(el.value==="store"?"4.00":"6.00")):"");}
 function updateMW4Caption(){
 const select=document.getElementById("mw4Caption");
 const store=document.getElementById("mw4StoreCaption");
 const own=document.getElementById("mw4PrivateCaption");
 if(store)store.hidden=!select||select.value!=="store";
 if(own)own.hidden=!select||select.value!=="private";
-setGameOptionPrice("mw4OptionPrice",select?(select.value==="store"?"7.00":"13.00"):"");
+const p=window.jokerGetManagedPrice;if(select&&select.options.length>1&&p){select.options[0].textContent="PS5 (تلعبها بحساب المتجر) — "+p("mw4.store","7.00")+" د.ك";select.options[1].textContent="PS5 (تلعبها بحسابك الخاص) — "+p("mw4.private","13.00")+" د.ك";}setGameOptionPrice("mw4OptionPrice",select?(p?p("mw4."+select.value,select.value==="store"?"7.00":"13.00"):(select.value==="store"?"7.00":"13.00")):"");
 }
 function addMW4ToCart(button,event){
 if(event){event.preventDefault();event.stopPropagation();}
@@ -5295,7 +5295,7 @@ if(!select||!select.value){if(select){select.focus();select.style.borderColor="#
 const label=select.value==="store"?"PS5 ( تلعبها بحساب المتجر )":"PS5 ( تلعبها بحسابك الخاص )";
 const key="joker-game-cod-mw4-"+select.value;
 if(cartItems.some(item=>item.key===key)){showCartToast();return;}
-cartItems.push({key,title:"Call of Duty: Modern Warfare 4 - "+label,price:select.value==="store"?"7.00":"13.00",quantity:1});
+cartItems.push({key,title:"Call of Duty: Modern Warfare 4 - "+label,price:(window.jokerGetManagedPrice?window.jokerGetManagedPrice("mw4."+select.value,select.value==="store"?"7.00":"13.00"):(select.value==="store"?"7.00":"13.00")),quantity:1});
 saveCart();showCartToast();button.textContent="✓ تمت الإضافة";button.classList.add("is-added");
 }
 function addBeamngToCart(button,event){
@@ -5305,7 +5305,7 @@ if(!select||!select.value){if(select){select.focus();select.style.borderColor="#
 const label=select.value==="store"?"PS5 ( تلعبها بحساب المتجر )":"PS5 ( تلعبها بحسابك الأساسي )";
 const key="joker-game-beamng-"+select.value;
 if(cartItems.some(item=>item.key===key)){showCartToast();return;}
-cartItems.push({key,title:"محاكي الحوادث - "+label,price:select.value==="store"?"4.00":"6.00",quantity:1});
+cartItems.push({key,title:"محاكي الحوادث - "+label,price:(window.jokerGetManagedPrice?window.jokerGetManagedPrice("beamng."+select.value,select.value==="store"?"4.00":"6.00"):(select.value==="store"?"4.00":"6.00")),quantity:1});
 saveCart();showCartToast();button.textContent="✓ تمت الإضافة";button.classList.add("is-added");
 }
 </script>
@@ -5926,6 +5926,135 @@ html{scroll-behavior:smooth;scroll-padding-top:88px}
 .fc27-add-button{width:100%;margin-top:2px;background:linear-gradient(135deg,#8c18d8,#c52c53)!important;border:1px solid #f08091!important;color:#fff!important}
 .fc27-details-button{border-color:rgba(222,65,89,.65)!important;background:linear-gradient(135deg,#35105c,#541b32)!important;color:#ffe5e9!important}
 </style>
+
+<style id="joker-admin-prices-style">
+.joker-price-admin{display:grid;gap:14px}.joker-price-group{border:1px solid #67458588;border-radius:16px;padding:14px;background:linear-gradient(145deg,#17121e,#0e0c12)}.joker-price-group h2{font-size:16px;margin:0 0 10px;color:#ead7fb}.joker-price-row{display:grid;grid-template-columns:minmax(0,1fr) 125px;gap:10px;align-items:center;padding:10px 0;border-bottom:1px solid #ffffff12}.joker-price-row:last-child{border-bottom:0}.joker-price-row strong{display:block;font-size:13px}.joker-price-row small{display:block;color:#aaa3b3;font-size:10px;margin-top:4px}.joker-price-row input{width:100%;min-width:0;background:#09080c;color:#fff;border:1px solid #654184;border-radius:10px;padding:11px;font:700 14px Arial;text-align:center;direction:ltr}.joker-price-save{width:100%;border:1px solid #c49be5;border-radius:12px;padding:13px;background:linear-gradient(120deg,#54247a,#35105c);color:#fff;font-weight:900}.joker-price-note{color:#aaa3b3;font-size:11px;line-height:1.8;margin:0}.joker-price-status{font-size:12px;color:#d9c4ec;min-height:20px}@media(max-width:380px){.joker-price-row{grid-template-columns:minmax(0,1fr) 105px}}
+</style>
+<script id="joker-admin-prices-feature">
+(function(){
+"use strict";
+var priceKeys=[
+ {key:"package.silver",name:"الباقة الفضية",fallback:"4.600",group:"packages"},
+ {key:"package.gold",name:"الباقة الذهبية",fallback:"6.700",group:"packages"},
+ {key:"package.platinum",name:"باقة البلاتينيوم",fallback:"9.200",group:"packages"},
+ {key:"fc27.store",name:"FC 27 — حساب المتجر",fallback:"6.000",group:"games"},
+ {key:"fc27.main",name:"FC 27 — حسابك الأساسي",fallback:"7.800",group:"games"},
+ {key:"gtav.store",name:"قراند — حساب المتجر",fallback:"10.000",group:"games"},
+ {key:"gtav.main",name:"قراند — حسابك الأساسي",fallback:"16.000",group:"games"},
+ {key:"beamng.store",name:"محاكي الحوادث — حساب المتجر",fallback:"4.000",group:"games"},
+ {key:"beamng.private",name:"محاكي الحوادث — حسابك الأساسي",fallback:"6.000",group:"games"},
+ {key:"mw4.store",name:"MW4 — حساب المتجر",fallback:"7.000",group:"games"},
+ {key:"mw4.private",name:"MW4 — حسابك الخاص",fallback:"13.000",group:"games"}
+];
+var prices={};
+priceKeys.forEach(function(x){prices[x.key]=x.fallback;});
+function money(v){var n=Number(v);return Number.isFinite(n)&&n>=0?n.toFixed(3):"0.000";}
+function getPrice(key,fallback){return prices[key]!==undefined?prices[key]:money(fallback);}
+function byId(id){return document.getElementById(id);}
+function makeRow(label,value,attrs){return '<div class="joker-price-row"><div><strong>'+escapeHTML(label)+'</strong><small>السعر بالدينار الكويتي</small></div><input type="number" min="0" step="0.001" value="'+escapeHTML(value)+'" '+attrs+'></div>';}
+function addTab(){
+ var tabs=document.querySelector(".admin-section-tabs");
+ if(!tabs||byId("adminPricesTab"))return;
+ var tab=document.createElement("button");tab.type="button";tab.className="admin-section-tab";tab.id="adminPricesTab";tab.setAttribute("role","tab");tab.setAttribute("aria-selected","false");tab.setAttribute("aria-controls","adminPricesSection");tab.textContent="إدارة الأسعار";tab.onclick=function(){window.showAdminSection("prices");};tabs.appendChild(tab);
+ var panel=document.createElement("div");panel.id="adminPricesSection";panel.hidden=true;panel.setAttribute("role","tabpanel");panel.setAttribute("aria-labelledby","adminPricesTab");
+ panel.innerHTML='<div class="joker-orders-heading"><h1>إدارة الأسعار</h1><button type="button" class="joker-orders-refresh" id="jokerPricesRefresh">تحديث الأسعار</button></div><p class="joker-price-note">عدّل أسعار المنتجات والباقات وخيارات الألعاب من مكان واحد. الأسعار المحفوظة تظهر للعملاء، والطلبات السابقة لا تتغير.</p><div class="joker-price-admin" id="jokerPriceAdminBody"><p class="account-hint">جاري تحميل الأسعار...</p></div><p class="joker-price-status" id="jokerPriceAdminStatus" role="status" aria-live="polite"></p>';
+ var gamePanel=byId("adminGameCodesSection");if(gamePanel&&gamePanel.parentNode)gamePanel.parentNode.insertBefore(panel,gamePanel.nextSibling);
+ byId("jokerPricesRefresh").onclick=loadAdminPrices;
+}
+function getPanelBody(){
+ var box=byId("jokerPriceAdminBody");if(!box)return;
+ var html='<section class="joker-price-group"><h2>🛍️ المنتجات الموجودة في المتجر</h2><div id="jokerDynamicProductPrices"><p class="account-hint">جاري تحميل المنتجات...</p></div></section>';
+ html+='<section class="joker-price-group"><h2>📦 باقات تطبيقات بلس</h2>';
+ priceKeys.filter(function(x){return x.group==="packages";}).forEach(function(x){html+=makeRow(x.name,getPrice(x.key,x.fallback),'data-joker-price="'+x.key+'"');});
+ html+='</section><section class="joker-price-group"><h2>🎮 أسعار الألعاب وخيارات اللعب</h2>';
+ priceKeys.filter(function(x){return x.group==="games";}).forEach(function(x){html+=makeRow(x.name,getPrice(x.key,x.fallback),'data-joker-price="'+x.key+'"');});
+ html+='</section><button class="joker-price-save" type="button" id="jokerSaveAllPrices">حفظ جميع الأسعار</button>';
+ box.innerHTML=html;
+ byId("jokerSaveAllPrices").onclick=saveAllPrices;
+ loadDynamicProductPrices();
+}
+async function loadDynamicProductPrices(){
+ var box=byId("jokerDynamicProductPrices");if(!box)return;
+ try{
+  var r=await supabaseClient.from("store_items").select("id,title,price,section_key").order("sort_order",{ascending:true});
+  if(r.error)throw r.error;
+  var rows=r.data||[];
+  if(!rows.length){box.innerHTML='<p class="account-hint">لا توجد منتجات مسجلة.</p>';return;}
+  box.innerHTML=rows.map(function(p){
+   var shown=Number(p.price)||0;if(p.section_key==="store")shown+=.250;
+   return makeRow(p.title||p.id,shown.toFixed(3),'data-joker-product-id="'+escapeHTML(p.id)+'" data-joker-section="'+escapeHTML(p.section_key||"")+'"');
+  }).join("");
+ }catch(e){box.innerHTML='<p class="account-hint">تعذر تحميل المنتجات: '+escapeHTML(e.message||e)+'</p>';}
+}
+async function loadAdminPrices(){
+ if(!window.isAdminUser && typeof isAdminUser!=="undefined" && !isAdminUser)return;
+ var status=byId("jokerPriceAdminStatus");if(status)status.textContent="جاري جلب الأسعار...";
+ try{
+  var r=await supabaseClient.from("store_price_settings").select("setting_key,price");
+  if(r.error)throw r.error;
+  (r.data||[]).forEach(function(row){if(row.setting_key)prices[row.setting_key]=money(row.price);});
+  priceKeys.forEach(function(x){var v=byId("joker-price-"+x.key.replace(/\./g,"-"));if(v)v.value=getPrice(x.key,x.fallback);});
+  getPanelBody();applyPricesToStorefront();
+  if(status)status.textContent="تم تحميل الأسعار الحالية.";
+ }catch(e){
+  getPanelBody();
+  if(status)status.textContent="تعذر تحميل أسعار الخيارات. تأكد من إنشاء جدول store_price_settings في Supabase. "+(e.message||"");
+ }
+}
+async function saveAllPrices(){
+ var status=byId("jokerPriceAdminStatus");if(status)status.textContent="جاري حفظ الأسعار...";
+ try{
+  var settings=[];
+  document.querySelectorAll("[data-joker-price]").forEach(function(input){
+   var key=input.getAttribute("data-joker-price");var val=Number(input.value);
+   if(!Number.isFinite(val)||val<0)throw new Error("تأكد من إدخال أسعار صحيحة.");
+   prices[key]=money(val);settings.push({setting_key:key,price:money(val)});
+  });
+  var productInputs=Array.from(document.querySelectorAll("[data-joker-product-id]"));
+  for(var i=0;i<productInputs.length;i++){
+   var input=productInputs[i],val=Number(input.value);
+   if(!Number.isFinite(val)||val<0)throw new Error("تأكد من أسعار المنتجات.");
+   var dbPrice=val-(input.dataset.jokerSection==="store"?.250:0);
+   var update=await supabaseClient.from("store_items").update({price:money(Math.max(0,dbPrice))}).eq("id",input.dataset.jokerProductId);
+   if(update.error)throw update.error;
+  }
+  if(settings.length){
+   var saved=await supabaseClient.from("store_price_settings").upsert(settings,{onConflict:"setting_key"});
+   if(saved.error)throw saved.error;
+  }
+  applyPricesToStorefront();
+  if(typeof loadStore==="function")await loadStore();
+  if(status)status.textContent="✅ تم حفظ جميع الأسعار وتحديث واجهة المتجر.";
+ }catch(e){if(status)status.textContent="تعذر الحفظ: "+(e.message||e);}
+}
+function applyPricesToStorefront(){
+ if(typeof packagesData!=="undefined"){
+  packagesData.forEach(function(p){var k="package."+p.id;if(prices[k]!==undefined)p.price=prices[k];});
+  if(typeof loadPackages==="function")loadPackages();
+ }
+}
+function addPriceTabIfReady(){addTab();}
+if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",addPriceTabIfReady);else addPriceTabIfReady();
+var oldShow=window.showAdminSection;
+if(typeof oldShow==="function"){
+ window.showAdminSection=function(section){
+  if(section!=="prices"){oldShow(section);var p=byId("adminPricesSection"),t=byId("adminPricesTab");if(p)p.hidden=true;if(t){t.classList.remove("active");t.setAttribute("aria-selected","false");}return;}
+  if(!isAdminUser)return;
+  ["adminOrdersSection","adminCouponsSection","adminReviewsSection","adminProductsSection","adminGameCodesSection","adminPricesSection"].forEach(function(id){var n=byId(id);if(n)n.hidden=id!=="adminPricesSection";});
+  ["adminOrdersTab","adminCouponsTab","adminReviewsTab","adminProductsTab","adminGameCodesTab","adminPricesTab"].forEach(function(id){var n=byId(id);if(n){var on=id==="adminPricesTab";n.classList.toggle("active",on);n.setAttribute("aria-selected",on?"true":"false");}});
+  loadAdminPrices();
+ };
+}
+window.loadAdminPrices=loadAdminPrices;
+window.jokerGetManagedPrice=getPrice;
+window.jokerAdminPriceSettings=prices;
+async function loadPublicPriceSettings(){
+ try{var r=await supabaseClient.from("store_price_settings").select("setting_key,price");if(r.error)throw r.error;(r.data||[]).forEach(function(row){if(row.setting_key)prices[row.setting_key]=money(row.price);});applyPricesToStorefront();}catch(e){console.warn("Joker price settings unavailable",e);}
+}
+window.addEventListener("load",function(){addTab();loadPublicPriceSettings();});
+})();
+</script>
+
 </body>
 </html>
 
